@@ -218,9 +218,28 @@
       .page-indicator {
         font-size: 12px;
         color: var(--text-muted);
-        min-width: 80px;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        gap: 5px;
         font-variant-numeric: tabular-nums;
+      }
+
+      .page-input {
+        width: 46px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        color: var(--text);
+        font-size: 12px;
+        font-weight: 700;
+        font-family: var(--font);
+        text-align: center;
+        padding: 2px 4px;
+        outline: none;
+        font-variant-numeric: tabular-nums;
+      }
+      .page-input:focus {
+        border-color: var(--accent);
       }
 
       .pdf-viewer-wrap {
@@ -648,6 +667,13 @@
       .note-item.pinned {
         border-color: rgba(251, 191, 36, 0.35);
         background: rgba(251, 191, 36, 0.04);
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .note-item.pinned:hover {
+        background: rgba(251, 191, 36, 0.09);
+        border-color: rgba(251, 191, 36, 0.55);
       }
 
       .note-pin-tag {
@@ -729,8 +755,15 @@
         <div class="page-toolbar">
           <button class="page-nav-btn" id="prevPage">◀ Prev</button>
           <span class="page-indicator"
-            >Page <strong id="pageNum">1</strong> of
-            <strong id="totalPages">—</strong></span
+            >Page
+            <input
+              id="pageNum"
+              class="page-input"
+              type="number"
+              min="1"
+              value="1"
+            />
+            of <strong id="totalPages">—</strong></span
           >
           <button class="page-nav-btn" id="nextPage">Next ▶</button>
           <span
@@ -1108,6 +1141,7 @@
         try {
           pdfDoc = await pdfjsLib.getDocument(url).promise;
           document.getElementById("totalPages").textContent = pdfDoc.numPages;
+          document.getElementById("pageNum").max = pdfDoc.numPages;
           await renderPdfPage(1);
           renderAnnotations();
         } catch (err) {
@@ -1205,7 +1239,7 @@
         if (n < 1) return;
         if (pdfDoc && n > pdfDoc.numPages) return;
         currentPage = n;
-        document.getElementById("pageNum").textContent = n;
+        document.getElementById("pageNum").value = n;
         const annotatePageNumEl = document.getElementById("annotatePageNum");
         if (annotatePageNumEl) annotatePageNumEl.textContent = n;
         const annPopupPageEl = document.getElementById("annPopupPage");
@@ -1278,8 +1312,13 @@
           const item = document.createElement("div");
           item.className = "note-item" + (n._pinned ? " pinned" : "");
           const pg = n.page || 1;
+          if (n._pinned) {
+            item.style.cursor = "pointer";
+            item.title = `Jump to page ${pg}`;
+            item.addEventListener("click", () => goToPage(pg));
+          }
           item.innerHTML = `
-            ${n._pinned ? `<div class="note-pin-tag" style="cursor:pointer" onclick="goToPage(${pg})" title="Jump to page ${pg}">📍 Annotation #${n._gidx + 1} · Page ${pg} ↗</div>` : ""}
+            ${n._pinned ? `<div class="note-pin-tag">📍 Annotation #${n._gidx + 1} · Page ${pg} ↗</div>` : ""}
             <div class="note-header">
               <div class="note-avatar">${esc(n.initials || "?")}</div>
               <div class="note-author">${esc(n.author)}</div>
@@ -1300,6 +1339,15 @@
       document
         .getElementById("nextPage")
         .addEventListener("click", () => goToPage(currentPage + 1));
+
+      const pageNumInput = document.getElementById("pageNum");
+      pageNumInput.addEventListener("change", () => {
+        const n = parseInt(pageNumInput.value, 10);
+        if (!isNaN(n)) goToPage(n);
+      });
+      pageNumInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") pageNumInput.blur();
+      });
 
       // ── Annotation mode toggle ──
       const annotateToggle = document.getElementById("annotateToggle");
