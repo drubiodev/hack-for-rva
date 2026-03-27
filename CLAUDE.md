@@ -89,3 +89,12 @@ Next.js 16 has breaking changes from prior versions. Always read the relevant gu
 - Frontend teammates: run `cd frontend && npx tsc --noEmit` to type-check
 - Aim for **5-6 tasks per teammate** with clear deliverables
 - Always shut down teammates before cleaning up the team
+
+## Phase Completion Checklist
+
+At the end of every implementation phase, the lead (or a designated teammate) MUST:
+
+1. **OpenAPI sync check** — verify `docs/openapi.yaml` matches all implemented endpoints. Run: compare response shapes from the live API against the spec. Fix any drift.
+2. **Backend tests pass** — run `cd backend && .venv/bin/python -m pytest -v`
+3. **Frontend type-check** — run `cd frontend && npx tsc --noEmit`
+4. **Git commit** — commit all changes with a conventional commit message before starting the next phase
