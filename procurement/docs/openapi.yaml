@@ -1,0 +1,720 @@
+openapi: 3.1.0
+info:
+  title: Procurement Document Processing API
+  description: >
+    AI-powered procurement document processing for City of Richmond.
+    Decision-support tool — AI-assisted, requires human review.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: Local development
+
+paths:
+  /health:
+    get:
+      operationId: healthCheck
+      summary: Health check
+      tags: [System]
+      responses:
+        "200":
+          description: Service healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  version:
+                    type: string
+                    example: 1.0.0
+
+  /api/v1/documents:
+    get:
+      operationId: listDocuments
+      summary: List documents with filters and pagination
+      tags: [Documents]
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: "#/components/schemas/DocumentStatus"
+        - name: document_type
+          in: query
+          schema:
+            $ref: "#/components/schemas/DocumentType"
+        - name: source
+          in: query
+          schema:
+            $ref: "#/components/schemas/DocumentSource"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Paginated list of documents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentListResponse"
+
+  /api/v1/documents/upload:
+    post:
+      operationId: uploadDocument
+      summary: Upload a PDF/image for processing
+      tags: [Documents]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file, uploaded_by]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: PDF, PNG, JPG, or TIFF file (max 20MB)
+                uploaded_by:
+                  type: string
+                  description: Name of the analyst uploading
+      responses:
+        "202":
+          description: Upload accepted, processing started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentSummary"
+        "400":
+          description: Invalid file type or size
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/v1/documents/{id}:
+    get:
+      operationId: getDocument
+      summary: Get document detail with fields, validations, and activity
+      tags: [Documents]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Full document detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentDetail"
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/v1/documents/{id}/fields:
+    patch:
+      operationId: updateFields
+      summary: Edit extracted fields (analyst only)
+      tags: [Documents]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FieldUpdate"
+      responses:
+        "200":
+          description: Fields updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExtractedFields"
+
+  /api/v1/documents/{id}/submit:
+    post:
+      operationId: submitForApproval
+      summary: Submit document for supervisor approval (analyst only)
+      tags: [Approvals]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [submitted_by]
+              properties:
+                submitted_by:
+                  type: string
+      responses:
+        "200":
+          description: Submitted for approval
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentSummary"
+
+  /api/v1/documents/{id}/approve:
+    post:
+      operationId: approveDocument
+      summary: Approve a document (supervisor only)
+      tags: [Approvals]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [approved_by]
+              properties:
+                approved_by:
+                  type: string
+                comments:
+                  type: string
+      responses:
+        "200":
+          description: Document approved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentSummary"
+
+  /api/v1/documents/{id}/reject:
+    post:
+      operationId: rejectDocument
+      summary: Reject a document (supervisor only)
+      tags: [Approvals]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rejected_by, reason]
+              properties:
+                rejected_by:
+                  type: string
+                reason:
+                  type: string
+      responses:
+        "200":
+          description: Document rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentSummary"
+
+  /api/v1/documents/{id}/reprocess:
+    post:
+      operationId: reprocessDocument
+      summary: Re-run AI pipeline on document (supervisor only)
+      tags: [Documents]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [requested_by]
+              properties:
+                requested_by:
+                  type: string
+      responses:
+        "202":
+          description: Reprocessing started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentSummary"
+
+  /api/v1/analytics/summary:
+    get:
+      operationId: getAnalyticsSummary
+      summary: KPI summary (total docs, by type, total value)
+      tags: [Analytics]
+      responses:
+        "200":
+          description: Analytics summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsSummary"
+
+  /api/v1/analytics/risks:
+    get:
+      operationId: getRisks
+      summary: Expiring contracts and risk alerts
+      tags: [Analytics]
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 90
+      responses:
+        "200":
+          description: Risk data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RiskSummary"
+
+  /api/v1/activity:
+    get:
+      operationId: getActivity
+      summary: Recent activity log across all documents
+      tags: [Activity]
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        "200":
+          description: Activity entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ActivityEntry"
+
+  /api/v1/ingest/socrata:
+    post:
+      operationId: ingestSocrata
+      summary: Import Socrata CSV into documents table
+      tags: [Ingest]
+      responses:
+        "200":
+          description: Ingest complete
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imported:
+                    type: integer
+                    description: Number of records imported
+                  skipped:
+                    type: integer
+                    description: Number of records skipped (duplicates)
+                  message:
+                    type: string
+
+components:
+  schemas:
+    DocumentStatus:
+      type: string
+      enum:
+        - uploading
+        - ocr_complete
+        - classified
+        - extracted
+        - analyst_review
+        - pending_approval
+        - approved
+        - rejected
+        - error
+
+    DocumentType:
+      type: string
+      enum:
+        - rfp
+        - rfq
+        - contract
+        - purchase_order
+        - invoice
+        - amendment
+        - cooperative
+        - other
+
+    DocumentSource:
+      type: string
+      enum:
+        - upload
+        - socrata
+        - sam_gov
+        - eva
+
+    DocumentSummary:
+      type: object
+      required: [id, filename, status, source, created_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        filename:
+          type: string
+        original_filename:
+          type: string
+        source:
+          $ref: "#/components/schemas/DocumentSource"
+        status:
+          $ref: "#/components/schemas/DocumentStatus"
+        document_type:
+          $ref: "#/components/schemas/DocumentType"
+        vendor_name:
+          type: string
+          nullable: true
+        total_amount:
+          type: number
+          nullable: true
+        expiration_date:
+          type: string
+          format: date
+          nullable: true
+        validation_error_count:
+          type: integer
+          default: 0
+        validation_warning_count:
+          type: integer
+          default: 0
+        submitted_by:
+          type: string
+          nullable: true
+        approved_by:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    DocumentDetail:
+      allOf:
+        - $ref: "#/components/schemas/DocumentSummary"
+        - type: object
+          properties:
+            blob_url:
+              type: string
+              nullable: true
+            file_size_bytes:
+              type: integer
+              nullable: true
+            mime_type:
+              type: string
+              nullable: true
+            page_count:
+              type: integer
+              nullable: true
+            ocr_text:
+              type: string
+              nullable: true
+            ocr_confidence:
+              type: number
+              nullable: true
+            classification_confidence:
+              type: number
+              nullable: true
+            error_message:
+              type: string
+              nullable: true
+            submitted_at:
+              type: string
+              format: date-time
+              nullable: true
+            approved_at:
+              type: string
+              format: date-time
+              nullable: true
+            rejection_reason:
+              type: string
+              nullable: true
+            processed_at:
+              type: string
+              format: date-time
+              nullable: true
+            extracted_fields:
+              $ref: "#/components/schemas/ExtractedFields"
+            validations:
+              type: array
+              items:
+                $ref: "#/components/schemas/ValidationResult"
+            activity:
+              type: array
+              items:
+                $ref: "#/components/schemas/ActivityEntry"
+
+    ExtractedFields:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        document_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          nullable: true
+        document_number:
+          type: string
+          nullable: true
+        vendor_name:
+          type: string
+          nullable: true
+        issuing_department:
+          type: string
+          nullable: true
+        total_amount:
+          type: number
+          nullable: true
+        currency:
+          type: string
+          default: USD
+        document_date:
+          type: string
+          format: date
+          nullable: true
+        effective_date:
+          type: string
+          format: date
+          nullable: true
+        expiration_date:
+          type: string
+          format: date
+          nullable: true
+        contract_type:
+          type: string
+          nullable: true
+        payment_terms:
+          type: string
+          nullable: true
+        renewal_clause:
+          type: string
+          nullable: true
+        insurance_required:
+          type: boolean
+          nullable: true
+        bond_required:
+          type: boolean
+          nullable: true
+        scope_summary:
+          type: string
+          nullable: true
+        raw_extraction:
+          type: object
+          default: {}
+        extraction_confidence:
+          type: number
+          nullable: true
+
+    ValidationResult:
+      type: object
+      required: [id, document_id, rule_code, severity, message]
+      properties:
+        id:
+          type: string
+          format: uuid
+        document_id:
+          type: string
+          format: uuid
+        rule_code:
+          type: string
+        severity:
+          type: string
+          enum: [error, warning, info]
+        field_name:
+          type: string
+          nullable: true
+        message:
+          type: string
+        suggestion:
+          type: string
+          nullable: true
+        resolved:
+          type: boolean
+          default: false
+        resolved_by:
+          type: string
+          nullable: true
+        resolved_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    ActivityEntry:
+      type: object
+      required: [id, document_id, action, actor_role, created_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        document_id:
+          type: string
+          format: uuid
+        action:
+          type: string
+          enum:
+            - uploaded
+            - ocr_complete
+            - classified
+            - extracted
+            - field_edited
+            - warning_resolved
+            - submitted
+            - approved
+            - rejected
+            - reprocessed
+        actor_name:
+          type: string
+          nullable: true
+        actor_role:
+          type: string
+          enum: [analyst, supervisor, system]
+        details:
+          type: object
+          default: {}
+        created_at:
+          type: string
+          format: date-time
+
+    FieldUpdate:
+      type: object
+      required: [updated_by]
+      properties:
+        updated_by:
+          type: string
+        fields:
+          type: object
+          description: Key-value pairs of field names to update
+          additionalProperties: true
+
+    DocumentListResponse:
+      type: object
+      required: [items, total, page, page_size]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentSummary"
+        total:
+          type: integer
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_pages:
+          type: integer
+
+    AnalyticsSummary:
+      type: object
+      properties:
+        total_documents:
+          type: integer
+        by_type:
+          type: object
+          additionalProperties:
+            type: integer
+        by_status:
+          type: object
+          additionalProperties:
+            type: integer
+        by_source:
+          type: object
+          additionalProperties:
+            type: integer
+        total_contract_value:
+          type: number
+        documents_processed_today:
+          type: integer
+
+    RiskSummary:
+      type: object
+      properties:
+        expiring_contracts:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              vendor_name:
+                type: string
+              title:
+                type: string
+              total_amount:
+                type: number
+                nullable: true
+              expiration_date:
+                type: string
+                format: date
+              days_until_expiry:
+                type: integer
+        total_expiring_30:
+          type: integer
+        total_expiring_60:
+          type: integer
+        total_expiring_90:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      required: [detail]
+      properties:
+        detail:
+          type: string

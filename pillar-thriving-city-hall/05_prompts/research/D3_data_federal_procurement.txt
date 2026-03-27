@@ -1,0 +1,29 @@
+Data Inventory D3 — SAM.gov, USASpending.gov, and eVA Federal and State Procurement Data
+
+Provide a detailed technical inventory of federal and state procurement data sources relevant to Richmond's procurement cross-source comparison use case.
+
+SAM.gov:
+- What is the API registration process and current documentation?
+- What are the key endpoints for: contract opportunities, contract awards, entity registration, exclusions/debarment?
+- What are the rate limits for free API keys?
+- What fields are available for contract records — vendor name, NAICS code, contract value, expiry date, agency?
+- How current is SAM.gov data — how quickly do awards and debarments appear?
+- What Richmond-area vendor activity can be found in SAM.gov?
+
+USASpending.gov:
+- What is the API structure for querying Richmond-specific federal spending?
+- How to query by recipient location (Richmond, VA)?
+- What is the typical data freshness (lag between award and appearance)?
+- What are the most useful endpoints for a vendor cross-reference tool?
+
+eVA (Virginia electronic procurement):
+- What is the current dataset URL on data.virginia.gov?
+- What is the column schema and what fields are most useful for contract comparison?
+- How current is the data? When was it last updated?
+- Can eVA data be joined to City contracts data by vendor name?
+
+Output
+- API and data access details for each source
+- Schema highlights and most useful fields for procurement cross-reference
+- Data quality and freshness notes
+- Practical guidance for a hackathon team building a cross-source contract tool

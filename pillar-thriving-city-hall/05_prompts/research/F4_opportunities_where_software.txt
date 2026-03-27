@@ -1,0 +1,29 @@
+Opportunities F4 — Where Software Helps vs. Where It Doesn't
+
+Investigate the specific places where software can genuinely improve city service delivery and procurement — and the places where software intervention is inappropriate, ineffective, or actively harmful.
+
+WHERE SOFTWARE HELPS (for A Thriving City Hall):
+- Information retrieval and plain-language presentation of static content
+- Pattern recognition in structured data (contract expiry dates, category volumes)
+- Decision support tools that surface information for human review
+- Reducing cognitive load for routine, well-defined tasks
+- Making public data accessible without requiring specialized knowledge
+
+WHERE SOFTWARE DOESN'T HELP OR CAUSES HARM:
+- Situations requiring human judgment, context, or empathy
+- Routing decisions for complex, multi-factor situations
+- Determinations with legal or financial consequences
+- Situations where the underlying process is broken (software can't fix bad policy)
+- Edge cases that fall outside the system's training or rule set
+
+For the A Thriving City Hall problems specifically:
+1. SERVICE NAVIGATION: Which resident situations are genuinely software-amenable vs. which require a trained 311 agent? Where is the boundary?
+2. PROCUREMENT: Which contract review tasks are software-amenable vs. which require a trained procurement officer? Where is the boundary?
+
+What do civic technologists and government IT professionals say about the appropriate scope of automation in public services?
+
+Output
+- Specific do/don't map for service navigation software
+- Specific do/don't map for procurement software
+- Design principles for staying in the "appropriate software role" zone
+- Language for explaining these limits in a hackathon demo

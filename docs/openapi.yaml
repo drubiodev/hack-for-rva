@@ -1,0 +1,505 @@
+openapi: "3.1.0"
+info:
+  title: "311 SMS Civic Service API"
+  version: "0.1.0"
+  description: >
+    Backend API for the HackathonRVA 311 SMS civic reporting service.
+    This spec is the single source of truth for the frontend/backend contract.
+  contact:
+    name: "HackathonRVA 2026 Team"
+
+servers:
+  - url: "https://{service}.up.railway.app"
+    description: "Railway production"
+    variables:
+      service:
+        default: "your-backend-service-name"
+  - url: "http://localhost:8000"
+    description: "Local development"
+
+tags:
+  - name: Health
+    description: Liveness and readiness checks
+  - name: Requests
+    description: Service request CRUD operations
+  - name: Analytics
+    description: Dashboard KPIs and trend data
+  - name: SMS
+    description: Twilio webhook (not consumed by frontend)
+
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      summary: Health check
+      description: Liveness check for Railway health monitoring. Returns 200 if the service is running.
+      tags: [Health]
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+              example:
+                status: "ok"
+                version: "0.1.0"
+
+  /api/v1/requests:
+    get:
+      operationId: listRequests
+      summary: List service requests
+      description: >
+        Returns a paginated list of service requests with optional filtering
+        by status and category. Results ordered by created_at descending.
+      tags: [Requests]
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Filter by request status
+          schema:
+            type: string
+            enum: [new, in_progress, resolved]
+        - name: category
+          in: query
+          required: false
+          description: Filter by request category
+          schema:
+            type: string
+            enum: [pothole, streetlight, graffiti, trash, water, sidewalk, noise, other]
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of results to return
+          schema:
+            type: integer
+            default: 50
+            minimum: 1
+            maximum: 100
+        - name: offset
+          in: query
+          required: false
+          description: Number of results to skip for pagination
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+      responses:
+        "200":
+          description: Paginated list of service requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceRequestList"
+        "422":
+          description: Validation error (invalid query params)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+  /api/v1/requests/{id}:
+    get:
+      operationId: getRequest
+      summary: Get a single service request
+      description: Returns full details for a service request including conversation messages.
+      tags: [Requests]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Service request ID
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Service request details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceRequestDetail"
+        "404":
+          description: Service request not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                detail: "Service request not found"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+  /api/v1/analytics/summary:
+    get:
+      operationId: getAnalyticsSummary
+      summary: Analytics KPI summary
+      description: >
+        Returns aggregate KPIs: total request count, breakdown by status,
+        and breakdown by category. Used for dashboard overview cards and charts.
+      tags: [Analytics]
+      responses:
+        "200":
+          description: Analytics summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsSummary"
+              example:
+                total_requests: 47
+                by_status:
+                  new: 12
+                  in_progress: 20
+                  resolved: 15
+                by_category:
+                  pothole: 15
+                  streetlight: 8
+                  graffiti: 5
+                  trash: 7
+                  water: 3
+                  sidewalk: 4
+                  noise: 2
+                  other: 3
+
+  /api/v1/analytics/trend:
+    get:
+      operationId: getAnalyticsTrend
+      summary: Daily request trend
+      description: >
+        Returns daily request counts for the specified number of days.
+        Used for the trend line chart on the analytics page.
+      tags: [Analytics]
+      parameters:
+        - name: days
+          in: query
+          required: false
+          description: Number of days to include in the trend (counting back from today)
+          schema:
+            type: integer
+            default: 7
+            minimum: 1
+            maximum: 90
+      responses:
+        "200":
+          description: Daily trend data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsTrend"
+              example:
+                days: 7
+                data:
+                  - date: "2026-03-20"
+                    count: 5
+                  - date: "2026-03-21"
+                    count: 8
+                  - date: "2026-03-22"
+                    count: 3
+                  - date: "2026-03-23"
+                    count: 12
+                  - date: "2026-03-24"
+                    count: 7
+                  - date: "2026-03-25"
+                    count: 6
+                  - date: "2026-03-26"
+                    count: 6
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+  /webhooks/sms:
+    post:
+      operationId: handleSmsWebhook
+      summary: Twilio SMS webhook
+      description: >
+        Receives inbound SMS from Twilio. Validates the Twilio request signature,
+        processes the message through the AI classification pipeline and conversation
+        state machine, and returns TwiML XML to send a reply. Always returns 200 to
+        prevent Twilio retries. This endpoint is NOT consumed by the frontend.
+      tags: [SMS]
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [From, Body, MessageSid]
+              properties:
+                From:
+                  type: string
+                  description: Sender phone number in E.164 format
+                  example: "+18045550199"
+                Body:
+                  type: string
+                  description: SMS message text
+                  example: "There's a huge pothole on 5th and Main causing flat tires"
+                MessageSid:
+                  type: string
+                  description: Twilio unique message identifier
+                  example: "SMxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                To:
+                  type: string
+                  description: Twilio phone number that received the message
+                  example: "+18005551234"
+                NumMedia:
+                  type: string
+                  description: Number of media attachments
+                  example: "0"
+      responses:
+        "200":
+          description: TwiML XML response with reply message
+          content:
+            application/xml:
+              schema:
+                type: string
+              example: |
+                <?xml version="1.0" encoding="UTF-8"?>
+                <Response>
+                  <Message>Got it: pothole at 5th and Main. Reply YES to confirm or NO to cancel.</Message>
+                </Response>
+      security: []
+
+components:
+  schemas:
+    ServiceRequest:
+      type: object
+      description: A citizen-submitted 311 service request
+      required:
+        - id
+        - reference_number
+        - category
+        - description
+        - urgency
+        - status
+        - phone
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          description: Auto-incrementing primary key
+          example: 42
+        reference_number:
+          type: string
+          description: Human-readable reference number
+          example: "RVA-2026-00042"
+        category:
+          type: string
+          enum: [pothole, streetlight, graffiti, trash, water, sidewalk, noise, other]
+          description: AI-classified issue category
+          example: "pothole"
+        description:
+          type: string
+          description: AI-generated summary of the reported issue
+          example: "Large pothole causing vehicle damage near intersection"
+        location:
+          type: string
+          nullable: true
+          description: Free-text address or intersection
+          example: "5th and Main St, Richmond VA"
+        latitude:
+          type: number
+          format: double
+          nullable: true
+          description: GPS latitude (WGS84)
+          example: 37.5407
+        longitude:
+          type: number
+          format: double
+          nullable: true
+          description: GPS longitude (WGS84)
+          example: -77.4360
+        urgency:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: "AI-assessed urgency level (1=low, 5=critical)"
+          example: 4
+        status:
+          type: string
+          enum: [new, in_progress, resolved]
+          default: "new"
+          description: Current request status
+          example: "new"
+        phone:
+          type: string
+          description: "Masked phone number (last 4 digits hidden)"
+          example: "+1804555****"
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the request was created
+          example: "2026-03-26T14:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of the last status update
+          example: "2026-03-26T14:30:00Z"
+
+    ServiceRequestDetail:
+      allOf:
+        - $ref: "#/components/schemas/ServiceRequest"
+        - type: object
+          properties:
+            messages:
+              type: array
+              description: Conversation message history for this request
+              items:
+                $ref: "#/components/schemas/Message"
+
+    Message:
+      type: object
+      description: A single SMS message in a conversation
+      required: [id, direction, body, created_at]
+      properties:
+        id:
+          type: integer
+          example: 101
+        direction:
+          type: string
+          enum: [inbound, outbound]
+          description: "inbound = from citizen, outbound = from system"
+          example: "inbound"
+        body:
+          type: string
+          description: Message text content
+          example: "There's a huge pothole on 5th and Main"
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-26T14:29:55Z"
+
+    ServiceRequestList:
+      type: object
+      description: Paginated list of service requests
+      required: [items, total, limit, offset]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ServiceRequest"
+        total:
+          type: integer
+          description: Total number of matching requests (before pagination)
+          example: 47
+        limit:
+          type: integer
+          description: Page size used
+          example: 50
+        offset:
+          type: integer
+          description: Offset used
+          example: 0
+
+    AnalyticsSummary:
+      type: object
+      description: Aggregate KPIs for the dashboard
+      required: [total_requests, by_status, by_category]
+      properties:
+        total_requests:
+          type: integer
+          description: Total number of service requests
+          example: 47
+        by_status:
+          type: object
+          description: Count of requests grouped by status
+          additionalProperties:
+            type: integer
+          example:
+            new: 12
+            in_progress: 20
+            resolved: 15
+        by_category:
+          type: object
+          description: Count of requests grouped by category
+          additionalProperties:
+            type: integer
+          example:
+            pothole: 15
+            streetlight: 8
+            graffiti: 5
+            trash: 7
+
+    AnalyticsTrend:
+      type: object
+      description: Daily request count trend
+      required: [days, data]
+      properties:
+        days:
+          type: integer
+          description: Number of days in the trend range
+          example: 7
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrendPoint"
+
+    TrendPoint:
+      type: object
+      description: Single day's request count
+      required: [date, count]
+      properties:
+        date:
+          type: string
+          format: date
+          description: Calendar date (YYYY-MM-DD)
+          example: "2026-03-26"
+        count:
+          type: integer
+          description: Number of requests created on this date
+          example: 8
+
+    HealthResponse:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          example: "ok"
+        version:
+          type: string
+          example: "0.1.0"
+
+    ErrorResponse:
+      type: object
+      required: [detail]
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message
+          example: "Service request not found"
+
+    ValidationError:
+      type: object
+      description: FastAPI validation error response
+      required: [detail]
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: [loc, msg, type]
+            properties:
+              loc:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: integer
+                description: Location of the validation error
+                example: ["query", "limit"]
+              msg:
+                type: string
+                description: Human-readable error message
+                example: "ensure this value is greater than or equal to 1"
+              type:
+                type: string
+                description: Error type identifier
+                example: "value_error.number.not_ge"

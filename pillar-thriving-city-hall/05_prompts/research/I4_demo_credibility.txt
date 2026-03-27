@@ -1,0 +1,30 @@
+Demo Guidance I4 — How to Establish Credibility: Real Data, Real Scenarios, Real Limits
+
+Investigate what makes a civic tech hackathon demo credible — specifically for City Hall tools that work with government data and make information recommendations.
+
+THE CREDIBILITY PROBLEM:
+A 48-hour prototype can look polished but be fundamentally misleading — using fake data, claiming capabilities it doesn't have, or hiding its failure modes. Judges at civic hackathons are increasingly sophisticated and will probe for this.
+
+CREDIBILITY BUILDING BLOCKS:
+1. Real data: Using actual public Richmond data (Socrata, rva.gov) vs. synthetic or sample data
+2. Accurate problem description: Citing actual system names (AvePoint, Dynamics 365, Drupal/Acquia) and documented problems (column bug, no post-2018 API)
+3. Honest capabilities: Telling judges what the tool can and cannot do
+4. Demonstrated uncertainty handling: Showing the tool saying "I'm not sure" when appropriate
+5. Source attribution: Showing where every piece of information comes from
+
+RED FLAGS JUDGES NOTICE:
+- Hardcoded "great" responses that would fail on any other query
+- Claiming "integration with" City systems that the team didn't actually build
+- Confidence calibration that's always at 95%+
+- No mention of limitations, failure modes, or edge cases
+- Demo scenarios that are suspiciously perfect
+
+BUILDING CREDIBILITY THROUGH HONESTY:
+What does research say about how admitting limitations in a civic tech demo actually increases judge confidence rather than decreasing it?
+
+How do experienced civic tech teams handle the "what doesn't it do?" question in a way that strengthens rather than weakens their pitch?
+
+Output
+- Credibility checklist: what every City Hall prototype demo must demonstrate
+- Language patterns that signal honesty and build trust
+- How to pre-answer the "what are the limitations?" question before judges ask it

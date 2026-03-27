@@ -1,0 +1,10 @@
+{
+  "_comment": "Copy to validation_rules.json and adjust regexes for conflict checks. The script extracts 'val' group values and flags if multiple distinct values appear across files for the same key.",
+  "fact_patterns": [
+    {
+      "key": "notification_radius",
+      "regex": "(?i)mail(?:ing)? radius[:\- ]+(?P<val>\d+ ?feet|\d+ ?miles)"
+    }
+  ]
+}
+

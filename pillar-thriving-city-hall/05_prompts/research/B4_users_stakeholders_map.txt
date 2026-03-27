@@ -1,0 +1,30 @@
+User & Stakeholder B4 — Full Stakeholder Map
+
+Map all stakeholders for both A Thriving City Hall targeted problems. Include residents, City staff, elected officials, and potential implementation partners.
+
+For the resident service navigation problem:
+- Residents (first-time users, repeat users, non-English speakers, seniors, mobile-only users)
+- 311 staff (Director Pete Briel, routing agents, supervisors)
+- rva.gov website team (City IT, Tech Dynamism contractor)
+- Department staff who receive misrouted requests
+- City Council members (who hear constituent complaints)
+- Community organizations that help residents navigate City services
+
+For the procurement problem:
+- Procurement officers responsible for contract management
+- Department directors who request contracts
+- Finance/budget staff overseeing fiscal compliance
+- City Auditor (oversight and accountability)
+- City Council members (fiscal oversight)
+- Vendors and contractors
+
+For each stakeholder group, describe:
+- Their interest in the problem (pain/benefit)
+- Their power/influence over adoption of a solution
+- What they would need to see to support a post-hackathon prototype
+- Any publicly documented positions or statements
+
+Output
+- Stakeholder map by group with interests and influence level
+- Power/interest matrix (who to inform vs. engage vs. champion)
+- Implications for post-hackathon adoption strategy

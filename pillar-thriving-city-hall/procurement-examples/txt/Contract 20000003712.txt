@@ -1,0 +1,5355 @@
+# Contract 20000003712.pdf
+
+--- Page 1 [OCR] ---
+Contract No. 20000003712
+
+CITY OF RICHMOND
+GOODS AND SERVICES CONTRACT
+
+This Contract, dated his ages of September, 2019 (the “Commencement Date”) between the
+City of Richmond, Virginia (the “City”) and ATAB, LLC dba Dominion Elevator Services, is
+binding among and between these parties as of the date of the City’s final signature.
+
+WHEREAS, the City has awarded the Contractor this Contract pursuant to Request for
+Proposal No. 190020293 (the “Request for Proposals”) for Elevator Inspection Services.
+
+THEREFORE, in consideration of the Recital set forth above and good and valuable
+consideration as set forth below, the parties agree as follows:
+
+1, Scope of Contract. The Contractor shall provide the goods and services to the City as set
+forth in the Contract Documents enumerated in Section 3 below.
+
+2. Contract Amount. The maximum authorized contract amount for this Contract is Six
+Hundred Thousand U.S. Dollars ($600,000.00). The aggregate of all payments by the City
+under this Contract shall not exceed this amount. All payments shall be as provided in the
+Contract Documents.
+
+3. Contract Documents. This Contract shall consist of the following Contract Documents, listed
+in order of precedence from highest to lowest:
+
+This Goods and Services Contract between the City and the Contractor.
+
+The Special Provision Terms and Conditions attached to the Request for Proposals.
+The General Terms and Conditions attached to the Request for Proposal.
+
+The Specifications attached to the Request for Proposal.
+
+The Contractor’s completed and signed proposal dated May 24, 2019.
+
+The Instructions to offerors attached to the Request for Proposals.
+
+mmoom>
+
+All of these documents are incorporated herein by reference.
+
+IN WITNESS WHEREOF, the parties hereto on the latest day and year written below have
+executed this Contract.
+
+For the CONTRACTOR: For the CITY:
+
+By: (signature in ink) Godt ali) BE shetty unrell —dn [2014
+
+S EAD Mey Director of Procurement Services
+
+(oped name)
+
+c£0
+
+(typed title)
+
+IF A CORPORATION, AFFIX CORPORATE SEAL
+
+--- Page 2 ---
+CITY OF RICHMOND 
+DEPARTMENT OF PROCUREMENT SERVICES 
+RICHMOND, VIRGINIA 
+(804) 646-5716 
+April 25, 2019 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Request for Proposals No. T190020293 
+for 
+Elevator Inspection Services for the City of Richmond 
+ 
+Mandatory Pre-Proposal Conference May 9, 2019 10:00 A.M. 
+Questions and Request for Information Deadline, May 16, 2019 5:00 P.M. 
+Due Date: May 28, 2019 2:00 P.M. 
+Proposal Opening and Committee Meeting, May 29, 2:00 P.M. 
+ 
+Receipt and Pre-Proposal Conference Location:  
+ City Hall, 900 East Broad Street, 11th floor, Room 1104 
+ 
+ 
+Request for Proposal Prepared by: 
+Name: Trinika Lewis-Wilson     
+Title: Procurement Analysts  
+Telephone (804) 646-5820  
+Fax (804) 646-5989 
+Email: Trinika.wilson@richmondgov.com    
+Department of Procurement Services 
+http://www.richmondgov.com/Procurement/BidsProposals.aspx
+
+--- Page 3 ---
+SIGNATURE SHEET 
+ 
+This signature sheet must be included as part of the offeror’s proposal, or the City will not consider 
+the proposal.  The offeror’s signature below certifies that this proposal as submitted complies with, 
+and the offeror agrees to be legally bound by, all terms and conditions set forth in Request for 
+Proposals No. T190020293 for Elevator Inspection Services.  The undersigned hereby represents 
+and warrants that the undersigned is duly authorized to sign and submit this proposal on behalf of 
+the offeror. 
+ 
+Complete Legal Name of Offeror Firm: 
+ 
+ 
+“Order from” Address: 
+ 
+ 
+ 
+ 
+ 
+“Remit to” Address: 
+ 
+ 
+ 
+ 
+ 
+Federal EIN / SSN:  
+ 
+ 
+Authorized Signature:  
+ 
+ 
+Printed Name of Signatory:  
+ 
+ 
+Title of Signatory:  
+ 
+ 
+Telephone Number with Area Code:  
+ 
+ 
+Fax Number with Area Code: 
+ 
+ 
+E-Mail Address:  
+ 
+ 
+Date:
+
+--- Page 4 ---
+STATEMENT OF NO OFFER 
+ 
+Offerors not submitting an offer for the commodity or service requested must fax this form to the 
+Department of Procurement Services at (804) 646-5989 prior to the solicitation due date.  
+Questions concerning requirements must be brought to the attention of the Contracting Officer 
+responsible for this solicitation at least ten business days prior to the solicitation closing date. 
+Questions are due no later than May 16, 2019. 
+ 
+RFP No.:  
+   Service:  
+ 
+ 
+The undersigned firm declines to submit an offer on the RFP for the following reasons: 
+ 
+ 
+Unable to meet statement of needs 
+ 
+Requirements are unclear or restrictive (explain in remarks) 
+ 
+Unable to meet required delivery or performance date 
+ 
+Unable to meet insurance requirements  
+ 
+Insufficient time to respond to the solicitation 
+ 
+Do not offer requested commodity or service, please remove our name from the 
+City of Richmond’s bidder’s list for this commodity or service only. 
+ 
+Other (explain in remarks) 
+Remarks: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+A firm’s failure to return completed form may result in the removal from the City of Richmond 
+bidder’s list for the commodity or service requested above.  
+ 
+Firm Name: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Authorized Representative:  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Signature: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Telephone: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Date:
+
+--- Page 5 ---
+TABLE OF CONTENTS 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+          Page  
+ 
+1. Signature Sheet…………………….……………………………………………….….2  
+2. Statement of No Offer………...……………………………………………………….3 
+3. State Corporation Commission Form………………………………………………….5 
+
+5. Instruction to Offerors – Part 2………………………………………………………...23 
+6. General Terms and Conditions – Part 3………………………………………………..35 
+
+ Attachment A- MBE/ESB Participation Form 
+ Attachment B – MBE/ESB Compliance Report Form 
+
+ 
+ 
+
+End of Table of Contents
+
+--- Page 6 ---
+STATE CORPORATION COMMISSION FORM 
+ 
+Complete Legal Name of Bidder Firm: 
+ 
+ 
+Virginia State Corporation Commission registration information. The bidder: 
+ is a corporation or other business entity with the following State Corporation Commission 
+identification number:___________________ 
+-OR- 
+ is not a corporation, limited liability company, limited partnership, registered limited liability 
+partnership, or business trust 
+ 
+-OR- 
+ 
+ is an out-of-state business entity that does not regularly and continuously maintain as part of 
+its ordinary and customary business any employees, agents, offices, facilities, or inventories in 
+Virginia (not counting any employees or agents in Virginia who merely solicit orders that 
+require acceptance outside Virginia before they become contracts, and not counting any 
+incidental presence of the bidder in Virginia that is needed in order to assemble, maintain, and 
+repair goods in accordance with the contracts by which such goods were sold and shipped into 
+Virginia from bidder’s out-of-state location) 
+-OR- 
+ is an out-of-state business entity that is including with this bid an opinion of legal counsel 
+which accurately and completely discloses the undersigned bidder’s current contacts with 
+Virginia and describes why those contacts do not constitute the transaction of business in 
+Virginia within the meaning of section 13.1-757 or other similar provisions in Titles 13.1 or 
+50 of the Code of Virginia 
+-OR- 
+has not completed any of the foregoing options but currently has pending before the State 
+Corporation Commission an application for authority to transact business in the 
+Commonwealth of Virginia and wishes to be considered for a waiver to allow the bidder to 
+submit the State Corporation Commission identification number after the due date for bids.  
+The bidder shall promptly provide any information the City requires to enable the City to 
+properly evaluate the bidder’s request for such a waiver.  The City reserves the right to 
+determine in its sole discretion whether to allow such a waiver.
+
+--- Page 7 ---
+PART I 
+STATEMENT OF NEEDS 
+ 
+ 
+1.0 
+Introduction. 
+ 
+1.1 
+Purpose. The City of Richmond is soliciting proposals to establish a contract through 
+competitive negotiations for elevator inspection services for buildings within the city of 
+Richmond. 
+ 
+1.2 
+Background. The City of Richmond’s Department of Planning and Development 
+Review uses a third party contractor to perform all elevator, escalator, and lift inspections 
+and plan reviews in the city of Richmond. There are approximately 2,500 vertical 
+transport devices within the city of Richmond.   
+ 
+1.3 
+Pre-Proposal Meeting.  There will be a mandatory pre-proposal meeting at 9:00 A.M on 
+Thursday, May 9, 2019, in Room 1104 at 900 East Broad Street in Richmond, Virginia. 
+ 
+1.4 
+Definitions. The following words and phrases, when used in this Request for Proposals, 
+have the meanings ascribed to them in this section, except where the context clearly 
+indicates that another meaning is intended: 
+A. 
+AHJ. “AHJ” means authority having jurisdiction as defined in the ASME 17.1, and 
+which is the City for purposes of this Contract. 
+ 
+B. 
+ANSI. “ANSI” means American National Standards Institute. 
+ 
+C. 
+ASME. “ASME” means the American Society of Mechanical Engineers. 
+ 
+D. 
+ASME 17.1. “ASME 17.1” Safety Code for Elevators and Escalators. 
+ 
+E. 
+ASME 17.2. “ASME 17.2” - Guide for Inspections of Elevators, Escalators, and 
+Moving Walks. 
+ 
+F. 
+Building Commissioner.  “Building Commissioner” means the Commissioner of 
+Buildings as that term is defined in section 5-4 of the Code of the City of Richmond. 
+ 
+G. 
+Building Owner. “Building Owner” means the person and related contact 
+information listed in the City’s software application as a building’s owner of record. 
+ 
+H. 
+Category 1 Inspections. “Category 1 Inspections” means 1 year life-safety 
+elevator testing required by the AHJ. 
+ 
+I. 
+Category 5 Inspections. “Category 5 Inspections” means 5 year life-safety 
+elevator testing required by the AHJ.
+
+--- Page 8 ---
+J. 
+City. “City” means the City of Richmond, a municipal corporation and political 
+subdivision of the Commonwealth of Virginia, acting through its duly authorized 
+representatives. 
+ 
+K. 
+Contract. “Contract” means the Goods and Services Contract, a sample of which 
+is attached to this Request for Proposals, together with all Contract Documents 
+referred to therein, awarded to the Contractor as a result of this solicitation. 
+ 
+L. 
+Contractor. “Contractor” means the offeror to whom the City awards the Contract. 
+ 
+M. 
+DPOR. “DPOR” means The Virginia Department of Professional and 
+Occupational Regulation. 
+ 
+N. 
+Elevating Equipment. “Elevating Equipment” means equipment such as elevators, 
+escalators, dumbwaiters, moving walks, moving ramps, man lifts, and any similar 
+hoisting or elevating equipment per the standard referenced in the current version 
+of the VSUBC. 
+ 
+O. 
+NASEA. “NASEA” means National Association of Elevator Safety Authorities.  
+ 
+P. 
+New or Altered Elevating Equipment. “New or Altered Elevating Equipment” 
+means new Elevating Equipment or existing Elevating Equipment which requires 
+maintenance or replacement. 
+ 
+Q. 
+ Offeror. “Offeror” means any person or legal entity that may choose to submit a 
+proposal in response to this solicitation. 
+ 
+R. 
+QEI Certified. “QEI Certified” means a certification obtained through state-
+recognized classes, education, examination, and certification process based on the 
+ASME QEI Standard for Qualified Elevator Inspectors as well as NASEA’s terms. 
+ 
+S. 
+QEITF Certified. “QEITF Certified” means a certification obtained through state-
+recognized classes, education, examination, and certification process based on the 
+ASME QEI Standard for Qualified Elevator Inspectors through ANSI. 
+ 
+T. 
+Routine (6-Month) Inspections. “Routine (6-month) Inspections” means 6 month 
+life-safety elevator testing required by the AHJ.  The routine inspection shall occur 
+6-months after a Category 1 or Category 5 inspection 
+ 
+U. 
+VUSBC. “VUSBC” means the current edition of the Virginia Uniform Statewide 
+Building Code as codified in the Virginia Administrative Code. 
+ 
+ 
+ 
+ 
+2.0 
+Requirements and Deliverables.
+
+--- Page 9 ---
+As further described in this Statement of Needs, the Contractor shall review construction 
+documents, perform acceptance tests for New or Altered Elevating Equipment, maintain 
+an inspection quality control program, respond to complaints and accidents, and perform 
+Category 5 Inspections, Category 1 Inspections, and Routine (6-Month) Inspections of 
+existing Elevating Equipment at the intervals required in the VUSBC. 
+ 
+2.1 
+Qualifications.  
+ 
+ 
+A.  
+As required by the VUSBC, the Contractor must maintain compliance with all 
+applicable certification requirements throughout the term of this Contract.   
+ 
+B.  
+All Contractor personnel performing inspections on Elevating Equipment, 
+reviewing plans or drawings, or performing tests on Elevating Equipment must be 
+a QEI Certified or QEITF Certified elevator inspector (or both), plan reviewer, or 
+a Virginia DPOR registered design professional.  
+ 
+C. 
+The Contractor shall have at least one licensed QEI Certified elevator inspector 
+supervisor employed at all times during the term of the Contract.  
+ 
+D. 
+The Contractor shall only assign those personnel properly trained in applicable 
+VSUBC codes and in current methods of inspection and maintenance of Elevating 
+Equipment to perform work for the City pursuant to this Contract.  
+ 
+E. 
+If the City provides written notice to the Contractor that the City deems a member 
+of the Contractor’s personnel unqualified to perform the work because of 
+insufficient experience or insufficient certifications or unsatisfactory due to a 
+performance that is inadequate, the Contractor shall, within 48 hours of receipt of 
+the City’s written notice, assign a new member of Contractor’s personnel to 
+perform the duties required under the Contract.  
+ 
+2.2 
+Inspections, Generally.   
+ 
+All plan reviews and inspections performed by the Contractor must comply with the current 
+edition of the Virginia Uniform Statewide Building Code.  The Contractor shall perform 
+all inspections and tests as required by and in conformance with ASME 17.2.   
+ 
+2.3 
+Inspections of Existing Elevating Equipment.  
+ 
+A. 
+The Contractor shall utilize electronic devices provided by the City (including 
+iPads and tablets) for documenting inspection results for inspections completed by 
+the Contractor pursuant to this Contract. The Contractor shall input inspection 
+results into any software application that is identified by the City for use by the 
+Contractor pursuant to this Contract.
+
+--- Page 10 ---
+B. 
+There are currently more than 2500 units of Elevating Equipment in the city of 
+Richmond. The City will provide the Contractor with a list of existing Elevating 
+Equipment within five business days of the Commencement Date of the Contract 
+that identifies the Elevating Equipment requiring inspection pursuant to this 
+section 2.3. The City may update the list of new and existing Elevating 
+Equipment at any time. 
+ 
+C. 
+The Contractor shall provide Category 5 Inspections, Category 1 Inspections, 
+Routine (6-Month) Inspections, and appropriate tests of all existing Elevating 
+Equipment at intervals recommended by ASME A17.2.   
+ 
+D. 
+After the Contractor completes an inspection, the Contractor must either (1) “pass” 
+the Elevating Equipment inspected if it meets the applicable VSUBC requirements 
+and enter inspection results utilizing the electronic devices provided by the City, or 
+(2) fail the Elevating Equipment inspected if it does not comply with the applicable 
+VSUBC requirements, enter the results as “failed” utilizing the electronic devices 
+provided by the City, and provide an explanation for the rejection along with any 
+appropriate documentation and the VSUBC sections for each violation.  The 
+Contractor shall notify the Building Owner, or their authorized representative 
+electronically, using the City’s designated software application, of all inspection 
+results. 
+ 
+E. 
+The Contractor must clearly mark each inspection report as either “Passed” or 
+“Failed” and electronically submit each report utilizing the electronic devices 
+provided by the City and the City’s designated software application. 
+ 
+F. 
+The Contractor shall perform an inspection no later than seven calendar days prior 
+to the expiration of the current elevator certificate for any unit of Elevating 
+Equipment.   
+ 
+G. 
+The Contractor shall perform the inspection tasks described in ASME 17.2 herein 
+for each inspection performed on a unit of existing Elevating Equipment pursuant 
+to this section 2.3. 
+  
+H.  
+The Contractor must perform re-inspections of Category 5 Inspections, Category 1 
+Inspections, and Routine (6-Month) Inspections within 30 calendar days of any 
+initial inspection of Elevating Equipment that resulted in a failed inspection.  
+ 
+I.  
+If the Contractor finds any condition affecting the safety of the passengers or 
+Elevating Equipment, the Contractor shall report such a condition immediately to 
+the Building Owner or their authorized representative and notify the Building 
+Commissioner, or their designee, within 24 hours of the Contractor’s discovery of 
+such a condition.  The Contractor shall enter these inspection results into the City’s 
+designated software application and attach any appropriate documentation utilizing 
+the electronic devices provided by the City to clearly list the violations found and 
+the action recommended to the Building Owner or their authorized representative
+
+--- Page 11 ---
+and the Building Commissioner or their designee. The Elevating Equipment shall 
+not be returned to service by the Contractor until subsequent inspection by the 
+Contractor confirms the elimination of the condition the Contractor found to be 
+affecting the safety of the passengers or the Elevating Equipment.  
+ 
+2.4 
+Final Inspections of New or Altered Elevator Equipment. 
+ 
+A. 
+The Contractor shall utilize electronic devices provided by the City (including iPads 
+and tablets) for documenting inspection results for inspections completed by the 
+Contractor pursuant to this Contract. The Contractor shall input inspection results 
+into any software application that is identified by the City for use by the Contractor 
+pursuant to this Contract.  
+ 
+B. 
+The Contractor will receive electronic requests through the City’s designated 
+software application for final inspections of New or Altered Elevating Equipment.  
+The Contractor shall complete an inspection for any request received. 
+ 
+C. 
+After the Contractor completes an inspection of New or Altered Elevating 
+Equipment, the Contractor must either (1) “pass” the Elevating Equipment 
+inspected if it meets the applicable VSUBC requirements and enter inspection 
+results utilizing the electronic devices provided by the City, or (2) fail the Elevating 
+Equipment inspected if it does not comply with the applicable VSUBC 
+requirements, enter the results as “failed” utilizing the electronic devices provided 
+by the City, and provide an explanation for the rejection along with any appropriate 
+documentation and the VSUBC sections for each violation.  The Contractor shall 
+notify the Building Owner or their authorized representative electronically, using 
+the City’s designated software application, of all inspection results. 
+ 
+D. 
+The number of New or Altered Elevating Equipment plans to be reviewed and final 
+inspection tests to be conducted by the Contractor will depend upon the actual 
+number of Elevating Equipment construction permits issued during the term of the 
+Contract. 
+ 
+E. 
+The Contractor shall perform final inspection acceptance tests for New or Altered 
+Elevating Equipment within 48 hours of the Contractor’s receipt of the request 
+within the City’s designated software application.  
+ 
+F. 
+The Contractor shall re-inspect New or Altered Elevating Equipment within 1 
+working day of any re-inspection request submitted to the Contractor through the 
+City’s designated software application if the prior inspection(s) of that Elevating 
+Equipment resulted in failure. 
+ 
+G. Within the City’s designated software application, the Contractor shall clearly mark 
+each inspection report as either “Passed” or “Failed” and sign each inspection report 
+electronically.
+
+--- Page 12 ---
+2.5 
+Preparation of Notices of Violation. 
+ 
+If, during the course of performing services under this Contract, the Contractor identifies 
+any violation that requires issuance of a notice of violation under the VUSBC, the 
+Contractor shall deliver a notice of violation in accordance with all requirements of the 
+VUSBC to the Business Owner of the Elevating Equipment affected by the violation.  
+ 
+2.6 
+Quality Control Program.   
+ 
+A. 
+The Contractor shall establish and maintain a quality control program to review a 
+percentage of the completed monthly inspections that will be billed to the City for 
+payment for each month of the Contract 
+     
+B. 
+The quality control program must include the following components: 
+ 
+1. 
+Verification of no less than 10% of all inspections for each type of 
+inspection performed (Category 1 Inspection, Category 5 Inspection, 
+Routine (6 month) Inspection) shall be conducted by a QEI Certified or 
+QEITF Certified employee of the Contractor. 
+2. 
+Quality control inspections shall be performed by a QEI Certified elevator 
+inspector supervisor or a qualified employee of the Contractor other than 
+the Contractor’s qualified employee who performed the original inspection.  
+3. 
+The Contractor shall electronically submit a monthly report to the Building 
+Commissioner, or their designee, using the City’s designated software 
+application providing results of each quality control inspection compared to 
+the original inspection.  The Contractor shall provide an electronic copy of 
+the original inspection report and an electronic submission of the quality 
+control inspection report.  
+4. 
+The Contractor shall attend a monthly meeting with the Building 
+Commissioner or their designee to review the monthly quality control report 
+required by section 2.6. 
+2.7 
+Plan Reviews. 
+ 
+A. 
+The Contractor shall review all construction documents for proposed installation of 
+New or Altered Elevating Equipment.  The City will provide the construction 
+documents electronically to the Contractor.  The number of plans to be reviewed 
+will depend upon the actual number of Elevating Equipment construction permits 
+issued during the term of the Contract.  The Contractor shall utilize electronic 
+devices provided by the City (including iPads and tablets) for performing plan 
+reviews required by this Contract. The Contractor shall input plan review results 
+into any software application that is identified by the City for use by the Contractor 
+pursuant to this Contract.  
+ 
+B. 
+Using the City’s designated software application, the Contractor shall certify 
+whether the construction documents comply with applicable VSUBC codes. If the 
+Contractor rejects the construction documents for any unit of Elevating
+
+--- Page 13 ---
+Equipment, the Contractor shall provide a detailed, written explanation of the 
+rejection. 
+ 
+C. 
+Using the City’s designated software application, the Contractor shall submit all 
+approved construction documents and denial notices to the Building 
+Commissioner and their designee for signature and processing.    
+ 
+D. 
+The Contractor shall complete the plan review, documentation of approval or 
+denial, and notification to the City in not more than 5 business days from the date 
+the plans were provided to the Contractor through the City’s designated software 
+application.  The Contractor shall clearly mark each plan review report “Approved” 
+or Denied” and sign each plan review report.  A rejected plan review report shall 
+clearly state a description of why the plan review is being rejected, along with the 
+appropriate code section 
+ 
+2.8 
+Elevator Accidents, Complaints, and Facility Emergencies. 
+ 
+A. 
+The Contractor shall respond to any complaint or accident within three (3) hours of 
+receipt of notice of the complaint or accident and proceed to investigate the 
+complaint or accident to ensure the safety of all Elevating Equipment in the city of 
+Richmond.   
+ 
+B. 
+The Building Commissioner or their designee must be able to contact the 
+Contractor’s inspectors and supervisors by mobile phone and email for response to 
+emergencies relating to Elevating Equipment. The Contractor shall respond within 
+three (3) hours of receipt of notice from the City to any emergency relating to 
+structures containing Elevator Equipment.  
+ 
+2.9 
+Field Work Requirements. 
+ 
+A. 
+The Contractor shall provide its own transportation and furnish all necessary 
+equipment, except for the City-issued electronic devices, for use in performing 
+services required under this Contract. Such equipment shall include, but is not 
+limited to the following: 
+ 
+1. 
+A flashlight with a non-conductive case for inspecting wire ropes and 
+other equipment in locations where sufficient natural or artificial light is 
+not available 
+2. 
+6-foot rule of non-conductive material 
+3. 
+A set of thickness gauges 
+4. 
+Small hammer, preferably a one-half pound ball-peen 
+5. 
+Chalk or crayon 
+6. 
+Small metal mirror to use in examining wire ropes or other parts of 
+equipment normally inaccessible
+
+--- Page 14 ---
+7. 
+Safety hat (non-conductive) 
+8. 
+Rope caliper 
+9. 
+Sheave groove gauge 
+10. 
+Safety shoes 
+11. 
+A copy of the applicable ordinances and regulations of the City of 
+Richmond 
+12. 
+A copy of the latest applicable edition of ASME A17.1 
+13. 
+A copy of the latest edition of ASME A17.2 
+14. 
+Current edition of the National Electrical Code 
+15. 
+Cell phone  
+ 
+2.10  Additional Assistance Required.  
+ 
+The Contractor shall make investigations and inspections as needed to provide the City 
+with information for court cases for matters including, violations, defaults, and civil suits. 
+The Contractor shall make its personnel available for meetings, hearings, and court 
+appearances, and the Contractor shall ensure its personnel appear in court to testify or to 
+act as expert witnesses upon request by the City. 
+ 
+2.11 
+Scheduling of Work. 
+ 
+A. 
+The Contractor shall perform all work under this Contract, with the exception of 
+services on fire and emergency controls which is governed by section 2.11(B) 
+herein, during regular business hours of 8:00 a.m. to 5:00 p.m. on regular business 
+days of the City unless otherwise ordered by the Building Commissioner.  
+ 
+B. 
+The Contractor shall inspect fire and emergency controls during other than normal 
+duty hours of the respective buildings housing the fire and emergency controls 
+when it is necessary to prevent disruption of normal work activities, and whenever 
+requested by the building’s owner, agent, or on-site representative.  
+ 
+C.  
+The Contractor may observe all City holidays.  The Contractor, with both (i) the 
+written consent of the Building Owner (or their authorized representative) for any 
+building within which the Contractor will be performing work, and (ii) the consent 
+of the Building Commissioner or their designee, may perform work under this 
+Contract on Federal, State, or City holidays, or during hours other than regular 
+working hours (all of which are deemed to be “after hours” for payment purposes). 
+ 
+D. 
+The Contractor shall comply with the scheduled frequency prescribed in ASME 
+codes for the performance of work pursuant to the Contract.
+
+--- Page 15 ---
+E. 
+For failed inspections of Category 5 Inspections, Category 1 Inspections, and 
+Routine (6-Month) Inspections, a re-inspection shall be conducted based on the 
+time table in Table 1.0 of this Statement of Needs and ASME 17.2. 
+ 
+F. 
+The City shall not be responsible for paying for incomplete or inspections 
+performed out of sequence for Category 1 Inspections, Category 5 Inspections, and 
+Routine (6-Month) Inspections.  If the Contractor chooses to perform an inspection at a time or frequency not 
+prescribed by the schedule set forth by the ASME 17.2, the Contractor must obtain written approval from the Building 
+Commissioner and their designee for that variation in inspection schedule prior to the Contractor’s performance of the 
+inspection. If the Contractor chooses to perform an inspection at a time or frequency not prescribed by the schedule set forth 
+by the VUSBC without such written approval, then the City will not be required to pay for that inspection because it will be 
+deemed to have not been performed in accordance with this Contract. 
+ 
+2.12 
+Vertical Lift Lock Out; Out of Service Requirements 
+ 
+Listed below in Table 1.0 are representative examples of major deficiencies in Elevating 
+Equipment. If the Contractor identifies any of the major deficiencies from Table 1.0 
+violation in Elevating Equipment while performing an inspection under this Contract for 
+which the VUSBC requires issuance of a notice of violation, the Contractor shall deliver 
+notice of violation to the Building Owner or their authorized representative pursuant to the 
+requirements of the VUSBC.  The Contractor shall perform a re-inspection, in accordance 
+with the timelines listed in Table 1.0 below, of any unit of Elevating Equipment affected 
+by a major deficiency identified by the Contractor in accordance with this section 2.12.  If, 
+upon re-inspection by the Contractor, the Contractor determines any major deficiencies 
+affecting a unit of Elevating Equipment have not been repaired within the time line set in 
+Table 1.0 below, the Contractor shall contact the City through the City’s designated 
+software application, and the Contractor shall lockout or shutdown the Elevating 
+Equipment affected by the major deficiency and place it “out-of-service” immediately. 
+ 
+Whenever a unit of Elevating Equipment is placed “out of service,” the Building 
+Commissioner and their designee shall be notified immediately through the City’s 
+designated software application of the location of the Elevating Equipment and the reason 
+for placing it “out of service.” 
+ 
+Table 1.0 – Major Deficiencies in Elevating Equipment  
+Location 
+Elevating Equipment Deficiency 
+10 Day 
+Lock 
+Out - 
+notify 
+City 
+first 
+Lock 
+Out 
+Unit 
+notify 
+City 
+first 
+48 
+Hours 
+to Fix 
+30 days 
+to Fix 
+Machine Room 
+Jumped out or by-passed electrical fusing or circuitry. 
+ 
+X 
+ 
+ 
+ 
+Water leakage in area of electrical equipment controls 
+ 
+X 
+ 
+ 
+ 
+Failed safety test 
+ 
+X 
+ 
+ 
+ 
+Damaged or inoperative safety devices 
+ 
+X 
+ 
+ 
+ 
+Overheating of equipment 
+ 
+ 
+X 
+ 
+ 
+Vibration or noise in driving machinery 
+ 
+ 
+X 
+ 
+ 
+Machine, Brake, Governor or Controller equipment not operating  
+properly 
+ 
+X 
+ 
+ 
+ 
+Leaking oil 
+ 
+X
+
+--- Page 16 ---
+Location 
+Elevating Equipment Deficiency 
+10 Day 
+Lock 
+Out - 
+notify 
+City 
+first 
+Lock 
+Out 
+Unit 
+notify 
+City 
+first 
+48 
+Hours 
+to Fix 
+30 days 
+to Fix 
+ 
+Past Due Test(s) 
+X 
+ 
+ 
+ 
+ 
+All other violations 
+ 
+ 
+ 
+X 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Car/Counterweight 
+Inoperative or badly damaged car door safe edges and/or electric eyes 
+ 
+ 
+ 
+X 
+ 
+Improperly adjusted care gates 
+ 
+ 
+ 
+X 
+ 
+Safeties not operating properly 
+ 
+ 
+ 
+X 
+ 
+Car door operator, switch or restrictor not operating 
+ 
+X 
+ 
+ 
+ 
+Inoperative safety devices or controls 
+ 
+X 
+ 
+ 
+ 
+Broken car or counterweight assembly 
+ 
+X 
+ 
+ 
+ 
+Running or operating erratic  
+ 
+X 
+ 
+ 
+ 
+Door(s) excessive slamming close fast, strong or coming off track or sill 
+ 
+X 
+ 
+ 
+ 
+Damaged or broken steel wire cable(s)  
+ 
+X 
+ 
+ 
+ 
+Broken strand or wire(s) on steel wire cable(s) 
+ 
+ 
+ 
+X 
+ 
+Up and down Terminal slow down, stopping or final limit switches 
+ 
+X 
+ 
+ 
+ 
+Damaged traveling cable 
+ 
+ 
+X 
+ 
+ 
+Damaged or missing car cab top exit panel(s) 
+ 
+ 
+X 
+ 
+ 
+All other violations 
+ 
+ 
+ 
+X 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Hoistway / Doors 
+Damaged or missing hoistway door, equipment or materials 
+ 
+X 
+ 
+ 
+ 
+Damaged or missing car/counterweight guide shoes or roller guides 
+ 
+X 
+ 
+ 
+ 
+Improperly adjusted hoist way doors 
+ 
+ 
+ 
+X 
+ 
+Inoperative final limit devices 
+ 
+X 
+ 
+ 
+ 
+Inoperative safety devices 
+ 
+X 
+ 
+ 
+ 
+Leaking excessive oil in pit 
+ 
+X 
+ 
+ 
+ 
+Damaged or excessive hole(s) in hoistway, shaft wall(s) assemble 
+ 
+X 
+ 
+ 
+ 
+All other violations 
+ 
+ 
+ 
+X 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Escalators 
+Inoperative safety devices 
+ 
+X 
+ 
+ 
+ 
+Excessive space between steps and skirt panel 
+ 
+ 
+ 
+X 
+ 
+Broken or missing comb-plate teeth 
+ 
+ 
+ 
+X 
+ 
+Misaligned comb-plates 
+ 
+ 
+ 
+X 
+ 
+Unequal tension in handrails 
+ 
+ 
+ 
+X 
+ 
+Removal of obstacles restricting easy exit from terminal landings 
+ 
+X 
+ 
+ 
+ 
+Worn or damaged step rollers or handrails 
+ 
+X 
+ 
+ 
+ 
+Missing or damaged intersection guards 
+ 
+ 
+ 
+X 
+ 
+Step, floor or comb plate(s) 
+ 
+X 
+ 
+ 
+ 
+Damaged enclosure sides or overhead 
+ 
+X 
+ 
+ 
+ 
+Running or operating erratic 
+ 
+X 
+ 
+ 
+ 
+Machine, brake, governor or controller equipment not operating properly 
+ 
+X 
+ 
+ 
+ 
+Water leakage in area of electrical equipment controls 
+ 
+X 
+ 
+ 
+ 
+Fail safety test 
+ 
+X 
+ 
+ 
+ 
+Past due test(s) 
+X 
+ 
+ 
+ 
+ 
+All other violations 
+ 
+ 
+ 
+X
+
+--- Page 17 ---
+Location 
+Elevating Equipment Deficiency 
+10 Day 
+Lock 
+Out - 
+notify 
+City 
+first 
+Lock 
+Out 
+Unit 
+notify 
+City 
+first 
+48 
+Hours 
+to Fix 
+30 days 
+to Fix 
+ 
+ 
+ 
+ 
+ 
+ 
+Misc items 
+Storage of prohibited materials in the machine room 
+ 
+ 
+ 
+X 
+ 
+Inoperative firefighters service 
+ 
+ 
+ 
+X 
+ 
+Accumulation of trash, oil, and/or water in the pit 
+ 
+ 
+ 
+X 
+ 
+Missing fan guard inside elevator enclosure 
+ 
+ 
+ 
+X 
+ 
+Inoperative two-way emergency communications device (telephone 
+ 
+ 
+ 
+X 
+ 
+All other violations 
+ 
+ 
+ 
+X 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Owner certified 
+Inadequate car lighting or unguarded car lighting 
+ 
+ 
+ 
+X 
+ 
+Fire extinguisher in machine room missing - expired 
+ 
+ 
+ 
+X 
+ 
+Damaged car cab panels or car station 
+ 
+ 
+ 
+X 
+ 
+Improper car door closing speed/pressure 
+ 
+ 
+ 
+X 
+ 
+Missing instruction signs 
+ 
+ 
+ 
+X 
+ 
+All other violations 
+ 
+ 
+ 
+X 
+ 
+No Inspections due to city inspection fee non-payment delinquencies 
+X 
+ 
+ 
+ 
+ 
+2.13 
+Invoicing Requirements. 
+ 
+A.  
+The Contractor shall invoice the City every two weeks and shall submit all invoices 
+electronically to the Building Commissioner and their designee.  Each invoice must 
+clearly describe and itemize all of the contract work performed for the City during 
+the previous two week period for which the invoice relates.   
+ 
+B. 
+Each invoice must include copies of all field inspections reports for the work that 
+was performed during the previous two weeks.  
+ 
+C. 
+In addition to a clear description of the location and work performed, the following 
+information must also be provided with the invoice: 
+ 
+1. 
+Number of plan reviews completed pursuant to section 2.7 herein. 
+2. 
+Number of final inspections of New or Altered Elevating Equipment 
+performed in accordance with section 2.4 herein. 
+3. 
+Number of re-inspections of final inspections of New or Altered Elevating 
+Equipment performed in accordance with section 2.4 herein. 
+4. 
+Number of Category 1 Inspections, Category 5 Inspections, and Routine (6-
+Month) Inspections performed in accordance with section 2.3 herein. 
+5. 
+Number of re-inspections of Category 1 Inspections, Category 5 
+Inspections, and Routine (6-Month) Inspections performed in accordance 
+with section 2.3 herein. 
+6. 
+Number of elevator accidents, complaints, and emergency inspections 
+performed relating to accidents and complaints in accordance with sections 
+2.8 and 2.12 herein.
+
+--- Page 18 ---
+7. 
+Number of tests performed after regular-working hours in accordance with 
+sections 2.8 and 2.12 herein (and indicate number of hours spent on each 
+test). 
+D. 
+The City, in its sole discretion, determines whether any invoice is clear, properly 
+itemized, and submitted in accordance with the terms of the Contract. If the 
+Contractor uses abbreviations or jargons on invoices, the Contractor shall provide 
+a key printed directly on the invoice to explain the abbreviation or jargon.  The City 
+may reject and return as unpaid any invoice that is unclear, improperly itemized, or 
+otherwise not in compliance with the terms and conditions of the Contract.  
+ 
+ 2.14 Reporting and Data. 
+ 
+2.14.1 Monthly Reporting & Data.  The Contractor shall provide a workload summary 
+submitted in accordance with section 2.13 herein.  The summary must include the 
+following information:  
+ 
+A. 
+Number of plan reviews completed in accordance with section 2.7 within 5 days of 
+the Contractor’s receipt of the request: 
+ 
+B. 
+Number of inspections performed, categorized as follows: 
+ 
+1. 
+Final inspections of New or Altered Elevating Equipment in accordance 
+with section 2.4. 
+2. 
+Annual inspections for Category 1 Inspections, Category 5 Inspections, and 
+Routine (6-Month) Inspections performed in accordance with section 2.3. 
+3. 
+Re-inspections of final inspections of New or Altered Elevating Equipment 
+performed in accordance with section 2.4. 
+4. 
+Re-inspection of Category 1 Inspections, Category 5 Inspections, and 
+Routine (6-Month) Inspections performed in accordance with section 2.3. 
+5. 
+Emergency inspections and investigations into accidents and complaints in 
+accordance with sections 2.8 and 2.12. 
+6. 
+After hours testing performed in accordance with sections 2.8 and 2.12. 
+2.14.2 Annual Assessments by City.  
+ 
+During the term of the Contract, the City will continuously review the work performed by 
+the Contractor using the review and audit capabilities of the City’s designated software 
+applications.   
+ 
+2.15 
+Use of City-Provided Electronic Devices. 
+ 
+A. As further set forth in this Statement of Needs, the Contractor is required to utilize 
+electronic devices provided by the City for documentation of inspection and plan 
+review results, submission of results, and other activities set forth in this Statement of 
+Needs. The Contractor shall only use the equipment made available by the City for 
+the performance of obligations under the Contract.
+
+--- Page 19 ---
+B. All City owned electronic devices shall be signed out through the City’s Department 
+of Information Technology (DIT). 
+ 
+C. The Contractor shall bear the responsibility for any loss or damage to any City-owned 
+equipment made available to the Contractor pursuant to the Contract, including the 
+electronic devices.  
+ 
+D. The Contractor shall, throughout the term of the Contract, have available for the 
+Contractor’s use both a cellular data hotspot and a wifi connection to enable the 
+Contractor to utilize the electronic devices provided by the City. 
+ 
+E. Within fourteen (14) calendar days of the Commencement Date of the Contract, the 
+Contractor shall contact the City to schedule training and orientation to be provided 
+by the City for the Contractor on the electronic devices to be provided by the City and 
+the software applications to be used by the Contractor.  The Contractor’s personnel 
+assigned to perform work for the City under the Contract shall attend eighty (80) 
+hours of training and orientation provided by the City, unless the City notifies the 
+Contractor in writing that the Contractor has demonstrated satisfactory familiarity, 
+use, and understanding of the electronic devices and software application.  The 
+Contractor shall not permit the Contractor’s personnel to use the electronic devices in 
+the performance of services under this Contract until such personnel have completed 
+training in the use of such devices.    
+ 
+F. Within 24 hours of the effective date of termination of this Contract, the Contractor 
+shall return to the Building Commissioner, or their designee, all electronic devices 
+provided by the City to the Contractor pursuant to this Contract.  
+ 
+2.16 
+Rejection of Work.   
+ 
+The City reserves the right to reject incomplete inspection or plan review reports or 
+incorrect inspection or plan review reports, and the Contractor shall re-inspect, review 
+again, or re-submit the incomplete or incorrect work within five business days of the 
+Contractor’s receipt of notice from the City. 
+ 
+3.0 
+Proposal Contents.  
+ 
+The proposal must include all of the information set forth in this section and be organized 
+as set forth in this section.  In addition to the original, the offeror shall submit (i) ten 
+complete, bound paper copies of its proposal and (ii) electronic copies in a portable 
+document format readable by the Adobe Reader program and in a Microsoft Word format 
+that can be searched and edited. 
+ 
+3.1 
+Tab 1 – Signed Forms. This tab should include the completed and signed Signature 
+Sheet, Addenda Acknowledgement, State Corporation Commission Form, and Office of 
+Minority Business Development Forms included with this Request for Proposals.
+
+--- Page 20 ---
+3.2 
+Tab 2 – Statement of the Scope.  In concise terms, state the Offeror’s understanding of the 
+scope of work presented by the Request for Proposals. 
+ 
+3.3 
+Tab 3 – Executive Summary.  This tab should provide a brief summary of the 
+proposal’s contents, emphasizing any unique aspects or strengths of the proposal.  The 
+Executive Summary should not exceed three pages. 
+ 
+3.4 
+Tab 4 – Key Personnel.  This tab should include the résumés or curriculum vitae of the 
+offeror’s key staff members.  It should identify the number of specific employees 
+assigned to provide the services solicited by this Request for Proposals, including the 
+Offeror’s primary technical supervisor, quality control inspector, supervisor, and other 
+key technical personnel.  For each key person identified by the offeror, this tab should 
+include the following information, provided in résumé format: 
+A. 
+Name and title 
+B. 
+Office location and city of residence 
+C. 
+Project responsibilities and roles 
+D. 
+Educational background 
+E. 
+Professional registrations, approved NAESA certification with QEI license 
+number or equivalent licensing through Work Preservation Fund, and 
+memberships 
+F. 
+Years of relevant experience  
+ 
+3.5 
+Tab 5 – Offeror History.  This tab should include a comprehensive narrative history of 
+the Offeror’s firm, including the development of experience and extensive knowledge in 
+elevator inspections specific to the capacity requested in this RFP and the depth of 
+resources to provide the elevator inspection services solicited by this Request for 
+Proposals. This section of the proposal must contain the following organizational 
+information and data for the Offeror’s organization: 
+A. 
+ If a corporation: 
+1. 
+The state of incorporation; 
+2. 
+The date of incorporation; 
+3. 
+The principal place of business; 
+4. 
+The Federal I. D. number; 
+5. 
+Whether the corporation is a Subchapter S corporation. 
+6. 
+The name, position, address, and number of years in position of each officer 
+and director; and 
+7. 
+The names of any affiliates, partner corporations, and subsidiaries. 
+ 
+B. 
+If a limited liability company: 
+1. 
+The state in which the limited liability company is organized; 
+2. 
+The date organized; 
+3. 
+A list of all managers of the limited liability company, including the name, 
+telephone number, and years as a manager for each manager; and
+
+--- Page 21 ---
+4. 
+A list of all members of the limited liability company, including the name, 
+telephone number, years as a member, and membership interest for each 
+member. 
+ 
+C. 
+If a partnership: 
+1. 
+The state in which the partnership was formed; 
+2. 
+The date formed; 
+3. 
+The type of partnership; and 
+4. 
+A list of all general and limited partners, as applicable, including the name, 
+telephone number, years as a partner, and partnership interest for each 
+partner. 
+ 
+D. 
+If a joint venture: 
+1. 
+Date of formation; 
+2. 
+Name and address of each joint venture partner; 
+3. 
+The name and address of the principals of each joint venture partner; and 
+4. 
+The percentage of interest of each joint venture partner. 
+ 
+E. 
+If the Offeror is not a corporation, limited liability company, partnership, or joint 
+venture, this tab must identify the type of business entity and provide any pertinent 
+information. 
+ 
+F. 
+This tab should provide the Offeror’s total number of employees. 
+ 
+G. 
+This tab should state whether the Offeror has operated under another name within 
+the past ten years and, if so, the other name, the number of years in business under 
+this other name, and the State Corporation Commission identification number 
+under this name. 
+ 
+H. 
+This tab must state whether the Offeror is a subsidiary or affiliate of another 
+organization and, if so, the name and address of each parent or affiliate 
+organization. 
+ 
+I. 
+This tab must include the following statement, signed by the Offeror’s contractually 
+binding authority: 
+By submitting its proposal, {Insert Legal Name of Offeror} (the “Offeror”) certifies 
+and represents that the information that the Offeror provides in response to this 
+Request for Proposals is accurate and complete as of the date of such submission.  
+If the Offeror provides no information in response to any of the requirements of 
+this Request for Proposals, then the Offeror, by submitting its proposal, certifies
+
+--- Page 22 ---
+and represents that such requirements do not apply because no information exists 
+that would respond to the requirement.  The Offeror further covenants that, during 
+the time between the submission of its proposal and the City’s announcement of its 
+decision to award the Contract, the Offeror will furnish the City with any changes 
+or additions to such information necessary to ensure that this information remains 
+accurate, complete and up-to-date. 
+ 
+3.6 
+Tab 6 – References.  This tab should include the names, addresses and telephone 
+numbers of at  least five other local governments with whom offeror has worked during 
+the last five years.  The tab should briefly identify the project, location and services 
+performed.  The tab should also include an affirmative statement that the offeror grants 
+its consent for the City to contact the offeror’s references for purposes of evaluating the 
+offeror and acknowledges that any information obtained from the offeror’s references 
+will not be disclosed to the offeror. 
+ 
+3.7 
+Tab 7 – Project Approach.  This tab should describe in detail the offeror’s proposal for 
+providing the elevator inspection services solicited by this Request for Proposals.  
+ 
+A. The Offeror must include an organizational chart showing supervisors, inspectors, 
+and quality control personnel and clearly identify personnel who will be employed 
+full-time or part-time.  
+ 
+B. The Offeror must explain how it will meet the requirements set forth in section 2.15 
+that addresses use of City-provided electronic devices. 
+ 
+C. The Offeror must explain how it will comply with the requirement set forth in section 
+2.1(C) regarding employment of a licensed elevator QEI Certified supervisor. 
+ 
+D. The Offeror must explain how it will meet the requirement set forth in sections 2.8 
+and 2.12 regarding response times. 
+ 
+E. The Offeror must explain how it will meet the requirements set forth in section 2.7 
+regarding plan reviews.  
+ 
+F. The Offeror must explain how it will comply with the quality control requirements set 
+forth in section 2.6. 
+ 
+G. The Offeror must provide sample invoices meeting the requirements of section 2.13 
+and explain how the Offeror will meet the invoice requirements. 
+ 
+3.8 
+Tab 8 – Offeror Qualifications. The offeror shall describe their qualifications and 
+experience in the performance of testing and inspections of Elevating Equipment. The 
+offeror should demonstrate a minimum of 5 years of direct experience with the inspection 
+and testing of Elevating Equipment similar to the required services being solicited in this 
+Request for Proposals.
+
+--- Page 23 ---
+3.9 
+Tab 9 – Subcontracting.  This tab should identify any of the required services that you 
+intend to subcontract, if any, providing the following information: 
+ 
+A. Reasons for subcontracting. 
+ 
+B. Proposed subcontractor responsibilities. 
+ 
+C. Identity of proposed subcontractors including location, relevant personnel and 
+experience, previous use as a subcontractor, and any other relevant supporting 
+information.  
+ 
+3.10 
+Tab 10 – Pricing Schedule.  The offeror must submit pricing for the services solicited in 
+this Request for Proposals using Exhibit 1 (“Pricing Schedule”).
+
+--- Page 24 ---
+4.0 
+Evaluation Criteria. The Evaluation Committee will use the following evaluation 
+criteria in ranking and selecting offerors for negotiation pursuant to this Request for 
+Proposals: 
+ 
+Available Points 
+ 
+A. Experience............................................................................................ 20 Pts. 
+ 
+B. Technical Capability  ........................................................................... 15 Pts.  
+ 
+C. Compliance with Requirements ........................................................... 10 Pts. 
+ 
+D. Cost (allowed by City Code § 21-67(e)) .............................................. 20 Pts. 
+ 
+E. Accessibility (required by City Code § 21-69) .................................... 5 Pts. 
+ 
+F. MBE / ESB Commitment ....................................................................30 Pts. 
+ 
+In accordance with City Code § 21-67(e), this criterion considers the 
+offeror’s “good faith minority business enterprise and emerging 
+small business participation efforts” as defined in City Code § 21-4.  
+Pursuant to City Code § 21-67(e), an offeror must receive at least 15 
+points under this criteria in order to be selected for negotiations, 
+unless granted a waiver by the Chief Administrative Officer.  The 
+MBE/ESB participation goal for this contract is 0%.  See sections 2.4 
+of the Instructions to Offerors and 2.6.2 and 3.9 of the General Terms 
+and Conditions for the MBE/ESB provisions. 
+ 
+Total Available Evaluation Points ...........................................................   100 Pts. 
+ 
+ 
+END OF STATEMENT OF NEEDS
+
+--- Page 25 ---
+PART II 
+INSTRUCTIONS TO OFFERORS 
+ 
+1.0 
+Interpretations. 
+ 
+1.1 
+Incorporation of City Policies and Procedures.  This Request for Proposals is subject to 
+the provisions of Chapter 21 of the Code of the City of Richmond, as amended, and the 
+Policies and Procedures of the Department of Procurement Services, as amended, which 
+are hereby expressly incorporated into this Request for Proposals by reference.  Offerors 
+may inspect copies of these documents at the City’s website, www.RichmondGov.com. 
+ 
+1.2 
+Explanations to Offerors. 
+ 
+1.2.1 Inquiry.  All inquiries requesting clarification of this Request for Proposals should be made 
+in writing no later than ten business days prior to the closing date to the Contracting Officer 
+identified on the cover sheet of this Request for Proposals.  If submitting an inquiry by 
+electronic mail or facsimile transmission, the offeror should notify the Contracting Officer by 
+telephone that the person is sending the inquiry by that means.  All inquiries should clearly 
+state the number of this Request for Proposals.  Because each offeror may have different needs 
+for information, that offeror must make whatever inquiries it deems necessary in order to 
+respond to the Request for Proposals.  Inquiries that the Contracting Officer determines to be 
+pertinent to all solicited contractors will be answered by addenda to all solicited firms. 
+ 
+1.2.2 Form of Explanation.  No oral explanation in regard to the meaning of this Request for 
+Proposals will be made and no oral instructions will be given before the award of the 
+contract.  Any explanation, interpretation or modification of the Request for Proposals that 
+is pertinent to all solicited offerors will be made only by an addendum duly issued by the 
+City, a copy of which will be mailed or delivered to each offeror known to have received 
+the Request for Proposals.  The City shall not be responsible for any other explanations or 
+interpretations anyone presumes to make on behalf of the City before the expiration of the 
+ultimate time set for the receipt of proposals. 
+ 
+1.2.3 Addenda.  From time to time, addenda may be issued that will provide clarifications or 
+supplemental information about the Request for Proposals documents.  All firms receiving 
+Request for Proposals documents issued by the City will be provided copies of addenda.  If 
+an offeror fails to acknowledge any addendum that (i) has a material effect on the proposal 
+(i.e., that relates to price, quantity, quality or delivery) and (ii) is not merely administrative, 
+the City may consider that offeror’s proposal incomplete, and the proposal thus may be 
+rejected or receive a lower score in the evaluation process.  The offeror shall acknowledge 
+receipt of all addenda as part of its proposal and on the form provided for that purpose by 
+the City.  The offeror shall be solely responsible for verifying the existence of all addenda 
+items. 
+ 
+1.3 
+No Contact Policy.  Any contact with any City officer, employee, agent, or other 
+representative concerning this Request for Proposals other than that outlined in section 1.2
+
+--- Page 26 ---
+(“Explanation to Offerors”) above is prohibited.  Any such unauthorized contact may 
+disqualify the offeror from this procurement. 
+ 
+1.4 
+Other Documents.  The Statement of Needs, the General Terms and Conditions, and any 
+Special Terms and Conditions attached to this Request for Proposals are hereby expressly 
+made a part of and incorporated into this Request for Proposals.  The General Terms and 
+Conditions and any Special Terms and Conditions shall be a part of any contract that results 
+from this Request for Proposals.  This Request for Proposals also includes a sample of the 
+City’s form contract as an attachment.  All conditions contained in this attached contract 
+are hereby expressly made a part of and incorporated into this Request for Proposals. 
+ 
+1.5 
+Disqualification Due to Participation in Preparation of Solicitation. 
+ 
+1.5.1 Prohibition.  City Code § 21-281(a) prohibits any person who, for compensation, prepares 
+a solicitation for or on behalf of the City from submitting a response to that solicitation or 
+any portion thereof. 
+ 
+1.5.2 Definition.  For purposes of this section 1.5 (“Disqualification Due to Participation in 
+Preparation of Solicitation”), the word “prepares” has the meaning set forth in City Code 
+§ 21-281(b) and thus includes but is not limited to the following: 
+ 
+(1) 
+Serving as a director or deputy director of the agency which has initiated the 
+procurement; 
+ 
+(2) 
+Serving as the director of procurement services after the department of procurement 
+services has received information on an agency's intent to procure; 
+ 
+(3) 
+Serving as the procurement manager for the agency which has initiated the 
+procurement; 
+ 
+(4) 
+Serving as the procurement officer in charge of the procurement; 
+ 
+(5) 
+Assisting in the development of specifications for invitations for bids or requests 
+for proposals; 
+ 
+(6) 
+Attending an evaluation committee meeting that is closed to the public; 
+ 
+(7) 
+Voting on or scoring a bid or proposal; or 
+ 
+(8) 
+Any other participation in the procurement process which could lead to unfair 
+advantage. 
+ 
+1.5.3 Disqualification and Waiver.  Pursuant to City Code § 21-281(c), the Chief 
+Administrative Officer shall make the determination that a person is disqualified from 
+submitting a response to a particular solicitation because of that person’s participation in 
+preparing that solicitation.
+
+--- Page 27 ---
+1.5.4 No Contact Policy Applicable.  If a person planning to submit a response to a solicitation 
+contacts the Chief Administrative Officer concerning such a disqualification, such person 
+and the person’s firm shall be disqualified from responding to the solicitation for violating 
+the City’s no contact policy because the person discussed the solicitation with a City 
+representative other than the Contracting Officer responsible for the procurement. 
+ 
+1.5.5 Appeal of Disqualification.  In accordance with City Code § 21-281(d), any person who 
+has been disqualified pursuant to this section 1.6 (“Disqualification Due to Participation in 
+Preparation of Solicitation”) and City Code § 21-281 may appeal the Chief Administrative 
+Officer’s determination of disqualification by following the administrative appeals 
+procedure set forth in City Code § 21-168 or by instituting legal action as provided in City 
+Code § 21-169. 
+ 
+2.0 
+Preparation of Proposals. 
+ 
+2.1 
+General Requirements.  The proposal must be typed and bound and should be presented as 
+described in the paragraphs that follow.  All pages in the proposal must be consecutively 
+numbered.  To be considered substantive, the proposal must respond to all requirements of 
+this part of the Request for Proposals.  Information supplied must be current and up to date.  
+Any other information thought to be relevant, but not applicable to the enumerated categories, 
+should be provided as an appendix to the proposal.  If the offeror supplies publications to 
+respond to a requirement, the response must include reference to the document number and 
+page number to provide a quick reference for the evaluation panel. Proposals not providing 
+this reference will be considered to have no reference included in the additional documents. 
+The proposal must include all the information defined below and be organized as set forth in 
+the Statement of Needs. 
+ 
+2.2 
+Substantive Nature of Proposals.  Proposals must be substantive.  It is not sufficient for the 
+offeror to address the proposal in general terms or in terms other than those outlined in this 
+Request for Proposals. Proposals should be prepared simply and economically, providing a 
+straightforward, concise description of the offeror’s ability to meet the requirements set forth 
+in the Request for Proposals. 
+ 
+2.3 
+Authorized Signature.  All proposals must be signed in order to be considered.  If the 
+offeror is not an individual or a sole proprietor but rather a corporation or any other type 
+of legal entity, the offeror must show the title of the individual executing the proposal and 
+a resolution or other documentation clearly establishing the authority of the individual to 
+sign the proposal and any subsequent contract. 
+ 
+2.4 
+MBE/ESB Participation.  When the City of Richmond establishes a goal for MBE/ESB 
+participation on a city project, all minority and non-minority prime contractors/vendors are 
+required to have MBE/ESB participation.
+
+--- Page 28 ---
+2.4.1 Policy.  It is the policy of the City to encourage minority participation on all City contracts.  
+To advance this policy, the City encourages minority participation through subcontracting, 
+joint ventures, or other methods in contracting for services. 
+ 
+2.4.2 Certification. 
+ 
+A. 
+All Minority Business Enterprise subcontractors and vendors must be registered 
+with the City of Richmond’s Office of Minority Business Development (OMBD) 
+and certified by the Commonwealth of Virginia Department of Minority Business 
+Enterprise or a comparable certifying entity as a Minority Business Enterprise.  
+OMBD reserves the right to accept the certification of other certifying agencies. 
+ 
+B. 
+All Emerging Small Business subcontractors and vendors must be certified by the 
+City of Richmond’s Office of Minority Business Development (OMBD). 
+ 
+2.4.3 Evaluation. 
+ 
+A. 
+In the proposal evaluation process, up to 30 points will be given to those proposals 
+that have documented past good faith efforts and have proposed MBE/ESB 
+participation that relate to the established goal.  All MBE/ESB forms that relate to 
+this matter must be included in the prime contractors/vendors response.  All 
+documentation as it relates to past good faith efforts and proposed MBE 
+participation must be submitted on the required forms in order to expedite the 
+evaluation process.  We have attached the Participation Commitment and the 
+Current and Past Good Faith Effort forms for completion.  The offeror should 
+complete all pertinent MBE/ESB forms or risk forfeiting the 30 points assigned to 
+Minority Business Enterprise and Emerging Small Business participation.  
+ 
+B. 
+The City of Richmond encourages MBE/ESB participation on all City of Richmond 
+contracts.  If the City of Richmond waives the setting of goals, it is up to the prime 
+contractor/vendor to determine whether or not they will voluntarily have MBE/ESB 
+participation.  Voluntarily committing to MBE/ESB participation allows the prime 
+contractor/vendor to use this commitment as past good faith efforts for credit on 
+future projects that have MBE participation with the City.  When presenting 
+MBE/ESB participation, use the forms created by the Office of Minority Business 
+Development (OMBD) (MBE-1, MBE-2 and Good Faith Effort) in order to 
+properly document your participation efforts. 
+ 
+2.5 
+Faith-Based Organizations.  The City does not discriminate against faith-based 
+organizations.  By signing its proposal, the offeror, if a faith-based organization, agrees 
+that it understands the requirements of City Code § 21-43 (Va. Code § 2.2-4343.1). 
+ 
+2.6 
+Licenses, Permits and Fees.  All proposals submitted shall have included in the prices 
+submitted the cost of any business or professional licenses, permits or fees required by the 
+City of Richmond or the Commonwealth of Virginia.
+
+--- Page 29 ---
+2.7 
+Public Inspection of Records. 
+ 
+2.7.1 In General.  All proceedings, records, contracts and other public records relating to the 
+procurement transaction that this Request for Proposals concerns shall be open to the 
+inspection of any citizen of the Commonwealth of Virginia or any representative of a media 
+organization with circulation in or that broadcasts in or into the Commonwealth of Virginia 
+in accordance with the Virginia Freedom of Information Act. 
+ 
+2.7.2 Inspection by Offerors.  Any offeror, upon request, shall be afforded the opportunity to 
+inspect proposal records within a reasonable time after the evaluation and negotiations of 
+proposals are completed, but prior to award, except in the event that the City decides not 
+to accept any of the proposals and to reopen the contract. Otherwise, proposal records shall 
+be open to public inspection only after award of the contract. 
+ 
+2.7.3 Proprietary Information.  Pursuant to City Code § 21-5(f) (Va. Code § 2.2-4342(F)), 
+trade secrets or proprietary information submitted by an offeror in connection with this 
+procurement transaction shall not be subject to the Virginia Freedom of Information Act, 
+provided that the offeror (i) invokes the protections of section 21-5 of the Code of the City 
+of Richmond prior to or upon submission of the data or other materials, (ii) identifies the 
+data or other materials to be protected, and (iii) states the reasons why protection is 
+necessary.  Classifying aspects of the proposal that are not trade secrets or proprietary is 
+cause for the City to reject the proposal.  Budgets and price quotations are considered public 
+information in proposals submitted to the City.  Classifying budgets and price quotations 
+as “proprietary” or “confidential” is cause for the City to reject the proposal. 
+ 
+2.8 
+Use of Brand Names.  Where a brand or trade name appears in the Request for Proposals, 
+it is understood that the brand or trade name referred to, or its approved equal, shall be 
+furnished.  If the offeror proposes similar but not identical items, it must furnish full 
+particulars.  If no mention is made of any exceptions, it is assumed that the offeror’s pricing 
+is for the article mentioned and not an approved equal, and the offeror will be required to 
+deliver the exact article specified.  The City shall decide, in its sole discretion, if a proposed 
+equal will be approved. 
+ 
+2.9 
+Descriptive Literature.  Each offeror shall submit with its proposal descriptive literature 
+of equipment or supplies that the offeror proposes to furnish if such articles are of a 
+different manufacture than those specified in this Request for Proposals.  Should the 
+description furnished in such literature differ from the specifications submitted by the City 
+and should no mention be made to the contrary, the description shall be construed to mean 
+that the offeror proposes to furnish equipment or supplies in accordance with such 
+description and not in accordance with the City’s specifications, and the City will evaluate 
+the offeror’s proposal accordingly. 
+ 
+2.10 
+Exceptions.   
+ 
+A. 
+An exception is any condition, limitation, qualification, restriction, term, or other 
+deviation from the requirements of the Request for Proposals that is a condition of
+
+--- Page 30 ---
+the offeror’s proposal or that the offeror expects to become part of a contract with 
+the City.  Offerors are neither required nor encouraged to take exceptions to the 
+requirements of the Request for Proposals.  In some cases, where permitted by law, 
+exceptions may count against an offeror during the evaluation stage or the 
+negotiation stage of the procurement process. 
+ 
+B. 
+The offeror shall state in its proposal each exception, including the page number, 
+the part and section numbers, the specific text at issue, and the nature of the 
+exception, except as follows: 
+ 
+1. 
+If the Request for Proposals is one for “information technology” as defined 
+in Va. Code § 2.2-2006, the offeror shall not state in its proposal any 
+exception to any liability provisions contained in the Request for Proposals.  
+Instead, if the offeror is selected for negotiations, the offeror shall state any 
+exception to any liability provisions contained in the Request for Proposals 
+in writing, including all of the information required by this section, at the 
+beginning of negotiations. 
+ 
+2. 
+If the Request for Proposals is one for architectural or professional 
+engineering services, the offeror shall not state in its proposal any exception 
+to any proposed contractual term or condition unless such term or condition 
+is required by statute, regulation, ordinance, or standards developed 
+pursuant to Va. Code § 2.2-1132 until after the qualified offerors are ranked 
+for negotiations.  If the offeror is selected for negotiations, the offeror shall 
+state any exception to any proposed contractual term or condition contained 
+in the Request for Proposals in writing, including all of the information 
+required by this section, at the beginning of negotiations. 
+ 
+C. 
+If the offeror fails, neglects, or refuses to note any exception in the manner and at 
+the time required by this section, the offeror agrees that it shall comply with the 
+Request for Proposals as originally issued and modified by any addenda. 
+ 
+3.0 
+Warranties and Representations of Offeror. 
+ 
+3.1 
+Compliance with Request for Proposals Documents.  By signing its proposal in response 
+to this Request for Proposals, the offeror warrants and represents that the offeror is in 
+compliance with all terms and conditions of this Request for Proposals. 
+ 
+3.2 
+Ethics in Public Contracting  By signing its proposal in response to this Request for 
+Proposals, the offeror warrants and represents that (i) it has not violated any provisions of 
+federal law, the Code of Virginia, the Charter of the City of Richmond, or the Code of the 
+City of Richmond, (ii) its proposal is made without any understanding, agreement, or 
+connection with any other person, firm, corporation, or joint venture making a proposal for 
+the same purposes, and is in all respects fair and without collusion or fraud, (iii) it has not 
+offered or received any kickbacks or inducements from any other contractor, supplier, 
+manufacturer or subcontractor in connection with its proposal and (iv) it has not conferred
+
+--- Page 31 ---
+on any public employee having official responsibility for this procurement transaction any 
+payment, loan, subscription, advance, deposit of money, services or anything of more than 
+nominal value, present or promised, unless consideration of substantially equal or greater 
+value was exchanged.  The offeror further warrants and represents that no officer, employee 
+or other person whose salary is payable in whole or in part by the City is, shall be, or 
+become interested, directly or indirectly, as a contracting party, partner, stockholder, surety 
+or otherwise, in this proposal, in the performance of the contract, in the supplies, materials, 
+or equipment and work or labor to which it relates, or in any portion of the profits thereof.  
+In addition, the offeror warrants and represents that the provisions of City Code §§ 21-
+274—21-285 (Va. Code §§ 2.2-4367—2.2-4377) pertaining to offerors, contractors and 
+subcontractors apply to this Request for Proposals and any resulting contract.  The offeror 
+agrees that if these warranties and representations are in any respect breached, such breach 
+shall constitute a material breach of any contract that the City may award to the offeror and 
+the offeror shall pay to the City the full price agreed by the City to be paid for the supplies, 
+materials, equipment or services to be furnished under its proposal. 
+ 
+3.3 
+Lawful Age and No Others Have Interest.  By signing its proposal in response to this 
+Request for Proposals, the offeror represents that the offeror is of lawful age and that no 
+other person, firm, corporation or joint venture has any interest in this proposal or in the 
+contract proposed to be entered into. 
+ 
+3.4 
+No Debts to City.  By signing its proposal in response to this Request for Proposals, the 
+offeror warrants and represents that it is not in arrears to the City, upon debt or contract; is 
+not a defaulter, as surety or otherwise, upon any obligation to the City; and has not been 
+delinquent or unfaithful in any former contract with the City. 
+ 
+3.5 
+Offeror Not Debarred.  By signing its proposal in response to this Request for Proposals, 
+the offeror warrants and represents that neither its organization nor any of its officers, 
+directors, partners or owners is currently barred from bidding on contracts by any agency 
+of the federal government, any agency of the Commonwealth of Virginia, any agency of 
+any other state, or any other public body or agency thereof. 
+ 
+3.6 
+No Kickbacks or Conflicts of Interest.  By signing its proposal in response to this Request 
+for Proposals, the offeror represents and warrants that it is in compliance with the provisions 
+of section 2.3 (“Anti-Kickback Provision”) of the General Terms and Conditions included 
+with this Request for Proposals and, further, that the offeror’s firm has no business or 
+personal relationships with any other companies or persons that could be considered as a 
+conflict of interest or potential conflict of interest to the City, and that there are no 
+principals, officers, agents, employees, or representatives of the offeror’s firm that have 
+any business or personal relationships with any other companies or persons that could be 
+considered as a conflict of interest or a potential conflict of interest to the City, pertaining 
+to any and all work or services to be performed as a result of this Request for Proposals 
+and any resulting contract with the City. 
+ 
+3.7 
+State Corporation Commission Registration.
+
+--- Page 32 ---
+3.7.1 Generally.  State law requires most business entities to register with the Commonwealth 
+of Virginia’s State Corporation Commission to obtain legal authorization to transact 
+business in Virginia.  A contractor organized as a stock or nonstock corporation, limited 
+liability company, business trust, or limited partnership or registered as a registered limited 
+liability partnership shall be authorized to transact business in the Commonwealth as a 
+domestic or foreign business entity if so required by Title 13.1 or Title 50 of the Code of 
+Virginia or as otherwise required by law.  Any business entity described above that enters 
+into a contract with the City shall not allow its existence to lapse or its certificate of 
+authority or registration to transact business in the Commonwealth, if so required under 
+Title 13.1 or Title 50, to be revoked or cancelled at any time during the term of the contract. 
+ 
+3.7.2 Form Required.  Each offeror organized or authorized to transact business in the 
+Commonwealth of Virginia pursuant to Title 13.1 or Title 50 of the Code of Virginia shall 
+include in its proposal the identification number issued to it by the State Corporation 
+Commission.  Any offeror that is not required to be authorized to transact business in the 
+Commonwealth as a foreign business entity under Title 13.1 or Title 50 of the Code of 
+Virginia, or as otherwise required by law, shall include in its proposal a statement 
+describing why the offeror is not required to be so authorized.   Each offeror shall indicate 
+the above information on the State Corporation Commission Form included with the 
+Request for Proposals. 
+ 
+3.7.3 Warranty.  By signing its proposal in response to this Request for Proposals, the offeror 
+represents and warrants that all information the offeror submits on its completed State 
+Corporation Commission Form is true and complete at the time the offeror submits its 
+proposal and will remain true and complete throughout the duration of any contract 
+between the City and the offeror that results from this Request for Proposals.  The offeror 
+agrees that the process by which compliance with Title 13.1 and Title 50 of the Code of 
+Virginia is checked during the solicitation stage (including without limitation the State 
+Corporation Commission Form provided) is streamlined and not definitive, and the City’s 
+use and acceptance of such form, or its acceptance of the offeror’s statement describing 
+why the offeror was not legally required to be authorized to transact business in the 
+Commonwealth of Virginia, shall not be conclusive of the issue and shall not be relied 
+upon by the offeror as demonstrating compliance. 
+ 
+4.0 
+Submission of Proposals. 
+ 
+4.1 
+Copies.  Offerors shall submit an original proposal, clearly identified as such and signed in 
+blue ink by the offeror’s contractually binding authority.  In addition, offerors shall submit 
+additional copies of their proposals in such number and such electronic and paper formats as 
+may be specified in the Statement of Needs. 
+ 
+4.2 
+Labeling.  All proposals must be sealed and labeled (on the outside of the sealed container), 
+with the label displaying the following information: 
+ 
+Proposal for  
+Request for Proposals No. 
+Name of offeror
+
+--- Page 33 ---
+Address of offeror 
+Receipt and Closing Date: 
+ 
+4.3 
+Recipient.  All proposals are to be addressed and delivered by the date and time specified on 
+the Cover Sheet to the Contracting Officer identified on the Cover Sheet. 
+ 
+4.4 
+Transmittal Letter.  The proposal should include a transmittal letter that lists the following: 
+ 
+Firm’s Name 
+Firm’s Address 
+Contact Name and Telephone Number 
+Fax Number and E-mail Address 
+ 
+4.5 
+Closing Date.  To be considered, a proposal must arrive at the address set forth in section 4.3 
+(“Recipient”) on or before the time and date set forth on the Cover Sheet to this Request for 
+Proposals.  The City will not accept a proposal that is late.  Offerors mailing proposals should 
+allow sufficient mail delivery time to ensure timely receipt of their proposals.  The offeror 
+shall not make any other distribution of proposals.  However, materials or information 
+received from a prospective contractor as result of a request by the Contracting Officer shall 
+not be considered a violation of this section. 
+ 
+4.6 
+Multiple Proposals.  An offeror may submit more than one proposal.  At least one of the 
+proposals should be complete and should comply with all of the instructions contained in this 
+Request for Proposals.  Additional proposals may be in abbreviated form following the same 
+format and providing only the information that is different from that in the complete proposal. 
+ 
+4.7 
+Separate Proposals.  Proposals for separate Requests for Proposals shall not be combined 
+on the same form or placed in the same envelope.  At its option, the City may decline to 
+consider such proposals. 
+ 
+4.8 
+Return of Proposal.  All proposals submitted pursuant to this Request for Proposals will 
+become the property of the City and will not be returned. 
+ 
+5.0 
+Evaluation and Selection Process. 
+ 
+5.1 
+Opening.  At the designated time and date, the Department of Procurement Services will open 
+and list the proposals for the record.  This is not a public opening.  The proposals will then be 
+forwarded to the using agency and evaluation panel to initiate the review and selection 
+process.  Proposals received after the date and time specified in section 4.5 (“Closing Date”) 
+are late and will be returned unopened at the offeror’s expense. 
+ 
+5.2 
+Evaluation.  During the evaluation phase, an evaluation panel will review and score the 
+proposals in accordance with the evaluation criteria set forth in the Request for Proposals.  
+Some offerors may be eliminated at this stage.  Once the evaluation panel has completed this 
+initial scoring, the evaluation panel may engage in discussions with offerors not eliminated 
+by the initial scoring to clarify specific matters presented in those offerors’ proposals.
+
+--- Page 34 ---
+Discussions may include oral interviews or presentations or written communications as 
+specified in the Request for Proposals or, if not so specified, at the sole discretion of the City.  
+The evaluation panel will use information gained during these discussions together with 
+information presented in the proposal to rank offerors in accordance with the evaluation 
+criteria stated in the Request for Proposals.  The evaluation panel reserves the right to visit the 
+premises of the offeror if the evaluation panel determines that it is necessary to do so. 
+ 
+5.3 
+Samples.  The offeror shall furnish the City with samples of items, if requested, without 
+charge, upon request and within ten calendar days of such request.  The offeror’s failure to 
+provide such samples within the specified time frame or to otherwise comply with this 
+section shall be sufficient cause for the City, at its sole option, to reject the offeror’s 
+proposal.  If not destroyed and upon request at the time of submission, the City will return 
+samples at the offeror’s expense. 
+ 
+5.4 
+Tests.  The City reserves the right to conduct any test it may deem advisable and to make 
+all evaluations necessary. 
+ 
+5.5 
+Negotiation with Offerors.   
+ 
+5.5.1 In General.  The City may undertake negotiations with offerors whose proposals show them 
+to be qualified, responsible and capable of performing the work in accordance with the stated 
+criteria. 
+ 
+5.5.2 Procedure.  Unless the Director of Procurement Services determines that only one offeror 
+is fully qualified or that one offeror is clearly more highly qualified than the others under 
+consideration, selection shall be made of two or more offerors deemed to be fully qualified 
+and best suited among those submitting proposals, on the basis of the factors involved in 
+the Request for Proposals, including price if so stated in the Request for Proposals. 
+Negotiations shall then be conducted with each of the offerors so selected.  (See City Code 
+§ 21-67.) 
+ 
+6.0 
+Award and Execution of Contract. 
+ 
+6.1 
+Award. 
+ 
+6.1.1 In General.  The City will make the award to the responsible and responsive offeror whose 
+proposal is determined in writing to be the most advantageous to the City, taking into 
+consideration price and the evaluation factors set forth in this Request for Proposals. 
+ 
+6.1.2 Multiple Awards.  The City reserves the right to make awards under this Request for 
+Proposals to more than one offeror if the City determines that doing so is in the best 
+interests of the City.  If the City makes multiple awards under this Request for Proposals, 
+each contract awarded will specify the portion of the scope of services awarded to that 
+offeror.
+
+--- Page 35 ---
+6.2 
+Rejection of Proposals.  The City reserves the right to reject any or all proposals, in whole 
+or in part, and to delete items prior to making the award, whenever it is deemed in the sole 
+opinion of the City to be in its best interest. 
+ 
+6.3 
+Nondiscrimination in Award.  The City shall not discriminate against any offeror in the 
+solicitation or award of a contract based on this Request for Proposals because of race, 
+religion, color, sex, national origin, age, disability, faith-based organizational status or any 
+other basis prohibited by state law relating to discrimination in employment or because the 
+offeror employs ex-offenders unless the using agency has made a written determination 
+that employing ex-offenders on the specific contract is not in its best interest. 
+ 
+6.4 
+Notice of Award.  A contract is awarded only when the Director of Procurement Services 
+signs the contract.  The Contracting Officer may provide notice of the City’s decision to award 
+a contract prior to award of that contract by posting a notice of intent to award on the website 
+of the Department of Procurement Services.  A notice of intent to award means that the City 
+intends to award the contract to the offeror named in the notice ten calendar days after the 
+notice is posted.  Offerors are responsible for monitoring the website of the Department of 
+Procurement Services for content posted thereon. 
+ 
+6.5 
+Contractual Obligation.  The proposal submitted by the selected contractor and this Request 
+for Proposals shall become an attachment to the contract signed by the City and the selected 
+offeror.  Price quotations and other time-dependent information contained in proposals should 
+be valid for a minimum of 90 days from the closing date of this Request for Proposals.  The 
+City may undertake negotiations with offerors whose proposals show them to be qualified, 
+responsible and capable of performing the work in accordance with the stated criteria.  The 
+City shall not be liable for any costs incurred by offerors in connection with the preparation 
+or submission of proposals and related materials or negotiations. 
+ 
+6.6 
+When Contractual Obligation Arises.  No contract shall result from the submission of 
+any proposal and no liability shall accrue with respect thereto until a written contract and 
+any other necessary documents have been fully and completely executed by both the 
+successful offeror and the City. 
+ 
+6.7 
+Contract Execution Requirements.  Upon notice of the award of a contract pursuant to 
+this Request for Proposals, the successful offeror shall sign the final contract document, a 
+sample of which is included with this Request for Proposals, upon receipt thereof from the 
+Contracting Officer, register in the City’s online Supplier Portal, and furnish the insurance 
+documents required by the General Terms and Conditions included with this Request for 
+Proposals.  The offeror shall furnish the City with the signed contract and the required 
+insurance documents and must have registered in the City’s online Supplier Portal within 
+15 calendar days after the date of the notice of award or within such further time as the 
+City may allow.  Once the City has received the signed contract and insurance documents 
+from the successful offeror, the City’s representative will then sign the contract.  The 
+signature of the City’s representative on the contract constitutes the award of the contract. 
+ 
+ 
+END OF INSTRUCTIONS TO OFFERORS
+
+--- Page 36 ---
+PART III 
+GENERAL TERMS AND CONDITIONS 
+ 
+1.0 
+Duration of Contract. 
+ 
+1.1 
+Commencement and Expiration.  This Contract shall commence on the 
+Commencement Date set forth in the Goods and Services Contract and shall expire two 
+(2) years later, unless terminated earlier in accordance with the provisions of this 
+Contract. 
+ 
+1.2 
+Extension of Contract.  The City reserves the right to extend the Contract for any 
+reason for a period or periods up to but not to exceed 12 months.  This extension clause 
+may be exercised when the City determines that an extension of the Contract is 
+advantageous to the City.  Any extension beyond 12 months will be subject to section 
+1.3 (“Renewal”).  This provision in no way affects or alters the ability of the City to 
+renew the Contract consistent with section 1.3 (“Renewal”).  If it is then decided to 
+renew the Contract, the renewal date will commence on the day following the last day 
+of the contract extension. 
+ 
+1.3 
+Renewal.  The City may, at its sole option, renew this Contract for up to two (2) - two 
+(2) year renewal terms by furnishing the Contractor with written notice of its decision 
+to renew the Contract at least 60 calendar days before the expiration of the preceding 
+term.   
+ 
+2.0 
+Contractor Responsibilities. 
+ 
+2.1 
+Independent Contractor.  The Contractor shall provide the services required under this 
+Contract as an independent contractor. 
+ 
+2.2 
+Advertising.  The Contractor shall not use any indication of its services to the City for 
+commercial or advertising purposes.  However, the Contractor may list the City as a 
+reference account for prospective customers. 
+ 
+2.3 
+Anti-Kickback Provision.  The Contractor warrants that it has not employed or retained 
+any company or person other than a bona fide employee working solely for the 
+Contractor to solicit or secure this Contract and that it has not paid or agreed to pay any 
+company or person other than a bona fide employee working solely for the Contractor 
+any fee, commission, percentage, brokerage fee, gifts or other consideration contingent 
+upon or resulting from the award or making of this Contract.  For breach or violation of 
+this warranty, the City shall have the right to annul or void this Contract without liability 
+or, in its sole discretion, to deduct from the contract price or consideration, or otherwise 
+recover the full amount of such fee, commission, percentage, brokerage fee, gift or 
+contingent fee. 
+ 
+2.4 
+Century Compliance.  The Contractor warrants that the hardware, software and 
+firmware products, provided for use by the City or used by the Contractor to provide
+
+--- Page 37 ---
+any service or commodity that is the subject of this Contract, individually and in 
+combination, shall successfully process, store and perform calculations with dates 
+regardless of the century in which the dates occur. 
+ 
+2.5 
+Compliance with Laws.  The Contractor shall comply with the provisions of any 
+statutes, ordinances, rules, regulations, or other laws enacted or otherwise made effective 
+by any local, state, or federal governmental entity which may be applicable to the 
+performance of this Contract and shall obtain all necessary licenses and permits 
+thereunder. 
+ 
+2.6 
+Contractor Misrepresentation. 
+ 
+2.6.1 
+In General.  If the Contractor knowingly makes a material misrepresentation in 
+submitting information to the City, such misrepresentation will be sufficient grounds 
+for rescinding the award of this Contract. 
+ 
+2.6.2 
+MBE/ESB Participation.  By issuing the Request for Proposals, the City intends that 
+MBE / ESB participation proposed as part of any proposal in response hereto be binding 
+on the Contractor.  Consequently, if the Contractor falsely representing proposed 
+MBE/ESB participation, or failing to comply with proposed participation, may be in 
+breach of contract.   Upon determination of a breach, the City shall have all available 
+remedies for breach of contract, which may include, but is not limited to, one or more of 
+the following: (i) forfeiture, (ii) investigation, and (iii) debarment. 
+ 
+2.7 
+Drug-Free Workplace. 
+ 
+2.7.1 
+Policy.  City Council Resolution No. 2000-R197-191 prohibits the City from 
+contracting with any contractor that fails to comply with this policy.  The Contractor 
+certifies that it has taken and will continue to take appropriate and effective action to 
+(i) educate its employees about the dangers of drug abuse in the workplace, (ii) provide 
+its employees with effective drug counseling, rehabilitation and employee assistance 
+programs, any or all, (iii) discipline employees who violate the requirement of a drug-
+free workplace, and (iv) minimize, to the greatest extent possible, the risks of drugs 
+entering the workplace.  The Contractor is also prohibited from contracting with any 
+other party that fails to comply with this policy.  Failure by the Contractor or its 
+subcontractor to comply with the provisions outlined above will be cause for 
+termination of the Contract. 
+ 
+2.7.2 
+Contractor’s Plan.  The Contractor shall implement and maintain a Drug-Free 
+Workplace Plan specific to the services and work covered by this Contract that is 
+implemented and effectively used throughout the duration of this Contract to 
+accomplish the requirements of section 2.7.1 (“Policy”) above. 
+ 
+2.8 
+Human Rights.
+
+--- Page 38 ---
+2.8.1 
+Civil Rights Act Compliance.  During the performance of this Contract, the Contractor 
+agrees, pursuant to Resolution No. 74-R8-11 adopted February 25, 1974 by the Council 
+of the City of Richmond, to comply fully with Titles VI and VII of the Civil Rights Act 
+of 1964, as amended, and all regulations promulgated thereunder. 
+ 
+The essence of this requirement is found in the United States Code Annotated, Title 42, 
+Section 2000e-2, which states in part: 
+ 
+“a. 
+It shall be an unlawful employment practice for an employer: 
+ 
+(1) 
+to fail or refuse to hire or to discharge any individual, or 
+otherwise to discriminate against any individual with respect to 
+his compensation, terms, conditions, or privileges of 
+employment, because of such individual’s race, color, religion, 
+sex, or national origin; or 
+ 
+(2) 
+to limit, segregate, or classify his employees or applicants for 
+employment in any way which would deprive or tend to deprive 
+any individual of employment opportunities or otherwise 
+adversely affect his status as an employee, because of such 
+individual’s race, color, religion, sex or national origin.” 
+ 
+By entering into this Contract, the Contractor certifies that it has complied with Titles VI 
+and VII of the Civil Rights Act of 1964, as amended. 
+ 
+2.8.2 
+Richmond City Code Compliance.  Pursuant to section 21-70 of the Code of the City 
+of Richmond (2004), as amended: 
+ 
+(a) 
+During the performance of this Contract, the Contractor agrees as follows:  
+ 
+(1) 
+The Contractor shall not discriminate against any employee or applicant 
+for employment because of race, religion, color, sex, national origin, 
+age, disability, or other basis prohibited by state law relating to 
+discrimination in employment, except where there is a bona fide 
+occupational qualification reasonably necessary to the normal operation 
+of the Contractor.  The Contractor agrees to post in conspicuous places, 
+available to employees and applicants for employment, notices setting 
+forth the provisions of this nondiscrimination clause. 
+ 
+(2) 
+The Contractor, in all solicitations or advertisements for employees 
+placed by or on behalf of the Contractor, shall state that such Contractor 
+is an equal opportunity employer. 
+ 
+(3) 
+Notices, advertisements and solicitations placed in accordance with 
+federal law, rule or regulation shall be deemed sufficient for the purpose 
+of meeting the requirements of this section.
+
+--- Page 39 ---
+(b) 
+During the performance of this Contract, the Contractor shall include the 
+provisions of subsection (1) of the section in every subcontract or purchase 
+order of over $10,000.00, so that the provisions will be binding upon each 
+subcontractor or vendor. 
+ 
+2.9 
+Intellectual Property.  The Contractor represents and warrants that all goods and 
+services that it will furnish under this Contract do not and will not infringe on any valid 
+copyright, patent, service mark or trademark.  The Contractor shall pay all royalties 
+and license fees which may be due on the inclusion of any patented or copyrighted 
+materials, methods or systems selected by the Contractor or used by the Contractor in 
+the performance of its services.  The Contractor shall defend, hold harmless and 
+indemnify the City from all suits or claims for infringement of any patent rights or 
+copyrights arising out of such selection. 
+ 
+2.10 
+Personnel. The Contractor shall not replace a person indicated in the Contractor’s 
+proposal as being assigned to perform services under this Contract for the City except 
+in accordance with the provisions of this section.  If the Contractor wishes to replace 
+such a person, the Contractor shall provide the contract administrator of the City with 
+a résumé of any proposed substitute, the opportunity to interview the proposed 
+substitute and an explanation of the reason the substitution is necessary.  The contract 
+administrator of the City will only approve such a substitution when, in their opinion, 
+the proposed substitute has equal or greater qualifications and experience than the 
+person replaced.   
+ 
+2.11 
+Property of Work.   
+ 
+2.11.1 
+Work Product.  Any material, report or product, whether in electronic or paper form, 
+that results from the execution of this Contract shall be the sole property of the City.  The 
+Contractor shall not copyright any material or reports. Upon request, the Contractor 
+shall turn over all work papers and related documents to the City. 
+ 
+2.11.2 
+City Property.  Any data or material with which the City furnishes the Contractor shall 
+remain the property of the City.  When it no longer needs such data or material for its 
+performance of this Contract, the Contractor shall return such data or material to the City 
+or destroy such data or material using a method approved by the City. 
+ 
+3.0 
+Payment. 
+ 
+3.1 
+Basis.  The City shall pay the Contractor for all goods delivered and services performed 
+under this Contract in accordance with the pricing provisions set forth in the Contract 
+Documents. 
+ 
+3.2 
+Schedule.  The Contractor shall invoice the City on a schedule in accordance with the 
+Contract Documents.
+
+--- Page 40 ---
+3.3 
+Terms.  The City shall pay the Contractor as follows: Net 45 days. 
+ 
+3.4 
+Subject-to-Appropriations.  All payments and other performance by the City under 
+this Contract are subject to annual appropriations by the City Council; consequently, this 
+Contract shall bind the City only to the extent that the City Council appropriates sufficient 
+funds for the City to perform its obligations hereunder. 
+ 
+3.5 
+When City Obligated to Pay.  The City shall not be obligated to purchase or pay for 
+any goods or services covered by this Contract unless and until they are ordered and 
+either delivered or performed, as the case may be. 
+ 
+3.6 
+Offset Clause.  Pursuant to the Richmond City Charter, the City may withhold the 
+payment of any claim or demand by any person, firm or corporation against the City 
+until any delinquent indebtedness or other liability due the City from such person, firm 
+or corporation shall first have been settled and adjusted. 
+ 
+3.7 
+Taxes.  All prices shall be submitted exclusive of direct Federal, State and Local Taxes.  
+The City shall not be liable for the payment of any taxes levied by any local, state, or 
+federal governmental entity against the Contractor, and the Contractor shall pay all 
+such taxes; furthermore, should the City nevertheless pay any such taxes, the 
+Contractor shall reimburse the City therefor. 
+ 
+3.8 
+Invoices.  The Contractor shall submit invoices that include a unique invoice number, 
+the applicable City purchase order number, and the Contractor’s federal Taxpayer 
+Identification Number.  All invoices submitted by the Contractor must set forth each item 
+billed in sufficient detail to enable the City to ensure that the item was ordered and 
+corresponds with the contract price for such item.  If the Contractor does not include all 
+of the required information on the invoice, the City may reject and return the invoice 
+unpaid.  The Contractor shall submit the original invoice to the City’s Department of 
+Finance at either: 
+ 
+accountspayable@richmondgov.com 
+ 
+or 
+ 
+City of Richmond 
+Accounts Payable 
+900 East Broad Street 
+Richmond, VA 23219. 
+ 
+The City prefers that the original invoice be sent to the above electronic mail address 
+to facilitate timely payment.  The Contractor shall submit a duplicate invoice to the 
+attention of the “Requester” identified on the purchase order at the “Ship To” address 
+identified on the purchase order. 
+ 
+3.9 
+MBE/ESB Participation—Reporting Requirement.  In cases where the Contractor 
+uses a minority subcontractor or vendor, it shall indicate the percentage of the invoiced
+
+--- Page 41 ---
+amount that such minority subcontractor or vendor performed on the MBE-3 form 
+available on the City’s website.  The Contractor shall submit this form directly to the 
+Office of Minority Business Development.  The Contractor may contact the City’s 
+Office of Minority Business Development at (804) 646-3985 for questions or 
+clarifications on the reporting policy.  At the end of its performance of this Contract, the 
+Contractor shall submit a summary in a format designated by the City of all payments 
+made to minority subcontractors or contractors. 
+ 
+3.10 
+Payment by ACH.  The Contractor agrees that the City may make all payments to the 
+Contractor, at the option of the City, of any or all amounts due under this Contract 
+through the Automated Clearing House network. 
+ 
+4.0 
+Indemnification and Insurance. 
+ 
+4.1 
+Indemnification.  The Contractor shall indemnify, defend and hold harmless the City, 
+its officers, agents and employees from and against any and all losses, liabilities, 
+claims, damages and expenses (including court costs and reasonable attorneys’ fees) 
+arising from any material default or breach by the Contractor of its obligations specified 
+in this Contract, as well as all claims arising from errors, omissions, negligent acts or 
+intentional acts of the Contractor, its officers, agents and employees.  Further, the 
+Contractor shall assume the entire responsibility and liability for any and all damages 
+to persons or property caused by or resulting from or arising out of any act or omission 
+on the part of the Contractor, its subcontractors, its agents or its employees under or in 
+connection with this Contract.  The Contractor shall hold harmless and indemnify the 
+City, and its agents, volunteers, servants, employees, and officers from and against any 
+and all claims, losses or expenses, including but not limited to court costs and attorneys’ 
+fees, which any of them may suffer, pay or incur as the result of claims or suits due to, 
+arising out of or in connection with any and all such damage, real or alleged.  The 
+Contractor shall, upon written demand by the City, assume and defend at the 
+Contractor’s sole expense any and all such claims or legal actions. 
+ 
+4.2 
+Insurance.  The Contractor shall provide and maintain throughout the life of this 
+Contract insurance in the kinds and amounts specified in this section with an insurer 
+licensed to transact insurance business in the Commonwealth of Virginia.  Each 
+insurance policy, endorsement and certificate of insurance shall be signed by duly 
+authorized representatives of such insurers and shall be countersigned by duly 
+authorized local agents of such insurers. 
+ 
+4.2.1 
+Costs and Premiums.  The Contractor shall pay all premiums and other costs of such 
+insurance.  The consideration paid or to be paid to the Contractor for the performance 
+of the Contract includes the premiums and other costs of such insurance, and neither 
+the City shall be responsible therefor. 
+ 
+4.2.2 
+Policy Requirements.  All insurance contracts and policies shall provide, or be 
+endorsed to provide, as follows:
+
+--- Page 42 ---
+(i) 
+Subrogation against the City shall be waived. 
+ 
+(ii) 
+The City, and its officers, employees, agents and volunteers shall be listed as 
+an additional insured, except for Workers Compensation and Professional 
+Liability. 
+ 
+(iii) 
+Coverage will not be canceled, non-renewed or materially modified in a way 
+adverse to the City without 30 days’ written notice to the City. 
+ 
+(iv) 
+The insolvency or bankruptcy of any of the insured shall not release the insurer 
+from its obligation to satisfy claims otherwise within the coverage of such 
+policies. 
+ 
+No insurance contract or policy shall be expanded to afford coverage which is greater 
+than the maximum coverage approved for writing in the Commonwealth of Virginia. 
+ 
+4.2.3 
+Evidence to Be Furnished. 
+ 
+4.2.3.1 
+Endorsements.  The Contractor shall furnish the City with a copy of the policy 
+endorsement listing the City, and its officers, employees, agents and volunteers as an 
+additional insured for each policy, other than Workers Compensation and Professional 
+Liability, required under this section 4.2 (“Insurance”).  The Contractor shall furnish 
+the City with copies of such other endorsements as may be required under this Contract 
+upon request by the City therefor. 
+ 
+4.2.3.2 
+Certificates of Insurance.  The Contractor shall furnish the City with a certificate of 
+insurance evidencing the above coverage, indicating that the City, and its officers, 
+employees, agents and volunteers are listed as additional insured for each policy, other 
+than Workers Compensation and Professional Liability, and that the coverage will not 
+be canceled, non-renewed or materially modified in a way adverse to the City without 30 
+days’ written notice to the City.  All certificates of insurance shall show the Contract 
+Number assigned to this Contract by the City. 
+ 
+4.2.3.3 
+Contracts and Policies.  The Contractor is not required to furnish the City with copies of 
+insurance contracts or policies required by this section 4.2 (“Insurance”) unless requested 
+at any time by the City’s Director of Procurement Services. 
+ 
+4.2.4 
+Schedule of Coverage.  The Contractor shall provide and maintain the following types 
+of insurance in accordance with the requirements of this section 4.2 (“Insurance”): 
+ 
+(i) 
+Commercial General Liability Insurance with a combined limit of not less than 
+$1,000,000 per occurrence. 
+ 
+(ii) 
+Automobile Liability Insurance with a combined limit of not less than $1,000,000 
+per occurrence.
+
+--- Page 43 ---
+(iii) 
+Statutory Workers’ Compensation and Employers’ Liability Insurance with the 
+Alternate Employer Endorsement WC 000301. 
+ 
+(iv) 
+Either (a) for professional services, Professional Liability Insurance with limits of 
+not less than $1,000,000 per claim, or (b) for non-professional services, Errors and 
+Omissions Insurance with limits of not less than $1,000,000 per occurrence. 
+ 
+5.0 
+Assignment, Delegation and Subcontracting. 
+ 
+5.1 
+By City.  The City may assign their rights or delegate their duties, in whole or in part, 
+under this Contract by written notice delivered to the Contractor.  Such transfer of rights 
+or duties shall take effect upon the date specified in the notice or upon the assumption, 
+if necessary, of the delegated duties by the assignee, whichever is later. 
+ 
+5.2 
+By Contractor.  The Contractor shall not assign its rights or delegate its duties, or any 
+part thereof, under this Contract without the prior written consent of the City.  Further, 
+the Contractor shall not assign, sublet or transfer its interest or any part thereof in this 
+Contract by means or as part of any sale, merger, consolidation, assignment or any 
+other event that would result in new or different ownership, control, operation or 
+administration of the Contractor’s business affairs without the prior written consent of 
+the City. 
+ 
+5.3 
+Subcontracting.  This Contract shall not be subcontracted without the prior written 
+approval of the City’s Director of Procurement Services. 
+ 
+6.0 
+Remedies and Termination. 
+ 
+6.1 
+Default.  In case of default of the Contractor or if the Contractor fails to deliver the 
+supplies or services ordered by the time specified, the City, after due notice in writing, 
+may procure them from other sources and hold the Contractor responsible for any 
+excess cost occasioned thereby.  This remedy shall be in addition to any other remedies 
+available to the City. 
+ 
+6.2 
+Termination with Cause. 
+ 
+6.2.1 
+Notice.  The City may terminate this Contract with cause at any time for the Contractor’s 
+failure to perform its obligations under this Contract or to otherwise adhere to the terms 
+and conditions of this Contract by delivery of written notice to the Contractor of the intent 
+of the City to so terminate.  Such notice shall be delivered at least seven calendar days 
+prior to the date of termination and shall otherwise be given in accordance with the 
+requirements of this Contract for the delivery of notices. 
+ 
+6.2.2 
+Cure.  If the Contractor cures the failure to perform or otherwise adhere to the terms 
+and conditions of this Contract to the satisfaction of the City, indicated in writing to the 
+Contractor, during this seven calendar day period, then the notice of termination with 
+cause shall be deemed null and void.
+
+--- Page 44 ---
+6.2.3 
+Effect.  Upon such termination, the City shall be liable only to the extent of costs which 
+may be reimbursable under this Contract that have been submitted by the Contractor and 
+approved by the City up to the time of termination and only upon delivery to the City of 
+all completed or partially completed work performed by the Contractor.  The City shall 
+have full right to use such work in any manner when and where it may designate without 
+claim on the part of the Contractor for additional compensation. 
+ 
+6.3 
+Termination without Cause. 
+ 
+6.3.1  
+Notice. The City may terminate this Contract without cause by delivery of written 
+notice to the Contractor of the City’s intent to so terminate.  Such notice must be 
+delivered at least 90 calendar days prior to the date of termination and must otherwise 
+be given in accordance with the requirements of this Contract for the delivery of 
+notices. 
+ 
+6.3.2 
+Effect.  Upon such termination, the City shall be liable only to the extent of any (i) costs 
+which may be reimbursable under this Contract that have been submitted by the 
+Contractor and approved by the City up to the time of termination and (ii) fees to which 
+the Contractor may be entitled under this Contract as a result and only upon delivery to 
+the City of completed or partially completed work.  The City shall have full right to use 
+such work in any manner when and where it may designate without claim on the part of 
+the Contractor for additional compensation.  No termination notice will relieve the 
+Contractor of the obligation to deliver or perform on all outstanding orders issued prior 
+to the effective date of termination. 
+ 
+6.4 
+Termination by Contractor. 
+ 
+6.4.1 
+Notice.  The Contractor may terminate this Contract if the City Council does not 
+appropriate sufficient funds for the City to perform its obligations under this Contract 
+by delivery of written notice to the City of the Contractor’s intent to so terminate.  Such 
+notice shall be delivered at least 45 calendar days prior to the date of termination and 
+shall otherwise be given in accordance with the requirements of this Contract for the 
+delivery of notices. 
+ 
+6.4.2 
+Cure.  If the City cures the non-appropriation of funds by appropriating sufficient funds 
+during this 45 calendar day period, then the Contractor’s notice of termination shall be 
+deemed null and void. 
+ 
+6.4.3 
+Effect.  Upon such termination, the Contractor shall have no further obligations under 
+this Contract. 
+ 
+6.5 
+Waiver.  The waiver by any party of any term or condition of this Contract shall not 
+be deemed to constitute either a continuing waiver thereof or a waiver of any further or 
+additional right that such party may hold under this Contract.
+
+--- Page 45 ---
+7.0 
+Dispute Resolution. 
+ 
+7.1 
+Governing Law.  All issues and questions concerning the construction, enforcement, 
+interpretation and validity of this Contract, or the rights and obligations of the City and 
+the Contractor in connection with this Contract, shall be governed by, and construed 
+and interpreted in accordance with, the laws of the Commonwealth of Virginia, without 
+giving effect to any choice of law or conflict of laws rules or provisions, whether of the 
+Commonwealth of Virginia or any other jurisdiction, that would cause the application 
+of the laws of any jurisdiction other than those of the Commonwealth of Virginia. 
+ 
+7.2 
+Construction and Interpretation.  Each of the parties has had the opportunity to have 
+its legal counsel review this Contract on its behalf.  If an ambiguity or question of intent 
+arises with respect to any provision of this Contract, this Contract will be construed as 
+if drafted jointly by the parties.  Neither the form of this Contract, nor any language 
+herein, shall be construed or interpreted in favor of or against any party hereto as the 
+sole drafter thereof. 
+ 
+7.3 
+Contractual Claims. 
+ 
+7.3.1 
+Notice and Submission.  The Contractor shall give written notice of its intention to 
+file a contractual claim at the time of the occurrence or the beginning of the work upon 
+which the claim is based.  In addition to such notice of its intention to file a claim, the 
+Contractor shall submit all contractual claims, whether for money or other relief, in 
+writing to the City’s Director of Procurement Services no later than 60 calendar days 
+after final payment.  (See City Code § 21-167(a); see also Va. Code § 2.2-4363(A).) 
+ 
+7.3.2 
+Required Contents of Claim Submission.  The Contractor’s claim submission shall 
+(i) set forth the primary, secondary and indirect claim issues in a clear, concise manner, 
+(ii) identify the specific contract provisions, schedule impact and cost consequences 
+related to each claim issue, and (iii) include all factual data supporting the claim as well 
+as all supporting cost and delay data.  The City’s Director of Procurement Services, in 
+the Director’s sole discretion, may return claim submissions lacking any of the 
+elements enumerated in the preceding sentence for resubmission or review the claim as 
+though the missing elements are not factually present to support the claim.  Such return 
+of a claim submission shall not toll the 60-day period within which the Contractor must 
+submit a claim. 
+ 
+7.3.3 
+Procedures and Time Limit.  The procedures set forth in this section 7.3 (“Contractual 
+Claims”) and in City Code § 21-167 shall govern the consideration of contractual 
+claims.  The City’s Director of Procurement Services shall issue a written decision on 
+a claim no later than 90 calendar days after receipt of such claim in writing from the 
+Contractor.  (See City Code § 21-167(b); see also Va. Code § 2.2-4363(B).) 
+ 
+7.3.4 
+No Action before Decision.  The Contractor may not invoke administrative procedures 
+as provided in City Code § 21-168 or institute legal action as provided in City Code § 
+21-169 prior to receipt of the decision on the claim, unless the City’s Director of
+
+--- Page 46 ---
+Procurement Services fails to render such decision within the 90-day time limit.  A 
+failure of the City’s Director of Procurement Services to render a final decision within 
+the 90-day time limit shall be deemed a final decision by the City denying the claim.  
+(See City Code § 21-167(c); see also Va. Code § 2.2-4363(D).) 
+ 
+7.3.5 
+Finality of Decision.  The decision of the City’s Director of Procurement Services shall 
+be final and conclusive unless the Contractor appeals within 30 calendar days of the 
+date of the final decision on the claim by the Director either as provided in City Code 
+§ 21-168 for administrative appeals or, in the alternative, by instituting legal action as 
+provided in City Code § 21-167.  (See City Code § 21-167(d); see also Va. Code § 2.2-
+4363(E).) 
+ 
+7.3.6 
+No Cessation of Performance.  Nothing in this section 7.3 (“Contractual Claims”) 
+shall be construed to authorize or permit the Contractor, while pursuing, by any 
+available procedure, an appeal of a contractual claim or dispute, to cease performance 
+of the Contract while such claim or dispute is pending.  (See City Code § 21-167(e).) 
+ 
+7.4 
+Alternative Dispute Resolution.  The City’s Director of Procurement Services, with 
+the concurrence of the City Attorney, may agree in writing on behalf of the City to 
+submit particular disputes arising from this Contract to arbitration and to utilize 
+mediation and other alternative dispute resolution procedures; however, any such 
+procedures entered into by the City shall be nonbinding.  (See City Code § 21-170; see 
+also Va. Code § 2.2-4366.) 
+ 
+7.5 
+Forum and Venue Choice.  Any and all disputes, claims and causes of action arising 
+out of or in connection with this Contract, or any performances made hereunder, shall 
+be brought, and any judicial proceeding shall take place, only in a federal or state court 
+located in the city of Richmond, Virginia.  The Contractor accepts the personal 
+jurisdiction of any court in which an action is brought pursuant to this article for 
+purposes of that action and waives all jurisdiction- and venue-related defenses to the 
+maintenance of such action. 
+ 
+8.0 
+Miscellaneous Provisions. 
+ 
+8.1 
+Audit.  The City reserves the right to audit all aspects of this Contract, including but 
+not necessarily limited to (i) the Contractor’s financial capability and accounting 
+system, (ii) the basis for progress payments, (iii) the Contractor’s compliance with 
+applicable laws and (iv) appropriate vendor records.  The City further reserves the right 
+to review, on demand and without notice, all files of the Contractor or any 
+subcontractor or vendor employed by the Contractor to provide services or 
+commodities under this Contract where payments by the City are based on records of 
+time, salaries, materials or actual expenses.  The Contractor shall maintain all records 
+subject to audit under this provision locally or in a manner deliverable at the 
+Contractor’s expense to a location in the metropolitan Richmond area.
+
+--- Page 47 ---
+8.2 
+Captions.  This Contract includes the captions, headings and titles appearing herein for 
+convenience only, and such captions, headings and titles shall not affect the construal, 
+interpretation or meaning of this Contract. 
+ 
+8.3 
+Force Majeure.  If any party is unable to perform its obligations under this Contract 
+due to acts of God or circumstances beyond its reasonable control, such obligations 
+shall be suspended as long as those circumstances persist, provided that the delaying 
+party promptly notifies the other party of the delay and the causes.  Except where the 
+delay is caused by an act or omission of the delaying party, any costs arising from such 
+delay shall be borne by the party incurring the delay. 
+ 
+8.4 
+Merger / Entire Agreement.  This Contract, including the exhibits incorporated 
+herein, constitutes both a complete and exclusive statement and the final written 
+expression of all the terms of this Contract and of the entire understanding between the 
+City and the Contractor regarding those terms.  No prior written agreements or 
+contemporaneous or prior oral agreements between the City and the Contractor 
+regarding this Contract’s subject matter shall be of any effect. 
+ 
+8.5 
+Modification.  This Contract shall not be amended, modified, supplemented, or 
+otherwise changed except in the form of a City Contract Modification signed by the 
+authorized representatives of the City and the Contractor in accordance with the City’s 
+Purchasing Policies and Procedures. 
+ 
+8.6 
+No Third-Party Beneficiaries.  Notwithstanding any other provision of this Contract, 
+the City and the Contractor hereby agree that: (i) no individual or entity shall be 
+considered, deemed or otherwise recognized to be a third-party beneficiary of this 
+Contract; (ii) the provisions of this Contract are not intended to be for the benefit of 
+any individual or entity other than the City or the Contractor; (iii) no individual or entity 
+shall obtain any right to make any claim against the City or the Contractor under the 
+provisions of this Contract; and (iv) no provision of this Contract shall be construed or 
+interpreted to confer third-party beneficiary status on any individual or entity.  For 
+purposes of this section, the phrase “individual or entity” means any individual or 
+entity, including, but not limited to, individuals, contractors, subcontractors, vendors, 
+sub-vendors, assignees, licensors and sub-licensors, regardless of whether such 
+individual or entity is named in this Contract. 
+ 
+8.7 
+Notices. 
+ 
+8.7.1 
+In General.  Any written notice by any party to the Contract shall be sufficiently given 
+by any one or combination of the following, whichever shall first occur: (i) delivered 
+by hand to the last known business address of the person to whom the notice is due, (ii) 
+delivered by hand to the person’s authorized agent, representative or officer wherever 
+they may be found or (iii) enclosed in a postage prepaid envelope addressed to such 
+last known business address and delivered to a United States Postal Service official or 
+mailbox.  Notice is effective upon such delivery.
+
+--- Page 48 ---
+8.7.2 
+Address.  All notices to the City shall clearly indicate the Contract Number assigned 
+to this Contract by the City and shall be directed to: 
+ 
+Director of Procurement Services 
+Department of Procurement Services 
+City of Richmond 
+900 East Broad Street, Room 1104 
+Richmond, Virginia 23219 
+ 
+ 
+All notices to the Contractor shall be directed to the contact person stated at the address 
+given in the Contractor’s proposal. 
+ 
+ 
+END OF GENERAL TERMS AND CONDITIONS
+
+--- Page 49 ---
+PART IV 
+SPECIAL PROVISIONS 
+ 
+ 
+1.0  
+ 
+A redacted copy of the proposal should be submitted electronically. The City  
+ 
+ 
+prefers this copy be via USB; however, a CD will be accepted. If the Offeror’s  
+ 
+ 
+proposal contains proprietary or confidential information, or trade secrets, the  
+ 
+ 
+Offeror must submit one (1) additional redacted electronic copy. 
+ 
+ 
+2.0  
+COOPERATIVE PROCUREMENT 
+ 
+A. 
+Pursuant to City Code § 21-40 / Va. Code § 2.2-4304, this procurement is being 
+conducted on behalf of other public bodies as well as the City.  Other public bodies 
+must make their own legal determinations as to whether use of this Contract is 
+consistent with their laws, regulations and other policies. 
+ 
+B. 
+Unless the Contractor took exception to the requirements of this section at the time 
+the Contractor submitted its response to the solicitation resulting in this Contract, 
+the Contractor shall allow public bodies, as defined by the Virginia Public 
+Procurement Act, within the United States of America to make purchases under this 
+Contract at the prices set forth herein and in accordance with the terms, conditions 
+and specifications of this Contract.  Exception to this requirement by a respondent 
+to the solicitation shall not affect any evaluation by the City of that respondent’s 
+response to the solicitation. 
+ 
+C. 
+The Contractor shall deal directly with any public body that elects to use this 
+Contract.  Solely for purposes of the relationship between the Contractor and such 
+other public body that makes purchases under this Contract, such other public body 
+shall have the rights and obligations ascribed to the City by this Contract. 
+ 
+D. 
+The City, its officers and its employees shall not be responsible for the placement 
+of orders, invoicing, payments, contractual disputes or any other transactions 
+between the Contractor and any other public body.  In no event shall the City, its 
+officers or its employees be responsible for any costs, damages or injuries resulting 
+to any party from the use of the resulting contract by another public body.  Should 
+another public body make purchases under the resulting contract and breach or 
+default in its obligations to the Contractor, the City shall have no liability for such 
+breach or default by the other public body. 
+ 
+E. 
+The City assumes no responsibility for any notification of the availability of this 
+Contract for use by other public bodies.  However, the Contractor may conduct 
+such notification after award of this Contract. 
+ 
+F. 
+The Contractor shall furnish the City with semiannual reports identifying all other 
+public bodies which used this Contract within the six months preceding the report,
+
+--- Page 50 ---
+the quantities purchased from the Contractor by each, and the dollar amounts paid 
+to the Contractor by each. 
+ 
+3.0  
+PRICE ESCALATION/DE-ESCALATION  
+ 
+Price adjustments may be permitted for changes not to exceed 2% in the following 
+ 
+index/indices Consumer Price Index –Urban Consumers; Wage Earners and Clerical 
+ 
+Workers (CPI-W) 1982-84=100 (Unadjusted)-CWUR0000S0. No price increases  will be 
+ 
+authorized for 365 calendar days after the effective date of the contract. Price 
+ 
+escalation may be permitted only at the end of this period and each 365 days thereafter and 
+ 
+only where verified to the satisfaction of the purchasing office. However, “across the 
+ 
+board” price decreases are subject to implementation at any time and shall be immediately 
+ 
+conveyed to the City. 
+ 
+ 
+Contractor shall give not less than 30 days advance notice of any price increase to the 
+ 
+purchasing office.  Any approved price changes will be effective only at the beginning of 
+ 
+the calendar month following the end of the full 30 day notification period.  The contractor 
+ 
+shall document the amount and proposed effective date of any general change in the price 
+ 
+of materials.  Documentation shall be supplied with the contractor’s request for increase 
+ 
+which will:  (1) verify that the requested price increase is general in scope and not 
+ 
+applicable just to the City; and (2) verify the amount or percentage of increase which is 
+ 
+being passed on to the contractor by the contractor’s suppliers. 
+ 
+ 
+The Department of Procurement Services will notify the using agencies and contractor in 
+ 
+writing of the effective date of any increase which it approves.  However, the contractor 
+ 
+shall fill all purchase orders received prior to the effective date of the price adjustment at 
+ 
+the old contract prices.  The contractor is further advised that decreases which affect the 
+ 
+cost of materials are required to be communicated immediately to the Department of 
+ 
+Procurement Services. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+END OF SPECIAL PROVISIONS
+
+--- Page 51 [OCR] ---
+
+
+--- Page 52 ---
+1 | P a g e  
+ 
+ 
+ 
+ 
+Dominion Elevator Inspection Services 
+___________________________________________________ 
+ 
+Response to City of Richmond 
+RFP No. T190020293 
+Elevator Inspection Services for the City of Richmond
+
+--- Page 53 ---
+2 | P a g e  
+ 
+TRANSMITTAL LETTER 
+ 
+May 24, 2019 
+ 
+ 
+ 
+Dear Ms. Lewis-Wilson and Members of the Selection Committee, 
+ 
+Attached is our proposal for RFP #T190020293 - Elevator Inspection Services for City of 
+Richmond. 
+ 
+During the past 28 years, Dominion Elevator Inspections Services has provided inspection 
+services throughout Virginia, Maryland, Pennsylvania and the Washington DC metropolitan 
+area. We have developed long term relationships with customers and consistently grown our 
+business based on our ability to deliver thorough inspections in an efficient and effective manner.  
+ 
+For the past 15 years, we have provided elevator inspection services to the City of Richmond. 
+To maintain this relationship, we have highlighted in this proposal our approach to continue our 
+quality service at a competitive price.  
+ 
+We look forward to providing the City of Richmond with continued elevator safety excellence. 
+ 
+Required Information: 
+ 
+Firm Name: 
+ 
+Dominion Elevator Inspection Services 
+Firm Address:  
+6767 Forest Hill Avenue 
+ 
+ 
+ 
+Suite 216 
+ 
+ 
+ 
+Richmond, VA 23225 
+Contact Name: 
+Sean Darby 
+Telephone Number: (410)-917-7233 
+Fax Number:  
+(410)-661-0623 
+Email:  
+ 
+sean@dominioninspections.com 
+ 
+Thank you for your time and consideration, 
+ 
+ 
+Sincerely, 
+ 
+Sean Darby 
+ 
+Sean Darby
+
+--- Page 54 ---
+3 | P a g e  
+ 
+ 
+TABLE OF CONTENTS 
+ 
+TAB 1  
+ 
+Signed Forms 
+TAB 2  
+ 
+Statement of the Scope 
+TAB 3  
+ 
+Executive Summary 
+TAB 4  
+ 
+Key Personnel 
+TAB 5  
+ 
+Offeror History 
+TAB 6  
+ 
+References 
+TAB 7  
+ 
+Project Approach 
+TAB 8  
+ 
+Offeror Qualifications 
+TAB 9  
+ 
+Subcontracting 
+TAB 10 
+ 
+Pricing Schedule 
+ 
+APPENDIX  
+Certificate of Insurance
+
+--- Page 55 ---
+4 | P a g e  
+ 
+SIGNATURE SHEET 
+ 
+This signature sheet must be included as part of the offeror’s proposal, or the City will not 
+consider the proposal.  The offeror’s signature below certifies that this proposal as submitted 
+complies with, and the offeror agrees to be legally bound by, all terms and conditions set forth in 
+Request for Proposals No. T190020293 for Elevator Inspection Services.  The undersigned 
+hereby represents and warrants that the undersigned is duly authorized to sign and submit this 
+proposal on behalf of the offeror.  
+ 
+Complete Legal Name of Offeror Firm:  
+Dominion Elevator Inspection Services 
+ 
+“Order from” Address: 
+ 
+ 
+6767 Forest Hill Avenue 
+ 
+ 
+ 
+ 
+ 
+ 
+Suite 216 
+ 
+ 
+ 
+ 
+ 
+ 
+Richmond, VA 23225 
+ 
+“Remit to” Address:  
+ 
+ 
+6767 Forest Hill Avenue 
+ 
+ 
+ 
+ 
+ 
+ 
+Suite 216 
+ 
+ 
+ 
+ 
+ 
+ 
+Richmond, VA 23225 
+ 
+Federal EIN / SSN: 
+ 
+ 
+ 
+ 
+ 
+Authorized Signature:  
+ 
+ 
+Sean Darby 
+ 
+ 
+Printed Name of Signatory:  
+ 
+Sean P. Darby 
+ 
+Telephone Number with Area Code:  
+(410) 917-7233 
+ 
+Fax Number with Area Code:  
+ 
+(410) 661-0753 
+ 
+E-mail Address: 
+ 
+ 
+ 
+sean@dominioninspections.com 
+ 
+Date:  
+ 
+ 
+ 
+ 
+May 24, 2019
+
+--- Page 56 ---
+5 | P a g e  
+ 
+ADDENDA ACKNOWLEDGEMENT 
+ 
+We acknowledge the receipt of the following addenda: 
+1. Addendum 1:  Bid Tab Worksheet (dated May 8, 2019) 
+2. Addendum 2:  Changes to Statement of Needs (dated May 13, 2019) 
+3. Addendum 3:  Revised Form (dated May 22, 2019) 
+4. Addendum 4:  Answers to Questions submitted (May 23, 2019) 
+ 
+Authorized Signature:  
+ 
+ 
+Sean Darby 
+ 
+Printed Name of Signatory:  
+ 
+Sean P. Darby 
+Telephone Number with Area Code:  
+(410) 917-7233 
+Fax Number with Area Code:  
+ 
+(410) 661-0753 
+E-mail Address: 
+ 
+ 
+ 
+sean@dominioninspections.com 
+Date:  
+ 
+ 
+ 
+ 
+May 24, 2019
+
+--- Page 57 ---
+6 | P a g e  
+ 
+STATE CORPORATION COMMISSION FORM 
+ 
+Complete Legal Name of Bidder Firm:  
+ 
+ATAB, LLC dba Dominion Elevator Inspection Services 
+Virginia State Corporation Commission registration information. The bidder:  
+X    is a corporation or other business entity with the following State Corporation Commission 
+identification number: 
+ 
+-OR-  
+    is not a corporation, limited liability company, limited partnership, registered limited 
+liability partnership, or business trust  
+-OR-  
+ is an out-of-state business entity that does not regularly and continuously maintain as part of 
+its ordinary and customary business any employees, agents, offices, facilities, or inventories in 
+Virginia (not counting any employees or agents in Virginia who merely solicit orders that require 
+acceptance outside Virginia before they become contracts, and not counting any incidental 
+presence of the bidder in Virginia that is needed in order to assemble, maintain, and repair goods 
+in accordance with the contracts by which such goods were sold and shipped into Virginia from 
+bidder’s out-of-state location)  
+-OR-  
+ is an out-of-state business entity that is including with this bid an opinion of legal counsel 
+which accurately and completely discloses the undersigned bidder’s current contacts with 
+Virginia and describes why those contacts do not constitute the transaction of business in 
+Virginia within the meaning of section 13.1-757 or other similar provisions in Titles 13.1 or 50 
+of the Code of Virginia  
+-OR-  
+ has not completed any of the foregoing options but currently has pending before the State 
+Corporation  Commission an  application  for  authority  to  transact  business  in  the 
+Commonwealth of Virginia and wishes to be considered for a waiver to allow the bidder to 
+submit the State Corporation Commission identification number after the due date for bids.  The 
+bidder shall promptly provide any information the City requires to enable the City to properly 
+evaluate the bidder’s request for such a waiver.  The City reserves the right to determine in its 
+sole discretion whether to allow such a waiver.
+
+--- Page 58 ---
+7 | P a g e  
+ 
+OFFICE OF MINORITY BUSINESS DEVELOPMENT FORMS 
+ 
+We are not a qualified Minority Business Enterprise (MBE) or Emerging Small Business (ESB). 
+Therefore, we are not including the following Minority Business development forms: 
+1. MBE / ESB Participation Form (MBE-2) 
+2. Monthly Compliance Report (MBE-3) 
+ 
+Authorized Signature:  
+ 
+ 
+Sean Darby 
+ 
+Printed Name of Signatory:  
+ 
+Sean P. Darby 
+Telephone Number with Area Code:  
+(410) 917-7233 
+Fax Number with Area Code:  
+ 
+(410) 661-0753 
+E-mail Address: 
+ 
+ 
+ 
+sean@dominioninspections.com 
+Date:  
+ 
+ 
+ 
+ 
+May 24, 2019
+
+--- Page 59 ---
+8 | P a g e  
+ 
+STATEMENT OF SCOPE 
+At the highest level, the primary goal of the City of Richmond is to ensure safe, reliable and 
+code-compliant vertical transportation for the general public. While this objective is common for 
+all jurisdictions, each jurisdiction has some nuanced needs related to its elevator inspections and 
+plan reviews. As the incumbent provider of elevator inspection services for the City of 
+Richmond, we have a very clear understanding of the contract requirements and the City’s 
+specific needs.  
+ 
+The City of Richmond is seeking a qualified vendor to provide a comprehensive inspection 
+program for all of the City’s vertical transportation units, totaling approximately 1,500 elevators, 
+escalators and other units. 
+ 
+A comprehensive inspection program includes the following components: 
+ 
+1. Inspect existing elevator equipment in compliance with ASME A17.2. 
+For existing units, there are two periodic inspections each year (every six months): 
+a. One is a periodic inspection without a related test, and  
+b. The other is a periodic inspection with either an annual periodic test (Category 
+1 test) or a 5-year periodic test (Category 5 test).  
+ 
+2. Perform final inspections of new or altered elevator equipment. 
+ 
+3. Prepare notices of violation. 
+ 
+4. Establish and maintain a Quality Control program, including a verification of a 
+minimum of 10% of all inspections by type. 
+ 
+5. Perform plan reviews, reviewing construction documents for proposed installation of 
+new or altered equipment.    
+ 
+6. Provide timely response and investigation of elevator accidents, complaints and 
+facility emergencies. 
+ 
+7. Provide transportation and necessary equipment (except the City-issued electronic 
+devices) to perform the services required.  
+ 
+8. Assist the City of Richmond with information for court cases for matters including 
+violations, defaults and civil suits, including serving as expert witness for the City. 
+ 
+9. Schedule all reviews, inspections and tests in a timely, efficient and effective 
+manner, ensuring productive use of time for all parties involved (building 
+representatives, elevator maintenance companies, City employees and inspectors).
+
+--- Page 60 ---
+9 | P a g e  
+ 
+ 
+10. Understand the Vertical Lift Lock Out / Out of Service requirements, and implement 
+lockouts / shutdowns as needed. 
+ 
+11. Provide detailed invoicing of work performed every two weeks. 
+ 
+12. Meet all City reporting and data requirements through detailed monthly reporting of 
+plan reviews and inspections. 
+ 
+13. Utilize City-provided electronic devices in performing all activities above. 
+ 
+14. Re-inspect / re-review all work rejected by the City. 
+ 
+We will perform all of the contract-related work with our well-trained, professional team of 
+inspectors and support staff.  
+ 
+We are excited at the prospect of continuing our partnership with the City of Richmond and 
+providing the most effective elevator inspection program in the industry.
+
+--- Page 61 ---
+10 | P a g e  
+ 
+EXECUTIVE SUMMARY 
+ 
+Dominion Elevator Inspection Services (Dominion) has been in business since 1991 and has 
+been performing elevator inspections for the City of Richmond for the past 15 years.  
+ 
+This proposal highlights what we believe are six core strengths of our company that are directly 
+related to the City of Richmond RFP: 
+ 
+1. Our knowledge of the City of Richmond’s elevator inspection needs 
+2. Our local Richmond team 
+3. Our corporate strength, depth, experience and history 
+4. Our commitment to quality inspections 
+5. Our focus on superior customer service 
+6. Our use of technology 
+ 
+ 
+Our knowledge of the City of Richmond’s elevator inspection needs 
+As the incumbent provider for the City of Richmond elevator inspections for the last 15 years, 
+we have extensive knowledge of the City’s - 
+• buildings and elevators,  
+• building owners and property managers,  
+• elevators maintenance companies and their personnel, 
+• internal staff connected to the City’s inspection program. 
+ 
+Because of this knowledge, we are uniquely positioned to not only hit the ground running but 
+continue to deliver at the same high level (or higher as needed) that we have been delivering. Our 
+familiarity with the items listed above and the challenges and nuanced needs of the City put us in 
+an excellent position to tackle these challenges and meet or exceed these needs. 
+ 
+Our local Richmond team 
+Our local Richmond team provides us with another tremendous advantage as a bidder for this 
+contract.  Led by Marcus Albin, this team is a group of individuals that has not only called 
+Richmond home for a very long time and has the local market knowledge referenced above, they 
+are experienced, skilled and passionate about their work. 
+ 
+The three inspectors, Marcus, Marion (Buddy) Childress and Richard Holloway, each have over 
+25 years of elevator maintenance and inspection experience in Richmond.  Our Richmond Office 
+Manager, Brittany Pryor, has been providing strong support for Dominion and the City of 
+Richmond for three years, and she has been a valuable asset for both parties.
+
+--- Page 62 ---
+11 | P a g e  
+ 
+Our corporate strength, depth, experience and history 
+Dominion and its sister company, Allsafe Elevator Inspections, have been in business for 28 
+years and 9 years, respectively. They merged three years ago, and their combined revenues now 
+exceed $6 million. The individual companies and the combined entity each have strong balance 
+sheets and strong operating performance.  
+ 
+Dominion has 17 inspectors, and Allsafe has 8 inspectors.  All of these professionals are QEI 
+certified with an average industry tenure in excess of 25 years.  If needed, the Richmond office 
+of Dominion can draw on these resources. 
+ 
+We have a diverse customer base - ranging from large jurisdictions, government facilities, 
+colleges and universities, and large commercial portfolios to small office buildings, schools and 
+churches. This diversity is consistent with the needs of the City of Richmond. 
+ 
+Our status as the largest elevator inspection company in the Mid-Atlantic region is well-
+deserved, and we are well-positioned to continue to support the City of Richmond contract. 
+ 
+Our commitment to quality inspections 
+Our highly experienced and competent inspectors perform thorough inspections, which include a 
+standard list of items in five areas: 
+1. Elevator machine room 
+2. Elevator hoistway 
+3. Elevator pit 
+4. Elevator car 
+5. Lobbies of the elevators 
+ 
+In addition to performing a complete inspection, we are committed to establishing an effective 
+quality control program which will further ensure the safety of Richmond’s vertical 
+transportation equipment. 
+  
+Our focus on superior customer service 
+Dominion is committed to meeting and exceeding customer needs and expectations.  
+ 
+Our local Richmond team understands the importance of strong relationships, organized 
+schedules and effective communications. Marcus Albin leads the effort on this front; he 
+possesses the rare combination of excellent technical skills and a strong customer focus.  
+ 
+Marcus’s enthusiasm and passion for doing things the right way is contagious and impacts 
+everyone around him, including the building owners, property managers and the elevator 
+maintenance companies.
+
+--- Page 63 ---
+12 | P a g e  
+ 
+Our use of technology 
+We understand the importance of technology in running an efficient organization. Some 
+examples of our commitment include the following: 
+• Implemented a cloud-based CRM system across part of our business, leveraging the use 
+of tablets and increasing the efficiency of inspector assignments and the ‘paper flow’ 
+related to inspections. We are in the process of extending this platform across our entire 
+business. 
+• Worked closely with City of Richmond personnel in the development and initial roll-out 
+of EnerGov. 
+• Customized our cloud-based accounting system to meet the needs of the elevator 
+inspection industry, providing greater clarity and transparency related to our financial 
+performance. 
+• Implemented a cloud-based service to process our payables, reducing costs and 
+increasing efficiency. 
+ 
+We appreciate and support the City of Richmond’s drive to fully implement EnerGov and 
+achieve the productivity gains available through new technologies.  
+ 
+Conclusion 
+In summary, we are excited about the prospect of continuing our relationship with the City of 
+Richmond and providing the best elevator inspection program possible.
+
+--- Page 64 ---
+13 | P a g e  
+ 
+KEY PERSONNEL 
+ 
+Dominion Elevator has been performing elevator inspections for the City of Richmond over the 
+past 15 years. Our experienced team in Richmond is a major strength of our company and 
+provides us the ability to meet all the requirements referenced in this solicitation. 
+The Richmond team is led by Marcus Albin. Marcus is directly responsible for the day-to-day 
+operation of the Richmond office, including the City of Richmond contract. He has lived in the 
+Richmond area for over 50 years and has been performing inspections in the City of Richmond 
+for over 19 years. He has 34 years of experience in the elevator industry and has been a QEI 
+inspector since 2000. He is also certified as a QEI Inspector Supervisor. 
+It would be hard to find anyone who knows more about elevators in the City of Richmond than 
+Marcus. He has performed all inspection tasks listed in the RFP – plan reviews, final inspections, 
+periodic inspections, periodic tests, lock outs and accident investigations for many years.  
+The relationships Marcus has developed with building owners and managers, building 
+inspectors, electrical inspectors and the City of Richmond team plays a key role in the success of 
+an effective elevator inspection program. Marcus is easy to work with and dedicated to providing 
+the City of Richmond with a quality elevator inspection program.  
+The two other full-time inspectors on the Richmond team are Marion (Buddy) Childress and 
+Richard Holloway. These two individuals were both elevator mechanics based in the Richmond 
+area prior to becoming inspectors. They have been inspectors in Richmond for several years and 
+are also familiar with the buildings and processes. Inspectors with local experience and local 
+knowledge are an advantage for Dominion. 
+Our office manager is Brittany Pryor. Brittany has managed the Richmond office for three years 
+and works closely with the City of Richmond team. Brittany is responsible for the administrative 
+functions of the Richmond office.  
+Over the past two years, in an effort to partner with the City of Richmond, Brittany has worked 
+very closely with the City of Richmond team. Some of these efforts include: 
+1. Updating the diary list of dates for elevator inspections. 
+2. Researching required inspections.   
+3. Answering citizen inquiries. 
+4. Issuing elevator certificates. 
+5. Collecting new contacts and building information (building owner name, phone number, 
+and email address).  
+6. Sending out invoices ($570,650) for the City. 
+7. Following up on the collection on outstanding balances.
+
+--- Page 65 ---
+14 | P a g e  
+ 
+8. Working with City officials to update the City’s elevator program SOPs. 
+9. Helping with the re-configuration of the elevator program within EnerGov. 
+Our goal has always been to partner with the City of Richmond in making the elevator inspection 
+program as effective and efficient as possible. We believe that our local Richmond team has very 
+open lines of communication with the City of Richmond team, which facilitates the achievement 
+of this goal.  
+Mike Clark is the President of Dominion and will support Marcus and his team in ensuring 
+Dominion provides all the services required in the RFP. Mike has 38 years of experience in the 
+elevator industry, working for Otis Elevator for 8 years (as a mechanic), for National Elevator 
+Inspection Services (NEIS) for 14 years and for Dominion the last 16 years. Mike has worked 
+closely with Marcus for the past 15 years on the City of Richmond contract. He has 29 years of 
+direct experience in administering this type of jurisdictional program. He is currently working 
+with the City of Alexandria on a similar contract. Note that he is a QEI Inspector Supervisor. 
+Mike will be responsible for implementing the Quality Control Program for the City of 
+Richmond engagement. He will perform the quality control inspections along with Marcus 
+Albin. Both of these individuals have extensive elevator maintenance and inspection experience, 
+which make them well-suited for quality control. 
+Tracey Meyers is the Operations Manager for Dominion. She will be creating the invoices 
+related to the work performed in the City of Richmond. Tracey has 22 years of experience in the 
+elevator inspection industry.  She acts as a back-up for Brittany for any administrative 
+requirements related to this contract.   
+Sean Darby is the CEO of Allsafe Dominion LLC, the parent company of Dominion Elevator 
+Inspection Services (Dominion). He has 29 years of experience in the elevator industry, working 
+for Otis Elevator for 20 years (in sales and service) and in the inspection industry for 9 years. 
+Sean has been part of the project team for the City of Richmond contract for the past three years.   
+Carter Buxbaum is the CFO of Allsafe Dominion. He is responsible for the Finance and 
+Accounting functions of the company. Carter is a resident of Richmond, where he has lived for 
+over 20 years.  
+In addition to our Richmond team and Corporate support, Dominion has 14 inspectors in the 
+greater DC Metro area. Our large inspector pool provides us with ample inspector capacity to 
+handle the volume of work, including qualified back-ups, as needed.
+
+--- Page 66 ---
+15 | P a g e  
+ 
+Required information not included on the resumes: 
+ 
+Name  
+ 
+Sean Darby 
+ 
+Mike Clark 
+ 
+Marcus Albin 
+Title 
+ 
+ 
+CEO  
+ 
+President 
+ 
+Regional Manager 
+Office Location 
+Baltimore, MD 
+Alexandria, VA 
+Richmond, VA 
+City of Residence 
+Baltimore, MD 
+Alexandria, VA 
+Chesterfield, VA 
+______________________________________________________________________________ 
+ 
+Name  
+ 
+Buddy Childress 
+Richard Holloway 
+Brittany Pryor 
+Title 
+ 
+ 
+Inspector 
+ 
+Inspector 
+ 
+Office Manager 
+Office Location 
+Richmond, VA 
+Richmond, VA 
+Richmond, VA 
+City of Residence 
+Chesterfield, VA 
+Rockville, VA  
+Henrico, VA 
+______________________________________________________________________________ 
+ 
+Name  
+ 
+Tracey Meyers 
+Carter Buxbaum 
+ 
+Title 
+ 
+ 
+Operations Manager CFO 
+Office Location 
+Wellsville, PA  
+Richmond, VA 
+ 
+City of Residence 
+Wellsville, PA  
+Richmond, VA 
+ 
+______________________________________________________________________________ 
+ 
+ 
+Attached are the resumes of the key personnel.
+
+--- Page 67 ---
+16 | P a g e  
+ 
+Sean P. Darby 
+CEO, Allsafe Dominion LLC 
+ 
+ 
+Education 
+ 
+University of Virginia, Darden School - MBA, 1990 
+ 
+ 
+ 
+Trinity College – BA Mathematics, 1983 
+ 
+ 
+ 
+ 
+Experience  
+Experienced elevator industry executive with over 29 years of experience 
+• 20 years at a major elevator manufacturer in sales and management 
+• 9 years in the inspection and consulting business  
+ 
+2016-Present  
+Allsafe Dominion Elevator Inspections 
+ 
+ 
+Baltimore, MD 
+CEO 
+• Provide strategic direction and operational and leadership for the two 
+business units – Allsafe Elevator Inspections and Dominion Elevator 
+Inspection Services.  
+• Lead the consulting practice, delivering elevator expertise to broad 
+range of clients. 
+• Drove revenue growth from $4 million to $6 million over the last 
+three years.  
+   
+2011-2016 
+ 
+Allsafe Elevator Inspections 
+ 
+ 
+ 
+Baltimore, MD 
+Principal / Founder 
+• Founded the company to attack a market need. 
+• Led inspections sales and provided consulting expertise.  
+• Drove year over year growth in excess of 15%.  
+ 
+1990-2010 
+ 
+Otis Elevator Company, Baltimore, MD  
+ 
+Baltimore, MD 
+New Equipment Team Leader in Baltimore for over 14 years 
+• Responsible for sales growth and key person in making Otis the 
+leader in new equipment in Baltimore area.  
+• Assisted in introduction of new products and systems to owners and 
+architects. 
+ 
+Service Manager for Otis Elevator in Baltimore Office 
+• Provided operational control in elevator maintenance business 
+servicing over 4,000 units (elevators, escalators and vertical lifts). 
+• Managed 3 supervisors and 25+ elevator mechanics.  
+ 
+ 
+Professional  
+Member, Community Associations Institute (CAI) 
+ 
+ 
+ 
+Former QEI Elevator Inspector
+
+--- Page 68 ---
+17 | P a g e  
+ 
+Michael W. Clark 
+President, Dominion Elevator Inspection Services 
+ 
+ 
+Education 
+ 
+B.S. Degree, Southern Illinois University 
+Completed National Elevator Industry Education Program 
+Completed National Association of Elevator Safety Authorities  
+Experience 
+2003-Present  
+Dominion Elevator Inspection Services, Inc. (DEIS) 
+Washington, DC 
+President 
+• Manage the inspections of approximately 12,000 elevators in VA, MD, 
+PA and Washington DC. 
+• Hire and train new inspectors and clerical staff. 
+• Perform inspections - witness finals, full load, periodic and routine 
+inspections  
+• Responsible for two large jurisdictions in Virginia, serving as principal 
+contract manager for the City of Richmond (since 2004) and the City 
+of Alexandria (since 2005).   
+ 
+1989-2003 
+ 
+National Elevator Inspection Services, Inc. (NEIS) 
+Washington, DC 
+ 
+ 
+ 
+Assistant Vice President 
+• Served as principal contract manager for 8 years. 
+• Responsible for hiring and training new inspectors and clerical staff. 
+• Was first in the DC Metro area to initiate a comprehensive Quality 
+Control program outlined by the building official for the City of 
+Alexandria in 1997 and Fairfax County in 1999.   
+ 
+1981-1989 
+ 
+Otis Elevator Company 
+ 
+ 
+ 
+ 
+Washington, DC 
+ 
+ 
+ 
+Elevator Mechanic 
+• Performed all phases of elevator construction, maintenance, 
+modernization and repair. 
+ 
+Professional  
+National Association of Elevator Safety Authorities 
+Virginia Building and Code Officials Association 
+Building Officials and Code Administrators International, Inc. 
+Central Virginia Elevator Association 
+ 
+Certifications  
+ASME/ANSI QEI (National Certification) # 508 
+ASME/ANSI QEI Supervisor # S-33 
+Virginia Elevator Inspector General 
+National BOCA Certified 
+State of Pennsylvania Certification # 4004
+
+--- Page 69 ---
+18 | P a g e  
+ 
+Marcus Albin 
+Regional Manager 
+ 
+ 
+Education 
+ 
+A.A. Virginia Wesleyan College  
+   
+ 
+ 
+ 
+Completed National Elevator Industry Education Program 
+  
+ 
+ 
+ 
+Completed National Association of Elevator Safety Authorities 
+  
+Experience 
+2004-Present  
+Dominion Elevator Inspection Services, Inc. 
+ 
+Richmond, VA 
+• Serve as Regional Manager responsible for scheduling and completion 
+of all elevator testing for the City of Richmond.  
+• Supervise two QEI Inspectors and the Office Manager.  
+• Witnessed final inspections, periodic inspections, and all associated re-
+inspections.  
+• Assisted with preparing bi-monthly invoices and kept up with the QC 
+program. 
+ 
+2000-2004 
+ 
+National Elevator Inspection Services, Inc. 
+ 
+Richmond, VA 
+• Started as a Field Inspector witnessing annual tests.  
+• Promoted to Regional Manager and responsible for assisting the Chief 
+Elevator Inspector with performing of inspections. 
+ 
+1985-2000 
+ 
+Thyssen-Krupp Elevator Company 
+ 
+ 
+Richmond, VA 
+• Began as a Probation Helper installing elevators, then promoted to the 
+Service Department, repairing and adjusting elevators.  
+• Worked in all phases of elevator construction, maintenance, 
+modernization and repairs. 
+ 
+Professional Affiliations 
+  
+ 
+ 
+ 
+National Association of Elevator Safety Authorities 
+Central Virginia Elevator Association 
+  
+ 
+ 
+ 
+Virginia Building and Code Officials Association 
+ 
+Elevator Certifications 
+ASME/ANSI QEI Supervisor # S-237 
+Virginia Elevator Inspector General
+
+--- Page 70 ---
+19 | P a g e  
+ 
+Marion (Buddy) Childress 
+Elevator Inspector 
+ 
+ 
+Education 
+ 
+Thomas Dale High School, Chester VA 
+ 
+ 
+ 
+John Tyler Community College 
+ 
+ 
+ 
+Insulators Trade School 
+ 
+ 
+ 
+Elevator Trade School 
+ 
+Experience 
+2015-Present  
+Dominion Elevator Inspection Services 
+ 
+ 
+Richmond, VA 
+Elevator Inspector 
+ 
+1999-2015 
+ 
+Otis Elevator Company  
+ 
+ 
+ 
+ 
+Richmond, VA 
+Elevator mechanic in maintenance and repair  
+ 
+1983-1999 
+ 
+Dover Elevator 
+ 
+ 
+ 
+ 
+ 
+Richmond, VA 
+Elevator mechanic in construction, working on hydro and traction 
+equipment  
+ 
+ 
+Professional Affiliations 
+ 
+ 
+ 
+Retired President of IUEC Local #51 
+ 
+ 
+Elevator Certifications 
+NEIEP Mechanic Certificate 
+Welding Certificate
+
+--- Page 71 ---
+20 | P a g e  
+ 
+Richard L. Holloway 
+Elevator Inspector 
+ 
+ 
+Education 
+ 
+National Elevator Industry Education Program, 1985 
+Richmond Technical Center, DC. Electronics, 1980 
+Patrick Henry High School, 1972 
+ 
+ 
+ 
+ 
+Experience 
+2016-Present  
+Dominion Elevator Inspection Services (DEIS)   
+Richmond, VA 
+Elevator Inspector  
+ 
+ 
+ 
+ 
+ 
+ 
+• Perform elevator inspections - witness finals, full load, periodic and 
+routine inspections  
+ 
+2009-2016 
+ 
+Central Elevator Inspection Services  
+ 
+ 
+Richmond, VA 
+Elevator inspector 
+• Perform elevator inspections - witness finals, full load, periodic and 
+routine inspections  
+ 
+2001-2009 
+ 
+Otis Elevator Co.  
+ 
+ 
+ 
+ 
+ 
+Richmond, VA 
+Elevator Mechanic 
+• Performed all phases of elevator construction, maintenance, 
+modernization and repair. 
+ 
+1993-2001 
+ 
+Wingfield & Hundley Elevator Company   
+ 
+Richmond, VA 
+Elevator Mechanic 
+• Maintained and serviced cable and hydraulic elevators 
+• Coordinate major repairs 
+ 
+Professional Affiliations 
+ 
+ 
+ 
+Elevator Inspector Certificate, March 2009 
+ 
+ 
+ 
+International Union of Elevator Constructors, Local 51 
+ 
+ 
+ 
+Union School Instructor for six years
+
+--- Page 72 ---
+21 | P a g e  
+ 
+Brittany Pryor 
+Office Manager, Richmond Office 
+ 
+ 
+Education 
+ 
+University of Virginia - BA Drama, 2010 
+ 
+ 
+ 
+ 
+Experience 
+2016-Present  
+Dominion Elevator Inspection Services (DEIS) 
+ 
+ 
+ 
+Office Manager  
+ 
+ 
+ 
+ 
+ 
+Richmond, VA 
+• Performs complete billing function for the City of Richmond contract 
+• Works with City of Richmond and Tyler Technologies to develop 
+EnerGov elevator inspection monitoring program 
+• Files inspection reports to update site information with EnerGov 
+• Issues elevator certificates. 
+• Collects new contacts and building information (building owner 
+name, phone number, and email address).  
+• Sends out invoices for the City of Richmond. 
+• Follows up on the collection on outstanding balances. 
+ 
+2011-2016 
+ 
+Fulton Bank  
+ 
+ 
+ 
+ 
+ 
+Richmond, VA 
+Operations Specialist 
+• Accepted and completed loan applications  
+• Provided responsive, quality customer service on a consistent basis 
+• Strictly followed requirements of audit and compliance 
+ 
+2008-2011 
+ 
+Michaela’s Quality Bake Shop 
+ 
+ 
+ 
+Richmond, VA 
+ 
+ 
+ 
+Shop Assistant  
+• Decorated and assisted in production of bakery orders 
+• Worked as a cashier in a fast-paced environment 
+• Worked as a delivery driver whenever needed
+
+--- Page 73 ---
+22 | P a g e  
+ 
+Tracey Meyers 
+Operations Manager, Dominion Elevator Inspection Services 
+ 
+ 
+Education 
+ 
+A.A. Degree, Catonsville Community College 
+ 
+ 
+ 
+66 Credits at UMBC toward B.S. Degree in Biological Sciences 
+Chartered Property Casualty Underwriters (CPCU) Courses 510, 520, 530 
+and 540. 
+ 
+Experience 
+2003-Present  
+Dominion Elevator Inspection Services, Inc (DEIS) 
+Wellsville, PA 
+ 
+ 
+ 
+Operations Manager 
+• Manage all administrative and clerical operations.   
+• Lead daily operations for the Corporate office in PA.  
+• Responsible for daily operations for the regional office in Alexandria 
+and Richmond. 
+ 
+1997-2003 
+ 
+National Elevator Inspection Services, Inc (NEIS) 
+Washington, DC 
+ 
+ 
+ 
+Office Manager 
+• Managed inspection scheduling for various jurisdictions, including 
+Fairfax County and City of Alexandria.  
+• Coordinated scheduling of testing with service companies and our 
+inspectors.  
+ 
+1993-1997 
+ 
+Steve’s Foods, Inc 
+ 
+ 
+ 
+ 
+         Cockeysville, MD 
+Manager   
+• Established day-to-day operations for start-up company distributing 
+frozen foods.   
+• Responsible for accounts payable and accounts receivable, maintaining 
+inventory, advertising, customer service and hiring, training and 
+dispatching sales professionals. 
+ 
+1987-1993 
+United States Fidelity and Guarantee Company  
+Baltimore, MD 
+Actuarial Assistant 
+• Responsible for analyzing data and compiling information for the 
+Actuary. 
+ 
+Interests 
+Accumulated over 1,200 Certified Volunteer Services Hours with 
+organizations such as Pets on Wheels and Damiens Gift Foundation.
+
+--- Page 74 ---
+23 | P a g e  
+ 
+Carter E. Buxbaum 
+CFO, Allsafe Dominion LLC 
+ 
+ 
+Education 
+ 
+University of Virginia, Darden School - MBA, 1990 
+ 
+ 
+ 
+University of Virginia, McIntire School – BS Commerce, 1983 
+ 
+Experience 
+Experienced financial executive with extensive strategic and financial 
+planning experience across multiple industries  
+ 
+2016-Present  
+Allsafe Dominion Elevator Inspections 
+ 
+ 
+Richmond, VA 
+CFO 
+• Provide leadership and direction on wide range of strategic and 
+general business issues. 
+• Drive Finance and Accounting functions. 
+ 
+2008-2015 
+ 
+Xenith Bank  
+ 
+ 
+ 
+ 
+ 
+Richmond, VA 
+ 
+ 
+ 
+Senior Vice President – Strategy & Planning 
+• Drove the strategic planning, financial planning, asset-liability 
+management (ALM), wholesale funding and deposit pricing functions 
+of a $1 billion Virginia-based commercial bank.  
+ 
+2006-2007 
+ 
+Circuit City Stores, Inc. 
+ 
+ 
+ 
+ 
+Richmond, VA 
+Vice President, Finance / Corporate Planning 
+• Led the Corporate Planning group for $13 billion consumer 
+electronics retailer.  
+ 
+2001-2006 
+ 
+Capital One Financial Corporation 
+ 
+ 
+Richmond, VA 
+Director of Finance 
+ 
+1999-2001 
+ 
+First USA Bank (currently JP Morgan Chase) 
+         Wilmington, DE 
+First VP / VP – Credit Card Partnership Strategy   
+ 
+1994-1998 
+ 
+Signet Bank (currently Wells Fargo) 
+ 
+ 
+Richmond, VA 
+SVP / VP / AVP – Finance / Business Analyst   
+ 
+1990-1994 
+ 
+AMVEST Corporation (currently Consol Energy)    Charlottesville, VA 
+Vice President, Finance 
+ 
+1983-1988 
+ 
+Arthur Andersen & Co. 
+ 
+ 
+ 
+        Washington, DC 
+Vice President, Finance / Corporate Planning
+
+--- Page 75 ---
+24 | P a g e  
+ 
+OFFEROR HISTORY 
+ 
+Dominion was incorporated in 1991 in the State of Maryland to provide specialized elevator 
+inspection services.  Dominion has grown significantly over the years and is now a leading 
+elevator inspection company in the Washington DC metropolitan area, as well as in Maryland, 
+Virginia and Pennsylvania.  Our client list includes Fortune 500 companies, federal and local 
+government entities, universities and hospitals, and major property management portfolios. 
+Dominion inspects over 12,000 units annually.  
+ 
+In 2016, Dominion was converted to a limited liability company (LLC) in the state of Maryland 
+and merged with Allsafe Elevator Inspections (Allsafe), based in Baltimore, MD.  Allsafe is the 
+leading elevator inspection company in the Baltimore metropolitan area, inspecting over 6,500 
+units annually. The two companies (Dominion and Allsafe) operate together under the corporate 
+entity of Allsafe Dominion LLC to provide the most comprehensive elevator inspection coverage 
+in the Mid-Atlantic region.  
+ 
+Dominion and Allsafe share resources to provide the highest quality elevator inspection services 
+for our customers. Together we have access to 25 full-time inspectors and 12 administrative 
+support personnel. We have offices in Richmond, Alexandria, Baltimore and Wellsville, PA. We 
+inspect over 18,500 units is the Mid-Atlantic area with annual revenues in excess of $6 million. 
+ 
+We perform a comprehensive set of elevator inspection services, including - 
+• 
+Safety inspections on elevators, escalators, dumbwaiters, man-lifts and moving walks 
+• 
+Acceptance inspections  
+• 
+Witnessing of no-load and full-load tests 
+• 
+Plan reviews 
+• 
+Accident and incident investigations 
+• 
+Expert witness testimony and technical consulting services 
+ 
+We perform services similar to those requested in the RFP across a range of customers, including 
+several major accounts: 
+ 
+• 
+City of Richmond (incumbent) 
+• 
+City of Alexandria 
+• 
+Pentagon 
+• 
+Universities (Howard, Catholic)  
+• 
+Hospitals (Mercy Medical, St. Agnes, Pinnacle Health Services) 
+• 
+Numerous GSA Facilities 
+• 
+National Aquarium     
+• 
+MGM National Harbor Casino 
+• 
+Federal Courthouses in Baltimore (Garmatz & Fallon)
+
+--- Page 76 ---
+25 | P a g e  
+ 
+As listed above, Dominion is the current provider of elevator inspection services for the City of 
+Richmond and the City of Alexandria. We have been the City of Richmond provider for 15 years 
+and the City of Alexandria provider for 16 years.  
+ 
+We have demonstrated that we can meet the demands of a large jurisdiction, including the 
+following: 
+ 
+• 
+Scheduling the periodic inspections 
+• 
+Performing the inspections 
+• 
+Processing the inspection reports 
+• 
+Performing plan reviews (and other non-inspection work), as needed 
+• 
+Invoicing for the work performed 
+ 
+Our broad scope of services, QEI inspector capacity and strong administrative support provides 
+us with a competitive advantage wherever we inspect. Our talented and highly trained team 
+provides the excellent service and quality our clients have come to expect. Our ability to meet 
+various scheduling requirements gives us the status as the ‘go to’ inspection company in the 
+region.   
+  
+ 
+Required information 
+State in which LLC is organized  
+Maryland 
+Date LLC organized  
+ 
+2016 
+ 
+Managers of LLC 
+ 
+ 
+ 
+• Sean Darby 
+ 
+CEO  
+ 
+(410) 917-7233  
+3 years 
+• Mike Clark 
+ 
+President 
+ 
+(571) 259-3107 
+3 years 
+• Marcus Albin  
+Regional Manager 
+(804) 400-8464 
+3 years 
+ 
+Note that the experience listed above only reflects the years of service as manager of Dominion 
+since the conversion to an LLC in 2016.  
+• Sean Darby has 20 years of experience at Otis Elevator (sales and service) and 9 years of 
+experience at Allsafe Elevator Inspections.  
+• Mike Clark and Marcus Albin have both worked at the LLC predecessor for at least 15 
+years.  
+ 
+Members of the LLC 
+• Allsafe Dominion, LLC  
+(410) 661-0623 
+3 years  
+99% ownership 
+• ATAB, LLC  
+ 
+(717) 432-0590 
+3 years  
+  1% ownership
+
+--- Page 77 ---
+26 | P a g e  
+ 
+By submitting its proposal ATAB, LLC dba Dominion Elevator Inspection Services (the 
+Offeror) certifies and represents that the information that the Offeror provides in response to this 
+Request for Proposals is accurate and complete as of the date of such submission.  
+ 
+If the Offeror provides no information in response to any of the requirements of the Request for 
+Proposals, then the Offeror, by submitting its proposal certifies and represents that such 
+requirements do not apply because no information exists that would respond to the requirement.  
+ 
+The Offeror further covenants that, during the time between the submission of its proposal and 
+the City’s announcement of its decision to award the Contract, the Offeror will furnish the City 
+with any changes or additions to such information necessary to ensure that this information 
+remains accurate, complete and up-to-date.
+
+--- Page 78 ---
+27 | P a g e  
+ 
+REFERENCES 
+ 
+We have a goal of building strong, long term relationships with our customers, providing 
+excellent customer service and consistently meeting or exceeding customer needs and 
+expectations. Our success at meeting this goal is evidenced by our growth over the years.  
+ 
+Some examples of our strong relationships are included below. We grant our consent for the City 
+of Richmond to contact these references for purposes of evaluating our company and 
+acknowledge that any information obtained from these references will not be disclosed to us. 
+ 
+ 
+City of Alexandria, Virginia 
+Gregg Fields 
+Department of Code Administration 
+301 King Street, Room 4200 
+Alexandria, VA 22314 
+(703) 746-4185 
+gregg.fields@alexandriava.gov 
+ 
+We perform the same services for the City of Alexandria, VA that we perform for the City of 
+Richmond.   
+ 
+The City of Alexandria has over 1,400 pieces of equipment.  We have a regional office in 
+Alexandria and a dedicated Office Manager. We notify the building owner/representative in 
+advance and coordinate scheduling of tests and maintain a balanced workload for the 
+approximately 1,400 annual tests and 1,400 periodic routines. We have been performing this 
+work since 2003. 
+ 
+ 
+The Pentagon 
+Admiral Elevator Company 
+Brian Dudley 
+1002 N. Kresson Street 
+Baltimore, MD 21205 
+(443) 802-6927 
+bdudley@admiralelevator.com 
+ 
+The Pentagon, in Arlington County, VA, across the Potomac River from Washington, D.C., is 
+the headquarters of the United States Department of Defense.
+
+--- Page 79 ---
+28 | P a g e  
+ 
+The Pentagon is the world's largest office building, with about 6.5 million square feet of space. 
+Approximately 26,000 military and civilian employees work in the Pentagon, and the security is 
+extremely high.   
+ 
+There are 125 pieces of equipment at the Pentagon. The scheduling at the Pentagon is different 
+because of its high security and because the Pentagon and its elevator company (Admiral) 
+perform all of the scheduling. We must be flexible to meet the frequency of inspections and work 
+around the schedule of events at the Pentagon.   
+ 
+We must provide a list of five QEI inspectors who have the required level of security clearance.  
+We still provide the excellent service they expect while having no control over the scheduling of 
+inspections. 
+ 
+ 
+John F. Kennedy Center for the Performing Arts 
+David Froemming 
+2700 F. Street, NW 
+Washington, DC  
+(202)-416-7919 
+dfroemming@kennedy-center.org 
+  
+The Kennedy Center is the US National Cultural Center, located on the Potomac River adjacent 
+to the Watergate complex in Washington, DC.  
+ 
+It is a multi-dimensional facility which produces a wide array of performances encompassing the 
+genres of theater, dance, ballet, and orchestral, chamber, jazz, popular, and folk music. It also 
+offers multi-media performances for adults and children and is a nexus of performing arts 
+education.   
+ 
+The Kennedy Center is home to approximately 3,500 performances each year for audiences 
+totaling nearly two million. 
+ 
+We inspect 39 pieces of vertical transportation equipment in a manner that does not interfere 
+with the heavy volume of people visiting the center each year.
+
+--- Page 80 ---
+29 | P a g e  
+ 
+U.S. Holocaust Memorial Museum 
+Tim Hemmer 
+1000 Raoul Wallenberg Place, SW 
+Washington, DC 
+202-479-9721 
+themmer@ushmm.org  
+  
+The United States Holocaust Memorial Museum is the US official memorial to the Holocaust. It 
+is located next to the National Mall in Washington, DC and provides for the documentation, 
+study and interpretation of Holocaust history. It is dedicated to helping leaders and citizens of the 
+world confront hatred, prevent genocide, promote human dignity and strengthen democracy. 
+ 
+The Holocaust Museum open in 1993 and has averaged more than 1 million visitors per year 
+since then. There are 15 vertical transportation units at the museum.  
+ 
+ 
+Catholic University  
+Karen Kreamer-Porter 
+620 Michigan Avenue NE 
+Washington, DC 20064 
+202-319-5121 
+Kreamer@cua.edu 
+ 
+Catholic University of America is a private in Washington, D.C.. The school was founded in 
+1887, and it’s programs emphasize the liberal arts, professional education and personal 
+development.   
+ 
+There are over 50 buildings on campus and a student population of approximately 6,000 
+(undergraduates and postgraduates). There are 52 vertical transportation units on campus.  
+ 
+ 
+Howard University 
+Charles Mante 
+2251 Sherman Avenue NW 
+Washington, DC  20001 
+202-806-1003 
+cmante@howard.edu 
+ 
+Howard University is a private in Washington, DC. The school was founded in 1867 and covers 
+over 120 acres.  
+ 
+There is a student population of approximately 10,300 (undergraduates and postgraduates). 
+There are 94 vertical transportation units on campus.
+
+--- Page 81 ---
+30 | P a g e  
+ 
+ 
+Boston Properties 
+Jeffrey Garner 
+2200 Pennsylvania Ave, NW 
+Washington, DC 20037 
+(202) 585-0800 
+jgarner@bostonproperties.com 
+ 
+Boston Properties, Inc., a self-administered and self-managed American real estate investment 
+trust (REIT), is one of the largest owners, managers and developers of Class A office properties 
+in the United States, with a significant presence in five markets: Boston, Los Angeles, New 
+York, San Francisco and Washington, DC.  
+ 
+Our inspection program for Boston Properties covers approximately 300 pieces of equipment and 
+is fragmented in two jurisdictions, Washington DC and Maryland.  Our Corporate office follows 
+the same scheduling procedures that we use for both the City of Richmond and City of 
+Alexandria.  
+ 
+The one caveat related to scheduling for Boston Properties is there are no routines required in the 
+state of Maryland, while all units in the District of Columbia require the same level of service as 
+the City of Richmond. 
+ 
+ 
+Tower Companies 
+Donna Nurmi 
+1909 K Street, NW Suite C180 
+Washington, DC. 20006 
+202.617-3751 
+donna.nurmi@towercompanies.com 
+ 
+Tower Companies develop, own and manage commercial, retail and multi-family residential 
+properties in the DC Metro area. 
+ 
+We provide similar services for the Tower Companies that we do for Boston Properties since we 
+inspect their vertical transportation units in DC and Maryland.
+
+--- Page 82 ---
+31 | P a g e  
+ 
+PROJECT APPROACH 
+ 
+A. As highlighted in the organizational charts below, Dominion is owned by Allsafe Dominion LLC and 
+operates in four regions: Richmond, DC Metro, Alexandria and Pennsylvania. We have had an office 
+in Richmond for 15 years.  The Richmond office has four full-time employees. 
+ 
+The other elevator inspection company owned by Allsafe Dominion LLC is Allsafe Elevator 
+Inspections. Allsafe is based is Baltimore and performs inspections primarily in Maryland. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Sean Darby
+Allsafe Dominion LLC
+CEO
+Dominion
+Elevator Inspections
+Mike Clark
+President
+Allsafe 
+Elevator Inspections
+Theresa Tsamoutalis
+President
+Finance & 
+Administration
+Carter Buxbaum
+CFO
+
+--- Page 83 ---
+32 | P a g e  
+ 
+ 
+B. Dominion Inspector Supervisor, Marcus Albin, has been part of the pilot program for the City-
+provided electronic devices. Over the past 18 months, Marcus has received training and has field 
+tested the device. He has also met with other City of Richmond inspector supervisors for field 
+training.  
+ 
+Our two other Richmond inspectors, Marion (Buddy) Childress and Richard Holloway are 
+available for the 80 hours of training. Buddy and Richard are both residents of the greater 
+Richmond area, so scheduling the training will be easy to arrange. They are already aware of the 
+electronic device program and are looking forward to using the devices. 
+ 
+In addition to our field inspectors, Brittany Pryor, our Richmond Office Manager, will be trained 
+on the use of the electronic devices. She is a Richmond area resident, so scheduling for her will 
+also be easy to accommodate. She will act as a back-up in assisting our field inspectors with any 
+field issues. 
+ 
+All Dominion inspectors will have available a cellular data hotspot and wifi connection to enable 
+the use of the electronic devices provided by the City. 
+ 
+C. Marcus Albin, the local Dominion lead inspector, is a certified QEI Inspection Supervisor. We 
+feel it is important to have a local inspector with this supervisor certification.  
+ 
+Mike Clark
+Dominion Elevator 
+Inspections
+President
+Richmond
+Region
+Marcus Albin
+Regional 
+Manager
+Buddy Childress
+QEI Inspector
+Richard Holloway
+QEI Inspector
+Brittany Pryor
+Office Manager
+DC Metro
+Region
+8 Inspectors
+1 Admin Support
+Alexandria
+Region
+3 Inspectors
+1 Admin Support
+Pennsylvania
+Region
+3 Inspectors
+1 Admin Support
+Operations 
+Support
+Tracey Meyers
+Ops. Manager
+1 Admin Support
+
+--- Page 84 ---
+33 | P a g e  
+ 
+Additionally, Mike Clark, the President of Dominion, is also a certified QEI Inspector Supervisor. 
+We believe that having two accessible inspectors with the supervisor certification is very 
+important, as it provides a back-up if necessary. 
+ 
+D. Dominion has three Inspectors and an Office Manager who live in the greater Richmond area. 
+They have company cell phones and are very customer service oriented. This local presence and 
+customer service mindset allow us to meet all the required response times in sections 2.8 and 
+2.12. 
+ 
+E. Marcus Albin currently performs the plan reviews for the City of Richmond. He performs the 
+reviews electronically. The plans are sent electronically to him, and he reviews and stamps the 
+drawings electronically.  
+ 
+Once the City’s designed software is ready for plan reviews, Marcus will adopt this system for 
+plan reviews. 
+ 
+F. Mike Clark will be responsible for implementing the quality control program. Mike will perform 
+the quality control inspections along with Marcus Albin on no less than 10% of all inspections. 
+Both individuals have extensive elevator maintenance and inspection experience.   
+ 
+Our definition of an effective QC program requires the inspector to visit the location previously 
+inspected and meet the building representative to verify the time, date, appearance and overall 
+attitude of the inspector at the time of the inspection. We want the building representatives to feel 
+confident that we have professional qualified inspectors who take their job seriously. During the 
+QC inspection, a complete inspection of the machine room, hoistway, pits, in-car phone, alarm 
+bell, etc. are performed in the presence of the building representative. 
+ 
+Our inspectors will wear a Dominion uniform (shirt and jacket). We feel it is important to ask the 
+building personnel about the appearance and attitude of the inspector at the time of inspection. 
+Our inspectors represent Dominion and The City of Richmond in the performance of their 
+inspections.   
+ 
+G. Tracey Meyers (Wellsville, PA) and Brittany Pryor (Richmond) have been working together for 
+over two years generating and submitting the invoices to the City of Richmond.  
+ 
+We have been following the protocol listed in section 2.13 for the last several years. 
+ 
+ 
+Please find attached a copy of a sample invoice and supporting detailed spreadsheet on the 
+following pages.
+
+--- Page 85 [OCR] ---
+Dominion Elevator inspection Services
+7476 Carlisle Road Invoice
+
+Wellsville, PA 17365
+
+(877) 653-4500
+billing@dominioninspections.com
+dominioninspections.com
+
+BIL TO
+‘The City of Richmond, Virginia
+Bureau of Permits and Inspections
+900 E. Broad St, Room 110
+Richmond, VA 23219
+
+INVOICE # DATE TOTAL DUE DUE DATE TERMS ENCLOSED
+
+101055 0503/2019 $8,011.31 06/02/2019 Net 30
+
+P.O. NUMBER
+
+19000000397
+
+INSPECTED LOCATION ary RATE PER UNIT EXTENDED
+
+oaie2019 CitRich:Item 1 32 83.89 2,684.48
+Item 1 - Category 1 Test Inspection
+
+04/16/2019 CitRich:Item 2 46 42.97 1,933.65
+Item 2 - Routine Inspection
+
+oanei2019 CitRich:Item 2 1 42.97 4297
+Item 2 - Reinspection
+
+o4e2019 CitRich:Item 3 3 163.68 491.04
+Item 3 - Category V Full Load
+
+oaei2019 CitRich:Item 5 6 194.37 1,166.22
+Item 5 - Final Acceptance Permit
+Inspections.
+
+oaei2019 CitRich:Item 6 5 97.19 495.95
+Item 6 - Testing After Hours
+
+o4re2019 CitRich:Item 10 ral 17.00 1,207.00
+Item 10 - Brittany Pryor (Hourly)
+
+oae2019 Inspections done during the SECOND
+HALF of APRIL 2019
+
+BALANCE DUE $8,011.31
+
+TO INSURE PROPER CREDIT, PLEASE INCLUDE INVOICE # WHEN SUBMITTING PAYMENT
+
+34|Page
+
+--- Page 86 [OCR] ---
+Location #] unite ‘Address Date Description | Gty [Unit Price[Extended
+iItem 1- ry 1 Test Inspections
+F002, PoC2, FO04,
+123 PoOs: 6N Laurel Street 2/20/2019 Category One 4 $83.89 $335.56]
+POOL 151 Commerce Road 4/17/2019. Category One 1 $83.89 $83.89)
+166_| poo, P002, POO, 601 E Leigh street 2/20/2019 categoryone_| 3_| $83.89 $251.67
+173 Poot 815 Porter Street 4/19/2019 Category One 2 $33.89 $83.89]
+403 Poot 1107 N 2nd Street 4/17/2019. Category One 1 $83.89 $83.89)
+460 Poot, 611 W 3ist Street 4/17/2019, Category One 1_| sa3.89 $83.89)
+453 POOL 1117 Cary Street 4/15/2019. Category One 1 $83.89 $83.89)
+525 P0032, POO2 "1100 German School Road 4/17/2019 Category One 2 | $33.89 $167.78)
+Jit POOS: 411 € Franklin Street 4/16/2019. Category One a $33.89 $83.89)
+POO7 716 N 23rd Street 4/19/2019 Category One a | $33.89 ‘$83.89|
+763 Poot 681 Hioaks Road 4/16/2019, categoryone | 2 | sa3.89 $83.89)
+736 POOs ‘3001 N Boulevard 4/17/2019. Category One a | $33.89 ‘583.83)
+366. Poo. 1617 Monument Avenue 4/23/2019 Category One a $83.89 $83.89)
+F002, POOS, FOOT,
+877, woos, 1600 Westwood Avenue 4/23/2019 Category One 4 $83.89 $335.56
+‘007, POOd,
+877 WOOS: 1600 Westwood Avenue 2/22/2019 Category One 3 $83.89 $251.67]
+1435 Poot 926 Chimborazo Blvd 4/19/2019 Category One a $83.89 $83.89]
+1666 POO1, POO2, POOS 301 Virginia Street 4/19/2019, Category One 3 $83.89 $251.67,
+3852 Poot [3600 Deepwater Terminal Road 4/18/2019, CategoryOne | 1 | $83.89 $83.89)
+Pood, 4217 Hermitage Road 4/18/2019, Category One 1_| sa3.89 $83.89)
+[TOTAL 32 $2,684.48)
+iItem 2- Routine inspections
+363 FOO2 209 N Foushee Street 4/15/2019 Routine a $42.97 $42.97)
+364 Poot 2925 Rady Street 4/15/2019, Routine a_| saz97 $42.97|
+493 Poot 1707 Summit Avenue 4/15/2019 Routine a $42.97 $42.97)
+561 Foo. 2201 E Franklin Street 4/15/2019 Routine a $42.97 $42.97}
+642 Poo. 2930 W Broad Street 4/15/2019 Routine a $42.97 $42.97)
+664 PoO2 2700 Hanes Avenue 4/15/2019 Routine a $42.97 $42.97)
+713 Poo. 3115 Boulevard 4/16/2019 Routine a $42.97 $42.97]
+724 Poo. 312 E Broad Street 4/16/2019 Routine a $42.97 $42.97)
+790 Foo. 1700 W Main Street 4/17/2019 Routine a $42.97 $42.97]
+796 Poot 2501 Monument Avenue 4/17/2019 Routine a $42.97 $42.97,
+811 Foo. 715 Bowe Street 4/17/2019 Routine a $42.97 $42.97
+534 Poos 2201 Westwood Avenue 4/17/2019 Routine a $42.97 $42.97,
+847 Poo, 1823 Cathedral Place 4/18/2019 Routine a_| saz97 $42.97)
+333 P0031, POOZ 115 12th Street 4/16/2019 Routine 2 $42.97 $85.94)
+273 Foot 2325 W Broad street 4/18/2019, Routine a_| saz97 $42.57
+385 FOO1 3004 W Marshall Street 4/18/2019 Routine a1 $42.97 $42.97)
+Foo, P02, PoO3,
+008, PoOs, O06,
+F007, Poo8, 008,
+1003 P010 951 E Broad Street 4/17/2019 Routine 10 $42.97 $429.70)
+1013 POO. 3211 Chamberlayne Avenue 4/25/2019 Routine a $42.97 $42.97)
+1066. Poot 201 € Franklin Street 4/25/2019 Routine a $42.97 $42.97
+4173 FOO. 320 N 18th Street 4/25/2019 Routine a $42.97 $42.97]
+F003, PoC2, P08,
+1350. Pood 1500 N 28th Street 4/18/2019 Routine 4 $42.97 $171.88
+1404 Poo. 4207 Forest Hill Avenue 4/18/2019 Routine a $42.97 $42.97,
+1480 P0031, POO 7608 Forest Hill Avenue 4/18/2019 Routine 2 $42.97 $85.94)
+1661 Poos 1333 W Broad Street 4/15/2019 Routine a $42.97 $42.97,
+1670 003, W002 30 Malvern Avenue 4/15/2019 Routine 2 $42.97 $85.94)
+1679 woot 2113 E Main Street 4/18/2019 Routine 1 $42.97 $42.97)
+171s 001, WO02 6801 Patterson Avenue 4/15/2019 Routine 2 $42.97 $85.94)
+1744 Poot 41 Malvern Avenue 4/15/2019 Routine a $42.97 $42.97)
+1795 ‘woos, 205 N Hamilton Street 4/15/2019. Routine a $42.97 $42.97}
+TOTAL a5 $1,933.65]
+
+--- Page 87 [OCR] ---
+item 3-Re-Inspection
+
+Re-inspection
+2061__|poos 5700 Grove Avenue 2/19/2019 Final a_| saz97 $42.97
+TOTAL 2 $42.97)
+frum 4-Full Load-Cutegory V Test Inspections
+1323 [P0o:, Poos 7 N &th Street 4/15/2039 CategoryFive | 2 | $163.68 '$327.36|
+3329 [poo ZN Bth Street 4/16/2019 CategoryFive | 1 | $165.68 $163.68)
+TOTAL 3 $491.04)
+Item 5-Final acceptance Permit Inspections
+2024 W Broad Street
+726 003, Pood Permit#L036773-2018 4/18/2019 Final 2_| s198.37 $388.74]
+1021 Carlisle Avenue
+Poo2 Permit#L0436$7-2018 2/20/2019 Final +_| $196.57 $194.37
+O03 1719 N 22nd Street 4/39/2019 Final 1 _| sisa37 $184.37
+Poos 1718 N 22nd street 4/19/2019 Temp Final a _| $196.37 $194.37|
+Doo, 7945 Burrundie Drive 4/25/2019 Final 1_| $198.37 $194.37)
+froTAL 6
+{tem 6-Test (After Hours)
+600 E Canal street 4/18/2019 ‘After Hours s | 397.39 $485.95
+[TOTAL 5 $485.95)
+{tem 7-Plan Review
+Plan Review | _sso.69 | $0.00)
+froTAL o
+{tem 8-Investigate Accident
+‘Accident $61.38 $0.00]
+{item 10- Brittany Pryor's City of Richmond Hours
+Weeks of 4/25/29, 4/22/19, and
+4/29/39
+froTAL
+
+36|Pag
+
+e
+
+--- Page 88 ---
+37 | P a g e  
+ 
+OFFEROR QUALIFICATIONS 
+ 
+Dominion has extensive experience in performing the annual periodic inspections and testing 
+required in this solicitation.  
+ 
+There are eight key qualifications that Dominion possesses that make us qualified to perform the 
+scope of work defined in the RFP: 
+ 
+1. Superior team of executives, inspectors and support staff 
+2. Proper Training 
+3. Experience with Large Jurisdictions 
+4. Local offices 
+5. Scheduling experience with elevator companies, building owners and City of Richmond 
+6. Experience with all types of equipment 
+7. Ability to work with different software platforms 
+8. Track record of success  
+ 
+ 
+Superior team of executives, inspectors and support staff 
+Having good people is important in any business, and having a great team is critical in a 
+technical service business like elevator inspections. 
+ 
+Our Richmond team includes: 
+ 
+Sean Darby is the CEO of Allsafe Dominion LLC, the parent company of Dominion. Sean has 
+29 years of experience in the elevator industry, working for Otis elevator for 20 years (in Sales 
+and Service) and in the inspection industry for 9 years. 
+ 
+Mike Clark is the President of Dominion. Mike has 38 years of experience in the elevator 
+industry, working for Otis Elevator for 8 years (as a mechanic), for National Elevator Inspection 
+Services (NEIS) for 14 years and for the Dominion for the last 16 years. 
+ 
+Marcus Albin is the Richmond Regional Manager and the primary point of contact for the City 
+of Richmond contract. Marcus has 34 years of experience in the elevator industry, working for 
+Thyssen Krupp for 15 years as a mechanic and 19 years as a QEI inspector for NEIS and 
+Dominion. 
+ 
+The two other full-time inspectors on the Richmond team are Marion (Buddy) Childress and 
+Richard Holloway. These two individuals were both elevator mechanics based in the Richmond 
+area prior to becoming inspectors. They have been inspectors in Richmond for several years and 
+are also familiar with the buildings and processes.
+
+--- Page 89 ---
+38 | P a g e  
+ 
+Our office manager is Brittany Pryor. Brittany has managed the Richmond office for three years 
+and works closely with the City of Richmond team. Brittany is responsible for the administrative 
+functions of the Richmond office. She also lives in Richmond area. 
+ 
+Dominion has 17 QEI-certified inspectors (14 outside of Richmond) with an average of more 
+than 25 years of experience in the elevator industry. Their understanding of elevators and related 
+code requirements is exceptional. If needed, the Richmond office of Dominion can draw on these 
+resources. 
+ 
+ 
+Proper Training 
+All Dominion inspectors have the required training, code books and tools needed to perform any 
+inspection. 
+ 
+All of our inspectors maintain their QEI qualifications by attending an 8-hour approved 
+workshop and completing a 2-hour webinar each year. 
+ 
+Mike Clark and Marcus Albin maintain the QEI Supervisor status which includes all 
+requirements for QEI inspectors plus an additional Supervisor training. 
+ 
+All inspectors assigned to this project have attended the 3-day Core module, the 3-day Elevator 
+Module and completed 16 hours of continuing education within the last 2 years in order to 
+maintain the Virginia Inspector General classification.         
+ 
+ 
+Experience with large jurisdictions 
+Dominion is the current provider of elevator inspection services for the City of Richmond and 
+the City of Alexandria. We have been the City of Richmond provider for 15 years and the City of 
+Alexandria provider for 16 years.  
+ 
+These jurisdictions require similar procedures in terms of scheduling and reporting. Dominion 
+has developed strong relationships with all of the elevator maintenance companies serving 
+Richmond. These relationships ensure smooth scheduling and communication with building 
+personnel. Elevator inspections can be an interruption for building tenants, and our experience 
+and relationships make the inspection process as smooth as possible.  
+ 
+We have demonstrated that we can meet the demands of a large jurisdiction, including the 
+following: 
+• 
+Scheduling the periodic inspections 
+• 
+Performing the inspections 
+• 
+Processing the inspection reports 
+• 
+Performing plan reviews (and other non-inspection work), as needed 
+• 
+Invoicing for the work performed
+
+--- Page 90 ---
+39 | P a g e  
+ 
+Local Offices 
+The local office in Richmond is a competitive advantage for Dominion. We believe it is 
+imperative to have administrative and technical support in close proximity to each other and the 
+City of Richmond. This close proximity provides better collaboration and communication and 
+allows us to schedule more effectively.   
+ 
+We believe the team supporting the inspectors is very important, and we have invested 
+accordingly. Dominion has three regional offices – Richmond, Alexandria and Wellsville – to 
+support our inspectors.  
+ 
+ 
+Scheduling experience with elevator companies, building owners and City of Richmond 
+Dominion has a local office to ensure scheduling is efficient and smooth. Marcus Albin provides 
+a single point of contact for scheduling. Marcus has many years of experience scheduling with 
+the elevator maintenance companies, and he has an excellent working relationship with their 
+personnel.  
+ 
+On the administrative side, Brittany Pryor has a strong relationship with the City of Richmond 
+personnel and assists in ensuring all customer information is correct and certificates are issued. 
+Our administrative support is a huge asset.    
+ 
+ 
+Experience with all types of equipment 
+Richmond is an older city with all types of manufacturers and vintages of elevator and escalator 
+equipment. For an inspection program to operate effectively, inspectors need to have experience 
+with different equipment. Our Richmond team of inspector has an average of over 30 years of 
+experience working with elevators.  
+ 
+Further, our retention rate for inspectors is extremely high, so our workforce is very stable. We 
+understand the inspectors are the face of our business.   
+ 
+ 
+Ability to work with different software platforms 
+Dominion has a software platform to maintain a comprehensive and accurate diary list of all 
+buildings, elevators and inspection dates. Brittany Pryor has been instrumental in helping the 
+City of Richmond create an accurate data base for the Energov platform.  
+ 
+Note that we are also keeping a hard copy back-up of the inspection paperwork during the rollout 
+of EnerGov to make sure no information is lost.  
+ 
+In addition, we are using a tablet-based platform for electronic scheduling and reporting in the 
+State of Maryland. This allows the inspection process to be paperless and have all the 
+information stored in the cloud.
+
+--- Page 91 ---
+40 | P a g e  
+ 
+ 
+Our successful experience with using technology to make the process more efficient is an asset. 
+This experience will help us in working with the City of Richmond and the EnerGov platform. 
+ 
+ 
+Track record of success 
+Dominion was founded in 1991and has grown into one of the largest elevator inspection 
+companies in the Mid-Atlantic region. Our customer list includes Fortune 500 companies, federal 
+and local government entities, universities and hospitals, and major property management 
+portfolios. Dominion inspects over 12,000 units annually.  
+ 
+The 28 years of successful growth and business experience make Dominion well-qualified to 
+continue to provide elevator inspection services to the City of Richmond.
+
+--- Page 92 ---
+41 | P a g e  
+ 
+SUBCONTRACTING 
+ 
+We will not be utilizing Subcontractors in the execution of this contract.
+
+--- Page 93 ---
+42 | P a g e  
+ 
+EXHIBIT 2 
+PRICING SCHEDULE 
+ 
+PRICING:  Unless indicated by an hourly rate, all prices shall be per unit - inspection basis.  
+  
+Item   
+ 
+ 
+Description   
+ 
+ 
+ 
+Unit   Unit Price  
+ 
+1  
+ 
+Category 1 Test Inspection per section 2.3C   
+ 
+each  $ 92 
+ 
+ 
+2  
+ 
+Routine (6-Month) Inspections per section 2.3C  
+ 
+each  $ 49 
+ 
+3  
+ 
+Category 5 Test Inspections per section 2.3C  
+ 
+each  $ 195 
+ 
+4  
+ 
+Re-inspections of Category 1, Category 5, and  
+Routine (6-Month) Inspections per section 2.3H  
+ 
+each  $ 49 
+ 
+5  
+ 
+Re-inspections of New or Altered Elevating  
+Equipment per section 2.4F  
+ 
+ 
+ 
+each 
+$ 49 
+ 
+6  
+ 
+Final Acceptance of New or Altered Elevating  
+Equipment per section 2.4E   
+ 
+ 
+ 
+each  $ 225 
+ 
+7  
+ 
+Plans Review for New or Modernization  
+Installation per section 2.7A   
+ 
+ 
+ 
+each  $ 50 
+ 
+8  
+ 
+Elevator Accidents, Complaints, and  
+Emergencies per hour per sections 2.8 A and 2.7B   
+each  $ 60 
+ 
+9  
+ 
+After Hours Inspections per hour if requested per 
+sections 2.8, 2.11, and 2.12 
+ 
+ 
+ 
+ 
+each  $ 105
+
+--- Page 94 [OCR] ---
+ALLSELE-O1 -——__—Lwool
+
+_
+ACORO CERTIFICATE OF LIABILITY INSURANCE ona
+
+THIS CERTIFICATE IS ISSUED A$ A MATTER OF INFORMATION ONLY AND CONFERS NO RIGHTS UPON THE CERTIFICATE HOLDER. THIS
+CERTIFICATE DOES NOT AFFIRMATIVELY OR NEGATIVELY AMEND, EXTEND OR ALTER THE COVERAGE AFFORDED BY THE POLICIES
+BELOW. THIS CERTIFICATE OF INSURANCE DOES NOT CONSTITUTE A CONTRACT BETWEEN THE ISSUING INSURER(S), AUTHORIZED
+REPRESENTATIVE OR PRODUCER, AND THE CERTIFICATE HOLDER.
+
+IMPORTANT: the ceriicate holder i9 an ADDITIONAL INSURED, th pollyten) must Rave ADDITIONAL RIGURED provielone or be endorsed.
+Ht SUBROGATION I$ WAIVED, 10 the forme ana conattone of fre poncy, certain policies may require an enaoreement. A staement on
+this certincate dose not confer rights to the certificate holder In leu of auch end Os
+
+Tous Epuarr Cer tment
+| Proterred Iné Services, Inc THRONE ra
+aa38 riage op hoes, ‘Suite 180 : {roy mE [EE nu(703) 991-4098
+
+Fairfax,
+Sie
+16691
+sures
+ATAB, LLC de Dominion Esevator, LLC | nsw; Navigators Insurance Company
+te sue; ASH Pd eure Conan GF Armaan Carer 10166
+Wolteville, PA 17365 = qT
+| nutes ; National Union Fire Ins Co 19445,
+sunt
+sR: REVISION NUMBER:
+
+THIS IS TO CERTIFY THAT THE POLICIES OF INSURANCE LISTED BELOW NAVE BEEN ISSUED TO THE INSURED NAMED AROVE FOR THE POLICY PERIOD
+INDICATED. NOTWITHSTANDING ANY REQUIREMENT, TERM OR CONDITION OF ANY CONTRACT OR OTHER DOCUMENT WiTH RESPECT TO WHICH THIS
+CERTIFICATE MAY BE (SSUED OR MAY PERTAIN, THE INSURANCE AFFORDED BY THE POLICIES DESCRIBED HEREIN iS SUBJECT TO ALL THE TERMS,
+EXCLUSIONS AND CONDITIONS OF SUCH POLICIES. UMTS SHOWN MAY HAVE BEEN REDUCED BY PAID CLAIMS.
+
+S71 Oe meSLANCR
+DH [oormnenrns comoon amy
+
+J ovmesnce [] cocun
+
+[or AccrnGATE Law Ansies ER.
+roucy [X] 585) Loe
+
+oith
+fg eres
+
+X] ay auto
+Pony] sea
+ssc] Rens
+
+X] cocur
+CNM MADE 1S19€xC871687—V 4/29/2019
+
+hd a eens
+
+eyreapentaanesanensre™* (Am
+fete
+
+Wyo, sit ye
+
+Jweverose23 412912019
+
+CERTIFICATE HOLDER, CANCELLATION
+
+SHOULD ANY OF THE ABOVE DEAORIGED POLICIES BE CANCELLED BEFORE
+THE EXPIRATION DATE THEREOF, NOTICE WILL BE DELIVERED IN
+
+Cy et neuen, vorete " ACCORDANCE WITH THE POLICY PROVISIONS.
+Richmond, VA 23218
+
+‘AUER VR WRSENATIVE
+
+n
+‘ACORD 25 (2016/03) @ 1988-2015 ACORD CORPORATION. All rights reserved.
+
+‘The ACORD name and logo are regietered marks of ACORD
+
+43|Page
+
+--- Page 95 [OCR] ---
+Contract No. 20000003712
+
+CITY OF RICHMOND
+
+PROCUREMENT SERVICES CONTRACT MODIFICATION NO. 4
+(RENEWAL)
+
+’
+
+THIS CONTRACT MODIFICATION is made and entered into as of the _ Ze Peay of L » 2024,
+by and between the City of Richmond, hereinafter referred to as the “City,” and ATAB, LLC dha Dominion Elevator
+Services, hereinafter referred to as the “Contractor.”
+
+WITNESSETH
+
+WHEREAS, on September 20, 2019, the City and the Contractor entered into Contract No. 20000003712 (the
+“Contract”);
+
+WHEREAS, pursuant to section 1.1 of the Terms and Conditions of the Contract, the initial term was two years;
+
+WHEREAS, pursuant to section 1.3 of the Terms and Conditions of the Contract, the City may renew this Contract
+for up to two (2) of two (2) year renewal terms; and
+
+WHEREAS, on September 1, 2021, the City and the Contractor executed a Contract Modification to document
+the City's exercise of the first of a two two-year renewal option to renew the Contract under section 1.3 of the
+General Terms and Conditions of the Contract for the term of September 20, 2021, through September 19, 2023;
+and
+
+WHEREAS, on October 14, 2022, the City and the Contractor executed a Contract Modification (i) to increase
+the contract amount from $600,000.00 to $1,000,000.00 and (ii) a rate increase of 4.5% in accordance with Exhibit
+2; and
+
+WHEREAS, on April 12, 2023, the City and the Contractor executed a Contract Modification to increase the
+contract amount from $1,000,000.00 to $1,600,000.00; and
+
+WHEREAS, since September 19, 2023, the Contractor has continued to provide services to the City pursuant to the
+Terms and Conditions of the Contract, which services have been ordered and accepted, and the City and the
+Contractor have proceeded in all respects as though the Contract was still in force in effect; and
+
+WHEREAS, the parties deem it to be to their mutual benefits to modify the aforementioned Contract by (i)
+exercising the second of (2) two-year renewal options, under Section 1.3 of the Terms and Conditions of the
+Contract; (ii) to increase the contract amount from One Million Dollars Six Hundred Thousand Dollars
+($1,600,000.00) to Two Million Two Hundred Thousand (2,200,000.00); and
+
+Revised 08/11/2021
+
+--- Page 96 [OCR] ---
+Contract No. 20000003712
+
+NOW, THEREFORE,
+
+That for and in consideration of the mutual benefits to be derived by the City and the Contractor, the Contract is
+hereby modified as follows:
+
+1, The Contract is hereby and shall be deemed renewed for the period commencing at midnight on September
+20, 2023, and ending at 11:59p.m. on September 19, 2025, pursuant to section 1.3 of the Terms and
+Conditions of the Contract.
+
+2. Contract Amount. The maximum authorized contract amount for this Contract is Two Million Two
+Hundred Thousand 00/100 U. S. dollars ($2,200,000.00). The aggregate of all payments by the City under
+this Contract shall not exceed this amount. Orders placed against this contract will be through fully
+approved purchase orders issued by the City. The pricing under this contract shall be in accordance with
+Exhibit 2 (attached and incorporated by reference). By signing this contract, the Contractor agrees not to
+accept orders from the City without a fully approved purchase order. Acceptance of other orders are at
+the Contractor’s sole risk.
+
+The City and the Contractor covenant and agree each with the other that the Contract, between the parties, except
+as modified herein, shal! be and remain in full force and effect.
+
+IN TESTIMONY WHEREOF, the City and the Contractor have executed this instrument as of the respective
+
+dates written below.
+{
+
+APPROVED:
+
+|. Atmaraz Cc) Contractor (signature in ink)
+irector of Procurement Services :
+Sires =
+(printed name)
+50 [2 Yas Jab
+Date Date
+
+Revised 08/11/2021

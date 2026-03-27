@@ -1,0 +1,20 @@
+Problem Landscape A3 — Comparing Both Targeted Problem Statements
+
+Compare the two targeted problem statements for the A Thriving City Hall pillar in Richmond:
+- Statement 1: Helping Residents Find the Right City Service or Next Step (Score 27/32 — Strong)
+- Statement 2: Helping City Staff Review Procurement Risks and Opportunities (Score 22/32 — Needs work)
+
+Analyze both problems on the following dimensions:
+1. DATA AVAILABILITY: Which problem has better public data available for building a prototype?
+2. USER CLARITY: Which user is better defined and easier to serve with a weekend prototype?
+3. DEMO CREDIBILITY: Which problem produces a more compelling and verifiable demo?
+4. RISK PROFILE: Which problem has higher risk of civic harm if the prototype gives wrong information?
+5. CONTINUATION PATHWAY: Which problem has a clearer path to post-hackathon adoption (Statement 1 has Pete Briel / City 311 team; Statement 2 lacks a named champion)?
+6. TECHNICAL FEASIBILITY: Which is more buildable in 48 hours given the known constraints?
+
+Consider that Statement 1 has a higher rubric score but faces the critical constraint of no post-2018 RVA311 API. Statement 2 has a lower score and lacks a named champion, but the City Contracts Socrata data is fully accessible.
+
+Output
+- Side-by-side comparison table
+- Recommendation for which problem a typical hackathon team should choose and why
+- Conditions under which a team might reasonably choose the lower-scored problem

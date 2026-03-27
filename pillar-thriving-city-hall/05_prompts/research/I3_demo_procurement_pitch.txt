@@ -1,0 +1,29 @@
+Demo Guidance I3 — How to Demo a Procurement Contract Tool to Judges
+
+Provide specific guidance on demoing a procurement tool — a contract expiry dashboard, PDF extractor, or cross-source finder — to hackathon judges at the Richmond Civic Hackathon.
+
+THE CHALLENGE:
+Procurement tools are harder to demo than resident-facing tools because: (1) the audience may not understand the problem intuitively, (2) the data is less visually compelling than a service navigation interface, (3) there's no named City champion to reference as proof of impact.
+
+THE PROCUREMENT DEMO ARC:
+- Opening hook (30 sec): "City staff manually track contract renewals by scanning PDFs. Last year, [data point about missed renewals or procurement risk]. There's a better way."
+- Problem visualization (45 sec): Show the manual process — a CSV spreadsheet with 200 rows and unsorted dates, or a 40-page contract PDF with the expiration date buried on page 27
+- Solution in action (90 sec): Show your dashboard filtering to "next 60 days" → 8 contracts highlighted → click one to see key details. OR: Upload the PDF → extracted summary in 10 seconds.
+- "Advisory only" signal (20 sec): "Staff still verify against official systems before acting. We surface the information; they make the decision."
+- Data provenance (20 sec): "This uses Richmond's public City Contracts dataset — openly available at data.richmondgov.com"
+- Impact and ask (30 sec): "What would it take to deploy this? Access to more contract documents and a meeting with the procurement team."
+
+SPECIFIC SCENARIOS TO PREPARE:
+- Dashboard: Show 5–8 contracts expiring in the next 60 days; click one to see vendor, amount, department, and dates
+- PDF extractor (if built): Upload a sample contract; show the before (full PDF) and after (extracted summary)
+- Cross-source finder (if built): Search "janitorial services"; show results from City, SAM.gov, and eVA
+
+THINGS JUDGES WILL PROBE:
+- "Is this using real Richmond data?" → Yes, the City Contracts dataset from data.richmondgov.com
+- "What's the catch?" → The API has a known column bug; we use the CSV download. Contract data may not reflect amendments.
+- "How would staff actually use this?" → As a daily or weekly review tool to surface contracts needing attention
+
+Output
+- Script outline for a 4-minute procurement tool demo
+- Answers to top 5 judge questions
+- How to handle the "no named champion" weakness in the pitch

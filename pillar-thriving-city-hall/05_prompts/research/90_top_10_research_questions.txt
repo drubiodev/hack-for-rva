@@ -1,0 +1,28 @@
+Top 10 Research Questions — A Thriving City Hall
+
+Answer these 10 key questions that a Richmond Civic Hackathon team working on the A Thriving City Hall pillar most needs answered before building. Focus on Richmond-specific evidence where it exists; use comparable city evidence where Richmond data is unavailable.
+
+1. What is the current list of ~50+ RVA311 request types and their department mappings? Where is this list publicly documented?
+
+2. What is the rva.gov sitemap structure — how many pages exist, are they organized by department, and what structured data fields are available for search indexing?
+
+3. What are the actual 9 columns in the City Contracts Socrata dataset (xqn7-jvv2), including the column that is missing from the API response due to the known bug?
+
+4. What is the free API key registration process for SAM.gov, and what are the rate limits and key data fields available for federal contract queries relevant to Richmond?
+
+5. What is the current URL and schema for the eVA Virginia procurement CSV dataset on data.virginia.gov?
+
+6. How do comparable cities (Boston, NYC, Chicago, SF) structure their 311 service type taxonomies for plain-language resident use?
+
+7. What are the documented failure modes of government service navigation chatbots — specifically cases where wrong routing caused resident harm or eroded trust?
+
+8. What is the AvePoint Citizen Services platform's public documentation — does it confirm the absence of a public API, and what integration capabilities does it officially support?
+
+9. What contract transparency tools built on Socrata or similar open data have been successfully deployed at the city or state level?
+
+10. What digital equity and accessibility considerations are most relevant for Richmond residents using City service navigation tools (language, device, literacy)?
+
+Output
+- Answers with URLs for each question
+- Clearly mark each answer as: Verified (with source), Inference, or Unknown
+- Flag any question where the answer directly affects hackathon feasibility

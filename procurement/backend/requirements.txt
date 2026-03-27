@@ -1,0 +1,15 @@
+fastapi[standard]>=0.135.0
+uvicorn[standard]
+sqlalchemy[asyncio]>=2.0
+asyncpg
+aiohttp
+pydantic-settings>=2.0
+python-multipart
+openai>=1.40.0
+azure-ai-documentintelligence>=1.0.0
+azure-storage-blob>=12.20.0
+alembic
+python-dotenv
+httpx
+pytest
+pytest-asyncio
