@@ -6,26 +6,143 @@ AI-powered procurement document processing for the City of Richmond. Staff uploa
 
 > This is a decision-support tool. AI-assisted extractions require human review.
 
-## How It Works
-
-```
-Staff uploads PDF ──► FastAPI Backend ──► Azure Blob Storage (store original)
-                                                  │
-                                         Azure Document Intelligence (OCR)
-                                                  │
-                                         Azure OpenAI GPT-4.1-nano
-                                         (classify + extract fields)
-                                                  │
-                                         Validation Engine (13 rules + AI)
-                                                  │
-                                         Supabase PostgreSQL
-                                                  │
-                          Next.js 16 Dashboard ◄── REST API (polling)
-```
-
-Also ingests **~1,362 real City of Richmond contracts** from the Socrata open data portal.
-
 ## Architecture
+
+```mermaid
+graph TB
+    subgraph Client["Browser"]
+        FE["Next.js 16 Dashboard<br/><i>shadcn/ui + TanStack Query</i>"]
+        RS["Role Selector<br/><i>Analyst / Supervisor</i>"]
+    end
+
+    subgraph Railway["Railway"]
+        API["FastAPI Backend<br/><i>SQLAlchemy 2.0 async</i>"]
+    end
+
+    subgraph Azure["Azure Services"]
+        BLOB["Blob Storage<br/><i>PDF originals</i>"]
+        DI["Document Intelligence<br/><i>prebuilt-read OCR</i>"]
+        OAI["OpenAI GPT-4.1-nano<br/><i>classify + extract</i>"]
+    end
+
+    subgraph Data["Data Sources"]
+        SOC["Socrata CSV<br/><i>~1,362 City contracts</i>"]
+        PDF["10 Pre-staged PDFs<br/><i>Real Richmond contracts</i>"]
+    end
+
+    DB[("Supabase PostgreSQL")]
+
+    RS --> FE
+    FE -- "REST API<br/>(5s/30s polling)" --> API
+    API -- "store original" --> BLOB
+    API -- "OCR scanned docs" --> DI
+    API -- "classify + extract" --> OAI
+    API -- "structured data" --> DB
+    SOC -- "CSV ingest" --> API
+    PDF -- "upload" --> API
+    DI -- "extracted text" --> API
+    OAI -- "structured fields" --> API
+    FE -- "reads" --> DB
+
+    style Client fill:#e8f4fd,stroke:#2196F3
+    style Railway fill:#f3e5f5,stroke:#9C27B0
+    style Azure fill:#fff3e0,stroke:#FF9800
+    style Data fill:#e8f5e9,stroke:#4CAF50
+    style DB fill:#fce4ec,stroke:#E91E63
+```
+
+## Data Flow — Document Processing Pipeline
+
+```mermaid
+sequenceDiagram
+    actor Analyst
+    actor Supervisor
+    participant FE as Next.js Dashboard
+    participant API as FastAPI Backend
+    participant Blob as Azure Blob Storage
+    participant DI as Azure Doc Intelligence
+    participant AI as Azure OpenAI<br/>GPT-4.1-nano
+    participant VE as Validation Engine<br/>13 rules + AI
+    participant DB as Supabase PostgreSQL
+
+    Note over Analyst, DB: Upload & Processing (automated)
+
+    Analyst->>FE: Upload contract PDF
+    FE->>API: POST /documents/upload
+    API-->>FE: 202 Accepted (processing started)
+
+    API->>Blob: Store original PDF
+    Blob-->>API: blob_url
+
+    API->>DI: Send PDF for OCR
+    DI-->>API: Extracted text + confidence score
+
+    API->>AI: Classify document type
+    AI-->>API: contract / rfp / invoice / ...
+
+    API->>AI: Extract structured fields<br/>(vendor, amount, dates, terms)
+    AI-->>API: JSON structured output
+
+    API->>VE: Validate extracted fields
+    Note right of VE: DATE_LOGIC, EXPIRING_30,<br/>HIGH_VALUE_NO_BOND,<br/>MISSING_AMOUNT, etc.
+    VE-->>API: Validation results (errors/warnings)
+
+    API->>DB: Save document + fields + validations
+    API->>DB: Log activity (system)
+
+    Note over Analyst, DB: Review & Approval (human)
+
+    FE->>API: GET /documents/{id} (5s polling)
+    API-->>FE: Document detail + extracted fields
+
+    Analyst->>FE: Review fields, resolve warnings
+    FE->>API: PATCH /documents/{id}/fields
+    API->>DB: Update fields + log edit
+
+    Analyst->>FE: Submit for approval
+    FE->>API: POST /documents/{id}/submit
+    API->>DB: Status → pending_approval
+
+    Supervisor->>FE: Review pending document
+    FE->>API: GET /documents/{id}
+    API-->>FE: Document with pending_approval status
+
+    alt Approved
+        Supervisor->>FE: Approve with comments
+        FE->>API: POST /documents/{id}/approve
+        API->>DB: Status → approved + log
+    else Rejected
+        Supervisor->>FE: Reject with reason
+        FE->>API: POST /documents/{id}/reject
+        API->>DB: Status → rejected + log
+        Note over Analyst: Document returns to analyst_review
+    end
+```
+
+## Socrata Data Ingest Flow
+
+```mermaid
+sequenceDiagram
+    participant Admin
+    participant API as FastAPI Backend
+    participant SOC as Socrata Open Data<br/>data.richmondgov.com
+    participant DB as Supabase PostgreSQL
+
+    Admin->>API: POST /ingest/socrata
+    API->>SOC: Download CSV (xqn7-jvv2)
+    SOC-->>API: ~1,362 rows
+
+    loop Each CSV row
+        API->>API: Normalize dates & currency
+        API->>API: Map columns to schema
+        API->>API: Check for duplicates
+        API->>DB: Insert document (source=socrata, status=extracted)
+        API->>DB: Insert extracted_fields
+    end
+
+    API->>DB: Log ingest activity
+    API-->>Admin: {"imported": 1362, "skipped": 0}
+```
 
 | Layer | Tech | Directory |
 |---|---|---|
@@ -111,9 +228,27 @@ Imports ~1,362 real City of Richmond contracts.
 
 ## Approval Workflow
 
-```
-uploaded → processing → extracted → analyst_review → pending_approval → approved
-                                                                      → rejected → analyst_review (again)
+```mermaid
+stateDiagram-v2
+    [*] --> uploading: Staff uploads PDF
+
+    uploading --> ocr_complete: Azure Doc Intelligence
+    ocr_complete --> classified: GPT-4.1-nano classifies
+    classified --> extracted: GPT-4.1-nano extracts fields
+    extracted --> analyst_review: Validation complete
+
+    analyst_review --> pending_approval: Analyst submits
+
+    pending_approval --> approved: Supervisor approves
+    pending_approval --> rejected: Supervisor rejects
+
+    rejected --> analyst_review: Analyst revises
+
+    approved --> [*]
+
+    uploading --> error: Pipeline failure
+    ocr_complete --> error: Pipeline failure
+    classified --> error: Pipeline failure
 ```
 
 - **Analyst:** uploads, reviews extracted fields, resolves warnings, submits for approval
