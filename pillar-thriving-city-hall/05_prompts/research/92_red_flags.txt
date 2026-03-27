@@ -1,0 +1,23 @@
+Red Flags — A Thriving City Hall
+
+Identify the most serious risk signals for civic tech tools built on the A Thriving City Hall problem statements. Focus on risks that could cause resident harm, erode trust in City government, or mislead hackathon judges.
+
+RISK DOMAIN 1: Over-claiming routing accuracy
+A 311 helper that confidently routes every query, even ambiguous ones, is dangerous. Investigate: what happens when a resident follows wrong routing advice? What is the downstream harm (delayed service, escalated staff burden, loss of trust)? What confidence calibration approaches have been used in government chatbots to reduce this risk?
+
+RISK DOMAIN 2: Hallucinating service categories
+LLM-powered tools may invent 311 categories, department names, or service types that do not exist in Richmond's actual RVA311 system. Investigate: what are the most common hallucination patterns in government service navigation tools? How should a tool handle a query for a service type that doesn't exist in RVA311?
+
+RISK DOMAIN 3: Wrong eligibility or compliance information
+Procurement tools that make compliance determinations (e.g., "this contract is legally compliant") or service navigation tools that make eligibility statements (e.g., "you qualify for this program") cross into legal advice territory. What are the documented cases of civic tech tools causing harm by providing incorrect eligibility guidance?
+
+RISK DOMAIN 4: Claiming official status
+Tools that imply they are official City interfaces, that submissions are being routed through official channels, or that their answers represent the City's official position undermine trust when they fail. What design patterns prevent users from confusing a civic tech prototype with an official City service?
+
+RISK DOMAIN 5: Data staleness
+rva.gov content changes; departments reorganize; 311 categories are updated. A tool trained on stale content will give outdated routing advice. What are best practices for content freshness signaling in government information tools?
+
+Output
+- For each domain: specific risk description, example failure scenario, mitigation strategy
+- Top 3 non-negotiable guardrails for any A Thriving City Hall prototype
+- Language patterns to avoid in UI copy and demo scripts

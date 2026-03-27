@@ -1,0 +1,17 @@
+Problem Landscape A5 — Government Website UX Failures: National and Richmond Context
+
+Investigate the documented patterns of government website UX failures, focusing specifically on the resident service navigation problem. Richmond's rva.gov uses Drupal 8+ on Acquia with a Facets-based search — a common configuration for mid-sized city websites.
+
+National context: What does the research say about how residents actually search for government services? What are the most common failure modes (wrong search terms, department-centric navigation, outdated content, mobile unfriendliness)? What accessibility and digital literacy barriers are documented?
+
+Richmond context: What is publicly known about rva.gov's usability? Is there any public reporting on resident satisfaction with City website search? Are there any documented complaints or feedback about 311 category confusion?
+
+Drupal-specific context: What are known limitations of Drupal Search API with Facets for citizen-facing search? What improvements have comparable Drupal-based government sites made to search quality?
+
+Plain-language government content: What does the plain-language literature say about the most effective approaches to translating government jargon into resident-friendly service descriptions?
+
+Output
+- Facts (with URLs)
+- Inferences (clearly labeled)
+- Unknowns (what cannot be verified publicly)
+- Top 3 UX improvements most relevant to rva.gov that a hackathon team could prototype

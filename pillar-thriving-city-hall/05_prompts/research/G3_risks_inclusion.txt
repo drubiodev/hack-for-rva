@@ -1,0 +1,27 @@
+Risks G3 — Digital Exclusion, Language Barriers, and Accessibility
+
+Investigate the risk that City Hall prototypes built for the hackathon inadvertently create a two-tier service experience — working well for digitally literate, English-speaking residents while failing the residents who need help most.
+
+Digital exclusion risks:
+- What is the digital divide in Richmond by neighborhood, age, and income level?
+- What percentage of Richmond residents are mobile-only internet users, and what does this mean for web-based service navigation tools?
+- What percentage of Richmond residents do not use the internet regularly for government services?
+- What is the dropout rate for digital government services when complexity increases?
+
+Language access risks:
+- What non-English languages are most commonly spoken in Richmond?
+- rva.gov uses Google Translate for 36 languages. What are the documented quality limitations of Google Translate for government service terminology?
+- What are the legal requirements for language access in Virginia municipal government?
+- How do well-designed multilingual service tools handle translation uncertainty?
+
+Accessibility risks:
+- What are the WCAG 2.1 AA requirements most commonly violated in government chatbots and service navigation tools?
+- What accessibility features are most important for Richmond's senior population?
+- What screen reader compatibility issues are common in dynamic web applications?
+
+Design risk: If a resident uses a service navigator and it gives wrong or inaccessible information, could they be worse off than if the tool didn't exist?
+
+Output
+- Inclusion risk inventory with specific scenarios
+- Minimum accessibility and language access requirements for a hackathon prototype
+- Design patterns that reduce (not eliminate) inclusion risk

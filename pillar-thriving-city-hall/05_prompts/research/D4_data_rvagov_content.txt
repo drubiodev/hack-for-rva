@@ -1,0 +1,33 @@
+Data Inventory D4 — rva.gov Drupal Content, Search API, and Structured Data
+
+Provide a technical inventory of rva.gov as a data source for building a service navigation tool. The goal is to understand what can be programmatically accessed and indexed.
+
+Sitemap and crawlability:
+- Does rva.gov publish a sitemap.xml? If so, what is the URL?
+- How is the site structured for crawling (robots.txt, crawl delay, disallowed paths)?
+- What are the typical page formats (HTML, SPA, server-rendered)?
+- How many pages are in the site approximately?
+
+Department content:
+- How are department landing pages structured? What fields are consistently present (department name, service description, contact, hours, forms)?
+- Are there structured templates used for service pages?
+- Is there a consistent "service description" content type?
+
+Search API:
+- What does the Drupal Search API with Facets expose programmatically?
+- Can search results be queried as JSON? What is the response schema?
+- What are the 40+ business_unit facet IDs? Where is this list documented?
+- What relevance ranking algorithm does the search use?
+
+Structured data and schema.org:
+- Does rva.gov use schema.org markup for government services, departments, or contact information?
+- Are there JSON-LD blocks in page source?
+
+Content freshness:
+- Do rva.gov pages include a "last updated" date in the HTML?
+- Is there an RSS feed or other content change notification mechanism?
+
+Output
+- Technical crawl and access guide for rva.gov
+- Available structured data fields
+- Recommended indexing approach for a hackathon team building a search layer

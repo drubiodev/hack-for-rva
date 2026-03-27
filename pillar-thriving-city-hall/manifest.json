@@ -1,0 +1,561 @@
+{
+  "corpus": {
+    "pillar": "thriving-city-hall",
+    "title": "A Thriving City Hall Pillar — Richmond Civic Hackathon",
+    "description": "Research corpus on Richmond's government operations and civic service delivery: resident service navigation via rva.gov and RVA311, and procurement contract review across City/State/Federal systems.",
+    "research_index": "research/index.json",
+    "corpus_guide": "CORPUS_GUIDE.md",
+    "agents_spec": "AGENTS.md",
+    "maintenance_guide": "MAINTENANCE.md",
+    "generated": "2026-03-18"
+  },
+  "files": [
+
+    {
+      "id": "root/README",
+      "path": "README.md",
+      "type": "nav_file",
+      "title": "A Thriving City Hall — Decision Funnel",
+      "pillar": "thriving-city-hall",
+      "summary": "Primary entry point for hackathon teams. Covers the three core questions, decision phases (0–9), guardrails, repo map, and Hackbot introduction. Read first for orientation.",
+      "tags": ["entry-point", "decision-phases", "guardrails", "orientation", "hackathon"],
+      "recommended_audience": ["all teams", "first-time visitors", "AI agents starting a session"],
+      "read_after": [],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "root/QUICKSTART",
+      "path": "QUICKSTART.md",
+      "type": "nav_file",
+      "title": "Quick Start",
+      "pillar": "thriving-city-hall",
+      "summary": "Minimal path from landing to MVP scope for teams with limited time before they need to make decisions.",
+      "tags": ["quickstart", "minimal-path", "mvp", "orientation"],
+      "recommended_audience": ["teams with limited time", "teams that need a clear starting point"],
+      "read_after": ["README.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "root/AGENTS",
+      "path": "AGENTS.md",
+      "type": "agent_spec",
+      "title": "Hackbot Agent Specification",
+      "pillar": "thriving-city-hall",
+      "summary": "Full specification for Hackbot: personality, boot sequence, skill system, research corpus navigation instructions, guardrails, and decision logic. AI agents should read this before acting.",
+      "tags": ["hackbot", "agent-spec", "skills", "boot-sequence", "research-corpus-navigation"],
+      "recommended_audience": ["AI agents", "developers building on Hackbot"],
+      "read_after": [],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "root/CORPUS_GUIDE",
+      "path": "CORPUS_GUIDE.md",
+      "type": "nav_file",
+      "title": "Research Corpus Guide",
+      "pillar": "thriving-city-hall",
+      "summary": "Self-describing guide for humans and AI agents on how to navigate and use the research corpus. Covers canonical source of truth hierarchy, section structure, navigation decision tree, and agent behavior requirements.",
+      "tags": ["corpus-guide", "navigation", "agent-behavior", "retrieval", "architecture"],
+      "recommended_audience": ["AI agents", "researchers", "hackathon participants unfamiliar with the corpus"],
+      "read_after": ["README.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "root/MAINTENANCE",
+      "path": "MAINTENANCE.md",
+      "type": "maintenance_guide",
+      "title": "Maintenance Guide",
+      "pillar": "thriving-city-hall",
+      "summary": "Instructions for adding, updating, and synchronizing research reports, metadata, indexes, and navigation files. Required reading before modifying the corpus structure.",
+      "tags": ["maintenance", "adding-reports", "metadata", "synchronization"],
+      "recommended_audience": ["corpus maintainers", "pillar coordinators", "AI agents tasked with corpus updates"],
+      "read_after": ["CORPUS_GUIDE.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "root/HACKBOT_BOOT_PROMPT",
+      "path": "HACKBOT_BOOT_PROMPT.md",
+      "type": "agent_spec",
+      "title": "Hackbot Boot Prompt",
+      "pillar": "thriving-city-hall",
+      "summary": "Initialization prompt for Hackbot. Contains the condensed boot sequence and initial framing for AI agent sessions.",
+      "tags": ["hackbot", "boot-prompt", "agent-initialization"],
+      "recommended_audience": ["AI agents initializing a session"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "root/CLAUDE_MD",
+      "path": "CLAUDE.md",
+      "type": "agent_spec",
+      "title": "Claude Role Definition",
+      "pillar": "thriving-city-hall",
+      "summary": "Role and operating rules for Claude AI in this repository: civic research guide, Socratic coach, MVP advisor for the City Hall pillar. Defines what Claude should and should not do, preferred solution patterns, and the default task sequence.",
+      "tags": ["claude", "role-definition", "operating-rules", "guardrails"],
+      "recommended_audience": ["Claude AI agents"],
+      "read_after": [],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "root/evidence_log",
+      "path": "evidence_log.md",
+      "type": "evidence_log",
+      "title": "Evidence Log — A Thriving City Hall",
+      "pillar": "thriving-city-hall",
+      "summary": "Tracking table for 15 factual claims about Richmond City Hall systems: RVA311, rva.gov, City Contracts, and related data sources. Most entries are currently unverified and need official source confirmation.",
+      "tags": ["evidence", "verification", "factual-claims", "RVA311", "City Contracts"],
+      "recommended_audience": ["fact-checkers", "researchers verifying claims", "AI agents before asserting facts"],
+      "read_after": [],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "root/research_notes",
+      "path": "research_notes.md",
+      "type": "synthesized_artifact",
+      "title": "Research Hub and Executive Brief",
+      "pillar": "thriving-city-hall",
+      "summary": "Primary synthesized research hub: executive brief and promoted findings from the research corpus. Best single document for teams needing a comprehensive summary quickly.",
+      "tags": ["executive-brief", "research-hub", "synthesis", "findings"],
+      "recommended_audience": ["teams with 30–60 minutes", "anyone needing the executive summary of all research"],
+      "read_after": ["01_problem_space/02_targeted_problem_statements.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "core/pillar_overview",
+      "path": "00_core/00_pillar_overview.md",
+      "type": "core_doc",
+      "title": "Pillar Overview",
+      "pillar": "thriving-city-hall",
+      "summary": "Overview of the A Thriving City Hall pillar problem space: government service delivery, resident access to City services, staff efficiency, and procurement integrity. Foundational context for all research.",
+      "tags": ["pillar-overview", "problem-space", "service-delivery", "procurement", "311"],
+      "recommended_audience": ["all teams", "orientation phase"],
+      "read_after": ["README.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "core/map_alignment",
+      "path": "00_core/01_map_alignment.md",
+      "type": "core_doc",
+      "title": "MAP Alignment",
+      "pillar": "thriving-city-hall",
+      "summary": "Alignment of this pillar with the Mayor's Action Plan (MAP). Explains the civic and strategic context for hackathon solutions targeting City Hall operations.",
+      "tags": ["map", "mayors-action-plan", "strategic-alignment", "civic-context"],
+      "recommended_audience": ["teams needing policy context", "demo presentations"],
+      "read_after": ["00_core/00_pillar_overview.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "problem_space/bluesky",
+      "path": "01_problem_space/01_bluesky_problem_statements.md",
+      "type": "problem_statement",
+      "title": "Blue-Sky Problem Statements",
+      "pillar": "thriving-city-hall",
+      "summary": "Broad, unconstrained problem statements for exploratory ideation in the City Hall pillar. Use for teams in orientation wanting a wide problem canvas before narrowing.",
+      "tags": ["problem-statements", "bluesky", "ideation", "exploration"],
+      "recommended_audience": ["teams in orientation phase", "teams still choosing a problem"],
+      "read_after": ["00_core/00_pillar_overview.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "problem_space/targeted",
+      "path": "01_problem_space/02_targeted_problem_statements.md",
+      "type": "problem_statement",
+      "title": "Targeted Problem Statements (Scored)",
+      "pillar": "thriving-city-hall",
+      "summary": "Two scored, rubric-evaluated problem statements: Resident Service Navigation (27/32 Strong) and Procurement Risk Review (22/32 Needs Work). Includes rubric dimensions, champion status, and quick-kill flags.",
+      "tags": ["problem-statements", "scored", "service-navigation", "procurement-review", "rubric"],
+      "recommended_audience": ["all teams choosing a problem", "Phase 2"],
+      "read_after": ["01_problem_space/01_bluesky_problem_statements.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "data/index",
+      "path": "02_data/00_index.md",
+      "type": "data_file",
+      "title": "Data Index",
+      "pillar": "thriving-city-hall",
+      "summary": "Index of available data sources for the A Thriving City Hall pillar. Points to the source inventory CSV and explains data categories.",
+      "tags": ["data-index", "data-sources", "inventory"],
+      "recommended_audience": ["teams identifying data sources", "Phase 3"],
+      "read_after": ["01_problem_space/02_targeted_problem_statements.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "data/source_inventory",
+      "path": "02_data/source_inventory.csv",
+      "type": "data_file",
+      "title": "Source Inventory (CSV)",
+      "pillar": "thriving-city-hall",
+      "summary": "Structured inventory of public data sources with access mode, key fields, and notes. Includes City Contracts Socrata (xqn7-jvv2), RVA311 historical (vgg4-hjn8), eVA, SAM.gov, and rva.gov.",
+      "tags": ["data-sources", "csv", "socrata", "public-data", "access-modes", "City Contracts"],
+      "recommended_audience": ["developers", "data researchers", "teams building data-dependent MVPs"],
+      "read_after": ["02_data/00_index.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "artifacts/user_journeys",
+      "path": "03_artifacts/user_journeys.md",
+      "type": "synthesized_artifact",
+      "title": "User Journeys",
+      "pillar": "thriving-city-hall",
+      "summary": "Structured journey maps for primary City Hall user personas: resident seeking a service, 311 call center staff, and procurement staff reviewing contracts. Useful for MVP design and demo narrative.",
+      "tags": ["user-journeys", "personas", "resident", "311-staff", "procurement-staff"],
+      "recommended_audience": ["teams designing user flows", "demo preparation"],
+      "read_after": ["03_artifacts/prototype_recommendations.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "artifacts/prototype_recommendations",
+      "path": "03_artifacts/prototype_recommendations.md",
+      "type": "synthesized_artifact",
+      "title": "Prototype Recommendations",
+      "pillar": "thriving-city-hall",
+      "summary": "Seeded MVP concepts for the City Hall pillar with rationale: Contract Expiry Dashboard, Plain-Language 311 Helper, and Service Pathway Mapper. Includes recommended starting direction.",
+      "tags": ["prototype", "mvp-concepts", "recommendations", "contract-expiry", "311-helper", "service-pathway"],
+      "recommended_audience": ["teams choosing an MVP direction", "Phase 4"],
+      "read_after": ["research_notes.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "artifacts/benchmark_scan",
+      "path": "03_artifacts/benchmark_scan.md",
+      "type": "synthesized_artifact",
+      "title": "Benchmark Scan",
+      "pillar": "thriving-city-hall",
+      "summary": "Scan of comparable civic tech tools from other jurisdictions. Synthesizes E section findings on prior art for government service navigation and procurement transparency tools.",
+      "tags": ["benchmarks", "prior-art", "comparable-tools", "pattern-transfer", "311", "procurement"],
+      "recommended_audience": ["teams researching what already exists", "Phase 3"],
+      "read_after": ["research_notes.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "artifacts/city_hall_tech_inventory",
+      "path": "03_artifacts/city_hall_tech_inventory.md",
+      "type": "synthesized_artifact",
+      "title": "City Hall Tech Inventory",
+      "pillar": "thriving-city-hall",
+      "summary": "Inventory of the City of Richmond's current technology stack relevant to the hackathon: RVA311 (AvePoint/Dynamics 365), rva.gov (Drupal/Acquia), City Contracts (Socrata), eVA, SAM.gov, and related systems.",
+      "tags": ["tech-inventory", "city-systems", "RVA311", "rva.gov", "Socrata", "AvePoint"],
+      "recommended_audience": ["developers", "architects", "teams scoping integrations"],
+      "read_after": ["00_core/00_pillar_overview.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "artifacts/continuation_plan",
+      "path": "03_artifacts/continuation_plan.md",
+      "type": "synthesized_artifact",
+      "title": "Continuation Plan",
+      "pillar": "thriving-city-hall",
+      "summary": "Post-hackathon pathways for continuing City Hall work: potential partners, city departments, and next steps for each prototype direction.",
+      "tags": ["continuation", "post-hackathon", "partners", "next-steps"],
+      "recommended_audience": ["teams planning beyond the weekend", "continuity_planner skill"],
+      "read_after": ["03_artifacts/prototype_recommendations.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "build_guides/mvp_shapes",
+      "path": "04_build_guides/01_mvp_shapes.md",
+      "type": "build_guide",
+      "title": "MVP Shapes",
+      "pillar": "thriving-city-hall",
+      "summary": "Catalog of MVP build patterns appropriate for the City Hall pillar: service navigator, contract expiry dashboard, pathway mapper. Includes scope, tech stack, and demo path for each shape.",
+      "tags": ["mvp-shapes", "build-patterns", "service-navigator", "contract-expiry", "pathway-mapper"],
+      "recommended_audience": ["teams in Phase 4 (Opportunity Framing)", "teams choosing a build direction"],
+      "read_after": ["01_problem_space/02_targeted_problem_statements.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "build_guides/architectures",
+      "path": "04_build_guides/02_recommended_architectures.md",
+      "type": "build_guide",
+      "title": "Recommended Architectures",
+      "pillar": "thriving-city-hall",
+      "summary": "Technical architecture recommendations for City Hall builds: static decision tree, Socrata-backed dashboard, rva.gov content index. Covers frontend, backend, and data layer choices.",
+      "tags": ["architectures", "technical", "decision-tree", "dashboard", "content-index"],
+      "recommended_audience": ["developers", "Phase 5 (Scope Lock)"],
+      "read_after": ["04_build_guides/01_mvp_shapes.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "build_guides/demo_advice",
+      "path": "04_build_guides/05_demo_advice.md",
+      "type": "build_guide",
+      "title": "Demo Advice",
+      "pillar": "thriving-city-hall",
+      "summary": "Practical advice for demo preparation and delivery in the City Hall pillar: timing, framing, judge expectations, and avoiding overclaims about civic tech capabilities.",
+      "tags": ["demo", "presentation", "judge-expectations", "civic-tech", "credibility"],
+      "recommended_audience": ["teams preparing demos", "Phase 6–9"],
+      "read_after": ["research/I1_demo_archetypes.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "skill/repo_memory",
+      "path": "skills/repo_memory/SKILL.md",
+      "type": "skill",
+      "title": "Skill: repo_memory",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for reconstructing repository state: reads project artifacts, detects team stage, and summarizes progress for Hackbot context reconstruction.",
+      "tags": ["skill", "repo-memory", "context-reconstruction", "state"],
+      "recommended_audience": ["Hackbot on boot"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/problem_scoping",
+      "path": "skills/problem_scoping/SKILL.md",
+      "type": "skill",
+      "title": "Skill: problem_scoping",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for helping teams choose a strong problem: analyzes problem statements, ranks opportunities, and identifies realistic build directions for City Hall.",
+      "tags": ["skill", "problem-scoping", "opportunity-ranking", "decision-support"],
+      "recommended_audience": ["teams in orientation", "teams undecided on problem"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/research_runner",
+      "path": "skills/research_runner/SKILL.md",
+      "type": "skill",
+      "title": "Skill: research_runner",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for executing research prompts and collecting findings: runs prompts, extracts sources, summarizes evidence.",
+      "tags": ["skill", "research-runner", "evidence", "prompts"],
+      "recommended_audience": ["teams in Phase 3 (Research Spin-Up)"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/dataset_mapper",
+      "path": "skills/dataset_mapper/SKILL.md",
+      "type": "skill",
+      "title": "Skill: dataset_mapper",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for identifying usable datasets: scans the data directory, identifies schemas, and highlights gaps for City Hall data sources.",
+      "tags": ["skill", "dataset-mapper", "data-sources", "schema"],
+      "recommended_audience": ["teams identifying data", "Phase 3"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/opportunity_mapper",
+      "path": "skills/opportunity_mapper/SKILL.md",
+      "type": "skill",
+      "title": "Skill: opportunity_mapper",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for translating research into buildable solution opportunities: matches City Hall problems to solution patterns and suggests MVP directions.",
+      "tags": ["skill", "opportunity-mapper", "solution-patterns", "mvp-directions"],
+      "recommended_audience": ["teams in Phase 4 (Opportunity Framing)"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/mvp_designer",
+      "path": "skills/mvp_designer/SKILL.md",
+      "type": "skill",
+      "title": "Skill: mvp_designer",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for turning an opportunity into a concrete MVP: produces user flow, architecture, and scope boundaries for City Hall prototypes.",
+      "tags": ["skill", "mvp-designer", "user-flow", "architecture", "scope"],
+      "recommended_audience": ["teams in Phase 5 (Scope Lock)"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/risk_review",
+      "path": "skills/risk_review/SKILL.md",
+      "type": "skill",
+      "title": "Skill: risk_review",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for preventing civic-tech mistakes: checks for hallucinated services, legal claims, incorrect routing logic, and misleading language in City Hall tools.",
+      "tags": ["skill", "risk-review", "guardrails", "hallucination", "civic-tech"],
+      "recommended_audience": ["teams before demo", "teams that added AI features"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/demo_coach",
+      "path": "skills/demo_coach/SKILL.md",
+      "type": "skill",
+      "title": "Skill: demo_coach",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for helping teams present effectively: produces demo script, narrative structure, and judge-facing explanation for City Hall solutions.",
+      "tags": ["skill", "demo-coach", "presentation", "narrative", "judges"],
+      "recommended_audience": ["teams preparing for demo day"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/repo_librarian",
+      "path": "skills/repo_librarian/SKILL.md",
+      "type": "skill",
+      "title": "Skill: repo_librarian",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for helping users navigate repository knowledge: answers questions about where City Hall datasets, problem statements, and templates live.",
+      "tags": ["skill", "repo-librarian", "navigation", "knowledge-management"],
+      "recommended_audience": ["teams looking for specific files", "new team members"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/continuity_planner",
+      "path": "skills/continuity_planner/SKILL.md",
+      "type": "skill",
+      "title": "Skill: continuity_planner",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for identifying post-hackathon continuation opportunities: finds potential City partners, artifacts worth continuing, and next steps for City Hall projects.",
+      "tags": ["skill", "continuity-planner", "post-hackathon", "partners", "continuation"],
+      "recommended_audience": ["teams planning beyond the hackathon weekend"],
+      "read_after": ["AGENTS.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/research_corpus_navigation",
+      "path": "skills/research_corpus_navigation/SKILL.md",
+      "type": "skill",
+      "title": "Skill: research_corpus_navigation",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for mapping user questions to the correct corpus section and specific research reports before attempting to answer. Uses index.json key_terms matching and section classification.",
+      "tags": ["skill", "corpus-navigation", "retrieval", "section-mapping", "reading-list"],
+      "recommended_audience": ["AI agents answering research questions", "Hackbot research mode"],
+      "read_after": ["AGENTS.md", "CORPUS_GUIDE.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/cross_report_synthesis",
+      "path": "skills/cross_report_synthesis/SKILL.md",
+      "type": "skill",
+      "title": "Skill: cross_report_synthesis",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for synthesizing findings across multiple research reports with source traceability, tension identification, and explicit gap documentation.",
+      "tags": ["skill", "synthesis", "cross-report", "source-traceability", "claim-mapping"],
+      "recommended_audience": ["AI agents synthesizing across sections", "teams needing cross-domain summaries"],
+      "read_after": ["skills/research_corpus_navigation/SKILL.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/evidence_grounded_answering",
+      "path": "skills/evidence_grounded_answering/SKILL.md",
+      "type": "skill",
+      "title": "Skill: evidence_grounded_answering",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for answering questions using only content present in this repository corpus, with explicit claim classification (confirmed/stated/uncertain/not found) and anti-fabrication checks.",
+      "tags": ["skill", "evidence-grounded", "anti-fabrication", "claim-classification", "citations"],
+      "recommended_audience": ["AI agents making factual claims about Richmond City Hall"],
+      "read_after": ["skills/research_corpus_navigation/SKILL.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "skill/report_update_protocol",
+      "path": "skills/report_update_protocol/SKILL.md",
+      "type": "skill",
+      "title": "Skill: report_update_protocol",
+      "pillar": "thriving-city-hall",
+      "summary": "Skill for safely adding or updating research reports and keeping indexes, manifests, and navigation files synchronized. Includes 7-step process with validation checklist.",
+      "tags": ["skill", "report-update", "maintenance", "synchronization", "index-update"],
+      "recommended_audience": ["corpus maintainers", "AI agents updating the corpus"],
+      "read_after": ["MAINTENANCE.md"],
+      "source_of_truth": true
+    },
+
+    {
+      "id": "templates/working_direction_note",
+      "path": "99_templates/working_direction_note.md",
+      "type": "template",
+      "title": "Working Direction Note Template",
+      "pillar": "thriving-city-hall",
+      "summary": "Team template for capturing a 5-bullet working direction early in orientation: pillar, candidate problem, likely user, why it matters, why it's weekend-buildable, biggest uncertainty.",
+      "tags": ["template", "working-direction", "orientation", "team-alignment"],
+      "recommended_audience": ["teams in Phase 1 (Rapid Orientation)"],
+      "read_after": ["README.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "templates/decision_memo",
+      "path": "99_templates/decision_memo.md",
+      "type": "template",
+      "title": "Decision Memo Template",
+      "pillar": "thriving-city-hall",
+      "summary": "Template for capturing the problem selection decision: chosen problem, user, rationale, why not the others, and risks.",
+      "tags": ["template", "decision-memo", "problem-selection"],
+      "recommended_audience": ["teams completing Phase 2 (Problem Selection)"],
+      "read_after": ["01_problem_space/02_targeted_problem_statements.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "templates/project_one_pager",
+      "path": "99_templates/project_one_pager_template.md",
+      "type": "template",
+      "title": "Project One-Pager Template",
+      "pillar": "thriving-city-hall",
+      "summary": "One-page project scope document template: must-haves, mockables, data, AI role, limits, and demo path. Used for scope lock in Phase 5.",
+      "tags": ["template", "one-pager", "scope-lock", "project-brief"],
+      "recommended_audience": ["teams in Phase 5 (Scope Lock)"],
+      "read_after": ["04_build_guides/01_mvp_shapes.md"],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "templates/team_profile",
+      "path": "99_templates/team_profile_template.md",
+      "type": "template",
+      "title": "Team Profile Template",
+      "pillar": "thriving-city-hall",
+      "summary": "Template for the team profile file required by Hackbot before it can operate. Covers team name, members, roles, skills, availability, communication preferences, and constraints.",
+      "tags": ["template", "team-profile", "hackbot-required", "team-setup"],
+      "recommended_audience": ["all teams on arrival", "Step 0 of boot sequence"],
+      "read_after": [],
+      "source_of_truth": false
+    },
+
+    {
+      "id": "research/corpus_reference",
+      "path": "research/index.json",
+      "type": "manifest",
+      "title": "Research Corpus Index",
+      "pillar": "thriving-city-hall",
+      "summary": "Machine-readable JSON index of all 51 research reports in the corpus. Each entry includes id, section, title, summary, and key_terms for navigation and retrieval. See individual research/*.md files for authoritative content.",
+      "tags": ["index", "research-corpus", "machine-readable", "navigation", "retrieval"],
+      "recommended_audience": ["AI agents", "developers building retrieval systems"],
+      "read_after": ["CORPUS_GUIDE.md"],
+      "source_of_truth": false
+    }
+
+  ]
+}

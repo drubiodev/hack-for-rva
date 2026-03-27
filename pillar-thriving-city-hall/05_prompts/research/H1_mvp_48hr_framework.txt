@@ -1,0 +1,30 @@
+MVP Feasibility H1 — What's Actually Achievable in 48 Hours
+
+Provide a realistic feasibility framework for a hackathon team with mixed skills (2–3 developers, 1 product manager, 1 UX designer) working on the A Thriving City Hall pillar for 48 hours starting Friday evening and ending Sunday afternoon.
+
+Time budget reality:
+- Friday evening (setup, orientation, data access): 3–4 hours
+- Saturday (main build day): 10–12 hours
+- Sunday morning (finishing, demo prep): 4–5 hours
+- Total effective build time: ~17–21 hours
+
+What is achievable in this time window for each major component?
+- Data ingestion and cleaning (City Contracts CSV, rva.gov crawl, SAM.gov API): how long does each take?
+- Decision tree logic (311 category router): build time for a 5–8 question tree with 20–30 leaf categories?
+- Search index (rva.gov content): build time for a simple fuzzy search over 50–100 pages?
+- Frontend (React table/dashboard vs. simple HTML form): realistic complexity?
+- LLM integration (PDF extraction or NLP routing): setup time and reliability risk?
+
+Common time traps:
+- Data quality issues that take longer than expected
+- API key registration and rate limit discovery
+- Deployment and environment setup
+- Last-minute scope changes
+
+What does a "minimum viable demo" look like for each Shape (A, B, C, D, E) at the 48-hour mark?
+
+Output
+- Realistic time estimates for each major technical component
+- Minimum viable demo checklist for each MVP shape
+- Common time traps and how to avoid them
+- Decision framework: when to cut scope vs. when to push through

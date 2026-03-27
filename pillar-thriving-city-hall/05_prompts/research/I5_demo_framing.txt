@@ -1,0 +1,31 @@
+Demo Guidance I5 — Framing Language: "This Helps X Do Y, Instead of Z"
+
+Provide specific framing language for A Thriving City Hall demos. The most effective civic tech demo language is concrete, user-centered, and honest — "this helps [specific user] do [specific task] instead of [current painful approach]."
+
+THE FRAMING FORMULA:
+"This helps [user] [do specific task] [using specific data/approach], instead of [current approach], without [overclaiming what it does]."
+
+SERVICE NAVIGATION FRAMING:
+- Good: "This helps Richmond residents find the right 311 category before they submit a request, instead of guessing from a dropdown of 50 options and potentially getting re-routed."
+- Better: "This helps a resident who sees illegal dumping on their street find the correct report type in under 60 seconds, using plain-language descriptions — instead of navigating multiple rva.gov department pages or picking the wrong category and waiting to be re-routed."
+- Bad (overclaims): "This fixes Richmond's 311 system and routes all requests automatically."
+- Bad (underdescribes): "This is a chatbot that answers City questions."
+
+PROCUREMENT FRAMING:
+- Good: "This helps City procurement staff see which contracts are expiring in the next 60–90 days, instead of manually sorting a spreadsheet."
+- Better: "This turns Richmond's publicly available contract registry into an early-warning dashboard — so procurement staff can see at a glance which contracts need attention this month, instead of downloading a CSV and building pivot tables."
+- Bad (overclaims): "This automates procurement risk management."
+- Bad (underdescribes): "This shows contract data."
+
+FRAMING DO'S AND DON'TS:
+- DO name the specific user, task, and current pain
+- DO name the data source
+- DO include what the tool explicitly does not do
+- DON'T claim to replace staff judgment
+- DON'T imply official City status
+- DON'T use vague impact language ("improves service," "saves time")
+
+Output
+- 5–6 tested framing sentences for each City Hall problem type
+- Common framing mistakes and how to correct them
+- Opening sentence options for the demo pitch

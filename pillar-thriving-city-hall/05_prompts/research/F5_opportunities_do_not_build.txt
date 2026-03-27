@@ -1,0 +1,23 @@
+Opportunities F5 — Do-Not-Build List: What to Avoid and Why
+
+Provide a clear list of project directions that a hackathon team working on the A Thriving City Hall pillar should NOT build, with specific reasons for each.
+
+DO NOT BUILD LIST (investigate and validate each):
+
+1. "Full RVA311 integration" — claiming to submit requests or pull live data from the AvePoint Citizen Services system. WHY: No public API exists. Any tool claiming this is misrepresenting its capabilities.
+
+2. "Automated procurement compliance checker" — a tool that tells staff whether a contract action is legally compliant. WHY: This requires legal expertise, knowledge of current procurement law, and access to full contract context that a weekend prototype cannot have.
+
+3. "AI replaces 311 agents" — a chatbot that handles any question a resident might have about City services without a human fallback. WHY: Confidently wrong answers cause downstream harm; the 311 agent role requires human judgment for edge cases.
+
+4. "Citywide service optimization" — a tool claiming to analyze and optimize service delivery across all departments. WHY: No data access, no defined user, no demoable output.
+
+5. "Procurement award assistant" — a tool that recommends which vendor to award a contract to. WHY: Procurement awards have legal and ethical dimensions; a weekend prototype cannot safely make these recommendations.
+
+6. "Official City service portal replacement" — any tool that implies residents should use it instead of rva.gov or RVA311 for official service interactions. WHY: Official City systems are the authoritative channel; a prototype is a supplement.
+
+For each item, investigate: Have any civic tech teams built tools in this category? What happened? What is the specific mechanism of harm?
+
+Output
+- Validated do-not-build list with specific harm scenarios
+- How to redirect teams that propose these directions toward a compliant alternative

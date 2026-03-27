@@ -2,7 +2,7 @@
 description: Generate a conventional commit message for staged changes, scanning for architecture guardrail violations before committing
 ---
 
-Inspect staged changes and generate a conventional commit message for the HackathonRVA 311 SMS project.
+Inspect staged changes and generate a conventional commit message for the HackathonRVA Procurement Document Processing project.
 
 ## Steps
 
@@ -27,51 +27,51 @@ Inspect staged changes and generate a conventional commit message for the Hackat
 |---|---|
 | `feat` | New feature or capability |
 | `fix` | Bug fix |
-| `docs` | Documentation, OpenAPI spec updates, `docs/openapi.yaml` |
+| `docs` | Documentation, OpenAPI spec updates |
 | `refactor` | Restructuring without behavior change |
-| `test` | Playwright e2e tests only |
+| `test` | Tests (pytest, Playwright) |
 | `chore` | Railway config, Dockerfile, deps, `.env.example` |
 | `perf` | Performance improvement |
-| `security` | Security fix (Twilio validation, CORS, secrets) |
+| `security` | Security fix (file validation, CORS, secrets) |
 
 ### Scopes — use these exact names
 
 | Scope | Maps to |
 |---|---|
-| `sms` | Twilio webhook, conversation state machine (`backend/app/sms/`) |
-| `ai` | Azure OpenAI classifier, LangChain, prompts (`backend/app/ai/`) |
-| `api` | FastAPI REST endpoints (`backend/app/api/`) |
-| `db` | SQLAlchemy models, schema, Alembic (`backend/app/models/`, `backend/app/database.py`) |
-| `dashboard` | Next.js pages, layouts (`frontend/src/app/dashboard/`) |
-| `map` | React-Leaflet map view |
-| `analytics` | Charts, metrics, KPI views |
+| `ocr` | Azure Document Intelligence, blob storage (`procurement/backend/app/ocr/`) |
+| `extraction` | Document classifier, field extractor, prompts (`procurement/backend/app/extraction/`) |
+| `validation` | Validation engine, rules (`procurement/backend/app/validation/`) |
+| `pipeline` | Processing pipeline orchestrator (`procurement/backend/app/pipeline.py`) |
+| `api` | FastAPI REST endpoints (`procurement/backend/app/api/`) |
+| `db` | SQLAlchemy models, schema (`procurement/backend/app/models/`) |
+| `upload` | Upload page, file drop zone (`procurement/frontend/src/app/dashboard/upload/`) |
+| `dashboard` | Next.js pages, layouts (`procurement/frontend/src/app/dashboard/`) |
+| `analytics` | Charts, metrics, risk views |
 | `deploy` | Railway config, Dockerfile |
 | `config` | Environment variables, Pydantic settings |
-| `openapi` | `docs/openapi.yaml` contract changes |
+| `openapi` | `procurement/docs/openapi.yaml` contract changes |
 
 ### Rules
 
-- Subject: imperative mood, ≤72 chars, no trailing period
-- Breaking change: add `!` after scope — `feat(api)!: rename request status field`
-- If multiple logical changes exist, suggest splitting into separate commits and list suggested messages for each
+- Subject: imperative mood, 72 chars max, no trailing period
+- Breaking change: add `!` after scope — `feat(api)!: rename document status field`
+- If multiple logical changes exist, suggest splitting into separate commits
 
 ---
 
-## Guardrail violations — scan for these before every commit
-
-For each violation found, print a `⚠️ GUARDRAIL:` block with the file path, line number, and the rule being broken. Ask whether to proceed.
+## Guardrail violations — scan before every commit
 
 | Pattern to detect | Rule |
 |---|---|
-| `import langgraph` or `from langgraph` | Plan mandates plain Python state machine — LangGraph is out of scope |
+| `import langchain` or `from langchain` | Plan mandates OpenAI SDK directly — no LangChain |
 | `from celery` or `import celery` | Plan mandates `FastAPI BackgroundTasks` — no Celery |
-| `import redis` or `Redis(` anywhere in backend | Plan mandates in-memory dict or PostgreSQL — no Redis |
-| `new WebSocket(` or `EventSource(` in `frontend/` | Plan mandates TanStack Query `refetchInterval: 30_000` — no WebSockets or SSE |
-| String literal matching `sk-`, `Bearer `, hardcoded 32+ char hex/base64 | Secrets must live in environment variables only |
-| `os.system(` or `subprocess.` inside any request handler | Potential command injection — flag for review |
+| `import redis` or `Redis(` | Plan mandates PostgreSQL — no Redis |
+| `new WebSocket(` or `EventSource(` in frontend | Plan mandates TanStack Query polling |
+| String literal matching `sk-`, `Bearer `, hardcoded 32+ char hex/base64 | Secrets in env vars only |
+| `os.system(` or `subprocess.` inside request handler | Potential command injection |
 | `Base.metadata.drop_all` | Destructive migration — confirm intentional |
-| Direct `import.*react-leaflet` outside `LeafletMap.tsx` | SSR crash risk — must use `dynamic()` import |
-| Missing `output: "standalone"` removed from `next.config.ts` | Railway builds will balloon to 2GB+ |
+| Missing `output: "standalone"` in `next.config.ts` | Railway builds will balloon to 2GB+ |
+| `prebuilt-invoice` or `prebuilt-contract` | Must use `prebuilt-read` model |
 
 ---
 

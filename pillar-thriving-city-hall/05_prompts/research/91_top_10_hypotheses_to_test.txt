@@ -1,0 +1,27 @@
+Top 10 Hypotheses to Test — A Thriving City Hall
+
+These are 10 testable hypotheses about the resident service navigation and procurement review problems in Richmond. For each hypothesis, provide evidence that supports or refutes it, or explain why it cannot be tested with publicly available information.
+
+1. A significant portion of RVA311 requests are miscategorized on submission, requiring manual re-routing by staff — this is measurable in cities with open 311 data and likely true in Richmond.
+
+2. The primary friction in rva.gov search is not search quality per se, but the mismatch between department-centric content organization and the plain-language terms residents use to describe their problems.
+
+3. A simple decision tree of 5–8 questions can correctly route 80%+ of common 311 request types without requiring NLP or ML.
+
+4. The City Contracts Socrata dataset (xqn7-jvv2) contains sufficient data to build a useful contract expiry dashboard — specifically, it includes start dates, end dates, vendor names, and department fields for the majority of records.
+
+5. The VITA statewide contracts portal (vita.cobblestonesystems.com) contains data that is useful for cross-source comparison but requires manual browsing or scraping due to the absence of an API.
+
+6. PDF contract documents from Richmond City procurement follow sufficiently consistent formatting that an LLM-based extractor could reliably find expiration dates and renewal windows in 80%+ of documents.
+
+7. Richmond residents who call 311 by phone instead of using the online portal are disproportionately from lower-digital-literacy or older demographics — suggesting that a digital service navigator alone is insufficient without a phone channel equivalent.
+
+8. The Google Translate widget on rva.gov provides meaningful support for non-English-speaking residents, but translation quality for government service terminology is inconsistent across the 36 supported languages.
+
+9. At least one national model (NYC, Chicago, Boston) demonstrates that open 311 data + plain-language service type descriptions can measurably reduce misrouted requests.
+
+10. SAM.gov's free API tier provides sufficient data granularity (vendor names, contract values, expiry dates, debarment status) to be useful in a weekend-built procurement cross-reference tool.
+
+Output
+- For each hypothesis: evidence supporting, evidence against, and verdict (Supported / Refuted / Insufficient evidence)
+- Note which hypotheses are most critical to resolve before scoping an MVP

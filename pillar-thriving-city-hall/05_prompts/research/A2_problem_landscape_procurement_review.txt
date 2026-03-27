@@ -1,0 +1,13 @@
+Problem Landscape A2 — Procurement Contract Review Reality
+
+Investigate the real-world shape of the procurement contract review problem for Richmond City staff. Using only verifiable public information and clearly labeled inferences, explain where the difficulty occurs: identifying contracts across multiple sources, extracting key terms from PDFs, tracking expiration dates and renewal windows, and comparing City contracts against state and federal alternatives.
+
+Richmond context: Staff use multiple contract sources — City contracts (Socrata xqn7-jvv2, API has a known column bug), state VITA contracts (vita.cobblestonesystems.com/public/, web only, no API), federal GSA/SAM.gov (free key required), and eVA Virginia procurement (CSV on data.virginia.gov). The underlying financial system is Oracle RAPIDS (no public access). Key details are buried in PDFs.
+
+Investigate: What is the documented burden of manual contract review processes in comparable municipalities? What are the most common types of procurement risk that go undetected (missed renewals, vendor debarment, expired contracts still in use)? What contract data quality issues are common in city-level Socrata datasets?
+
+Output
+- Facts (with URLs)
+- Inferences (clearly labeled)
+- Unknowns (what cannot be verified publicly)
+- Assessment of primary friction points for Richmond procurement staff specifically

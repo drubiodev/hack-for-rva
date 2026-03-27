@@ -1,0 +1,18 @@
+Services Landscape C4 — Where Residents Fall Through the Gaps
+
+Investigate the specific failure modes where Richmond residents fall through the cracks of the City's service delivery system. Focus on gaps between systems, unclear ownership, and situations where no existing service category fits.
+
+What happens when a resident submits a request to the wrong department? What is the re-routing process? How long does re-routing take? Is there documented evidence of requests being lost or never resolved due to miscategorization?
+
+What are the "edge cases" in 311 — situations that don't fit neatly into existing categories? (Examples: a pothole that is also near a water main, graffiti on a privately owned but publicly visible fence, noise from a permitted event.)
+
+What services do residents frequently ask about that are handled by a different level of government (state, federal, GRTC, Dominion Energy, Verizon) rather than the City? How does rva.gov handle these referrals?
+
+What is the experience of residents who contact City staff directly (by phone or email) instead of using 311 — do they get better or different service? What does this pattern indicate about confidence in the digital system?
+
+What are the most common complaints about City service delivery that appear in public forums (Council meetings, Richmond Times-Dispatch, social media, Richmond Reddit)?
+
+Output
+- Documented gap scenarios with examples
+- Evidence of downstream harm from service navigation failures
+- Design implications: what a service navigator must handle that current systems do not

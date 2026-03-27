@@ -1,0 +1,27 @@
+Data Inventory D5 — Data Quality Issues, Gaps, and What's Missing
+
+Investigate the data quality issues and gaps that most directly affect a hackathon team's ability to build credible prototypes for the A Thriving City Hall pillar.
+
+RVA311 data gaps:
+- The post-2018 AvePoint data is completely inaccessible publicly. What does this mean for ground-truthing a 311 category helper? Can 2014–2015 SeeClickFix categories be assumed to still be valid?
+- How stale is the historical data for understanding current request patterns? What changed between 2015 and 2025 in Richmond's service delivery?
+
+City Contracts data quality:
+- What is the known column bug in the SODA API for xqn7-jvv2? Which column is missing?
+- What is the completeness rate for expiration dates? How many contracts have null or invalid end dates?
+- Are vendor names normalized, or do the same vendor appear under multiple name variations?
+- Are contract amounts consistently reported, or are there outliers/anomalies?
+
+rva.gov content quality:
+- How often does rva.gov content become outdated? Are there known pages with incorrect or superseded information?
+- What percentage of department pages have consistent, machine-readable contact and service information?
+- How well does the Google Translate quality hold up for government service terminology?
+
+Cross-source data joining:
+- How reliably can vendor names be matched across City Contracts, SAM.gov, and eVA? What are the known normalization challenges?
+- How well do NAICS codes align between City, state, and federal procurement data?
+
+Output
+- Data quality inventory by source
+- Recommended mitigations for each quality issue
+- What teams should communicate to judges about data limitations

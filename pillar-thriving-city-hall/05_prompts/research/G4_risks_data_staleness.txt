@@ -1,0 +1,28 @@
+Risks G4 — Outdated Content Risks: Stale rva.gov Pages and Contract Data
+
+Investigate the risk of building City Hall tools on top of data that becomes outdated — creating a prototype that gives authoritative-seeming but incorrect information because the underlying source has changed.
+
+rva.gov content staleness:
+- How frequently does rva.gov content change? Are there known examples of outdated service descriptions or contact information?
+- What is the typical content governance process for rva.gov — who updates pages, on what schedule?
+- How would a service navigation tool built on crawled rva.gov content need to handle content updates?
+- What is the user experience impact of a tool that gives an outdated phone number or department URL?
+
+Contract data staleness:
+- How frequently is the City Contracts Socrata dataset updated?
+- What is the lag between a contract being signed and appearing in the public dataset?
+- Are there known cases of contracts in the dataset that were actually modified or terminated but still show original dates?
+- What is the risk of a procurement officer acting on an expiration date from Socrata that doesn't reflect a subsequent amendment?
+
+Historical 311 data staleness:
+- The Socrata 311 dataset (vgg4-hjn8) covers only 2014–2015. The current 311 category taxonomy has almost certainly changed. What is the risk of building a category router based on this data?
+
+Mitigation approaches:
+- What "freshness signal" design patterns help users calibrate how much to trust information?
+- How should a tool communicate that its information is "based on public data as of [date]"?
+- What refresh cadences are realistic for a hackathon prototype vs. a production tool?
+
+Output
+- Staleness risk assessment for each data source
+- Required freshness signals and disclaimers
+- Practical refresh strategy recommendations

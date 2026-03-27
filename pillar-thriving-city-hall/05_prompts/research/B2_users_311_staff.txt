@@ -1,0 +1,17 @@
+User & Stakeholder B2 — 311 Call Center Agent and Routing Staff
+
+Investigate the role and experience of 311 call center agents and routing staff in Richmond. Pete Briel is the Director of 311 and is identified as a potential champion for the resident service navigation problem. The RVA311 system uses AvePoint Citizen Services on Dynamics 365 and handles ~208,216 requests annually.
+
+What is the daily workflow of a 311 routing agent? What tools do they use to categorize and route requests? What percentage of their time is spent re-routing miscategorized requests submitted online? What types of requests most commonly arrive in the wrong category?
+
+Investigate nationally: What does the 311 workforce literature say about the burden of manual re-routing? What metrics do cities use to measure routing accuracy? Are there published benchmarks for "first-time right" routing rates?
+
+For Richmond specifically: Is there any public reporting on RVA311 staffing, volume, or routing accuracy? What has Pete Briel or the City said publicly about 311 system performance or resident experience?
+
+How would a plain-language service navigator affect the 311 staff workflow — what would they gain, what risks would they face from an inaccurate tool?
+
+Output
+- Staff persona description with workflow and pain points
+- National benchmarks on routing accuracy and re-routing burden
+- Richmond-specific information (with source URLs)
+- Implications for tool design: what would staff need to trust a navigation tool?

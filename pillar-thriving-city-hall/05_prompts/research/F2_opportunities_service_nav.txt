@@ -1,0 +1,24 @@
+Opportunities F2 — Best Opportunity Shape for Resident Service Navigation
+
+Investigate the optimal solution shape for the resident service navigation problem in Richmond, given the specific constraints: no post-2018 RVA311 API, Drupal-based rva.gov, ~50+ request types, and Pete Briel as potential champion.
+
+Three competing approaches:
+1. DECISION TREE: Hard-coded question flow → 311 category. Fully deterministic, easy to verify, no live data needed.
+2. NLP/SEARCH: Plain-language query → semantic search over category descriptions. Requires building an index; more flexible.
+3. LLM-POWERED CHATBOT: Free-text input → LLM routes to category. Most flexible but highest hallucination risk.
+
+For each approach, investigate:
+- How have similar tools been implemented in other cities?
+- What is the minimum viable dataset needed (just category descriptions? rva.gov content? historical 311 data?)?
+- What is the confidence calibration approach — how does the tool handle ambiguous queries?
+- What is the appropriate fallback for uncertain cases?
+- How does the tool handle the ~50 category taxonomy without live API access?
+
+Also investigate: What is the practical difference in user experience between a decision tree and an NLP/search approach for a resident who "doesn't know what they don't know"? When does each approach win?
+
+What would Pete Briel and the 311 team need to see in a prototype to consider it worth continuing post-hackathon?
+
+Output
+- Comparative analysis of the three approaches
+- Recommended approach for the Richmond hackathon context
+- Minimum viable feature set for a credible demo

@@ -1,0 +1,26 @@
+Risks G5 — Practical Guardrails: Confidence Calibration, Source Citation, and Human Review
+
+Investigate practical guardrail design for City Hall civic tech tools. This covers three critical safety mechanisms: confidence calibration (admitting uncertainty), source citation (showing where information comes from), and human review pathways (when to escalate to staff).
+
+CONFIDENCE CALIBRATION:
+- What are the most effective UI patterns for showing confidence levels in government information tools?
+- When should a service navigation tool say "I'm not sure" vs. give a best-guess answer?
+- What threshold of uncertainty should trigger a "please call 311 at 3-1-1" response?
+- How do well-designed tools handle queries that fall completely outside their knowledge base?
+- What are the anti-patterns (tools that appear confident but shouldn't be)?
+
+SOURCE CITATION:
+- What source citation approaches work best in civic tech tools — inline citations, footnotes, "learn more" links?
+- How should a tool communicate when information is from rva.gov vs. historical 311 data vs. team-created content?
+- What does the "last verified" date requirement mean in practice — how should it be displayed?
+- What are examples of effective source transparency in government information tools?
+
+HUMAN REVIEW PATHWAYS:
+- For service navigation: what are the best-practice "human fallback" patterns (link to 311, display phone number, "chat with staff")?
+- For procurement tools: what workflow should staff follow after seeing a contract flagged by the tool?
+- What is the minimum viable human escalation path that must exist in every City Hall prototype?
+
+Output
+- Guardrail design patterns for confidence, citations, and human fallback
+- Required guardrail elements for any A Thriving City Hall prototype
+- Example UI language and placement for each guardrail element
