@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-table"
 import { api } from "@/lib/api"
 import { queryKeys } from "@/lib/queryKeys"
+import { Inbox } from "lucide-react"
 import type { ServiceRequest } from "@/lib/types"
 import { StatusBadge, CategoryBadge } from "@/components/StatusBadge"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -169,7 +170,7 @@ export default function RequestsPage() {
       ) : (
         <>
           <div className="overflow-x-auto rounded-lg border">
-            <Table>
+            <Table className="min-w-[600px]">
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
@@ -191,9 +192,13 @@ export default function RequestsPage() {
                   <TableRow>
                     <TableCell
                       colSpan={columns.length}
-                      className="text-center text-muted-foreground py-8"
+                      className="py-12"
                     >
-                      No requests found
+                      <div className="flex flex-col items-center gap-3 text-muted-foreground">
+                        <Inbox className="h-12 w-12 stroke-1" />
+                        <p className="text-sm font-medium">No requests found</p>
+                        <p className="text-xs">Try adjusting your filters or check back later</p>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ) : (

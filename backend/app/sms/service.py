@@ -2,6 +2,7 @@ import logging
 import uuid
 from datetime import datetime, timezone
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.ai.classifier import classify_message
@@ -72,6 +73,16 @@ async def save_to_db(
         logger.exception("Failed to save service request to database")
 
 
+async def _lookup_latest_request(phone: str, db: AsyncSession) -> ServiceRequest | None:
+    result = await db.execute(
+        select(ServiceRequest)
+        .where(ServiceRequest.phone_number == phone)
+        .order_by(ServiceRequest.created_at.desc())
+        .limit(1)
+    )
+    return result.scalar_one_or_none()
+
+
 async def process_sms(
     phone: str,
     body: str,
@@ -79,6 +90,16 @@ async def process_sms(
     db: AsyncSession,
     twilio_sid: str | None = None,
 ) -> str:
+    # Handle STATUS query before checking session state
+    if body.strip().lower() == "status":
+        sr = await _lookup_latest_request(phone, db)
+        if sr:
+            return (
+                f"Your latest report ({sr.reference_number}): "
+                f"{sr.category} at {sr.location} — Status: {sr.status}"
+            )
+        return "No reports found for your number. Text us to report an issue."
+
     session = sessions.get(phone)
 
     if not session:

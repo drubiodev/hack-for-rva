@@ -9,6 +9,7 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts"
+import { Inbox, BarChart3 } from "lucide-react"
 import { api } from "@/lib/api"
 import { queryKeys } from "@/lib/queryKeys"
 import { KpiCard } from "@/components/KpiCard"
@@ -96,6 +97,11 @@ export default function DashboardOverview() {
           <CardContent>
             {summaryLoading ? (
               <Skeleton className="h-[300px]" />
+            ) : categoryData.length === 0 ? (
+              <div className="flex h-[300px] flex-col items-center justify-center gap-3 text-muted-foreground">
+                <BarChart3 className="h-12 w-12 stroke-1" />
+                <p className="text-sm font-medium">No category data yet</p>
+              </div>
             ) : (
               <ChartContainer config={categoryChartConfig} className="h-[300px] w-full">
                 <BarChart data={categoryData}>
@@ -156,8 +162,12 @@ export default function DashboardOverview() {
                   ))}
                   {requests?.items.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={3} className="text-center text-muted-foreground">
-                        No requests yet
+                      <TableCell colSpan={3} className="py-8">
+                        <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                          <Inbox className="h-8 w-8 stroke-1" />
+                          <p className="text-sm font-medium">No requests yet</p>
+                          <p className="text-xs">New SMS reports will appear here</p>
+                        </div>
                       </TableCell>
                     </TableRow>
                   )}

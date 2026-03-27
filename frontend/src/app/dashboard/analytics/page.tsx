@@ -11,6 +11,7 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts"
+import { BarChart3 } from "lucide-react"
 import { api } from "@/lib/api"
 import { queryKeys } from "@/lib/queryKeys"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -79,6 +80,12 @@ export default function AnalyticsPage() {
           <CardContent>
             {summaryLoading ? (
               <Skeleton className="h-[300px]" />
+            ) : categoryData.length === 0 ? (
+              <div className="flex h-[300px] flex-col items-center justify-center gap-3 text-muted-foreground">
+                <BarChart3 className="h-12 w-12 stroke-1" />
+                <p className="text-sm font-medium">No category data yet</p>
+                <p className="text-xs">Analytics will appear as requests come in</p>
+              </div>
             ) : (
               <ChartContainer config={categoryChartConfig} className="h-[300px] w-full">
                 <PieChart>
@@ -112,6 +119,12 @@ export default function AnalyticsPage() {
           <CardContent>
             {trendLoading ? (
               <Skeleton className="h-[300px]" />
+            ) : (trend?.data ?? []).length === 0 ? (
+              <div className="flex h-[300px] flex-col items-center justify-center gap-3 text-muted-foreground">
+                <BarChart3 className="h-12 w-12 stroke-1" />
+                <p className="text-sm font-medium">No trend data yet</p>
+                <p className="text-xs">Daily request trends will appear here</p>
+              </div>
             ) : (
               <ChartContainer config={trendChartConfig} className="h-[300px] w-full">
                 <LineChart data={trend?.data ?? []}>

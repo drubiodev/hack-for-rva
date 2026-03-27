@@ -71,6 +71,8 @@ Teammates can reference these in `.claude/skills/`:
 | `deploy-check` | Railway pre-deployment checklist and smoke tests |
 | `debug-sms` | SMS pipeline debugging (webhook -> state machine -> AI -> DB) |
 | `commit` | Conventional commits with guardrail scanning |
+| `setup-github-action` | Claude Code GitHub Action setup, secrets, troubleshooting |
+| `build-with-agent-team` | Orchestrate multi-agent builds with tmux split panes, contracts, and validation |
 
 ## Frontend Warning
 
