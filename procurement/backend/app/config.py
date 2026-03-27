@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     Values are read from environment variables or a .env file.
     """
 
-    # Database (Supabase PostgreSQL)
+    # Database (Azure PostgreSQL Flexible Server)
     database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/procurement"
 
     # Azure Blob Storage
@@ -25,8 +25,13 @@ class Settings(BaseSettings):
     # Azure OpenAI
     azure_openai_endpoint: str = "https://PLACEHOLDER.openai.azure.com/"
     azure_openai_key: str = "PLACEHOLDER"
-    azure_openai_deployment: str = "gpt-4.1-nano"
+    azure_openai_deployment: str = "chatgpt-5.4-mini"
     azure_openai_api_version: str = "2024-12-01-preview"
+
+    # Azure AI Search (RAG chatbot)
+    azure_search_endpoint: str = "PLACEHOLDER"
+    azure_search_key: str = "PLACEHOLDER"
+    azure_search_index: str = "procurement-docs"
 
     # CORS
     cors_origins: str = "http://localhost:3000"

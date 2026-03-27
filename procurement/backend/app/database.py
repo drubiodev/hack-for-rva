@@ -11,10 +11,16 @@ from sqlalchemy.orm import DeclarativeBase
 
 from app.config import settings
 
+# Azure PostgreSQL requires SSL; detect by checking for azure in the URL
+_connect_args: dict = {}
+if "azure" in settings.database_url or "postgres.database.azure.com" in settings.database_url:
+    _connect_args["ssl"] = "require"
+
 engine = create_async_engine(
     settings.database_url,
     echo=False,
     pool_pre_ping=True,
+    connect_args=_connect_args,
 )
 
 AsyncSessionLocal = async_sessionmaker(

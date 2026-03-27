@@ -17,11 +17,12 @@ These were made deliberately in the project plan. Flag any deviation and ask for
 |---|---|---|
 | No LangChain | OpenAI SDK `response_format` is simpler, no extra dependency | `import langchain`, `from langchain_openai` |
 | No Celery / no Redis | `FastAPI BackgroundTasks` handles the async pipeline | `from celery`, `import redis` |
-| GPT-4.1-nano for classification + extraction | $0.10/1M tokens — essentially free at demo scale | Wrong `azure_deployment` or using GPT-4o |
+| ChatGPT 5.4 mini for classification + extraction + chatbot | Good quality/cost balance for demo scale | Wrong `azure_deployment` |
 | Azure Document Intelligence `prebuilt-read` | Raw text extraction is more flexible than prebuilt form models | `prebuilt-invoice`, `prebuilt-contract` |
 | TanStack Query polling (5s detail, 30s list) | Simple; zero backend infrastructure for real-time | `new WebSocket(`, `EventSource(` in frontend |
-| Railway for both services in one project | Private networking, auto-HTTPS, single canvas | Split across Vercel + Railway |
-| Supabase PostgreSQL (free tier) | Zero cost, pgvector available for Phase 2 RAG | Separate hosted database |
+| Azure Container Apps for both services | Free tier, serverless containers, same environment | Split across multiple platforms |
+| Azure PostgreSQL Flexible Server | Drop-in replacement, same asyncpg driver, JSONB/UUID support | Non-PostgreSQL databases |
+| Azure AI Search for RAG chatbot | Indexes extracted fields + OCR text for natural language queries | Custom vector store implementations |
 | Skip authentication | 4+ hours for zero demo value | Auth middleware, JWT validation |
 | Upload returns 202, pipeline runs as BackgroundTask | Non-blocking upload, frontend polls for status | Synchronous processing in upload handler |
 | Azure Blob Storage for originals | Separate from DB, handles large files | Storing file bytes in PostgreSQL |

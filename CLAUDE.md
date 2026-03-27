@@ -17,15 +17,17 @@ Staff uploads PDF/image → FastAPI backend → Azure Blob Storage (store origin
                                                   ↓
                                         Azure Document Intelligence (OCR)
                                                   ↓
-                                        Azure OpenAI GPT-4.1-nano (classify + extract)
+                                        Azure OpenAI ChatGPT 5.4 mini (classify + extract)
                                                   ↓
                                         Validation Engine (13 rules + AI)
                                                   ↓
-                                        Supabase PostgreSQL (structured data)
+                                        Azure PostgreSQL Flexible Server (structured data)
                                                   ↓
                            Next.js 16 Dashboard ← REST API (5s detail, 30s list polling)
 
-Also ingests: Socrata CSV (xqn7-jvv2) with ~1,362 real City contracts
+Also:
+  - Ingests: Socrata CSV (xqn7-jvv2) with ~1,362 real City contracts
+  - RAG Chatbot: Azure AI Search indexes extracted data → ChatGPT 5.4 mini answers questions
 ```
 
 | Layer | Tech | Directory |
@@ -33,10 +35,12 @@ Also ingests: Socrata CSV (xqn7-jvv2) with ~1,362 real City contracts
 | Backend API | FastAPI, SQLAlchemy 2.0 async, OpenAI SDK, Azure DI, Azure Blob | `procurement/backend/` |
 | Frontend | Next.js 16, shadcn/ui, TanStack Query, Recharts | `procurement/frontend/` |
 | OCR | Azure Document Intelligence (`prebuilt-read`) | external |
-| AI | Azure OpenAI GPT-4.1-nano | external |
-| Storage | Azure Blob Storage + Supabase PostgreSQL | external |
+| AI | Azure OpenAI ChatGPT 5.4 mini | external |
+| RAG Search | Azure AI Search (indexes extracted fields + OCR text) | external |
+| Storage | Azure Blob Storage + Azure PostgreSQL Flexible Server | external |
 | Data Sources | Socrata CSV, 10 pre-staged contract PDFs, SAM.gov (cached) | `pillar-thriving-city-hall/procurement-examples/` |
-| Deployment | Railway (both services) | external |
+| Deployment | Azure Container Apps (Consumption plan, both services) | external |
+| Container Registry | Azure Container Registry (Basic) | external |
 | API Contract | OpenAPI 3.1.0 | `procurement/docs/openapi.yaml` |
 
 ## Hard Guardrails
@@ -52,10 +56,12 @@ Also ingests: Socrata CSV (xqn7-jvv2) with ~1,362 real City contracts
 ### Architecture Guardrails
 - **No LangChain** — use OpenAI SDK `response_format` directly for structured output
 - **No Celery / No Redis** — `FastAPI BackgroundTasks` for the async OCR→extract→validate pipeline
-- **GPT-4.1-nano for classification + extraction** — $0.10/1M tokens, ~$0.002 per document
+- **ChatGPT 5.4 mini for classification + extraction + chatbot** — good quality/cost balance
 - **`procurement/docs/openapi.yaml` is the single source of truth** for frontend/backend interaction
 - **Processing pipeline runs as BackgroundTask** — upload returns 202 immediately
 - **Azure Document Intelligence `prebuilt-read`** — not prebuilt-invoice/contract (too rigid)
+- **Azure AI Search for RAG chatbot** — indexes extracted fields + OCR text for natural language queries
+- **All hosting on Azure** — Container Apps (frontend + backend), PostgreSQL Flexible Server, Container Registry
 - **SAM.gov: pre-cache only** — 10 req/day limit for non-federal users, never call live in demo
 
 ## Approval Workflow
@@ -74,9 +80,10 @@ uploaded → processing → extracted → analyst_review → pending_approval �
 procurement/
   backend/app/
     ocr/           # Azure Blob Storage upload, Azure Document Intelligence OCR
-    extraction/    # Document classifier + per-type field extractor (GPT-4.1-nano)
+    extraction/    # Document classifier + per-type field extractor (ChatGPT 5.4 mini)
     validation/    # 13 rule-based checks + AI consistency validation
-    api/           # REST endpoints: /api/v1/documents, /api/v1/analytics, /api/v1/approvals
+    search/        # Azure AI Search indexing + RAG chatbot endpoint
+    api/           # REST endpoints: /api/v1/documents, /api/v1/analytics, /api/v1/chat
     models/        # SQLAlchemy 2.0: Document, ExtractedFields, ValidationResult, ActivityLog
     schemas/       # Pydantic request/response schemas
     pipeline.py    # Orchestrates: OCR → classify → extract → validate
@@ -112,8 +119,8 @@ pillar-thriving-city-hall/
 | `frontend-dev` | Next.js 16, shadcn/ui, TanStack Query, Recharts |
 | `review` | Context-aware code review with guardrail checks |
 | `security-audit` | File upload validation, CORS, secrets, injection vectors |
-| `e2e-test` | Playwright e2e tests against deployed Railway URL |
-| `deploy-check` | Railway pre-deployment checklist and smoke tests |
+| `e2e-test` | Playwright e2e tests against deployed Azure URL |
+| `deploy-check` | Azure Container Apps pre-deployment checklist and smoke tests |
 | `debug-pipeline` | OCR pipeline debugging (upload → OCR → classify → extract → validate → DB) |
 | `commit` | Conventional commits with guardrail scanning |
 | `build-with-agent-team` | Orchestrate multi-agent builds with tmux split panes |

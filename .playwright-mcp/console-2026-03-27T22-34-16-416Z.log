@@ -1,0 +1,44 @@
+[   16144ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[   16144ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  111187ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/documents?page=1&page_size=20:0
+[  112190ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/documents?page=1&page_size=20:0
+[  121829ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  121830ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  122833ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  122833ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  152857ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  152857ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  153863ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  153864ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  183889ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  183889ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  184894ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  184908ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  214916ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  214927ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  215920ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  215933ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  245944ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  245954ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  246949ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  246965ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  276995ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  277004ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  278000ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  278014ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  286151ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  287155ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  288160ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  289163ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  290167ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  295172ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  300185ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  305210ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  308018ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  308027ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  309024ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  309041ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  310236ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  315282ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  320372ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  325521ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299

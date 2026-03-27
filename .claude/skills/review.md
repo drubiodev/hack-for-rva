@@ -14,7 +14,7 @@ Identify which layers changed:
 - Files under `procurement/backend/` → apply **Backend review**
 - Files under `procurement/frontend/` → apply **Frontend review**
 - `procurement/docs/openapi.yaml` or both backend and frontend → apply **API contract review**
-- Root config, Dockerfile, Railway config → apply **Deployment review**
+- Root config, Dockerfile, Azure Container Apps config → apply **Deployment review**
 
 ---
 
@@ -29,7 +29,7 @@ These are hard architecture violations. Flag each one as `BLOCK` and do not cont
 | `import redis` / `Redis(` | `procurement/backend/` | Plan mandates PostgreSQL for persistence |
 | `new WebSocket(` / `EventSource(` | `procurement/frontend/` | Plan mandates TanStack Query polling |
 | Hardcoded API key, token, or 32+ char secret string | Anywhere | Secrets must be in environment variables |
-| `output: "standalone"` removed from `next.config.ts` | `procurement/frontend/` | Railway Docker build will be 2GB+ |
+| `output: "standalone"` removed from `next.config.ts` | `procurement/frontend/` | Azure Container Apps Docker build will be 2GB+ |
 | Sync `Session` from SQLAlchemy in async endpoint | `procurement/backend/` | Deadlocks under concurrent load |
 | Inline `fetch()` call inside a React component | `procurement/frontend/` | Must use `src/lib/api.ts` functions only |
 | `prebuilt-invoice` or `prebuilt-contract` DI model | `procurement/backend/` | Must use `prebuilt-read` — prebuilt models are too rigid |

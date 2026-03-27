@@ -120,7 +120,7 @@ You are the [ROLE] agent for this build.
 Read CLAUDE.md for architecture guardrails. These are non-negotiable:
 - No LangGraph — plain Python state machine
 - No Celery / No Redis — FastAPI BackgroundTasks + in-memory dict
-- GPT-4.1-nano for classification, GPT-4o-mini for response generation
+- ChatGPT 5.4 mini for classification, extraction, and chatbot
 - docs/openapi.yaml is the single source of truth
 - No full phone numbers in API responses
 
