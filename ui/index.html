@@ -1211,12 +1211,38 @@
 
       <div class="sidebar-dept">
         <div class="dept-pill">
-          <div class="dept-avatar">MP</div>
+          <div class="dept-avatar" id="userAvatar">?</div>
           <div>
-            <div class="dept-name">M. Patterson</div>
-            <div class="dept-role">Procurement Officer</div>
+            <div class="dept-name" id="userName">—</div>
+            <div class="dept-role" id="userDept">—</div>
           </div>
         </div>
+        <button
+          onclick="window.location.href = 'login.html'"
+          style="
+            margin-top: 8px;
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-family: var(--font);
+            padding: 5px 0;
+            cursor: pointer;
+            transition: all 0.15s;
+          "
+          onmouseover="
+            this.style.color = 'var(--text)';
+            this.style.borderColor = 'var(--text-dim)';
+          "
+          onmouseout="
+            this.style.color = 'var(--text-muted)';
+            this.style.borderColor = 'var(--border)';
+          "
+        >
+          ↩ Switch User
+        </button>
       </div>
     </nav>
 
@@ -1711,6 +1737,28 @@
     </div>
 
     <script>
+      // ── Auth guard + user hydration ──
+      (function () {
+        let user = null;
+        try {
+          user = JSON.parse(localStorage.getItem("contractiq_user") || "null");
+        } catch {}
+        if (!user) {
+          window.location.replace("login.html");
+          return;
+        }
+
+        document.getElementById("userAvatar").textContent =
+          user.initials || "?";
+        document.getElementById("userName").textContent = user.name || "—";
+        document.getElementById("userDept").textContent =
+          (user.department || "—") + (user.role ? " · " + user.role : "");
+
+        // Update chat panel context badge to current user
+        const ctxBadge = document.querySelector(".chat-panel-context .badge");
+        if (ctxBadge) ctxBadge.textContent = user.department || "All Docs";
+      })();
+
       // Filter tabs
       document.querySelectorAll(".filter-tab").forEach((tab) => {
         tab.addEventListener("click", () => {

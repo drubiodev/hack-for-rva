@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In — ContractIQ · City of Richmond</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0f1117;
+        --surface: #1a1d27;
+        --surface2: #22263a;
+        --border: #2e3248;
+        --accent: #4f8ef7;
+        --accent-dim: rgba(79, 142, 247, 0.12);
+        --green: #34d399;
+        --red: #f87171;
+        --text: #e2e8f0;
+        --text-muted: #64748b;
+        --text-dim: #94a3b8;
+        --radius: 10px;
+        --font: "Inter", system-ui, -apple-system, sans-serif;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 14px;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* subtle grid bg */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--border) 1px, transparent 1px),
+          linear-gradient(90deg, var(--border) 1px, transparent 1px);
+        background-size: 40px 40px;
+        opacity: 0.25;
+        pointer-events: none;
+      }
+
+      .login-wrap {
+        width: 100%;
+        max-width: 440px;
+        padding: 24px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Logo */
+      .logo-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 32px;
+        justify-content: center;
+      }
+
+      .logo-icon {
+        width: 42px;
+        height: 42px;
+        background: var(--accent);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+      }
+
+      .logo-sub {
+        font-size: 11px;
+        color: var(--text-muted);
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-top: 1px;
+      }
+
+      /* Card */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .card-heading {
+        font-size: 17px;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .card-sub {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-align: center;
+        margin-top: -12px;
+      }
+
+      /* Fields */
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .field label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--text-muted);
+      }
+
+      .field input,
+      .field select {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: var(--text);
+        font-size: 14px;
+        font-family: var(--font);
+        outline: none;
+        transition: border-color 0.15s;
+        appearance: none;
+        width: 100%;
+      }
+
+      .field select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
+        cursor: pointer;
+      }
+
+      .field select option {
+        background: var(--surface2);
+        color: var(--text);
+      }
+
+      .field input:focus,
+      .field select:focus {
+        border-color: var(--accent);
+      }
+
+      .field input.error,
+      .field select.error {
+        border-color: var(--red);
+      }
+
+      .field-error {
+        font-size: 11px;
+        color: var(--red);
+        display: none;
+      }
+
+      .field-error.visible {
+        display: block;
+      }
+
+      /* Role pills */
+      .role-group {
+        display: flex;
+        gap: 8px;
+      }
+
+      .role-pill {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 12px 8px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.15s;
+        background: var(--surface2);
+        text-align: center;
+      }
+
+      .role-pill:hover {
+        border-color: var(--accent);
+        background: var(--accent-dim);
+      }
+
+      .role-pill.selected {
+        border-color: var(--accent);
+        background: var(--accent-dim);
+        color: var(--accent);
+      }
+
+      .role-pill-icon {
+        font-size: 20px;
+      }
+
+      .role-pill-label {
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .role-pill-desc {
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+
+      .role-pill.selected .role-pill-desc {
+        color: var(--accent);
+        opacity: 0.7;
+      }
+
+      /* Divider */
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* Submit */
+      .btn-login {
+        width: 100%;
+        padding: 12px;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        font-family: var(--font);
+        cursor: pointer;
+        transition: background 0.15s;
+        letter-spacing: 0.01em;
+      }
+
+      .btn-login:hover {
+        background: #3b7de8;
+      }
+
+      .btn-login:disabled {
+        background: var(--border);
+        color: var(--text-muted);
+        cursor: not-allowed;
+      }
+
+      /* Disclaimer */
+      .disclaimer {
+        font-size: 11px;
+        color: var(--text-muted);
+        text-align: center;
+        line-height: 1.5;
+      }
+
+      /* Error banner */
+      .error-banner {
+        background: rgba(248, 113, 113, 0.1);
+        border: 1px solid rgba(248, 113, 113, 0.3);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 12px;
+        color: var(--red);
+        display: none;
+      }
+
+      .error-banner.visible {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-wrap">
+      <!-- Logo -->
+      <div class="logo-row">
+        <div class="logo-icon">📄</div>
+        <div>
+          <div class="logo-text">ContractIQ</div>
+          <div class="logo-sub">City of Richmond</div>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="card">
+        <div>
+          <div class="card-heading">Sign In</div>
+          <div class="card-sub" style="margin-top: 6px">
+            Select your department to access the procurement dashboard
+          </div>
+        </div>
+
+        <div class="error-banner" id="errorBanner">
+          Please fill in all required fields.
+        </div>
+
+        <!-- Name -->
+        <div class="field">
+          <label for="inputName">Your Name</label>
+          <input
+            type="text"
+            id="inputName"
+            placeholder="e.g. Maria Patterson"
+            autocomplete="name"
+          />
+          <span class="field-error" id="nameError">Name is required.</span>
+        </div>
+
+        <!-- Department -->
+        <div class="field">
+          <label for="inputDept">Department</label>
+          <select id="inputDept">
+            <option value="">— Select your department —</option>
+            <option>Animal Care and Control</option>
+            <option>Assessor of Real Estate</option>
+            <option>Budget and Strategic Planning</option>
+            <option>Circuit Court</option>
+            <option>Citizen Service &amp; Response / 311</option>
+            <option>City Attorney's Office</option>
+            <option>City Auditor</option>
+            <option>City Clerk</option>
+            <option>City Council</option>
+            <option>City Treasurer</option>
+            <option>Commonwealth's Attorney</option>
+            <option>Economic Development</option>
+            <option>Elections</option>
+            <option>Emergency Communications</option>
+            <option>Finance</option>
+            <option>Fire and Emergency Services</option>
+            <option>Housing &amp; Community Development</option>
+            <option>Human Resources</option>
+            <option>Information Technology</option>
+            <option>Inspector General</option>
+            <option>Justice Services</option>
+            <option>Juvenile &amp; Domestic Relations Court</option>
+            <option>Mayor's Office</option>
+            <option>Minority Business Development</option>
+            <option>Neighborhood and Community Services</option>
+            <option>Office of Community Wealth Building</option>
+            <option>Office of Human Services</option>
+            <option>Office of Sustainability</option>
+            <option>Parks, Recreation and Community Facilities</option>
+            <option>Planning &amp; Development Review</option>
+            <option>Police Department</option>
+            <option>Procurement Services</option>
+            <option>Public Utilities</option>
+            <option>Public Works</option>
+            <option>Richmond City Sheriff's Office</option>
+            <option>Richmond Public Library</option>
+            <option>Richmond Retirement System</option>
+            <option>Social Services</option>
+            <option>Strategic Communications</option>
+            <option>Chief Administrative Officer</option>
+          </select>
+          <span class="field-error" id="deptError"
+            >Please select a department.</span
+          >
+        </div>
+
+        <div class="divider">Role</div>
+
+        <!-- Role -->
+        <div class="role-group" id="roleGroup">
+          <div class="role-pill selected" data-role="Analyst">
+            <div class="role-pill-icon">🔍</div>
+            <div class="role-pill-label">Analyst</div>
+            <div class="role-pill-desc">Review &amp; flag</div>
+          </div>
+          <div class="role-pill" data-role="Supervisor">
+            <div class="role-pill-icon">✅</div>
+            <div class="role-pill-label">Supervisor</div>
+            <div class="role-pill-desc">Approve &amp; override</div>
+          </div>
+          <div class="role-pill" data-role="Read Only">
+            <div class="role-pill-icon">👁</div>
+            <div class="role-pill-label">Read Only</div>
+            <div class="role-pill-desc">View access</div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button class="btn-login" id="btnLogin">Sign In →</button>
+
+        <div class="disclaimer">
+          This is a decision-support tool. All AI extractions are labeled
+          "AI-assisted, requires human review" and do not constitute official
+          City records.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Role pill selection
+      let selectedRole = "Analyst";
+      document.getElementById("roleGroup").addEventListener("click", (e) => {
+        const pill = e.target.closest(".role-pill");
+        if (!pill) return;
+        document
+          .querySelectorAll(".role-pill")
+          .forEach((p) => p.classList.remove("selected"));
+        pill.classList.add("selected");
+        selectedRole = pill.dataset.role;
+      });
+
+      // Pre-fill from localStorage if returning
+      const stored = (() => {
+        try {
+          return JSON.parse(localStorage.getItem("contractiq_user") || "null");
+        } catch {
+          return null;
+        }
+      })();
+
+      if (stored) {
+        if (stored.name)
+          document.getElementById("inputName").value = stored.name;
+        if (stored.department) {
+          const sel = document.getElementById("inputDept");
+          for (const opt of sel.options) {
+            if (opt.text === stored.department) {
+              sel.value = opt.value || opt.text;
+              break;
+            }
+          }
+        }
+        if (stored.role) {
+          document.querySelectorAll(".role-pill").forEach((p) => {
+            p.classList.toggle("selected", p.dataset.role === stored.role);
+          });
+          selectedRole = stored.role;
+        }
+      }
+
+      // Sign in
+      document.getElementById("btnLogin").addEventListener("click", () => {
+        const name = document.getElementById("inputName").value.trim();
+        const deptEl = document.getElementById("inputDept");
+        const dept = deptEl.options[deptEl.selectedIndex]?.text || "";
+
+        let valid = true;
+
+        const nameInput = document.getElementById("inputName");
+        const nameError = document.getElementById("nameError");
+        if (!name) {
+          nameInput.classList.add("error");
+          nameError.classList.add("visible");
+          valid = false;
+        } else {
+          nameInput.classList.remove("error");
+          nameError.classList.remove("visible");
+        }
+
+        const deptError = document.getElementById("deptError");
+        if (!dept || deptEl.selectedIndex === 0) {
+          deptEl.classList.add("error");
+          deptError.classList.add("visible");
+          valid = false;
+        } else {
+          deptEl.classList.remove("error");
+          deptError.classList.remove("visible");
+        }
+
+        if (!valid) {
+          document.getElementById("errorBanner").classList.add("visible");
+          return;
+        }
+
+        document.getElementById("errorBanner").classList.remove("visible");
+
+        // Build initials (max 2 chars)
+        const initials = name
+          .split(" ")
+          .map((w) => w[0])
+          .filter(Boolean)
+          .slice(0, 2)
+          .join("")
+          .toUpperCase();
+
+        localStorage.setItem(
+          "contractiq_user",
+          JSON.stringify({
+            name,
+            department: dept,
+            role: selectedRole,
+            initials,
+          }),
+        );
+
+        // Redirect to dashboard
+        window.location.href = "index.html";
+      });
+    </script>
+  </body>
+</html>
