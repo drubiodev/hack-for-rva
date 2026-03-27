@@ -867,6 +867,76 @@
         background: var(--green);
       }
 
+      /* ── Document Preview Modal ── */
+      .preview-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.72);
+        z-index: 300;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        backdrop-filter: blur(4px);
+      }
+
+      .preview-modal.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .preview-modal-inner {
+        width: 82vw;
+        max-width: 1200px;
+        height: 88vh;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+        transform: scale(0.97);
+        transition: transform 0.2s;
+      }
+
+      .preview-modal.open .preview-modal-inner {
+        transform: scale(1);
+      }
+
+      .preview-modal-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+        background: var(--surface);
+      }
+
+      .preview-modal-title {
+        font-size: 14px;
+        font-weight: 600;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .preview-modal-body {
+        flex: 1;
+        overflow: hidden;
+        background: var(--bg);
+      }
+
+      document-viewer {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
       /* ── Utility ── */
       .section-label {
         font-size: 11px;
@@ -1091,6 +1161,9 @@
         }
       }
     </style>
+    <script type="module">
+      import "https://esm.sh/@quincarter/document-viewer@0.1.5";
+    </script>
   </head>
   <body>
     <!-- ──────────────── SIDEBAR ──────────────── -->
@@ -1536,6 +1609,25 @@
     </div>
     <!-- /main -->
 
+    <!-- ──────────────── DOCUMENT PREVIEW MODAL ──────────────── -->
+    <div class="preview-modal" id="previewModal">
+      <div class="preview-modal-inner">
+        <div class="preview-modal-header">
+          <span style="font-size: 16px">📄</span>
+          <div class="preview-modal-title" id="previewModalTitle">
+            Document Preview
+          </div>
+          <span class="badge badge-gray" style="font-size: 10px"
+            >AI-assisted · requires human review</span
+          >
+          <button class="btn-icon" id="previewClose" title="Close">✕</button>
+        </div>
+        <div class="preview-modal-body">
+          <document-viewer id="docViewer"></document-viewer>
+        </div>
+      </div>
+    </div>
+
     <!-- ──────────────── CHAT SIDE PANEL ──────────────── -->
     <div class="chat-panel" id="chatPanel">
       <div class="chat-panel-resize" id="chatResize"></div>
@@ -1640,13 +1732,57 @@
         });
       });
 
-      // Table row selection
-      document.querySelectorAll(".doc-table tbody tr").forEach((row) => {
+      // Table row selection + preview
+      const pdfBase = "../pillar-thriving-city-hall/procurement-examples/pdfs/";
+      const samplePdfs = [
+        "Contract 20000003712.pdf",
+        "Contract 21000000131.pdf",
+        "Contract 22000008081.pdf",
+        "Contract 22000011432.pdf",
+        "Contract 23000004767.pdf",
+        "Contract 23000012317.pdf",
+        "Contract 24000006048.pdf",
+      ];
+
+      const previewModal = document.getElementById("previewModal");
+      const previewModalTitle = document.getElementById("previewModalTitle");
+      const previewClose = document.getElementById("previewClose");
+      const docViewer = document.getElementById("docViewer");
+
+      function openPreview(docName, pdfIndex) {
+        previewModalTitle.textContent = docName;
+        docViewer.setAttribute(
+          "src",
+          pdfBase + samplePdfs[pdfIndex % samplePdfs.length],
+        );
+        previewModal.classList.add("open");
+      }
+
+      function closePreview() {
+        previewModal.classList.remove("open");
+        // Clear src to stop rendering when closed
+        setTimeout(() => docViewer.removeAttribute("src"), 250);
+      }
+
+      previewClose.addEventListener("click", closePreview);
+      previewModal.addEventListener("click", (e) => {
+        if (e.target === previewModal) closePreview();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && previewModal.classList.contains("open"))
+          closePreview();
+      });
+
+      document.querySelectorAll(".doc-table tbody tr").forEach((row, i) => {
         row.addEventListener("click", () => {
           document
             .querySelectorAll(".doc-table tbody tr")
             .forEach((r) => (r.style.background = ""));
           row.style.background = "rgba(79,142,247,0.06)";
+          const docName =
+            row.querySelector(".doc-name")?.textContent?.trim() ||
+            "Document Preview";
+          openPreview(docName, i);
         });
       });
 
