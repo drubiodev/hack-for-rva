@@ -1,5 +1,5 @@
 ---
-description: Debug the document processing pipeline — upload, Azure Blob Storage, Azure Document Intelligence OCR, GPT-4.1-nano classification/extraction, validation engine, and database writes
+description: Debug the document processing pipeline — upload, Azure Blob Storage, Azure Document Intelligence OCR, ChatGPT 5.4 mini classification/extraction, validation engine, and database writes
 ---
 
 Debug an issue in the HackathonRVA procurement document processing pipeline. Work through the pipeline systematically based on the observed symptom.
@@ -15,13 +15,13 @@ Azure Blob Storage (store original)
     ↓ blob_url
 Azure Document Intelligence (prebuilt-read OCR)
     ↓ ocr_text + confidence
-GPT-4.1-nano (classify document type)
+ChatGPT 5.4 mini (classify document type)
     ↓ document_type + confidence
-GPT-4.1-nano (extract per-type fields)
+ChatGPT 5.4 mini (extract per-type fields)
     ↓ structured fields
 Validation Engine (13 rules + AI pass)
     ↓ validation results
-Supabase PostgreSQL (save all)
+Azure PostgreSQL (save all)
     ↓
 Document status: validated
 ```
@@ -41,7 +41,7 @@ Document status: validated
 1. Check BackgroundTask is triggered after 202 response
 2. Check pipeline.py for unhandled exceptions
 3. Check Azure Blob upload succeeded: look for blob_url in DB
-4. Check logs: `docker logs` or Railway logs
+4. Check logs: `docker logs` or Azure Container Apps logs
 
 ### "OCR returns empty text or low confidence"
 1. Verify Azure DI endpoint and key in `.env`

@@ -22,7 +22,7 @@ procurement/backend/
 │   │   ├── blob_storage.py  # Azure Blob Storage upload/download
 │   │   └── document_intelligence.py  # Azure Document Intelligence OCR
 │   ├── extraction/
-│   │   ├── classifier.py    # GPT-4.1-nano document type classification
+│   │   ├── classifier.py    # ChatGPT 5.4 mini document type classification
 │   │   ├── extractor.py     # Per-type structured field extraction
 │   │   └── prompts.py       # All AI prompt strings live here
 │   ├── validation/

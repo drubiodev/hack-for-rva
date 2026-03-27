@@ -9,6 +9,7 @@ openai>=1.40.0
 azure-ai-documentintelligence>=1.0.0
 azure-storage-blob>=12.20.0
 alembic
+pypdf>=4.0.0
 python-dotenv
 httpx
 pytest

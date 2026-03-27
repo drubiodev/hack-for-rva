@@ -20,9 +20,9 @@ Key pillar constraints:
 ## Project context
 
 A two-person team is building an AI-powered procurement document processing system:
-- **Priyesh** — backend: FastAPI + Azure Document Intelligence (OCR) + Azure OpenAI (GPT-4.1-nano) + Azure Blob Storage + Supabase
+- **Priyesh** — backend: FastAPI + Azure Document Intelligence (OCR) + Azure OpenAI (ChatGPT 5.4 mini) + Azure Blob Storage + Azure AI Search
 - **Daniel** — frontend: Next.js 16 + shadcn/ui + TanStack Query + Recharts
-- **Budget:** ~$65 total | **Timeline:** 48 hours | **Deployment:** Railway
+- **Budget:** ~$65 total | **Timeline:** 48 hours | **Deployment:** Azure Container Apps
 
 City procurement staff upload scanned documents (contracts, RFPs, invoices). AI OCRs them, classifies the document type, extracts structured fields, validates for consistency, and surfaces risks on a dashboard — using **real City of Richmond data**. Includes an approval workflow where analysts submit reviews for supervisor approval.
 

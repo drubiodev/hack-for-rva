@@ -254,6 +254,101 @@ paths:
               schema:
                 $ref: "#/components/schemas/DocumentSummary"
 
+  /api/v1/documents/{id}/review:
+    post:
+      operationId: reviewDocument
+      summary: Mark document as reviewed with notes
+      tags: [Documents]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reviewed_by, role]
+              properties:
+                reviewed_by:
+                  type: string
+                role:
+                  type: string
+                  enum: [analyst, supervisor]
+                notes:
+                  type: string
+      responses:
+        "200":
+          description: Document reviewed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentSummary"
+
+  /api/v1/documents/{id}/export/csv:
+    get:
+      operationId: exportDocumentCsv
+      summary: Export extracted fields as CSV
+      tags: [Documents]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: CSV file download
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/v1/documents/{id}/resolve-warning:
+    post:
+      operationId: resolveWarning
+      summary: Resolve a validation warning
+      tags: [Documents]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [validation_id, resolved_by]
+              properties:
+                validation_id:
+                  type: string
+                  format: uuid
+                resolved_by:
+                  type: string
+      responses:
+        "200":
+          description: Warning resolved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationResult"
+
   /api/v1/documents/{id}/reprocess:
     post:
       operationId: reprocessDocument

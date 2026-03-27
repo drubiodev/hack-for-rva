@@ -15,16 +15,19 @@ async def test_health_returns_ok(client):
 @pytest.mark.asyncio
 async def test_stub_endpoints_return_501(client):
     """Stub endpoints should return 501 Not Implemented."""
-    response = await client.post("/api/v1/documents/upload")
-    assert response.status_code in (501, 422)  # 422 if missing form data
+    # These endpoints are still stubs
+    from uuid import uuid4
 
-    response = await client.get("/api/v1/analytics/summary")
+    fake_id = uuid4()
+
+    response = await client.post(f"/api/v1/documents/{fake_id}/submit")
     assert response.status_code == 501
 
-    response = await client.get("/api/v1/analytics/risks")
+    response = await client.post(f"/api/v1/documents/{fake_id}/approve")
     assert response.status_code == 501
 
-    response = await client.get("/api/v1/activity")
+    response = await client.post(f"/api/v1/documents/{fake_id}/reject")
     assert response.status_code == 501
 
-    # Socrata ingest endpoint is now implemented — tested in test_socrata.py
+    response = await client.post(f"/api/v1/documents/{fake_id}/reprocess")
+    assert response.status_code == 501

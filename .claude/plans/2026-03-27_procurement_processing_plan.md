@@ -101,41 +101,52 @@ https://data.richmondgov.com/api/views/xqn7-jvv2/rows.csv?accessType=DOWNLOAD
 
 ---
 
-## Architecture
+## Architecture (All Azure)
 
 ```
-                     ┌────────────────────────────────────────────────────────┐
-                     │                  Railway Project                       │
-                     │                                                        │
-  ┌──────────┐      │  ┌─────────────────────┐     ┌──────────────────────┐  │
-  │  Staff    │──────│──▶  Next.js 16         │     │  FastAPI Backend     │  │
-  │  Browser  │◀─────│──│  Dashboard          │────▶│                      │  │
-  └──────────┘      │  │  (shadcn/ui)        │     │  /api/v1/documents   │  │
-                     │  └─────────────────────┘     │  /api/v1/analytics   │  │
-  Role Selector:     │                               │  /api/v1/approvals   │  │
-  [Analyst]          │                               └──┬──────┬──────┬────┘  │
-  [Supervisor]       │                                  │      │      │       │
-                     └──────────────────────────────────│──────│──────│───────┘
-                                                        │      │      │
-                              ┌──────────────────────────┘      │      └──────┐
-                              ▼                                 ▼             ▼
-                   ┌──────────────────┐              ┌─────────────┐  ┌──────────────┐
-                   │  Azure Blob      │              │ Azure OpenAI │  │ Supabase     │
-                   │  Storage         │              │ GPT-4.1-nano │  │ PostgreSQL   │
-                   │  (PDF originals) │              │ (classify +  │  │ (structured  │
-                   └──────────────────┘              │  extract)    │  │  data)       │
-                                                     └──────┬──────┘  └──────────────┘
-                   ┌──────────────────┐                     │
-                   │  Azure Document  │◄────────────────────┘
+                     ┌─────────────── Azure Container Apps Environment ───────────────┐
+                     │                                                                 │
+  ┌──────────┐      │  ┌─────────────────────┐     ┌──────────────────────┐           │
+  │  Staff    │──────│──▶  Next.js 16         │     │  FastAPI Backend     │           │
+  │  Browser  │◀─────│──│  Dashboard          │────▶│                      │           │
+  └──────────┘      │  │  (shadcn/ui)        │     │  /api/v1/documents   │           │
+                     │  │  Container App #1   │     │  /api/v1/analytics   │           │
+  Role Selector:     │  └─────────────────────┘     │  /api/v1/chat        │           │
+  [Analyst]          │                               │  Container App #2    │           │
+  [Supervisor]       │                               └──┬──┬──┬──┬──┬─────┘           │
+                     │                                  │  │  │  │  │                  │
+                     └──────────────────────────────────│──│──│──│──│──────────────────┘
+                              ┌──────────────────────────┘  │  │  │  └──────┐
+                              ▼                             │  │  ▼         ▼
+                   ┌──────────────────┐                     │  │  ┌──────────────────┐
+                   │  Azure Blob      │                     │  │  │ Azure PostgreSQL  │
+                   │  Storage         │                     │  │  │ Flexible Server   │
+                   │  (PDF originals) │                     │  │  │ (Burstable B1ms)  │
+                   └──────────────────┘                     │  │  └──────────────────┘
+                                                            │  │
+                              ┌─────────────────────────────┘  └─────────┐
+                              ▼                                          ▼
+                   ┌──────────────────┐                       ┌──────────────────┐
+                   │  Azure OpenAI    │                       │  Azure AI Search  │
+                   │  ChatGPT 5.4    │                       │  (RAG index for   │
+                   │  mini            │◀──────────────────────│   chatbot)        │
+                   │  (classify +     │  retrieval-augmented  └──────────────────┘
+                   │   extract + chat)│  generation
+                   └──────┬──────────┘
+                          │
+                   ┌──────────────────┐
+                   │  Azure Document  │
                    │  Intelligence    │  (OCR for scanned PDFs;
                    │  (prebuilt-read) │   skip for text-based PDFs)
                    └──────────────────┘
 
-  Phase 1 also ingests:
+  Also ingests:
   ┌─────────────────────────────────────┐
   │  Socrata CSV (xqn7-jvv2)           │  ~1,362 City contracts
   │  Pre-staged contract PDFs (10)      │  Real Richmond contracts
   └─────────────────────────────────────┘
+
+  Container images stored in Azure Container Registry (Basic tier)
 ```
 
 ---
@@ -266,7 +277,7 @@ created_at TIMESTAMPTZ DEFAULT NOW()
 ### Architecture Guardrails
 - **No LangChain** — OpenAI SDK `response_format` directly
 - **No Celery/Redis** — FastAPI BackgroundTasks
-- **GPT-4.1-nano only** — ~$0.002 per document
+- **ChatGPT 5.4 mini** — good quality/cost balance for classification, extraction, and chatbot
 - **`procurement/docs/openapi.yaml` is the contract** between frontend/backend
 - **Upload returns 202** — pipeline runs as BackgroundTask
 - **Socrata CSV download, NOT API** — API has known 8-of-9 column bug
@@ -306,7 +317,7 @@ created_at TIMESTAMPTZ DEFAULT NOW()
 |----|------|-------|--------|---------------------|
 | BE-04 | Azure Blob Storage upload | Backend | 1.5h | File uploaded, blob_url stored in DB |
 | BE-05 | Azure Document Intelligence OCR | Backend | 2h | Pre-staged contract PDF → text extracted with confidence score |
-| BE-06 | Document classifier (GPT-4.1-nano) | Backend | 1.5h | Correctly classifies "contract" from OCR text |
+| BE-06 | Document classifier (ChatGPT 5.4 mini) | Backend | 1.5h | Correctly classifies "contract" from OCR text |
 | BE-07 | Field extractor (per-type prompts) | Backend | 2.5h | Extracts vendor, amount, dates, terms from contract text |
 | BE-08 | Validation engine (13 rules + AI) | Backend | 2h | At least 8 rules implemented. Flags found on pre-staged contracts |
 | BE-09 | Pipeline orchestrator | Backend | 1.5h | `process_document()` chains OCR→classify→extract→validate as BackgroundTask |
@@ -347,29 +358,33 @@ created_at TIMESTAMPTZ DEFAULT NOW()
 
 ---
 
-### Phase 4 — Polish + Integration (Hours 28-40)
+### Phase 4 — RAG Chatbot + Polish (Hours 28-40)
 
-**Goal:** Production-quality demo. All 10 pre-staged contracts processed. Dark mode. Responsive. Tests.
+**Goal:** RAG chatbot over extracted data, approval workflow, all 10 contracts processed, Azure deployment.
 
 | ID | Task | Owner | Effort | Acceptance Criteria |
 |----|------|-------|--------|---------------------|
 | BE-14 | Process all 10 pre-staged contracts | Backend | 1.5h | All 10 PDFs from `procurement-examples/` processed and in DB with extracted fields |
-| BE-15 | Backend tests (API, pipeline, approval) | Backend | 2h | 20+ tests covering upload, list, detail, approval flow, validations |
-| BE-16 | Seed script combining Socrata + PDFs | Backend | 1h | Single command loads demo-ready data |
-| FE-08 | Polling + dark mode + error boundaries | Frontend | 2h | 5s polling on detail, 30s on list. Dark mode toggle. error.tsx + loading.tsx |
-| FE-09 | Empty states + responsive + disclaimer banners | Frontend | 2h | Empty states with icons. Mobile table scroll. "AI-assisted" disclaimer on all extraction views |
-| INT-02 | OpenAPI contract sync | Both | 1h | Spec matches implementation |
-| INT-03 | Railway deployment | Both | 1h | Both services deploy. Health check passes. |
-| INT-04 | End-to-end smoke test | Both | 1.5h | Upload → process → review → approve full flow works on deployed URL |
+| BE-15 | Azure AI Search indexing | Backend | 2h | Index created with extracted fields + OCR text. Auto-indexes on document processing. |
+| BE-16 | RAG chatbot endpoint (`POST /api/v1/chat`) | Backend | 2.5h | Accepts question, queries AI Search, feeds context to ChatGPT 5.4 mini, returns answer with source document references |
+| BE-17 | Approval workflow endpoints | Backend | 2h | submit/approve/reject, role enforcement |
+| BE-18 | Seed script combining Socrata + PDFs | Backend | 1h | Single command loads demo-ready data |
+| FE-08 | Chat interface page | Frontend | 2.5h | `/dashboard/chat` — chat input, streaming responses, source document links, conversation history |
+| FE-09 | Approval UI | Frontend | 2h | Submit button (analyst), approve/reject (supervisor), rejection reason modal |
+| FE-10 | Polish: dark mode, error boundaries, responsive | Frontend | 1.5h | Dark mode toggle. error.tsx + loading.tsx. Mobile table scroll. |
+| INT-02 | OpenAPI contract sync | Both | 0.5h | Spec matches implementation |
+| INT-03 | Azure Container Apps deployment | Both | 2h | Build + push Docker images to ACR. Deploy both Container Apps. Health check passes. Set all env vars. |
+| INT-04 | End-to-end smoke test | Both | 1h | Upload → process → review → approve → chat — full flow works on deployed Azure URL |
 
 **Phase 4 Gate:**
 - [ ] All 10 pre-staged contracts visible in dashboard with extracted fields
 - [ ] Socrata data (~1,362 contracts) visible in risk dashboard
+- [ ] RAG chatbot answers questions about contracts (e.g., "Which contracts expire in 60 days?")
 - [ ] Full approval flow works (upload → analyst review → submit → supervisor approve)
 - [ ] "AI-assisted, requires human review" disclaimer visible on all extraction views
 - [ ] Backend: 20+ tests pass
 - [ ] Frontend: `tsc --noEmit` clean, `npm run build` succeeds
-- [ ] Deployed to Railway and accessible
+- [ ] Deployed to Azure Container Apps and accessible
 - [ ] `git commit`
 
 ---
@@ -380,7 +395,7 @@ created_at TIMESTAMPTZ DEFAULT NOW()
 
 | ID | Task | Owner | Effort |
 |----|------|-------|--------|
-| DEMO-01 | Rehearse 3-5 min demo script | Both | 1h |
+| DEMO-01 | Rehearse 3-5 min demo script (include chatbot wow moment) | Both | 1h |
 | DEMO-02 | Pre-load demo data (processed contracts + Socrata) | Backend | 0.5h |
 | DEMO-03 | Screenshot backup for each demo step | Frontend | 0.5h |
 | DEMO-04 | Final bug fixes | Both | 2h |
@@ -439,14 +454,22 @@ created_at TIMESTAMPTZ DEFAULT NOW()
 - Show validation warnings: "Contract expires in 67 days" / "No bond requirement on $287K contract"
 - Point to the "AI-assisted" disclaimer
 
-### 4. Approval Flow (45s)
+### 4. Ask the Chatbot (60s) — WOW MOMENT
+- Open the Chat page
+- Type: "Which contracts expire in the next 60 days?"
+- AI responds with a list of real contracts from Socrata data, with vendor names and amounts
+- Type: "What did we spend on IT consulting last year?"
+- AI responds with aggregated data from extracted fields
+- "Staff can ask questions in plain English and get answers from their entire document archive — no spreadsheets, no manual searching."
+- Point to source document links in the response
+
+### 5. Approval Flow (30s)
 - As Analyst: review fields, resolve a warning, click "Submit for Approval"
 - Switch role to Supervisor: see the pending approval, review, click "Approve"
-- Show the activity timeline: every action logged with name, role, timestamp
 - "Separation of duties — the analyst who processes can't approve their own work."
 
-### 5. Close (30s)
-"We built this in 48 hours using real City of Richmond contract data and Azure free tiers. This is a decision-support tool — it surfaces the information, staff make the call. Next step: a RAG chatbot so staff can ask 'What did we spend on IT consulting last quarter?' and get an answer from their document archive."
+### 6. Close (30s)
+"We built this in 48 hours using real City of Richmond contract data, all on Azure. This is a decision-support tool — it surfaces the information, staff make the call. The extraction logic can run as an Azure Function plugged into the City's existing Microsoft stack — Dynamics 365, Power Automate, SharePoint."
 
 ---
 
@@ -606,12 +629,12 @@ These are the fields the extraction prompts must prioritize. If the OCR is noisy
 ### Original Demo Order
 1. Hook → 2. Live upload → 3. Extracted data → 4. Validations → 5. Risk dashboard → 6. Second upload → 7. Close
 
-### Revised Demo Order (Socrata first, extraction second)
+### Revised Demo Order (Socrata first, extraction second, chatbot finale)
 
 **1. The Pain (30s)**
 *"A Richmond procurement officer needs to know which contracts expire in the next 60 days. Today, they download a CSV, open it in Excel, manually sort by date, and review each one. For the detail, they open a 40-page PDF and read it cover to cover."*
 
-**2. The Risk Dashboard — REAL DATA (60s)** ← HERO MOMENT
+**2. The Risk Dashboard — REAL DATA (60s)** ← HERO MOMENT #1
 - Dashboard loads with **~1,362 real City of Richmond contracts** from Socrata
 - *"This is the City's actual contract data — every vendor, every dollar amount, every expiration date."*
 - Apply "expiring in 60 days" filter → show 5-8 real contracts in the danger zone
@@ -626,14 +649,18 @@ These are the fields the extraction prompts must prioritize. If the OCR is noisy
 - Show validation warnings: "Contract expires in 67 days"
 - Show the confidence score and "AI-assisted" disclaimer
 
-**4. The Review + Export (30s)**
-- Click "Mark as Reviewed" — enter name and notes
-- Click "Export to CSV" — *"This drops into your existing Excel workflow"*
+**4. Ask the Chatbot — WOW MOMENT (60s)** ← HERO MOMENT #2
+- Open the Chat page
+- Type: *"Which contracts expire in the next 60 days?"*
+- AI responds with a list from real Socrata + extracted data, citing source documents
+- Type: *"Tell me about our IT consulting contracts"*
+- AI responds with aggregated info from extracted fields
+- *"Staff can ask questions in plain English and get answers from their entire document archive."*
 
 **5. Close (30s)**
-*"We built this in 48 hours on the City's own open data. This isn't a new system — it's a lens that surfaces what's already there, enhanced with AI extraction. The procurement team doesn't need to learn anything new. They get a dashboard that shows risk, and a tool that reads their PDFs for them."*
+*"We built this in 48 hours on the City's own open data, all running on Azure. This isn't a new system — it's a lens that surfaces what's already there, enhanced with AI extraction and a chatbot. The procurement team gets a dashboard, a PDF reader, and a research assistant — all from one tool."*
 
-*"Post-hackathon, this extraction logic can run as an Azure Function plugged into the City's existing Microsoft stack — Dynamics 365, Power Automate, SharePoint. No new infrastructure required."*
+*"Post-hackathon, this runs as Azure Functions plugged into the City's existing Microsoft stack — Dynamics 365, Power Automate, SharePoint. No new infrastructure required."*
 
 ---
 
@@ -686,15 +713,20 @@ Simple review in Phase 3. Approval gating in Phase 4:
 | BE-11 | Review endpoint + CSV export | Backend | 1.5h | "Reviewed by [Name]" with notes + CSV download |
 | BE-12 | Activity log (simplified) | Backend | 1h | Log uploads, processing, reviews, exports |
 
-### Revised Phase 4 — Polish + Approval Workflow (Hours 28-40)
+### Revised Phase 4 — RAG Chatbot + Approval + Azure Deployment (Hours 28-40)
 
 | ID | Task | Owner | Effort | Notes |
 |----|------|-------|--------|-------|
 | BE-14 | Process all 10 pre-staged contracts | Backend | 1.5h | Via OCR pipeline, not pre-OCR'd text |
-| BE-15 | Approval workflow endpoints | Backend | 2.5h | submit/approve/reject, role enforcement, status expansion to 8 states |
-| BE-16 | Full activity timeline | Backend | 1.5h | All actions with actor, role, comments |
-| FE-10 | CSV export button on detail + list pages | Frontend | 1h | Shows integration readiness |
-| FE-11 | Approval UI (if BE-15 complete) | Frontend | 2h | Submit button (analyst), approve/reject (supervisor), rejection reason modal |
+| BE-15 | Azure AI Search indexing | Backend | 2h | Create index, sync extracted fields + OCR text on processing |
+| BE-16 | RAG chatbot endpoint (`POST /api/v1/chat`) | Backend | 2.5h | Query AI Search → feed context to ChatGPT 5.4 mini → answer with source refs |
+| BE-17 | Approval workflow endpoints | Backend | 2h | submit/approve/reject, role enforcement |
+| BE-18 | Seed script (Socrata + PDFs) | Backend | 1h | Single command loads demo-ready data |
+| FE-08 | Chat interface page (`/dashboard/chat`) | Frontend | 2.5h | Chat input, AI responses, source links, conversation history |
+| FE-09 | Approval UI | Frontend | 2h | Submit (analyst), approve/reject (supervisor), rejection modal |
+| FE-10 | Polish: dark mode, error boundaries, responsive | Frontend | 1.5h | Dark mode, error.tsx, loading.tsx, mobile scroll |
+| INT-03 | Azure Container Apps deployment | Both | 2h | ACR push, ACA deploy (frontend + backend), env vars, health check |
+| INT-04 | End-to-end smoke test on Azure | Both | 1h | Full flow on deployed URL |
 
 ---
 
@@ -709,9 +741,11 @@ Simple review in Phase 3. Approval gating in Phase 4:
 7. **Validation flags:** At least 3 different validation rules fire across the 10 contracts
 8. Disclaimer: "AI-assisted, requires human review" visible on every extraction view
 9. **CSV export:** Download works and contains all extracted fields
-10. Role selector: analyst and supervisor see their name + role in header
-11. **No "new system" language in demo:** Pitch frames as "view layer on City's own open data"
-12. **Real data only in demo:** No synthetic contracts shown. Every row is from Socrata or pre-staged PDFs.
+10. **RAG chatbot:** Ask "Which contracts expire in 60 days?" → get real answer with source refs
+11. Role selector: analyst and supervisor see their name + role in header
+12. **No "new system" language in demo:** Pitch frames as "view layer on City's own open data"
+13. **Real data only in demo:** No synthetic contracts shown. Every row is from Socrata or pre-staged PDFs.
+14. **Azure deployment:** Both Container Apps accessible, health checks pass
 
 ---
 
@@ -719,15 +753,18 @@ Simple review in Phase 3. Approval gating in Phase 4:
 
 | # | Risk | Likelihood | Impact | Mitigation |
 |---|------|-----------|--------|------------|
-| 1 | GPT-4.1-nano extracts wrong fields from messy OCR text | Medium | High | Test against all 10 pre-staged contracts early (Phase 2). Tune prompts. Show confidence scores. |
+| 1 | ChatGPT 5.4 mini extracts wrong fields from messy OCR text | Medium | High | Test against all 10 pre-staged contracts early (Phase 2). Tune prompts. Show confidence scores. |
 | 2 | Socrata data has date format inconsistencies | Medium | Medium | Normalize dates in ingestion script. Test with real CSV in Phase 1. |
 | 3 | Pre-OCR'd text files have OCR artifacts | Known | Medium | Prompts include "OCR artifacts may be present — extract what is clearly legible" |
 | 4 | Live PDF upload fails during demo | Medium | High | **Pre-process all 10 contracts before demo.** Upload one live as the "wow" moment, but have all data pre-loaded. |
-| 5 | Judges ask "how does this integrate with the City's systems?" | High | Medium | Prepared answer: "The extraction logic runs as a standalone service today. Post-hackathon, it wraps as an Azure Function in the City's existing Microsoft stack — Dynamics 365, Power Automate, SharePoint." |
-| 6 | Judges ask "is this another system to maintain?" | High | Medium | Prepared answer: "No — the dashboard reads from the City's own Socrata data. The only new capability is the AI extraction, which can be deployed as a serverless function with zero infrastructure maintenance." |
+| 5 | Judges ask "how does this integrate with the City's systems?" | High | Medium | Prepared answer: "Everything runs on Azure — the City's own cloud stack. Post-hackathon, wrap extraction as Azure Function, plug into Dynamics 365 / Power Automate / SharePoint." |
+| 6 | Judges ask "is this another system to maintain?" | High | Medium | Prepared answer: "No — it runs on Azure Container Apps (serverless). The dashboard reads Socrata data. The AI extraction + chatbot are Azure Functions waiting to happen. Zero infrastructure to maintain." |
 | 7 | Azure OpenAI rate limit or outage during demo | Low | Critical | Pre-process all contracts. Cache extraction results. Demo works entirely from cached data if needed. |
 | 8 | Socrata API/CSV is down during demo | Low | High | Download CSV during setup. Load from local file, not live API. |
-| 9 | Budget overrun on Azure | Low | Low | GPT-4.1-nano: ~$0.002/doc. 50 docs = $0.10. Blob storage: pennies. Total < $1. |
-| 10 | Approval workflow takes longer than expected | Medium | Medium | Deferred to Phase 4. Simple review works in Phase 3. If Phase 4 runs short, demo simple review + pitch the approval chain as "production-ready schema, wiring in progress." |
+| 9 | Budget overrun on Azure | Low | Low | ChatGPT 5.4 mini pricing is reasonable. Total estimated ~$15-20 for 2-day hackathon. Well within $65 budget. |
+| 10 | Approval workflow takes longer than expected | Medium | Medium | Deferred to Phase 4. Simple review works in Phase 3. If Phase 4 runs short, demo simple review + pitch the approval chain. |
 | 11 | Azure DI free tier exhausted (500 pages/month) | Low | Medium | 10 contracts × ~5 pages avg = ~50 pages. Well within limit. Track usage. |
-| 12 | Scope creep into RAG chatbot | High | High | RAG is Phase 2, period. Do not start until post-hackathon. |
+| 12 | RAG chatbot hallucination | Medium | High | Always show source document references. Disclaimer: "AI-assisted, requires human review." Limit answers to indexed data only. |
+| 13 | Azure AI Search index sync delay | Medium | Medium | Index after each document processing completes. Pre-index all Socrata data during seed. |
+| 14 | Azure Container Apps cold start during demo | Low | Medium | Set min replicas = 1 on both apps (still within free tier). |
+| 15 | Azure PostgreSQL SSL connection issues | Low | Medium | `database.py` conditionally adds SSL connect_args for Azure URLs. Test before demo. |

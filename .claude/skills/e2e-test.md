@@ -1,8 +1,8 @@
 ---
-description: Generate Playwright e2e tests targeting the deployed Railway URL — covers document upload, processing pipeline, dashboard UI, and analytics
+description: Generate Playwright e2e tests targeting the deployed Azure Container Apps URL — covers document upload, processing pipeline, dashboard UI, analytics, and RAG chatbot
 ---
 
-Generate Playwright e2e tests for the HackathonRVA Procurement Document Processing service. All tests run against the **deployed Railway URLs** — no localhost, no mocks.
+Generate Playwright e2e tests for the HackathonRVA Procurement Document Processing service. All tests run against the **deployed Azure Container Apps URLs** — no localhost, no mocks.
 
 ---
 
@@ -27,7 +27,7 @@ export default defineConfig({
   timeout: 30_000,
   retries: 1,
   use: {
-    baseURL: process.env.RAILWAY_FRONTEND_URL ?? "http://localhost:3000",
+    baseURL: process.env.ACA_FRONTEND_URL ?? "http://localhost:3000",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
   },
@@ -41,8 +41,8 @@ export default defineConfig({
 
 | Variable | Description |
 |---|---|
-| `RAILWAY_FRONTEND_URL` | Deployed Next.js URL (e.g., `https://frontend.up.railway.app`) |
-| `RAILWAY_BACKEND_URL` | Deployed FastAPI URL (e.g., `https://backend.up.railway.app`) |
+| `ACA_FRONTEND_URL` | Deployed Next.js URL (e.g., `https://frontend.up.railway.app`) |
+| `ACA_BACKEND_URL` | Deployed FastAPI URL (e.g., `https://backend.up.railway.app`) |
 
 ---
 
@@ -84,7 +84,7 @@ test.describe("Dashboard overview", () => {
 import { test, expect } from "@playwright/test"
 import path from "path"
 
-const BACKEND = process.env.RAILWAY_BACKEND_URL
+const BACKEND = process.env.ACA_BACKEND_URL
 
 test.describe("Document upload", () => {
   test("upload page renders with drop zone", async ({ page }) => {
@@ -149,7 +149,7 @@ test.describe("Document list", () => {
 ```typescript
 import { test, expect } from "@playwright/test"
 
-const BACKEND = process.env.RAILWAY_BACKEND_URL
+const BACKEND = process.env.ACA_BACKEND_URL
 
 test.describe("Document detail", () => {
   test("detail page shows extracted fields and validation results", async ({ request, page }) => {

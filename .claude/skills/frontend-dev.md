@@ -51,7 +51,7 @@ procurement/frontend/
 | `new EventSource(` (SSE) | `useQuery` with `refetchInterval` | Same reason |
 | Inline `fetch()` calls inside components | Functions in `src/lib/api.ts` only | Single place to update when backend URL changes |
 | Hardcoded backend URL strings | `process.env.NEXT_PUBLIC_API_URL` | Must be configurable per environment |
-| `output: "standalone"` removed from `next.config.ts` | Keep it — required | Railway Docker builds balloon to 2GB+ without it |
+| `output: "standalone"` removed from `next.config.ts` | Keep it — required | Azure Container Apps Docker builds balloon to 2GB+ without it |
 | `"use client"` on page-level layouts (`layout.tsx`) | Only on interactive leaf components | Next.js App Router best practice |
 | Hand-editing any file in `src/components/ui/` | `npx shadcn@latest add <component>` to regenerate | shadcn manages these files |
 | Direct DOM: `document.getElementById`, `window.` outside client components | React state, refs, or `useEffect` | SSR safety |

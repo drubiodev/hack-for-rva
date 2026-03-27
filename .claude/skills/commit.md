@@ -30,7 +30,7 @@ Inspect staged changes and generate a conventional commit message for the Hackat
 | `docs` | Documentation, OpenAPI spec updates |
 | `refactor` | Restructuring without behavior change |
 | `test` | Tests (pytest, Playwright) |
-| `chore` | Railway config, Dockerfile, deps, `.env.example` |
+| `chore` | Azure Container Apps config, Dockerfile, deps, `.env.example` |
 | `perf` | Performance improvement |
 | `security` | Security fix (file validation, CORS, secrets) |
 
@@ -47,7 +47,7 @@ Inspect staged changes and generate a conventional commit message for the Hackat
 | `upload` | Upload page, file drop zone (`procurement/frontend/src/app/dashboard/upload/`) |
 | `dashboard` | Next.js pages, layouts (`procurement/frontend/src/app/dashboard/`) |
 | `analytics` | Charts, metrics, risk views |
-| `deploy` | Railway config, Dockerfile |
+| `deploy` | Azure Container Apps config, Dockerfile |
 | `config` | Environment variables, Pydantic settings |
 | `openapi` | `procurement/docs/openapi.yaml` contract changes |
 
@@ -70,7 +70,7 @@ Inspect staged changes and generate a conventional commit message for the Hackat
 | String literal matching `sk-`, `Bearer `, hardcoded 32+ char hex/base64 | Secrets in env vars only |
 | `os.system(` or `subprocess.` inside request handler | Potential command injection |
 | `Base.metadata.drop_all` | Destructive migration — confirm intentional |
-| Missing `output: "standalone"` in `next.config.ts` | Railway builds will balloon to 2GB+ |
+| Missing `output: "standalone"` in `next.config.ts` | Container builds will balloon to 2GB+ |
 | `prebuilt-invoice` or `prebuilt-contract` | Must use `prebuilt-read` model |
 
 ---

@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -19,15 +18,20 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import type { ProcurementUser } from "@/lib/types";
-import { LayoutDashboard, Upload, FileText, LogOut } from "lucide-react";
-
-const STORAGE_KEY = "procurement_user";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  LayoutDashboard,
+  Upload,
+  FileText,
+  BarChart3,
+  LogOut,
+} from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/upload", label: "Upload", icon: Upload },
   { href: "/dashboard/documents", label: "Documents", icon: FileText },
+  { href: "/dashboard/upload", label: "Upload", icon: Upload },
+  { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
 ];
 
 export default function DashboardLayout({
@@ -35,34 +39,8 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   const pathname = usePathname();
-  const [user, setUser] = useState<ProcurementUser | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) {
-      router.replace("/");
-      return;
-    }
-    try {
-      const parsed: ProcurementUser = JSON.parse(stored);
-      if (!parsed.name || !parsed.role) {
-        router.replace("/");
-        return;
-      }
-      setUser(parsed);
-    } catch {
-      router.replace("/");
-    }
-  }, [router]);
-
-  function handleLogout() {
-    localStorage.removeItem(STORAGE_KEY);
-    router.replace("/");
-  }
+  const { user, mounted, logout } = useAuth();
 
   if (!mounted || !user) return null;
 
@@ -71,9 +49,7 @@ export default function DashboardLayout({
       <Sidebar>
         <SidebarHeader className="p-4">
           <h2 className="text-lg font-semibold">Procurement</h2>
-          <p className="text-xs text-muted-foreground">
-            City of Richmond
-          </p>
+          <p className="text-xs text-muted-foreground">City of Richmond</p>
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
@@ -82,6 +58,7 @@ export default function DashboardLayout({
                 <SidebarMenuButton
                   render={<Link href={item.href} />}
                   isActive={pathname === item.href}
+                  tooltip={item.label}
                 >
                   <item.icon className="h-4 w-4" />
                   <span>{item.label}</span>
@@ -108,7 +85,7 @@ export default function DashboardLayout({
             variant="ghost"
             size="sm"
             className="w-full justify-start"
-            onClick={handleLogout}
+            onClick={logout}
           >
             <LogOut className="h-4 w-4 mr-2" />
             Sign out
@@ -119,8 +96,21 @@ export default function DashboardLayout({
         <header className="flex h-14 items-center gap-2 border-b px-4">
           <SidebarTrigger />
           <Separator orientation="vertical" className="h-6" />
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold leading-tight">
+              Procurement Document Processing
+            </span>
+            <span className="text-[10px] text-muted-foreground leading-tight">
+              AI-assisted, requires human review
+            </span>
+          </div>
           <div className="flex-1" />
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <span className="hidden sm:inline text-xs text-muted-foreground">
+              {user.name} — {user.role === "supervisor" ? "Supervisor" : "Analyst"}
+            </span>
+            <ThemeToggle />
+          </div>
         </header>
         <main className="flex-1 p-6">{children}</main>
       </SidebarInset>
