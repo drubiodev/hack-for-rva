@@ -809,6 +809,134 @@
           box-shadow: none;
         }
       }
+
+      /* ── Floating Chat Panel ── */
+      .doc-chat-panel {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 400px;
+        height: 520px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-bottom: none;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 -8px 40px rgba(0,0,0,0.5), 0 -2px 12px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        z-index: 200;
+        transform: translateY(100%);
+        transition: transform 0.38s cubic-bezier(0.34,1.2,0.64,1);
+        pointer-events: none;
+      }
+      .doc-chat-panel.open {
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      .doc-chat-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 14px;
+        background: var(--surface2);
+        border-bottom: 1px solid var(--border);
+        border-radius: 12px 12px 0 0;
+        flex-shrink: 0;
+        cursor: default;
+      }
+      .doc-chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        scroll-behavior: smooth;
+      }
+      .doc-chat-messages::-webkit-scrollbar { width: 4px; }
+      .doc-chat-messages::-webkit-scrollbar-track { background: transparent; }
+      .doc-chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+      .dc-msg { display: flex; flex-direction: column; gap: 3px; }
+      .dc-msg.user { align-items: flex-end; }
+      .dc-msg.ai { align-items: flex-start; }
+      .dc-bubble {
+        max-width: 88%;
+        padding: 9px 12px;
+        border-radius: 10px;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+      .dc-msg.user .dc-bubble {
+        background: var(--accent);
+        color: #fff;
+        border-bottom-right-radius: 3px;
+      }
+      .dc-msg.ai .dc-bubble {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-bottom-left-radius: 3px;
+      }
+      .dc-label { font-size: 10px; color: var(--text-muted); padding: 0 4px; }
+      .dc-sources { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+      .dc-source-chip {
+        font-size: 11px;
+        color: var(--accent);
+        text-decoration: none;
+        background: rgba(79,142,247,0.08);
+        padding: 2px 8px;
+        border-radius: 4px;
+        border: 1px solid rgba(79,142,247,0.25);
+        white-space: nowrap;
+      }
+      .dc-source-chip:hover { background: rgba(79,142,247,0.18); }
+      .doc-chat-footer {
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+        padding: 10px 12px;
+        border-top: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+      .doc-chat-input {
+        flex: 1;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 13px;
+        padding: 8px 11px;
+        resize: none;
+        outline: none;
+        max-height: 100px;
+        line-height: 1.4;
+        transition: border-color 0.15s;
+      }
+      .doc-chat-input:focus { border-color: var(--accent); }
+      .doc-chat-input::placeholder { color: var(--text-muted); }
+      .doc-chat-send {
+        width: 34px;
+        height: 34px;
+        background: var(--accent);
+        border: none;
+        border-radius: 8px;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background 0.15s, transform 0.08s;
+      }
+      .doc-chat-send:hover { background: #3b7de8; }
+      .doc-chat-send:active { transform: scale(0.92); }
+      .doc-chat-send svg[data-lucide] { width: 15px; height: 15px; }
+
+      /* Thinking dot pulse (reused by chat) */
+      @keyframes uploader-pulse {
+        0%,100% { opacity:1; transform:scale(1); }
+        50%      { opacity:0.3; transform:scale(0.6); }
+      }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -820,6 +948,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   </head>
   <body>
+    <!-- ── Floating chat panel ── -->
+    <div id="docChatPanel" class="doc-chat-panel">
+      <div class="doc-chat-header">
+        <i data-lucide="message-circle" style="width:16px;height:16px;color:var(--accent);flex-shrink:0"></i>
+        <span style="font-size:13px;font-weight:700;flex:1">Chat about this document</span>
+        <span id="docChatBadge" class="badge badge-blue" style="font-size:10px">Loading…</span>
+        <button id="docChatMinBtn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;border-radius:5px;transition:color 0.15s" title="Minimize" onclick="document.getElementById('docChatPanel').classList.remove('open')">
+          <i data-lucide="x" style="width:15px;height:15px"></i>
+        </button>
+      </div>
+      <div class="doc-chat-messages" id="docChatMessages">
+        <div class="dc-msg ai">
+          <div class="dc-label">ContractIQ &middot; AI</div>
+          <div class="dc-bubble" id="docChatWelcome">Loading document context…</div>
+        </div>
+      </div>
+      <div class="doc-chat-footer">
+        <textarea id="docChatInput" class="doc-chat-input" rows="1" placeholder="Ask about this document…"></textarea>
+        <button id="docChatSend" class="doc-chat-send"><i data-lucide="send-horizontal"></i></button>
+      </div>
+    </div>
     <!-- ── Top bar ── -->
     <div class="topbar">
       <button class="btn-back" onclick="window.location.href = 'index.html'">
@@ -1840,6 +1989,118 @@
           overlay.querySelectorAll(".pin-tooltip").forEach((t) => t.remove());
         }
       });
+
+      // ── Floating chat panel ──
+      (function () {
+        const API = "/api/v1";
+        const panel  = document.getElementById("docChatPanel");
+        const msgs   = document.getElementById("docChatMessages");
+        const input  = document.getElementById("docChatInput");
+        const send   = document.getElementById("docChatSend");
+        const badge  = document.getElementById("docChatBadge");
+        const welcome = document.getElementById("docChatWelcome");
+        let convId   = null;
+
+        // Wire the topbar Chat button
+        document.querySelectorAll(".btn").forEach(btn => {
+          if (btn.textContent.trim().toLowerCase().includes("chat")) {
+            btn.addEventListener("click", () => panel.classList.toggle("open"));
+          }
+        });
+
+        // Set badge and welcome message once doc is known
+        function initChat() {
+          const docTitle = document.getElementById("topbarTitle")?.textContent || "this document";
+          badge.textContent = docTitle.length > 24 ? docTitle.slice(0, 22) + "…" : docTitle;
+          welcome.innerHTML = `I\'m ready to answer questions about <strong>${_esc(docTitle)}</strong>. What would you like to know?<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div>`;
+        }
+
+        function _esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+        function _md(text) {
+          return _esc(text)
+            .replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>")
+            .replace(/\n\n/g,"</p><p style='margin-top:8px'>")
+            .replace(/\n/g,"<br>");
+        }
+
+        function scrollBottom() { msgs.scrollTop = msgs.scrollHeight; }
+
+        async function sendMsg() {
+          const q = input.value.trim();
+          if (!q) return;
+
+          const docTitle = document.getElementById("topbarTitle")?.textContent || "";
+          // Scope question to this document by prefixing with context
+          const scopedQ = docTitle ? `Regarding the document titled "${docTitle}": ${q}` : q;
+
+          const userName = (() => { try { return JSON.parse(localStorage.getItem("contractiq_user")||"null")?.name || "You"; } catch { return "You"; } })();
+
+          // Append user bubble
+          const uDiv = document.createElement("div");
+          uDiv.className = "dc-msg user";
+          uDiv.innerHTML = `<div class="dc-label">${_esc(userName)}</div><div class="dc-bubble">${_esc(q)}</div>`;
+          msgs.appendChild(uDiv);
+          input.value = "";
+          input.style.height = "";
+          scrollBottom();
+
+          // Thinking indicator
+          const thinkDiv = document.createElement("div");
+          thinkDiv.className = "dc-msg ai";
+          thinkDiv.innerHTML = `<div class="dc-label">ContractIQ &middot; AI</div><div class="dc-bubble"><span style="display:inline-flex;gap:4px"><span style="animation:uploader-pulse 1s ease-in-out infinite">&#9679;</span><span style="animation:uploader-pulse 1s 0.2s ease-in-out infinite">&#9679;</span><span style="animation:uploader-pulse 1s 0.4s ease-in-out infinite">&#9679;</span></span></div>`;
+          msgs.appendChild(thinkDiv);
+          scrollBottom();
+
+          try {
+            const res = await fetch(`${API}/chat`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ question: scopedQ, conversation_id: convId }),
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            convId = data.conversation_id;
+            thinkDiv.remove();
+
+            let sourcesHtml = "";
+            if (data.sources && data.sources.length > 0) {
+              const chips = data.sources.slice(0, 4).map(s =>
+                `<a class="dc-source-chip" href="document.html?id=${_esc(s.document_id)}">&#128206; ${_esc(s.title || s.document_id.slice(0,12))}</a>`
+              ).join("");
+              sourcesHtml = `<div class="dc-sources">${chips}</div>`;
+            }
+
+            const aDiv = document.createElement("div");
+            aDiv.className = "dc-msg ai";
+            aDiv.innerHTML = `<div class="dc-label">ContractIQ &middot; AI</div><div class="dc-bubble"><p>${_md(data.answer)}</p>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
+            msgs.appendChild(aDiv);
+            scrollBottom();
+          } catch {
+            thinkDiv.remove();
+            const eDiv = document.createElement("div");
+            eDiv.className = "dc-msg ai";
+            eDiv.innerHTML = `<div class="dc-label">ContractIQ &middot; AI</div><div class="dc-bubble" style="color:var(--red)">Could not reach the AI service. Please try again.</div>`;
+            msgs.appendChild(eDiv);
+            scrollBottom();
+          }
+        }
+
+        send.addEventListener("click", sendMsg);
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMsg(); }
+        });
+        input.addEventListener("input", () => {
+          input.style.height = "";
+          input.style.height = Math.min(input.scrollHeight, 100) + "px";
+        });
+        document.addEventListener("keydown", e => {
+          if (e.key === "Escape") panel.classList.remove("open");
+        });
+
+        // Init after doc data loads (title is set async)
+        setTimeout(initChat, 300);
+      })();
 
       // Initialize Lucide icons
       if (typeof lucide !== "undefined") lucide.createIcons();

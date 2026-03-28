@@ -12,11 +12,7 @@ from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from uuid import UUID
 
-<<<<<<< Updated upstream
-from fastapi import APIRouter, BackgroundTasks, Depends, Form, HTTPException, Query, Response, UploadFile
-=======
-from fastapi import APIRouter, BackgroundTasks, Depends, Form, Header, HTTPException, Query, UploadFile
->>>>>>> Stashed changes
+from fastapi import APIRouter, BackgroundTasks, Depends, Form, Header, HTTPException, Query, Response, UploadFile
 from fastapi.responses import RedirectResponse, StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession

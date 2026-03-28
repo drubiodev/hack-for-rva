@@ -2147,15 +2147,10 @@
           data-lucide="message-circle"
           style="color: var(--accent); flex-shrink: 0"
         ></i>
-        <div class="chat-panel-title">Chat with Document</div>
+        <div class="chat-panel-title">ContractIQ Chat</div>
         <div class="chat-panel-context">
-          <span class="badge badge-blue" style="font-size: 10px"
-            >IT Services — Carahsoft</span
-          >
+          <span class="badge badge-blue" style="font-size: 10px">All Documents</span>
         </div>
-        <button class="btn btn-ghost" style="font-size: 11px; padding: 4px 8px">
-          All Docs
-        </button>
         <button class="btn-icon" id="chatClose" title="Close">
           <i data-lucide="x"></i>
         </button>
@@ -2570,6 +2565,21 @@
       });
 
       // ── Chat Panel ──
+      // ── Chat ──
+      let _chatConvId = null;
+
+      function _escHtml(s) {
+        return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+      }
+
+      function _renderMd(text) {
+        // Bold **...**, preserve paragraphs and line breaks
+        return _escHtml(text)
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+          .replace(/\n\n/g, "</p><p style='margin-top:8px'>")
+          .replace(/\n/g, "<br>");
+      }
+
       const chatPanel = document.getElementById("chatPanel");
       const chatToggle = document.getElementById("chatToggle");
       const chatClose = document.getElementById("chatClose");
@@ -2604,13 +2614,14 @@
       });
 
       // Send message
-      function sendPanelMessage() {
+      async function sendPanelMessage() {
         const val = chatPanelInput.value.trim();
         if (!val) return;
 
+        const userLabel = currentUser?.name || "You";
         const userMsg = document.createElement("div");
         userMsg.className = "msg user";
-        userMsg.innerHTML = `<div class="msg-bubble">${val}</div><div class="msg-label">M. Patterson</div>`;
+        userMsg.innerHTML = `<div class="msg-bubble">${_escHtml(val)}</div><div class="msg-label">${_escHtml(userLabel)}</div>`;
         chatPanelMessages.appendChild(userMsg);
         chatPanelInput.value = "";
         chatPanelInput.style.height = "";
@@ -2619,18 +2630,43 @@
         // Thinking indicator
         const thinking = document.createElement("div");
         thinking.className = "msg ai msg-thinking";
-        thinking.innerHTML = `<div class="msg-label">ContractIQ · AI</div><div class="msg-bubble"><div class="dot-pulse"><span></span><span></span><span></span></div></div>`;
+        thinking.innerHTML = `<div class="msg-label">ContractIQ &middot; AI</div><div class="msg-bubble"><div class="dot-pulse"><span></span><span></span><span></span></div></div>`;
         chatPanelMessages.appendChild(thinking);
         chatPanelMessages.scrollTop = chatPanelMessages.scrollHeight;
 
-        setTimeout(() => {
+        try {
+          const res = await fetch(`${API}/chat`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question: val, conversation_id: _chatConvId }),
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          _chatConvId = data.conversation_id;
+
           thinking.remove();
           const aiMsg = document.createElement("div");
           aiMsg.className = "msg ai";
-          aiMsg.innerHTML = `<div class="msg-label">ContractIQ · AI</div><div class="msg-bubble">Analyzing the contract for your query… <em>(AI response would appear here in the live version)</em></div>`;
+
+          let sourcesHtml = "";
+          if (data.sources && data.sources.length > 0) {
+            const links = data.sources.slice(0, 5).map(s =>
+              `<a href="document.html?id=${_escHtml(s.document_id)}" style="color:var(--accent);font-size:11px;text-decoration:none;background:rgba(79,142,247,0.08);padding:2px 8px;border-radius:4px;border:1px solid rgba(79,142,247,0.2);white-space:nowrap">&#128206; ${_escHtml(s.title || s.document_id.slice(0,12))}</a>`
+            ).join("");
+            sourcesHtml = `<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:5px">${links}</div>`;
+          }
+
+          aiMsg.innerHTML = `<div class="msg-label">ContractIQ &middot; AI</div><div class="msg-bubble"><p>${_renderMd(data.answer)}</p>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
           chatPanelMessages.appendChild(aiMsg);
           chatPanelMessages.scrollTop = chatPanelMessages.scrollHeight;
-        }, 900);
+        } catch (err) {
+          thinking.remove();
+          const errMsg = document.createElement("div");
+          errMsg.className = "msg ai";
+          errMsg.innerHTML = `<div class="msg-label">ContractIQ &middot; AI</div><div class="msg-bubble" style="color:var(--red)">Could not reach the AI service. Please try again.</div>`;
+          chatPanelMessages.appendChild(errMsg);
+          chatPanelMessages.scrollTop = chatPanelMessages.scrollHeight;
+        }
       }
 
       chatPanelSend.addEventListener("click", sendPanelMessage);
