@@ -7,6 +7,9 @@ from datetime import datetime, timezone
 
 from sqlalchemy import select
 
+from pathlib import Path
+
+from app.config import settings
 from app.database import AsyncSessionLocal
 from app.models.document import ActivityLog, Document, ExtractedFields, ValidationResult
 from app.ocr.azure_blob import upload_to_blob
@@ -108,17 +111,30 @@ async def process_document(
                 await session.commit()
                 return
 
-            # --- 3. Classify ---
-            try:
-                document_type, classification_confidence = await _retry_async(
-                    lambda: classify_document(ocr_text),
-                    operation="Classification",
-                )
-            except Exception as e:
-                doc.status = "error"
-                doc.error_message = f"Classification failed after 3 retries: {type(e).__name__}: {str(e)[:200]}"
-                await session.commit()
-                return
+            # --- 3. Classify (with demo cache shortcut) ---
+            _demo_cached_extraction = None
+            _is_demo = "PLACEHOLDER" in settings.azure_openai_key and original_filename
+            if _is_demo:
+                from fixtures.demo_cache import DEMO_CLASSIFICATIONS, DEMO_EXTRACTIONS
+                stem = Path(original_filename).stem
+                if stem in DEMO_CLASSIFICATIONS:
+                    document_type, classification_confidence = DEMO_CLASSIFICATIONS[stem]
+                    _demo_cached_extraction = DEMO_EXTRACTIONS.get(stem)
+                    logger.info("Using demo cache for classification: %s -> %s", stem, document_type)
+                else:
+                    document_type, classification_confidence = ("other", 0.0)
+                    logger.info("Demo mode but no cache for %s — defaulting to other", stem)
+            else:
+                try:
+                    document_type, classification_confidence = await _retry_async(
+                        lambda: classify_document(ocr_text),
+                        operation="Classification",
+                    )
+                except Exception as e:
+                    doc.status = "error"
+                    doc.error_message = f"Classification failed after 3 retries: {type(e).__name__}: {str(e)[:200]}"
+                    await session.commit()
+                    return
 
             doc.document_type = document_type
             doc.classification_confidence = classification_confidence
@@ -132,17 +148,21 @@ async def process_document(
             )
             await session.commit()
 
-            # --- 4. Extract fields ---
-            try:
-                fields_dict = await _retry_async(
-                    lambda: extract_fields(ocr_text, document_type),
-                    operation="Field extraction",
-                )
-            except Exception as e:
-                doc.status = "error"
-                doc.error_message = f"Field extraction failed after 3 retries: {type(e).__name__}: {str(e)[:200]}"
-                await session.commit()
-                return
+            # --- 4. Extract fields (with demo cache shortcut) ---
+            if _demo_cached_extraction:
+                fields_dict = dict(_demo_cached_extraction)
+                logger.info("Using demo cache for extraction: %s", Path(original_filename).stem)
+            else:
+                try:
+                    fields_dict = await _retry_async(
+                        lambda: extract_fields(ocr_text, document_type),
+                        operation="Field extraction",
+                    )
+                except Exception as e:
+                    doc.status = "error"
+                    doc.error_message = f"Field extraction failed after 3 retries: {type(e).__name__}: {str(e)[:200]}"
+                    await session.commit()
+                    return
 
             # Parse date strings to date objects
             def _parse_date(val):

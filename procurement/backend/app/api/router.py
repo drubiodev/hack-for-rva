@@ -1,11 +1,13 @@
 """REST API router — all /api/v1 endpoints."""
 
 import csv
+import hashlib
 import io
 import math
 import mimetypes
 import os
 import tempfile
+from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from uuid import UUID
 
@@ -13,6 +15,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Form, HTTPException, Qu
 from fastapi.responses import StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import noload, selectinload
 
 from app.config import settings
 from app.database import get_db
@@ -69,6 +72,29 @@ def _validate_magic_bytes(file_path: str, claimed_mime: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# Duplicate detection helper
+# ---------------------------------------------------------------------------
+
+
+def _compute_file_hash(file_path: str) -> str:
+    """Compute SHA-256 hash of a file."""
+    h = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+# ---------------------------------------------------------------------------
+# Upload rate limiter (in-memory)
+# ---------------------------------------------------------------------------
+
+_upload_timestamps: dict[str, list[datetime]] = defaultdict(list)
+_RATE_LIMIT = 5  # max uploads
+_RATE_WINDOW = 300  # per 5 minutes (seconds)
+
+
+# ---------------------------------------------------------------------------
 # Health
 # ---------------------------------------------------------------------------
 
@@ -98,7 +124,12 @@ async def list_documents(
     db: AsyncSession = Depends(get_db),
 ):
     """List documents with optional filters and pagination."""
-    query = select(Document)
+    query = select(Document).options(
+        selectinload(Document.extracted_fields),
+        selectinload(Document.validations),
+        noload(Document.activity),
+        noload(Document.reminders),
+    )
 
     # Filters
     if status:
@@ -270,6 +301,19 @@ async def upload_document(
     db: AsyncSession = Depends(get_db),
 ):
     """Upload a PDF/image for processing. Returns 202 and processes in background."""
+    # Rate limiting
+    now = datetime.now(timezone.utc)
+    user_key = uploaded_by.lower().strip()
+    _upload_timestamps[user_key] = [
+        t for t in _upload_timestamps[user_key]
+        if (now - t).total_seconds() < _RATE_WINDOW
+    ]
+    if len(_upload_timestamps[user_key]) >= _RATE_LIMIT:
+        raise HTTPException(
+            status_code=429,
+            detail=f"Too many uploads. Maximum {_RATE_LIMIT} uploads per {_RATE_WINDOW // 60} minutes.",
+        )
+
     # Validate file extension
     ext = os.path.splitext(file.filename or "")[1].lower()
     if ext not in settings.allowed_extension_list:
@@ -320,6 +364,39 @@ async def upload_document(
 
     file_size_bytes = total_bytes
 
+    # Duplicate detection via file hash
+    file_hash = _compute_file_hash(tmp.name)
+    dup_result = await db.execute(
+        select(Document)
+        .options(selectinload(Document.extracted_fields))
+        .where(Document.file_hash == file_hash)
+        .limit(1)
+    )
+    existing = dup_result.scalar_one_or_none()
+    if existing:
+        os.unlink(tmp.name)
+        # Return existing document summary (skip extracted_fields lookup for simplicity)
+        return DocumentSummary(
+            id=existing.id,
+            filename=existing.filename,
+            original_filename=existing.original_filename,
+            source=existing.source,
+            status=existing.status,
+            document_type=existing.document_type,
+            vendor_name=None,
+            total_amount=None,
+            expiration_date=None,
+            validation_error_count=0,
+            validation_warning_count=0,
+            submitted_by=existing.submitted_by,
+            approved_by=existing.approved_by,
+            created_at=existing.created_at,
+            updated_at=existing.updated_at,
+        )
+
+    # Record timestamp for rate limiting (only after all validation passes)
+    _upload_timestamps[user_key].append(now)
+
     # Create document record
     doc = Document(
         filename=file.filename or "upload" + suffix,
@@ -329,6 +406,7 @@ async def upload_document(
         file_size_bytes=file_size_bytes,
         mime_type=mime_type,
         submitted_by=uploaded_by,
+        file_hash=file_hash,
     )
     db.add(doc)
     await db.flush()

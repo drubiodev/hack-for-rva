@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     azure_search_key: str = "PLACEHOLDER"
     azure_search_index: str = "procurement-docs"
 
+    # Azure Document Intelligence page budget (per server lifetime)
+    azure_di_page_budget: int = 400
+
     # Extraction confidence threshold (0.0-1.0)
     # Fields below this threshold are flagged for human review
     confidence_threshold: float = 0.9

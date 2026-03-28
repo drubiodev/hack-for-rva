@@ -9,6 +9,8 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 
+# Module-level page budget counter (resets on server restart)
+_di_pages_used = 0
 
 MAX_CHUNK_BYTES = 3_500_000  # 3.5 MB — safely under Azure DI's 4 MB local-upload limit
 MAX_PAGES = 100  # Budget guard: skip pages beyond this for very large documents
@@ -18,6 +20,7 @@ async def _chunked_ocr(
     file_path: str, client, max_chunk_bytes: int = MAX_CHUNK_BYTES, max_pages: int = MAX_PAGES
 ) -> tuple[str, float]:
     """Split large PDFs into page-range chunks, OCR each, concatenate results."""
+    global _di_pages_used
     from pypdf import PdfReader, PdfWriter
 
     reader = PdfReader(file_path)
@@ -77,6 +80,9 @@ async def _chunked_ocr(
             text = result.content or ""
             all_text.append(text)
 
+            chunk_page_count = len(result.pages) if result.pages else 0
+            _di_pages_used += chunk_page_count
+
             if result.pages:
                 for page in result.pages:
                     if page.words:
@@ -85,10 +91,12 @@ async def _chunked_ocr(
                                 all_confidences.append(word.confidence)
 
             logger.info(
-                "  Chunk pages %d-%d: %d chars OCR'd",
+                "  Chunk pages %d-%d: %d chars OCR'd (budget %d/%d)",
                 chunk_start + 1,
                 chunk_end,
                 len(text),
+                _di_pages_used,
+                settings.azure_di_page_budget,
             )
         except Exception as e:
             logger.warning("  Chunk pages %d-%d failed: %s", chunk_start + 1, chunk_end, e)
@@ -114,8 +122,18 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
 
     Uses file_path (local bytes) when blob_url is a placeholder; otherwise uses blob_url.
     """
+    global _di_pages_used
+
     if "PLACEHOLDER" in settings.azure_di_key:
         logger.warning("Azure DI credentials are PLACEHOLDER — returning empty text")
+        return ("", 0.0)
+
+    if _di_pages_used >= settings.azure_di_page_budget:
+        logger.warning(
+            "Azure DI page budget exhausted (%d/%d) — skipping OCR",
+            _di_pages_used,
+            settings.azure_di_page_budget,
+        )
         return ("", 0.0)
 
     from azure.ai.documentintelligence.aio import DocumentIntelligenceClient
@@ -167,9 +185,14 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
 
         avg_confidence = sum(confidences) / len(confidences) if confidences else 0.0
 
+        page_count = len(result.pages) if result.pages else 0
+        _di_pages_used += page_count
         logger.info(
-            "Azure DI OCR: %d chars, %.2f avg confidence",
+            "Azure DI OCR: %d chars, %.2f avg confidence (%d pages; budget %d/%d)",
             len(text),
             avg_confidence,
+            page_count,
+            _di_pages_used,
+            settings.azure_di_page_budget,
         )
         return (text, avg_confidence)

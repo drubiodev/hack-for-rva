@@ -35,6 +35,9 @@ class Document(Base):
     mime_type: Mapped[str | None] = mapped_column(String(100), nullable=True)
     page_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
+    # Duplicate detection
+    file_hash: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+
     # Processing
     status: Mapped[str] = mapped_column(String(30), default="uploading", nullable=False)
     error_message: Mapped[str | None] = mapped_column(Text, nullable=True)
