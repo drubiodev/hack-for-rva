@@ -720,6 +720,24 @@
         color: var(--text-dim);
       }
 
+      .field-select {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 13px;
+        font-weight: 500;
+        padding: 5px 8px;
+        outline: none;
+        cursor: pointer;
+        width: 100%;
+        transition: border-color 0.15s;
+      }
+      .field-select:focus {
+        border-color: var(--accent);
+      }
+
       /* Disclaimer */
       .disclaimer {
         font-size: 10px;
@@ -841,9 +859,9 @@
                 <div class="field-label">Expiry</div>
                 <div class="field-value" id="fExpiry">—</div>
               </div>
-              <div class="field">
+              <div class="field" style="grid-column: 1 / -1">
                 <div class="field-label">Department</div>
-                <div class="field-value" id="fDept">—</div>
+                <select class="field-select" id="fDept"></select>
               </div>
               <div class="field">
                 <div class="field-label">Contract Type</div>
@@ -1098,8 +1116,63 @@
       document.getElementById("fValue").textContent = doc.value;
       document.getElementById("fEffective").textContent = doc.effective;
       document.getElementById("fExpiry").textContent = doc.expiry;
-      document.getElementById("fDept").textContent = doc.dept;
       document.getElementById("fType").textContent = doc.type;
+
+      // ── Department dropdown ──
+      const DEPARTMENTS = [
+        "Assessor of Real Estate",
+        "Budget & Strategic Planning",
+        "City Attorney",
+        "City Auditor",
+        "City Clerk",
+        "City Manager",
+        "Commission of Revenue",
+        "Commissioner of Revenue",
+        "Communications",
+        "Community Development",
+        "Community Wealth",
+        "Dept of Emergency Communications",
+        "Economic Development",
+        "Emergency Management",
+        "Finance",
+        "Fire & Emergency Services",
+        "Fleet Management",
+        "General Services",
+        "Health",
+        "Human Resources",
+        "Human Services",
+        "Information Technology",
+        "Juvenile & Domestic Relations Court",
+        "Library",
+        "Mayor's Office",
+        "Nominations",
+        "Parks, Recreation & Community Facilities",
+        "Planning",
+        "Police",
+        "Procurement",
+        "Public Affairs",
+        "Public Utilities",
+        "Public Works",
+        "Real Estate Assessor",
+        "Registrar",
+        "Risk Management",
+        "Sheriff",
+        "Social Services",
+        "Treasurer",
+      ];
+      const deptKey = `contractiq_dept_${idx}`;
+      const savedDept = localStorage.getItem(deptKey) || doc.dept;
+      const fDept = document.getElementById("fDept");
+      DEPARTMENTS.forEach((d) => {
+        const opt = document.createElement("option");
+        opt.value = d;
+        opt.textContent = d;
+        if (d === savedDept) opt.selected = true;
+        fDept.appendChild(opt);
+      });
+      fDept.addEventListener("change", () => {
+        localStorage.setItem(deptKey, fDept.value);
+      });
 
       // ── Load PDF via PDF.js ──
       pdfjsLib.GlobalWorkerOptions.workerSrc =
