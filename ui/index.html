@@ -893,6 +893,7 @@
       .dq-bar-fill {
         height: 100%;
         border-radius: 2px;
+        transition: width 0.9s cubic-bezier(0.4, 0, 0, 1);
       }
 
       .dq-bar-fill.proc {
@@ -1565,6 +1566,45 @@
       }
       ::-webkit-scrollbar-thumb:hover {
         background: var(--text-muted);
+      }
+
+      /* ── Micro-interactions ── */
+
+      /* Button press feel — physical, immediate feedback */
+      .btn:active {
+        transform: scale(0.95) !important;
+        transition: transform 0.08s !important;
+      }
+      .filter-tab:active {
+        transform: scale(0.93);
+        transition: transform 0.08s !important;
+      }
+      .upload-confirm-btn:active {
+        transform: scale(0.96) !important;
+        transition: transform 0.08s !important;
+      }
+      .nav-item:active {
+        transform: scale(0.97);
+        transition: transform 0.08s !important;
+      }
+      .btn-send:active {
+        transform: scale(0.92);
+        transition: transform 0.08s !important;
+      }
+
+      /* Filter tab active — underline indicator */
+      .filter-tab.active {
+        position: relative;
+      }
+      .filter-tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 25%;
+        right: 25%;
+        height: 2px;
+        background: var(--accent);
+        border-radius: 2px;
       }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -2244,6 +2284,25 @@
         });
       }
 
+      // KPI count-up: smoothly animate numbers from previous to new value
+      const _kpiPrev = {};
+      function animateKpi(id, newVal, unit) {
+        const el = document.getElementById(id);
+        const from = _kpiPrev[id] !== undefined ? _kpiPrev[id] : 0;
+        _kpiPrev[id] = newVal;
+        if (from === newVal) return;
+        const start = performance.now();
+        const dur = 550;
+        function tick(now) {
+          const p = Math.min((now - start) / dur, 1);
+          const ease = 1 - Math.pow(1 - p, 3); // cubic ease-out
+          const val = Math.round(from + (newVal - from) * ease);
+          el.innerHTML = `${val} <span>${unit}</span>`;
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+
       async function loadAnalytics() {
         try {
           const r = await fetch(`${API}/analytics/summary`);
@@ -2256,21 +2315,18 @@
             (byStatus.analyst_review || 0) + (byStatus.pending_approval || 0);
           const value = d.total_contract_value || 0;
 
-          document.getElementById("kpiTotal").innerHTML =
-            `${total} <span>docs</span>`;
+          animateKpi("kpiTotal", total, "docs");
           document.getElementById("kpiTotalDelta").textContent =
             `${d.documents_processed_today || 0} processed today`;
           document.getElementById("kpiTotalDelta").className = "kpi-delta up";
 
-          document.getElementById("kpiPending").innerHTML =
-            `${pending} <span>docs</span>`;
+          animateKpi("kpiPending", pending, "docs");
           document.getElementById("kpiPendingDelta").textContent =
             pending > 0 ? `⚠ needs attention` : "✓ all clear";
           document.getElementById("kpiPendingDelta").className =
             pending > 0 ? "kpi-delta warn" : "kpi-delta up";
 
-          document.getElementById("kpiApproved").innerHTML =
-            `${approved} <span>docs</span>`;
+          animateKpi("kpiApproved", approved, "docs");
           document.getElementById("kpiApprovedDelta").textContent =
             `of ${total} total`;
           document.getElementById("kpiApprovedDelta").className =
@@ -2346,10 +2402,16 @@
           })
           .join("");
 
-        // Row click → document detail page
+        // Row click → brief accent flash, then navigate
         tbody.querySelectorAll("tr[data-id]").forEach((row) => {
           row.addEventListener("click", () => {
-            window.location.href = `document.html?id=${row.dataset.id}`;
+            row.querySelectorAll("td").forEach((td) => {
+              td.style.transition = "background 0.08s";
+              td.style.background = "rgba(79,142,247,0.15)";
+            });
+            setTimeout(() => {
+              window.location.href = `document.html?id=${row.dataset.id}`;
+            }, 110);
           });
         });
       }
@@ -2910,7 +2972,18 @@
         }
 
         render("uploading");
+        // Slide new tracker in from above
+        card.style.opacity = "0";
+        card.style.transform = "translateY(-10px)";
+        card.style.transition =
+          "opacity 0.25s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1)";
         queue.insertBefore(card, queue.firstChild); // newest on top
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => {
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+          }),
+        );
         updateQueueBadge();
 
         // Duplicate: doc already processed — show final state immediately, no polling
@@ -2973,6 +3046,7 @@
 
       function showToast(message, type = "info") {
         const toast = document.createElement("div");
+        const icon = type === "success" ? "✓" : type === "error" ? "✕" : "ℹ";
         toast.style.cssText = [
           "position:fixed",
           "bottom:24px",
@@ -2983,27 +3057,46 @@
           "font-size:13px",
           "font-weight:600",
           "max-width:360px",
-          "box-shadow:0 4px 20px rgba(0,0,0,0.4)",
+          "box-shadow:0 8px 28px rgba(0,0,0,0.5)",
           "display:flex",
           "align-items:center",
           "gap:10px",
-          "transition:opacity 0.3s",
+          "transform:translateX(120%)",
+          "transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s",
           type === "success"
             ? "background:#1a2e1f;color:#34d399;border:1px solid rgba(52,211,153,0.3)"
             : type === "error"
               ? "background:#2e1a1a;color:#f87171;border:1px solid rgba(248,113,113,0.3)"
               : "background:#1a1d27;color:#e2e8f0;border:1px solid #2e3248",
         ].join(";");
-        toast.textContent = message;
+        toast.innerHTML = `<span style="font-size:15px;flex-shrink:0;line-height:1">${icon}</span><span>${message}</span>`;
         document.body.appendChild(toast);
+        // Spring slide-in
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => {
+            toast.style.transform = "translateX(0)";
+          }),
+        );
         setTimeout(() => {
+          toast.style.transform = "translateX(120%)";
           toast.style.opacity = "0";
-          setTimeout(() => toast.remove(), 300);
+          setTimeout(() => toast.remove(), 350);
         }, 4000);
       }
 
       // Initialize Lucide icons
       if (typeof lucide !== "undefined") lucide.createIcons();
+
+      // Animate dept queue bars from 0 on first paint (entrance effect)
+      document.querySelectorAll(".dq-bar-fill").forEach((el) => {
+        const target = el.style.width;
+        el.style.width = "0%";
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => {
+            el.style.width = target;
+          }),
+        );
+      });
     </script>
   </body>
 </html>

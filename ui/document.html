@@ -748,6 +748,67 @@
         flex-shrink: 0;
         line-height: 1.5;
       }
+
+      /* ── Micro-interactions ── */
+
+      /* Workflow active dot — pulsing ring draws the eye */
+      @keyframes w-active-pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(79, 142, 247, 0.55);
+        }
+        60% {
+          box-shadow: 0 0 0 8px rgba(79, 142, 247, 0);
+        }
+      }
+      .w-dot.active {
+        animation: w-active-pulse 2s ease-in-out infinite;
+      }
+
+      /* Annotation pin drop — pins feel physically placed */
+      @keyframes pin-drop {
+        from {
+          transform: translate(-50%, -170%) rotate(-45deg) scale(0.5);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, -100%) rotate(-45deg) scale(1);
+          opacity: 1;
+        }
+      }
+      .ann-pin {
+        animation: pin-drop 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      }
+
+      /* Button press feel */
+      .btn:active,
+      .page-nav-btn:active {
+        transform: scale(0.95);
+        transition: transform 0.08s !important;
+      }
+      .btn-back:active {
+        transform: scale(0.97);
+      }
+      .btn-save-ann:active,
+      .btn-cancel-ann:active {
+        transform: scale(0.96);
+      }
+      .btn-sm-primary:active {
+        transform: scale(0.95);
+      }
+
+      /* Approve button flash keyframe */
+      @keyframes approve-flash {
+        0% {
+          box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.6);
+        }
+        60% {
+          box-shadow: 0 0 0 12px rgba(52, 211, 153, 0);
+        }
+        100% {
+          box-shadow: none;
+        }
+      }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1702,8 +1763,21 @@
       // ── Approve ──
       document.getElementById("approveBtn")?.addEventListener("click", () => {
         if (confirm(`Approve "${doc.name}"? This will be logged.`)) {
+          const btn = document.getElementById("approveBtn");
+          // Scale-up + green flood + ripple ring
+          btn.style.transition =
+            "background 0.35s, transform 0.15s, box-shadow 0.6s";
+          btn.style.background = "var(--green)";
+          btn.style.transform = "scale(1.08)";
+          btn.style.animation = "approve-flash 0.7s ease forwards";
+          btn.innerHTML = '<i data-lucide="check-circle-2"></i> Approved';
+          if (typeof lucide !== "undefined")
+            lucide.createIcons({ nodes: [btn] });
+          setTimeout(() => {
+            btn.style.transform = "scale(1)";
+          }, 180);
           statusBadge.className = "badge badge-green";
-          statusBadge.textContent = "Approved";
+          statusBadge.textContent = "✓ Approved";
         }
       });
 
