@@ -2853,11 +2853,7 @@
               loadDocuments(activeFilter);
               loadAnalytics();
               if (xhr.status === 200) {
-                // Duplicate detected — document already in the system
-                showToast(
-                  `"${file.name}" already exists — showing existing record`,
-                  "info",
-                );
+                // Duplicate detected — shown in processing queue panel
                 closeUploadDrawer();
                 trackProcessing(doc.id, file.name, /* isDuplicate */ true);
               } else {
