@@ -1,10 +1,6 @@
-# hack-for-rva
+# ContractIQ — City of Richmond Procurement Intelligence
 
----
-
-# Procurement Document Processing
-
-AI-powered procurement document processing for the City of Richmond. Staff upload scanned contracts, RFPs, and invoices — AI extracts structured data in seconds, validates for risks, and surfaces expiring contracts on a live dashboard. Built with real City data for HackathonRVA 2026.
+AI-powered procurement document processing for the City of Richmond. Staff upload scanned contracts, RFPs, and invoices — AI extracts structured data in seconds, validates for risks, and surfaces actionable intelligence on a live dashboard. A semantic chatbot answers natural language questions across 1,375+ contracts with inline document citations.
 
 **Pillar:** A Thriving City Hall | **Problem:** Helping City Staff Review Procurement Risks and Opportunities
 
@@ -17,39 +13,43 @@ graph TB
     subgraph Client["Browser"]
         FE["Next.js 16 Dashboard<br/><i>shadcn/ui + TanStack Query</i>"]
         RS["Role Selector<br/><i>Analyst / Supervisor</i>"]
+        CB["ContractIQ Chatbot<br/><i>Inline sidebar + markdown</i>"]
     end
 
-    subgraph Railway["Railway"]
+    subgraph ACA["Azure Container Apps"]
         API["FastAPI Backend<br/><i>SQLAlchemy 2.0 async</i>"]
+        QR["Query Router<br/><i>Intent classification</i>"]
     end
 
-    subgraph Azure["Azure Services"]
-        BLOB["Blob Storage<br/><i>PDF originals</i>"]
+    subgraph Azure["Azure AI Services"]
+        BLOB["Blob Storage<br/><i>PDF originals + SAS URLs</i>"]
         DI["Document Intelligence<br/><i>prebuilt-read OCR</i>"]
-        OAI["OpenAI GPT-4.1-nano<br/><i>classify + extract</i>"]
+        OAI["OpenAI ChatGPT 5.4 mini<br/><i>classify + extract + chat</i>"]
+        SRCH["AI Search<br/><i>Semantic ranking</i>"]
     end
 
     subgraph Data["Data Sources"]
-        SOC["Socrata CSV<br/><i>~1,362 City contracts</i>"]
+        SOC["Socrata CSV<br/><i>~1,375 City contracts</i>"]
         PDF["10 Pre-staged PDFs<br/><i>Real Richmond contracts</i>"]
     end
 
-    DB[("Supabase PostgreSQL")]
+    DB[("Azure SQL Server")]
 
     RS --> FE
+    CB --> QR
     FE -- "REST API<br/>(5s/30s polling)" --> API
     API -- "store original" --> BLOB
     API -- "OCR scanned docs" --> DI
-    API -- "classify + extract" --> OAI
+    API -- "classify + extract + answer" --> OAI
     API -- "structured data" --> DB
+    API -- "index + search" --> SRCH
+    QR -- "semantic queries" --> SRCH
+    QR -- "SQL aggregations" --> DB
     SOC -- "CSV ingest" --> API
     PDF -- "upload" --> API
-    DI -- "extracted text" --> API
-    OAI -- "structured fields" --> API
-    FE -- "reads" --> DB
 
     style Client fill:#e8f4fd,stroke:#2196F3
-    style Railway fill:#f3e5f5,stroke:#9C27B0
+    style ACA fill:#f3e5f5,stroke:#9C27B0
     style Azure fill:#fff3e0,stroke:#FF9800
     style Data fill:#e8f5e9,stroke:#4CAF50
     style DB fill:#fce4ec,stroke:#E91E63
@@ -65,36 +65,38 @@ sequenceDiagram
     participant API as FastAPI Backend
     participant Blob as Azure Blob Storage
     participant DI as Azure Doc Intelligence
-    participant AI as Azure OpenAI<br/>GPT-4.1-nano
-    participant VE as Validation Engine<br/>13 rules + AI
-    participant DB as Supabase PostgreSQL
+    participant AI as ChatGPT 5.4 mini
+    participant VE as Validation Engine<br/>13+ rules + AI
+    participant DB as Azure SQL Server
+    participant SRCH as Azure AI Search
 
-    Note over Analyst, DB: Upload & Processing (automated)
+    Note over Analyst, SRCH: Upload & Processing (automated)
 
     Analyst->>FE: Upload contract PDF
     FE->>API: POST /documents/upload
     API-->>FE: 202 Accepted (processing started)
 
     API->>Blob: Store original PDF
-    Blob-->>API: blob_url
+    Blob-->>API: blob_url (SAS token)
 
-    API->>DI: Send PDF for OCR
+    API->>DI: Send PDF for OCR (chunked for large docs)
     DI-->>API: Extracted text + confidence score
 
     API->>AI: Classify document type
     AI-->>API: contract / rfp / invoice / ...
 
-    API->>AI: Extract structured fields<br/>(vendor, amount, dates, terms)
-    AI-->>API: JSON structured output
+    API->>AI: Extract structured fields<br/>(vendor, amount, dates, department, compliance, insurance)
+    AI-->>API: JSON structured output (30+ fields)
 
     API->>VE: Validate extracted fields
-    Note right of VE: DATE_LOGIC, EXPIRING_30,<br/>HIGH_VALUE_NO_BOND,<br/>MISSING_AMOUNT, etc.
+    Note right of VE: DATE_LOGIC, EXPIRING_30,<br/>HIGH_VALUE_NO_BOND,<br/>MISSING_INSURANCE,<br/>+ custom policy rules
     VE-->>API: Validation results (errors/warnings)
 
     API->>DB: Save document + fields + validations
+    API->>SRCH: Index document for semantic search
     API->>DB: Log activity (system)
 
-    Note over Analyst, DB: Review & Approval (human)
+    Note over Analyst, SRCH: Review & Approval (human)
 
     FE->>API: GET /documents/{id} (5s polling)
     API-->>FE: Document detail + extracted fields
@@ -105,7 +107,7 @@ sequenceDiagram
 
     Analyst->>FE: Submit for approval
     FE->>API: POST /documents/{id}/submit
-    API->>DB: Status → pending_approval
+    API->>DB: Status -> pending_approval
 
     Supervisor->>FE: Review pending document
     FE->>API: GET /documents/{id}
@@ -114,38 +116,48 @@ sequenceDiagram
     alt Approved
         Supervisor->>FE: Approve with comments
         FE->>API: POST /documents/{id}/approve
-        API->>DB: Status → approved + log
+        API->>DB: Status -> approved + log
     else Rejected
         Supervisor->>FE: Reject with reason
         FE->>API: POST /documents/{id}/reject
-        API->>DB: Status → rejected + log
+        API->>DB: Status -> rejected + log
         Note over Analyst: Document returns to analyst_review
     end
 ```
 
-## Socrata Data Ingest Flow
+## Chatbot & Semantic Search Flow
 
 ```mermaid
 sequenceDiagram
-    participant Admin
-    participant API as FastAPI Backend
-    participant SOC as Socrata Open Data<br/>data.richmondgov.com
-    participant DB as Supabase PostgreSQL
+    actor User
+    participant Panel as Chat Sidebar
+    participant API as FastAPI
+    participant QR as Query Router<br/>(ChatGPT 5.4 mini)
+    participant SRCH as Azure AI Search
+    participant SQL as Azure SQL
+    participant LLM as ChatGPT 5.4 mini
 
-    Admin->>API: POST /ingest/socrata
-    API->>SOC: Download CSV (xqn7-jvv2)
-    SOC-->>API: ~1,362 rows
+    User->>Panel: "Which contracts have compliance gaps?"
+    Panel->>API: POST /api/v1/chat
 
-    loop Each CSV row
-        API->>API: Normalize dates & currency
-        API->>API: Map columns to schema
-        API->>API: Check for duplicates
-        API->>DB: Insert document (source=socrata, status=extracted)
-        API->>DB: Insert extracted_fields
+    API->>QR: Classify intent
+    QR-->>API: intent=compliance_check, filters={...}
+
+    alt Semantic Search
+        API->>SRCH: Semantic query with filters
+        SRCH-->>API: Ranked documents + captions
+    else SQL Aggregation / Filter
+        API->>SQL: Parameterized query
+        SQL-->>API: Result rows
     end
 
-    API->>DB: Log ingest activity
-    API-->>Admin: {"imported": 1362, "skipped": 0}
+    API->>API: Build numbered context [1], [2], ...
+    API->>LLM: System prompt + numbered context + question
+    LLM-->>API: Markdown answer with inline citations [1], [3]
+
+    API-->>Panel: {answer, sources[], references[], intent}
+    Panel->>Panel: Render markdown + clickable [N] links
+    Panel-->>User: Formatted answer with inline document links
 ```
 
 | Layer | Tech | Directory |
@@ -153,19 +165,42 @@ sequenceDiagram
 | Backend API | FastAPI, SQLAlchemy 2.0 async, OpenAI SDK, Azure DI, Azure Blob | [`procurement/backend/`](procurement/backend/) |
 | Frontend | Next.js 16, shadcn/ui, TanStack Query, Recharts | [`procurement/frontend/`](procurement/frontend/) |
 | OCR | Azure Document Intelligence (`prebuilt-read`) | external |
-| AI | Azure OpenAI GPT-4.1-nano (~$0.002/doc) | external |
-| Storage | Azure Blob Storage + Supabase PostgreSQL | external |
-| Data Sources | Socrata CSV, 10 pre-staged contract PDFs | [`pillar-thriving-city-hall/procurement-examples/`](pillar-thriving-city-hall/procurement-examples/) |
-| API Contract | OpenAPI 3.1.0 | [`procurement/docs/openapi.yaml`](procurement/docs/openapi.yaml) |
+| AI | Azure OpenAI ChatGPT 5.4 mini (classify + extract + chat) | external |
+| Semantic Search | Azure AI Search (semantic ranker, 22-field index) | external |
+| Storage | Azure Blob Storage + Azure SQL Server | external |
+| Deployment | Azure Container Apps (Consumption plan) | external |
+| Container Registry | Azure Container Registry (Basic) | external |
+| Data Sources | Socrata CSV (~1,375 contracts), 10 pre-staged PDFs | [`pillar-thriving-city-hall/procurement-examples/`](pillar-thriving-city-hall/procurement-examples/) |
+| API Contract | OpenAPI 3.1.0 (v2.0.0, 40+ endpoints) | [`procurement/docs/openapi.yaml`](procurement/docs/openapi.yaml) |
 
 ## Key Features
 
-- **PDF Upload + AI Extraction** — Upload scanned procurement documents, get structured fields in ~20 seconds
-- **Real City Data** — ~1,362 contracts from Richmond's Socrata open data portal
-- **Risk Dashboard** — Surfaces expiring contracts (30/60/90 days), missing bonds, high-value anomalies
-- **13 Validation Rules + AI Consistency Check** — Catches date logic errors, missing fields, OCR issues
+### Document Processing
+- **PDF Upload + AI Extraction** — Upload scanned procurement documents, get 30+ structured fields in ~20 seconds
+- **Real City Data** — ~1,375 contracts from Richmond's Socrata open data portal
+- **Configurable Validation Rules** — 13+ built-in rules + custom policy rules (threshold, semantic, required field, date window)
 - **Approval Workflow** — Analyst reviews and submits, supervisor approves/rejects (separation of duties)
-- **Role-Based Views** — Analyst and supervisor see appropriate actions
+- **Document Annotations** — Click-to-annotate on OCR text with team collaboration
+
+### Intelligence & Search
+- **Semantic Search** — Azure AI Search with semantic re-ranking across all contracts (natural language queries)
+- **AI Query Router** — Classifies questions into 8 intent types and dispatches to the right execution path
+- **Intelligence Dashboard** — Compliance gaps, vendor concentration risk, sole-source review, department spend
+- **Department Spend Analysis** — Interactive bar chart with drill-down via chatbot
+
+### ContractIQ Chatbot
+- **Inline Sidebar** — Opens alongside the dashboard without blocking content
+- **Context-Aware** — Different suggested questions per page; document detail page pre-loads context
+- **Intent Classification** — Shows query type badge (Semantic Search, Aggregation, Compliance Check, etc.)
+- **Inline Citations** — Numbered `[1]`, `[2]` references in the answer link directly to source documents
+- **Markdown Rendering** — Headings, bold, lists, code blocks rendered in the chat panel
+- **Source Documents** — Every answer backed by clickable source chips with relevance scores
+
+### Risk & Compliance
+- **Expiring Contracts** — 30/60/90 day alerts with reminder scheduling
+- **Compliance Gap Detection** — Surfaces contracts missing MBE/WBE, insurance, procurement method
+- **Vendor Concentration** — Identifies vendors with multiple high-value contracts
+- **Sole-Source Review** — Flags sole-source contracts above threshold for justification review
 
 ## Quick Start
 
@@ -173,8 +208,8 @@ sequenceDiagram
 
 - Python 3.12+
 - Node.js 20+
-- Supabase project (free tier)
-- Azure OpenAI, Document Intelligence, and Blob Storage resources
+- ODBC Driver 18 for SQL Server
+- Azure OpenAI, Document Intelligence, Blob Storage, AI Search, and SQL Server resources
 
 ### Backend
 
@@ -186,7 +221,7 @@ python3 -m venv .venv
 .venv/bin/uvicorn app.main:app --reload
 ```
 
-Runs on `http://localhost:8000`. Health check: `GET /health`.
+Runs on `http://localhost:8000`. Health check: `GET /health`. API docs: `GET /docs`.
 
 ### Frontend
 
@@ -206,7 +241,18 @@ Once the backend is running:
 curl -X POST http://localhost:8000/api/v1/ingest/socrata
 ```
 
-Imports ~1,362 real City of Richmond contracts.
+Imports ~1,375 real City of Richmond contracts.
+
+### Initialize Search Index
+
+```bash
+# Create the Azure AI Search index
+curl -X POST http://localhost:8000/api/v1/admin/ensure-index
+
+# Index all documents (supervisor role required)
+curl -X POST http://localhost:8000/api/v1/admin/reindex \
+  -H "X-User-Role: supervisor"
+```
 
 ## Environment Variables
 
@@ -214,14 +260,18 @@ Imports ~1,362 real City of Richmond contracts.
 
 | Variable | Description |
 |---|---|
-| `DATABASE_URL` | Supabase PostgreSQL connection (`postgresql+asyncpg://...`) |
+| `DATABASE_URL` | Azure SQL Server connection (`mssql+aioodbc://...`) |
 | `AZURE_BLOB_CONNECTION_STRING` | Azure Blob Storage connection string |
 | `AZURE_BLOB_CONTAINER_NAME` | Blob container name (default: `procurement-docs`) |
 | `AZURE_DI_ENDPOINT` | Azure Document Intelligence endpoint |
 | `AZURE_DI_KEY` | Azure Document Intelligence key |
-| `AZURE_OPENAI_ENDPOINT` | Azure OpenAI endpoint |
+| `AZURE_OPENAI_ENDPOINT` | Azure OpenAI endpoint (with `/openai/v1/` path) |
 | `AZURE_OPENAI_KEY` | Azure OpenAI API key |
-| `AZURE_OPENAI_DEPLOYMENT` | Deployment name (default: `gpt-4.1-nano`) |
+| `AZURE_OPENAI_DEPLOYMENT` | Deployment name (default: `gpt-5.4-mini`) |
+| `AZURE_SEARCH_ENDPOINT` | Azure AI Search endpoint |
+| `AZURE_SEARCH_KEY` | Azure AI Search admin key |
+| `AZURE_SEARCH_INDEX` | Search index name (default: `contracts`) |
+| `AZURE_FOUNDRY_ENDPOINT` | Azure AI Foundry project endpoint |
 | `CORS_ORIGINS` | Allowed origins (default: `http://localhost:3000`) |
 
 ### Frontend (`procurement/frontend/.env.local`)
@@ -237,9 +287,9 @@ stateDiagram-v2
     [*] --> uploading: Staff uploads PDF
 
     uploading --> ocr_complete: Azure Doc Intelligence
-    ocr_complete --> classified: GPT-4.1-nano classifies
-    classified --> extracted: GPT-4.1-nano extracts fields
-    extracted --> analyst_review: Validation complete
+    ocr_complete --> classified: ChatGPT 5.4 mini classifies
+    classified --> extracted: ChatGPT 5.4 mini extracts fields
+    extracted --> analyst_review: Validation + search indexing
 
     analyst_review --> pending_approval: Analyst submits
 
@@ -255,8 +305,8 @@ stateDiagram-v2
     classified --> error: Pipeline failure
 ```
 
-- **Analyst:** uploads, reviews extracted fields, resolves warnings, submits for approval
-- **Supervisor:** approves or rejects with comments, can override fields
+- **Analyst:** uploads, reviews extracted fields, resolves warnings, submits for approval, chats with ContractIQ
+- **Supervisor:** approves or rejects with comments, can override fields, manages validation rules
 - Analysts cannot approve their own reviews (separation of duties)
 
 ## Tests
@@ -264,7 +314,7 @@ stateDiagram-v2
 ```bash
 # Backend
 cd procurement/backend
-.venv/bin/python -m pytest -v        # 27 tests
+.venv/bin/python -m pytest -v        # 87+ tests
 
 # Frontend
 cd procurement/frontend
@@ -274,10 +324,9 @@ npm run build                        # build verification
 
 ## Team
 
-- **Priyesh** — Backend (FastAPI, AI pipeline, Azure integrations)
-- **Daniel** — Frontend (Next.js dashboard)
+- **Priyesh** — Backend (FastAPI, AI pipeline, Azure integrations, semantic search)
+- **Daniel** — Frontend (Next.js dashboard, chatbot UX)
 
 ## License
 
 Built for HackathonRVA 2026. Not for production use.
->>>>>>> f0b4cd62b340a3144a2cf8c27e50dd9d58b839f6
