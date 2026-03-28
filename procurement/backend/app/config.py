@@ -47,6 +47,9 @@ class Settings(BaseSettings):
     max_file_size_mb: int = 20
     allowed_extensions: str = ".pdf,.png,.jpg,.jpeg,.tiff"
 
+    # Azure Application Insights
+    applicationinsights_connection_string: str = ""
+
     # Environment
     environment: str = "development"
 

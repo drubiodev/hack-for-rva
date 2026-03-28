@@ -1,12 +1,12 @@
 """FastAPI application entry point."""
 
+import logging
 import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 
 from app.api.backfill import router as backfill_router
 from app.api.ingest import router as ingest_router
@@ -14,38 +14,63 @@ from app.api.router import router
 from app.config import settings
 from app.database import init_db
 
+# ── Logging setup ─────────────────────────────────────────────────────────────
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("procurement")
+
+# ── Application Insights (OpenTelemetry) ──────────────────────────────────────
+# Must be called before the FastAPI app is created so all traces are captured.
+if settings.applicationinsights_connection_string:
+    try:
+        from azure.monitor.opentelemetry import configure_azure_monitor
+        configure_azure_monitor(
+            connection_string=settings.applicationinsights_connection_string,
+            # Capture ALL loggers (root logger), not just "procurement"
+            logger_name="",
+        )
+        # Ensure uvicorn loggers propagate to root so OTel picks them up
+        for _uvicorn_logger in ("uvicorn", "uvicorn.error", "uvicorn.access"):
+            logging.getLogger(_uvicorn_logger).propagate = True
+        logger.info("Application Insights configured successfully")
+    except Exception as _ai_exc:  # noqa: BLE001
+        logger.warning("Failed to configure Application Insights: %s", _ai_exc)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup: create tables, recover stale docs. Shutdown: nothing special needed."""
-    await init_db()
+    logger.info("Procurement API starting up — environment: %s", settings.environment)
 
-    # Recover stale processing documents (stuck from prior server restart)
-    from datetime import datetime, timedelta, timezone
-    from sqlalchemy import select, update
-    from app.database import AsyncSessionLocal
-    from app.models.document import Document
+    # TODO: re-enable once Azure SQL is configured
+    # await init_db()
 
-    async with AsyncSessionLocal() as session:
-        stale_cutoff = datetime.now(timezone.utc) - timedelta(minutes=10)
-        processing_statuses = ("uploading", "ocr_complete", "classified")
-        result = await session.execute(
-            update(Document)
-            .where(Document.status.in_(processing_statuses))
-            .where(Document.updated_at < stale_cutoff)
-            .values(
-                status="error",
-                error_message="Processing interrupted — please click Reprocess to retry.",
-            )
-            .returning(Document.id)
-        )
-        recovered = result.all()
-        if recovered:
-            await session.commit()
-            import logging
-            logging.getLogger(__name__).info("Recovered %d stale documents on startup", len(recovered))
+    # # Recover stale processing documents (stuck from prior server restart)
+    # from datetime import datetime, timedelta, timezone
+    # from sqlalchemy import update
+    # from app.database import AsyncSessionLocal
+    # from app.models.document import Document
 
+    # async with AsyncSessionLocal() as session:
+    #     stale_cutoff = datetime.now(timezone.utc) - timedelta(minutes=10)
+    #     processing_statuses = ("uploading", "ocr_complete", "classified")
+    #     result = await session.execute(
+    #         update(Document)
+    #         .where(Document.status.in_(processing_statuses))
+    #         .where(Document.updated_at < stale_cutoff)
+    #         .values(
+    #             status="error",
+    #             error_message="Processing interrupted — please click Reprocess to retry.",
+    #         )
+    #         .returning(Document.id)
+    #     )
+    #     recovered = result.all()
+    #     if recovered:
+    #         await session.commit()
+    #         logger.info("Recovered %d stale documents on startup", len(recovered))
+
+    logger.info("Procurement API startup complete")
     yield
+    logger.info("Procurement API shutting down")
 
 
 app = FastAPI(
@@ -71,11 +96,10 @@ app.include_router(router)
 app.include_router(ingest_router)
 app.include_router(backfill_router)
 
-# Serve UI static files if the ui/ directory exists (bundled in Docker image)
-_ui_dir = os.path.join(os.path.dirname(__file__), "..", "..", "ui")
+# Serve UI static files — mounted at "/" so /login.html, /document.html etc. resolve correctly.
+# API routers are already registered above and take priority over the static mount.
+_ui_dir = "/app/ui" if os.path.isdir("/app/ui") else os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "ui")
+)
 if os.path.isdir(_ui_dir):
-    app.mount("/ui", StaticFiles(directory=_ui_dir, html=True), name="ui")
-
-    @app.get("/", include_in_schema=False)
-    async def serve_index():
-        return FileResponse(os.path.join(_ui_dir, "index.html"))
+    app.mount("/", StaticFiles(directory=_ui_dir, html=True), name="ui")
