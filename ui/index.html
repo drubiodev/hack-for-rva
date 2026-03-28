@@ -1586,6 +1586,27 @@
       }
 
       /* ── Global scrollbar ── */
+      /* ── Markdown body inside chat bubbles ── */
+      .md-body { line-height: 1.6; }
+      .md-body p { margin: 0 0 8px; }
+      .md-body p:last-child { margin-bottom: 0; }
+      .md-body h1,.md-body h2,.md-body h3 { font-weight: 700; margin: 10px 0 4px; font-size: 13px; color: var(--text); }
+      .md-body h1 { font-size: 14px; }
+      .md-body ul,.md-body ol { padding-left: 18px; margin: 4px 0 8px; }
+      .md-body li { margin-bottom: 3px; }
+      .md-body code { background: rgba(255,255,255,0.1); border-radius: 4px; padding: 1px 5px; font-family: monospace; font-size: 12px; }
+      .md-body pre { background: rgba(0,0,0,0.25); border-radius: 6px; padding: 10px 12px; overflow-x: auto; margin: 8px 0; }
+      .md-body pre code { background: none; padding: 0; }
+      .md-body strong { font-weight: 700; color: var(--text); }
+      .md-body em { font-style: italic; color: var(--text-dim); }
+      .md-body blockquote { border-left: 3px solid var(--accent); padding-left: 10px; margin: 6px 0; color: var(--text-dim); }
+      .md-body table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 12px; }
+      .md-body th,.md-body td { border: 1px solid var(--border); padding: 5px 8px; text-align: left; }
+      .md-body th { background: var(--surface2); font-weight: 600; }
+      .md-body a { color: var(--accent); text-decoration: underline; }
+      .md-body hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+
+      /* ── Global scrollbar ── */
       ::-webkit-scrollbar {
         width: 4px;
       }
@@ -1716,6 +1737,7 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
     <script type="module">
       import "https://esm.sh/@quincarter/document-viewer@0.1.5";
     </script>
@@ -2365,9 +2387,14 @@
         return currentUser && currentUser.role === "Supervisor";
       }
 
+      let _docsFirstLoad = true;
+
       async function loadDocuments(statusFilter) {
         const tbody = document.getElementById("docTableBody");
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px">Loading…</td></tr>`;
+        // Only show loading placeholder on the very first load (no existing rows)
+        if (_docsFirstLoad) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px">Loading…</td></tr>`;
+        }
         try {
           const params = new URLSearchParams({ page_size: 50 });
           if (statusFilter && statusFilter !== "all")
@@ -2385,10 +2412,43 @@
             );
           }
           allDocs = items;
+          _docsFirstLoad = false;
           renderTable(allDocs);
         } catch (e) {
-          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--red);padding:24px">⚠ Could not reach API at ${API} — is the backend running?</td></tr>`;
+          if (_docsFirstLoad) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--red);padding:24px">⚠ Could not reach API at ${API} — is the backend running?</td></tr>`;
+          }
+          // On poll failures, silently keep existing rows
         }
+      }
+
+      function _rowHtml(doc) {
+        const cnt = doc.validation_error_count || 0;
+        const flags = cnt
+          ? `<span style="color:var(--red);font-size:11px;font-weight:600">${cnt} flag${cnt > 1 ? "s" : ""}</span>`
+          : `<span style="color:var(--text-muted)">—</span>`;
+        const name = doc.vendor_name || doc.filename || "—";
+        const dept = doc.document_type || "—";
+        return `<td>
+              <div class="doc-name">${name}</div>
+              <div class="doc-meta">Uploaded ${fmtDate(doc.created_at)} · ${doc.source || ""}</div>
+            </td>
+            <td><span class="dept-tag">${dept}</span></td>
+            <td><span class="contract-value">${fmtMoney(doc.total_amount)}</span></td>
+            <td>${statusBadge(doc.status)}</td>
+            <td>${flags}</td>`;
+      }
+
+      function _attachRowClick(row) {
+        row.addEventListener("click", () => {
+          row.querySelectorAll("td").forEach((td) => {
+            td.style.transition = "background 0.08s";
+            td.style.background = "rgba(79,142,247,0.15)";
+          });
+          setTimeout(() => {
+            window.location.href = `document.html?id=${row.dataset.id}`;
+          }, 110);
+        });
       }
 
       function renderTable(docs) {
@@ -2397,38 +2457,45 @@
           tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px">No documents found.</td></tr>`;
           return;
         }
-        tbody.innerHTML = docs
-          .map((doc, i) => {
-            const cnt = doc.validation_error_count || 0;
-            const flags = cnt
-              ? `<span style="color:var(--red);font-size:11px;font-weight:600">${cnt} flag${cnt > 1 ? "s" : ""}</span>`
-              : `<span style="color:var(--text-muted)">—</span>`;
-            const name = doc.vendor_name || doc.filename || "—";
-            const dept = doc.document_type || "—";
-            return `<tr data-id="${doc.id}" style="cursor:pointer">
-            <td>
-              <div class="doc-name">${name}</div>
-              <div class="doc-meta">Uploaded ${fmtDate(doc.created_at)} · ${doc.source || ""}</div>
-            </td>
-            <td><span class="dept-tag">${dept}</span></td>
-            <td><span class="contract-value">${fmtMoney(doc.total_amount)}</span></td>
-            <td>${statusBadge(doc.status)}</td>
-            <td>${flags}</td>
-          </tr>`;
-          })
-          .join("");
 
-        // Row click → brief accent flash, then navigate
-        tbody.querySelectorAll("tr[data-id]").forEach((row) => {
-          row.addEventListener("click", () => {
-            row.querySelectorAll("td").forEach((td) => {
-              td.style.transition = "background 0.08s";
-              td.style.background = "rgba(79,142,247,0.15)";
-            });
-            setTimeout(() => {
-              window.location.href = `document.html?id=${row.dataset.id}`;
-            }, 110);
-          });
+        // Remove any placeholder rows (loading/error — no data-id)
+        tbody.querySelectorAll("tr:not([data-id])").forEach(r => r.remove());
+
+        const incoming = new Map(docs.map(d => [String(d.id), d]));
+        const existing = new Map();
+        tbody.querySelectorAll("tr[data-id]").forEach(r => existing.set(r.dataset.id, r));
+
+        // Remove rows no longer in data
+        existing.forEach((row, id) => {
+          if (!incoming.has(id)) row.remove();
+        });
+
+        // Update changed rows in-place; append new rows
+        docs.forEach((doc, i) => {
+          const id = String(doc.id);
+          const html = _rowHtml(doc);
+          if (existing.has(id)) {
+            const row = existing.get(id);
+            // Only touch DOM if something actually changed
+            if (row.innerHTML !== html) row.innerHTML = html;
+            // Keep correct order by moving row to end if needed
+            if (tbody.children[i] !== row) tbody.appendChild(row);
+          } else {
+            const row = document.createElement("tr");
+            row.dataset.id = id;
+            row.style.cursor = "pointer";
+            row.innerHTML = html;
+            _attachRowClick(row);
+            tbody.appendChild(row);
+          }
+        });
+
+        // Re-attach clicks for any in-place kept rows (cheap, no flicker)
+        tbody.querySelectorAll("tr[data-id]").forEach(row => {
+          if (!row._clickAttached) {
+            _attachRowClick(row);
+            row._clickAttached = true;
+          }
         });
       }
 
@@ -2447,6 +2514,7 @@
             approved: "approved",
           };
           activeFilter = statusMap[label] || "all";
+          _docsFirstLoad = true; // show loader when switching filters
           loadDocuments(activeFilter);
         });
       });
@@ -2573,7 +2641,10 @@
       }
 
       function _renderMd(text) {
-        // Bold **...**, preserve paragraphs and line breaks
+        if (typeof marked !== 'undefined') {
+          return marked.parse(text, { breaks: true, gfm: true });
+        }
+        // Fallback: basic bold + paragraphs
         return _escHtml(text)
           .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
           .replace(/\n\n/g, "</p><p style='margin-top:8px'>")
@@ -2656,7 +2727,7 @@
             sourcesHtml = `<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:5px">${links}</div>`;
           }
 
-          aiMsg.innerHTML = `<div class="msg-label">ContractIQ &middot; AI</div><div class="msg-bubble"><p>${_renderMd(data.answer)}</p>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
+          aiMsg.innerHTML = `<div class="msg-label">ContractIQ &middot; AI</div><div class="msg-bubble"><div class="md-body">${_renderMd(data.answer)}</div>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
           chatPanelMessages.appendChild(aiMsg);
           chatPanelMessages.scrollTop = chatPanelMessages.scrollHeight;
         } catch (err) {
