@@ -2,10 +2,12 @@
 
 import logging
 import os
+import traceback
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.api.backfill import router as backfill_router
@@ -96,10 +98,33 @@ app.include_router(router)
 app.include_router(ingest_router)
 app.include_router(backfill_router)
 
+
+@app.middleware("http")
+async def log_exceptions(request: Request, call_next):
+    try:
+        response = await call_next(request)
+        if response.status_code >= 500:
+            logger.error("HTTP %s %s → %d", request.method, request.url.path, response.status_code)
+        return response
+    except Exception as exc:
+        tb = traceback.format_exc()
+        logger.error(
+            "Unhandled exception on %s %s:\n%s",
+            request.method,
+            request.url.path,
+            tb,
+        )
+        return JSONResponse(
+            status_code=500,
+            content={"detail": f"Internal server error: {type(exc).__name__}: {exc}"},
+        )
+
 # Serve UI static files — mounted at "/" so /login.html, /document.html etc. resolve correctly.
 # API routers are already registered above and take priority over the static mount.
+# Container: WORKDIR=/app, so ui is at /app/ui
+# Local:     __file__ = …/procurement/backend/app/main.py → go up 3 levels to repo root
 _ui_dir = "/app/ui" if os.path.isdir("/app/ui") else os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "ui")
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "ui")
 )
 if os.path.isdir(_ui_dir):
     app.mount("/", StaticFiles(directory=_ui_dir, html=True), name="ui")

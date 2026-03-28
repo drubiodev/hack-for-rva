@@ -2,6 +2,8 @@ fastapi[standard]>=0.135.0
 uvicorn[standard]
 sqlalchemy[asyncio]>=2.0
 asyncpg
+aioodbc
+pyodbc
 aiohttp
 pydantic-settings>=2.0
 python-multipart
