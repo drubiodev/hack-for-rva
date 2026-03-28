@@ -1464,9 +1464,12 @@
 
       let annotations = [];
       let notes = [];
-      try {
-        annotations = JSON.parse(localStorage.getItem(ANN_KEY) || "[]");
-      } catch {}
+      // When docId is present, annotations are loaded from the API (see loadAnnotations below)
+      if (!docId) {
+        try {
+          annotations = JSON.parse(localStorage.getItem(ANN_KEY) || "[]");
+        } catch {}
+      }
       try {
         notes = JSON.parse(localStorage.getItem(NOTE_KEY) || "[]");
       } catch {}
@@ -1621,6 +1624,23 @@
 
       renderNotes();
 
+      // ── Load annotations from backend API (when docId present) ──
+      async function loadAnnotations() {
+        if (!docId) return;
+        try {
+          const resp = await fetch(
+            `/api/v1/documents/${encodeURIComponent(docId)}/annotations`,
+          );
+          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+          annotations = await resp.json();
+          renderAnnotations();
+          renderNotes();
+        } catch (err) {
+          console.warn("Could not load annotations from API:", err);
+        }
+      }
+      loadAnnotations();
+
       // ── Page navigation ──
       document
         .getElementById("prevPage")
@@ -1698,22 +1718,52 @@
         .getElementById("annCancel")
         .addEventListener("click", cancelAnnotation);
 
-      function saveAnnotation() {
+      async function saveAnnotation() {
         const text = annInputText.value.trim();
         if (!text || !pendingPos) return;
-        const ann = {
-          id: "ann_" + Date.now(),
-          x: pendingPos.x,
-          y: pendingPos.y,
-          page: currentPage,
-          text,
-          author: currentUser ? currentUser.name : "Unknown",
-          initials: currentUser ? currentUser.initials || "?" : "?",
-          time: new Date().toISOString(),
-        };
-        annotations.push(ann);
-        localStorage.setItem(ANN_KEY, JSON.stringify(annotations));
+
         annInputPopup.classList.remove("visible");
+
+        if (docId) {
+          try {
+            const resp = await fetch(
+              `/api/v1/documents/${encodeURIComponent(docId)}/annotations`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  x: parseFloat(pendingPos.x),
+                  y: parseFloat(pendingPos.y),
+                  page: currentPage,
+                  text,
+                  author: currentUser ? currentUser.name : "Unknown",
+                  initials: currentUser ? currentUser.initials || "?" : "?",
+                }),
+              },
+            );
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const ann = await resp.json();
+            annotations.push(ann);
+          } catch (err) {
+            console.error("Failed to save annotation:", err);
+            annInputPopup.classList.add("visible"); // re-show so user can retry
+            return;
+          }
+        } else {
+          const ann = {
+            id: "ann_" + Date.now(),
+            x: pendingPos.x,
+            y: pendingPos.y,
+            page: currentPage,
+            text,
+            author: currentUser ? currentUser.name : "Unknown",
+            initials: currentUser ? currentUser.initials || "?" : "?",
+            time: new Date().toISOString(),
+          };
+          annotations.push(ann);
+          localStorage.setItem(ANN_KEY, JSON.stringify(annotations));
+        }
+
         pendingPos = null;
         renderAnnotations();
         renderNotes();

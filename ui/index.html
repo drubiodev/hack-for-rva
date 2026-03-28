@@ -675,6 +675,38 @@
         overflow: hidden;
       }
 
+      /* ── Upload drawer (collapsible) ── */
+      .upload-drawer {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition:
+          grid-template-rows 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.28s;
+        opacity: 0;
+      }
+      .upload-drawer.open {
+        grid-template-rows: 1fr;
+        opacity: 1;
+      }
+      .upload-drawer-inner {
+        overflow: hidden;
+        padding-bottom: 2px; /* prevent box-shadow clip */
+      }
+      .upload-drawer-inner .upload-zone {
+        margin-top: 0;
+      }
+
+      /* Upload button active-open state */
+      #uploadBtn.drawer-open {
+        background: rgba(79, 142, 247, 0.15) !important;
+        border: 1px solid rgba(79, 142, 247, 0.6) !important;
+        color: var(--accent) !important;
+        box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.15);
+      }
+      #uploadBtn.drawer-open i[data-lucide="upload"]::before {
+        content: "";
+      }
+
       .upload-zone.drag-active {
         border-color: var(--accent);
         background: rgba(79, 142, 247, 0.08);
@@ -1606,6 +1638,76 @@
         background: var(--accent);
         border-radius: 2px;
       }
+
+      /* ── Floating processing queue ── */
+      .pq-float {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9998;
+        width: 440px;
+        max-width: calc(100vw - 48px);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        box-shadow: 0 12px 48px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transform: translateY(16px) scale(0.98);
+        opacity: 0;
+        transition: transform 0.38s cubic-bezier(0.34,1.56,0.64,1),
+                    opacity 0.26s ease;
+        pointer-events: none;
+      }
+      .pq-float.pq-visible {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .pq-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        background: var(--surface2);
+        border-bottom: 1px solid var(--border);
+        user-select: none;
+        flex-shrink: 0;
+        transition: border-color 0.2s;
+      }
+      .pq-float.pq-minimized .pq-header {
+        border-bottom-color: transparent;
+      }
+      .pq-body {
+        max-height: 380px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1),
+                    opacity 0.2s ease;
+        opacity: 1;
+      }
+      .pq-float.pq-minimized .pq-body {
+        max-height: 0;
+        opacity: 0;
+      }
+      .pq-icon-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        border-radius: 5px;
+        transition: color 0.15s, background 0.15s;
+        flex-shrink: 0;
+      }
+      .pq-icon-btn:hover {
+        color: var(--text);
+        background: rgba(255,255,255,0.07);
+      }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1725,6 +1827,66 @@
 
       <!-- Page content -->
       <div class="content">
+        <!-- Upload drawer (toggle via Upload Contract button) -->
+        <div id="uploadDrawer" class="upload-drawer">
+          <div class="upload-drawer-inner">
+            <div class="upload-zone" id="uploadZone">
+              <input
+                type="file"
+                id="fileInput"
+                accept=".pdf,.png,.jpg,.jpeg,.tiff,.tif"
+                multiple
+                style="display: none"
+              />
+              <!-- Default / idle state -->
+              <div class="upload-zone-default">
+                <div class="upload-icon">
+                  <i data-lucide="cloud-upload"></i>
+                </div>
+                <div class="upload-title">Drop a contract or document here</div>
+                <div class="upload-sub">
+                  Drag &amp; drop or click to browse &mdash; PDF, PNG, JPG, TIFF
+                  &middot; Max 20 MB
+                </div>
+                <div
+                  class="upload-sub"
+                  style="
+                    margin-top: 4px;
+                    color: var(--accent);
+                    font-weight: 500;
+                  "
+                >
+                  &#10022;&nbsp;Auto-extract &middot; Auto-validate
+                </div>
+              </div>
+              <!-- File selected preview (shows before upload starts) -->
+              <div class="upload-zone-file" id="uploadFilePreview">
+                <div class="upload-file-icon">
+                  <i data-lucide="file-text" style="color: var(--accent)"></i>
+                </div>
+                <div style="min-width: 0; flex: 1">
+                  <div class="upload-file-name" id="uploadFileName">—</div>
+                  <div class="upload-file-meta" id="uploadFileMeta">—</div>
+                </div>
+                <button
+                  class="upload-file-clear"
+                  id="uploadFileClear"
+                  title="Remove"
+                >
+                  &times;
+                </button>
+              </div>
+              <button class="upload-confirm-btn" id="uploadConfirmBtn">
+                <i data-lucide="upload"></i> Upload Document
+              </button>
+              <!-- HTTP upload progress bar (appears at bottom of zone while uploading) -->
+              <div class="upload-progress-bar">
+                <div class="upload-progress-fill" id="uploadProgressFill"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- KPIs -->
         <div class="kpis">
           <div class="kpi-card">
@@ -1945,147 +2107,6 @@
           </div>
         </div>
 
-        <!-- Upload zone -->
-        <div class="upload-zone" id="uploadZone">
-          <input
-            type="file"
-            id="fileInput"
-            accept=".pdf,.png,.jpg,.jpeg,.tiff,.tif"
-            multiple
-            style="display: none"
-          />
-          <!-- Default / idle state -->
-          <div class="upload-zone-default">
-            <div class="upload-icon"><i data-lucide="cloud-upload"></i></div>
-            <div class="upload-title">Drop a contract or document here</div>
-            <div class="upload-sub">
-              Drag &amp; drop or click to browse &mdash; PDF, PNG, JPG, TIFF
-              &middot; Max 20 MB
-            </div>
-            <div
-              class="upload-sub"
-              style="margin-top: 4px; color: var(--accent); font-weight: 500"
-            >
-              &#10022;&nbsp;Auto-extract &middot; Auto-validate
-            </div>
-          </div>
-          <!-- File selected preview (shows before upload starts) -->
-          <div class="upload-zone-file" id="uploadFilePreview">
-            <div class="upload-file-icon">
-              <i data-lucide="file-text" style="color: var(--accent)"></i>
-            </div>
-            <div style="min-width: 0; flex: 1">
-              <div class="upload-file-name" id="uploadFileName">—</div>
-              <div class="upload-file-meta" id="uploadFileMeta">—</div>
-            </div>
-            <button
-              class="upload-file-clear"
-              id="uploadFileClear"
-              title="Remove"
-            >
-              &times;
-            </button>
-          </div>
-          <button class="upload-confirm-btn" id="uploadConfirmBtn">
-            <i data-lucide="upload"></i> Upload Document
-          </button>
-          <!-- HTTP upload progress bar (appears at bottom of zone while uploading) -->
-          <div class="upload-progress-bar">
-            <div class="upload-progress-fill" id="uploadProgressFill"></div>
-          </div>
-        </div>
-
-        <!-- Processing queue (shown when uploads are in-flight / recently completed) -->
-        <div
-          id="processingQueueWrap"
-          style="
-            display: none;
-            flex-direction: column;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-          "
-        >
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              gap: 8px;
-              padding: 11px 16px;
-              border-bottom: 1px solid var(--border);
-              background: var(--surface2);
-            "
-          >
-            <i
-              data-lucide="activity"
-              style="
-                width: 14px;
-                height: 14px;
-                color: var(--accent);
-                flex-shrink: 0;
-              "
-            ></i>
-            <span
-              style="
-                font-size: 11px;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 0.07em;
-              "
-              >Processing Queue</span
-            >
-            <span
-              id="processingQueueCount"
-              style="
-                background: var(--accent);
-                color: #fff;
-                font-size: 10px;
-                font-weight: 700;
-                padding: 1px 7px;
-                border-radius: 20px;
-              "
-              >0</span
-            >
-            <span
-              style="
-                margin-left: auto;
-                font-size: 11px;
-                color: var(--text-muted);
-              "
-              >AI-assisted &middot; requires human review</span
-            >
-            <button
-              onclick="
-                document.getElementById('processingQueueWrap').style.display =
-                  'none'
-              "
-              style="
-                background: none;
-                border: none;
-                color: var(--text-muted);
-                cursor: pointer;
-                font-size: 18px;
-                line-height: 1;
-                padding: 0 2px;
-              "
-              onmouseover="this.style.color = 'var(--text)'"
-              onmouseout="this.style.color = 'var(--text-muted)'"
-            >
-              &times;
-            </button>
-          </div>
-          <div
-            id="processingQueue"
-            style="
-              display: flex;
-              flex-direction: column;
-              max-height: 430px;
-              overflow-y: auto;
-              overscroll-behavior: contain;
-            "
-          ></div>
-        </div>
       </div>
       <!-- /content -->
     </div>
@@ -2716,7 +2737,31 @@
         fileInput.click();
       });
 
-      uploadBtn.addEventListener("click", () => fileInput.click());
+      const uploadDrawer = document.getElementById("uploadDrawer");
+      function closeUploadDrawer() {
+        uploadDrawer.classList.remove("open");
+        uploadBtn.classList.remove("drawer-open");
+      }
+      uploadBtn.addEventListener("click", () => {
+        const isOpen = uploadDrawer.classList.contains("open");
+        if (isOpen) {
+          closeUploadDrawer();
+        } else {
+          uploadDrawer.classList.add("open");
+          uploadBtn.classList.add("drawer-open");
+          setTimeout(
+            () =>
+              uploadDrawer.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              }),
+            40,
+          );
+        }
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeUploadDrawer();
+      });
 
       fileInput.addEventListener("change", () => {
         const files = Array.from(fileInput.files || []);
@@ -2813,8 +2858,10 @@
                   `"${file.name}" already exists — showing existing record`,
                   "info",
                 );
+                closeUploadDrawer();
                 trackProcessing(doc.id, file.name, /* isDuplicate */ true);
               } else {
+                closeUploadDrawer();
                 trackProcessing(doc.id, file.name, false);
               }
             } catch (_) {
@@ -2842,6 +2889,7 @@
           uploadZone.classList.remove("uploading");
           uploadProgressFill.style.width = "0%";
           showToast("Upload cancelled", "info");
+          closeUploadDrawer();
         });
 
         xhr.open("POST", `${API}/documents/upload`);
@@ -2874,10 +2922,10 @@
         const wrap = document.getElementById("processingQueueWrap");
         const count = queue.children.length;
         if (count === 0) {
-          wrap.style.display = "none";
+          wrap.classList.remove("pq-visible");
         } else {
-          wrap.style.display = "flex";
-          wrap.style.flexDirection = "column";
+          wrap.classList.add("pq-visible");
+          wrap.classList.remove("pq-minimized"); // expand when new item arrives
           document.getElementById("processingQueueCount").textContent = count;
           if (typeof lucide !== "undefined") lucide.createIcons();
         }
@@ -3098,5 +3146,22 @@
         );
       });
     </script>
+
+    <!-- ── Floating processing queue panel ── -->
+    <div id="processingQueueWrap" class="pq-float" role="status" aria-live="polite">
+      <div class="pq-header">
+        <i data-lucide="activity" style="width:14px;height:14px;color:var(--accent);flex-shrink:0"></i>
+        <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em">Processing Queue</span>
+        <span id="processingQueueCount" style="background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px">0</span>
+        <span style="margin-left:auto;font-size:10px;color:var(--text-muted)">AI-assisted &middot; requires human review</span>
+        <button class="pq-icon-btn" id="pqMinimizeBtn" title="Minimize" onclick="document.getElementById('processingQueueWrap').classList.toggle('pq-minimized');this.title=document.getElementById('processingQueueWrap').classList.contains('pq-minimized')?'Expand':'Minimize'">
+          <i data-lucide="minus" style="width:14px;height:14px"></i>
+        </button>
+        <button class="pq-icon-btn" title="Close" onclick="document.getElementById('processingQueueWrap').classList.remove('pq-visible')">
+          <i data-lucide="x" style="width:14px;height:14px"></i>
+        </button>
+      </div>
+      <div id="processingQueue" class="pq-body" style="display:flex;flex-direction:column"></div>
+    </div>
   </body>
 </html>
