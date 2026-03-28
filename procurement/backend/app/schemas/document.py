@@ -411,8 +411,17 @@ class ChatSourceSchema(BaseModel):
     snippet: str | None = None
 
 
+class ChatReferenceSchema(BaseModel):
+    """Numbered reference that the LLM cites inline as [1], [2], etc."""
+    index: int
+    document_id: UUID
+    title: str | None = None
+    snippet: str | None = None
+
+
 class ChatResponse(BaseModel):
     answer: str
     sources: list[ChatSourceSchema]
     conversation_id: str
     intent: str | None = None
+    references: list[ChatReferenceSchema] = []

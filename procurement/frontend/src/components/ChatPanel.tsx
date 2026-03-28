@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, type ReactNode } from "react";
 import Link from "next/link";
+import Markdown from "react-markdown";
 import { useMutation } from "@tanstack/react-query";
 import { useChatPanel, type ChatPage } from "./ChatPanelContext";
 import { sendChatMessage } from "@/lib/api";
-import type { ChatMessage, ChatSource } from "@/lib/types";
+import type { ChatMessage, ChatReference, ChatSource } from "@/lib/types";
 import {
   MessageSquare,
   Send,
@@ -107,6 +108,7 @@ export function ChatPanel() {
           content: data.answer,
           sources: data.sources,
           intent: data.intent ?? undefined,
+          references: data.references ?? undefined,
         },
       ]);
     },
@@ -171,24 +173,17 @@ export function ChatPanel() {
   const suggestions = SUGGESTIONS[activePage] ?? SUGGESTIONS.dashboard;
   const showSuggestions = messages.length === 0 && !mutation.isPending;
 
-  return (
-    <>
-      {/* Backdrop */}
-      {isOpen && (
-        <div className="fixed inset-0 z-40 bg-black/10" onClick={close} />
-      )}
+  if (!isOpen) return null;
 
-      {/* Panel */}
+  return (
       <div
-        className={`fixed inset-y-0 right-0 z-50 flex w-[400px] flex-col border-l border-[#2e3248] bg-[#1a1d27] shadow-2xl transition-transform duration-200 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className="flex w-[480px] shrink-0 flex-col border-l border-[#2e3248] bg-[#1a1d27]"
       >
         {/* Header */}
-        <div className="flex h-[52px] items-center gap-2.5 border-b border-[#2e3248] px-4">
-          <Sparkles size={15} className="text-[#4f8ef7]" />
+        <div className="flex h-[56px] items-center gap-2.5 border-b border-[#2e3248] px-5">
+          <Sparkles size={16} className="text-[#4f8ef7]" />
           <span
-            className="flex-1 text-[13px] font-semibold text-white"
+            className="flex-1 text-[15px] font-semibold text-white"
             style={{
               fontFamily:
                 "'Bricolage Grotesque', var(--font-heading), sans-serif",
@@ -214,9 +209,9 @@ export function ChatPanel() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div className="flex-1 overflow-y-auto p-5 space-y-3">
           {/* AI disclaimer */}
-          <div className="rounded-lg bg-[#4f8ef7]/10 border border-[#4f8ef7]/20 px-3 py-2 text-[11px] text-[#94a3b8]">
+          <div className="rounded-lg bg-[#4f8ef7]/10 border border-[#4f8ef7]/20 px-3 py-2 text-xs text-[#94a3b8]">
             AI-assisted · requires human review
           </div>
 
@@ -226,7 +221,7 @@ export function ChatPanel() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileText size={12} className="text-[#4f8ef7] shrink-0" />
-                  <span className="text-[11px] text-[#94a3b8]">
+                  <span className="text-xs text-[#94a3b8]">
                     Asking about:
                   </span>
                 </div>
@@ -237,11 +232,11 @@ export function ChatPanel() {
                   <X size={10} />
                 </button>
               </div>
-              <p className="text-[12px] text-white font-medium mt-1 truncate">
+              <p className="text-sm text-white font-medium mt-1 truncate">
                 {documentContext.title}
               </p>
               {documentContext.vendorName && (
-                <p className="text-[11px] text-[#64748b] truncate">
+                <p className="text-xs text-[#64748b] truncate">
                   {documentContext.vendorName}
                 </p>
               )}
@@ -255,12 +250,12 @@ export function ChatPanel() {
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4f8ef7]/10 mb-2">
                   <MessageSquare className="h-5 w-5 text-[#4f8ef7]" />
                 </div>
-                <p className="text-[13px] font-medium text-white mb-0.5">
+                <p className="text-sm font-medium text-white mb-0.5">
                   {documentContext
                     ? "Ask about this document"
                     : "Ask ContractIQ"}
                 </p>
-                <p className="text-[11px] text-[#64748b] max-w-[280px]">
+                <p className="text-xs text-[#64748b] max-w-[280px]">
                   {documentContext
                     ? "Get insights about this specific contract"
                     : "Search contracts, analyze spend, check compliance"}
@@ -271,7 +266,7 @@ export function ChatPanel() {
                   <button
                     key={q}
                     onClick={() => sendQuestion(q)}
-                    className="w-full text-left rounded-lg border border-[#2e3248] bg-[#22263a] px-3 py-2 text-[12px] text-[#e2e8f0] hover:border-[#4f8ef7]/40 hover:bg-[#2a2e42] transition-colors"
+                    className="w-full text-left rounded-lg border border-[#2e3248] bg-[#22263a] px-3 py-2 text-sm text-[#e2e8f0] hover:border-[#4f8ef7]/40 hover:bg-[#2a2e42] transition-colors"
                   >
                     {q}
                   </button>
@@ -287,7 +282,7 @@ export function ChatPanel() {
               className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-[85%] rounded-lg px-3 py-2 text-[13px] ${
+                className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${
                   msg.role === "user"
                     ? "bg-[#4f8ef7] text-white"
                     : "bg-[#22263a] text-[#e2e8f0]"
@@ -296,19 +291,19 @@ export function ChatPanel() {
                 {/* Intent badge */}
                 {msg.role === "assistant" && msg.intent && (
                   <span
-                    className={`inline-block rounded px-1.5 py-0.5 text-[9px] font-medium mb-1.5 ${
+                    className={`inline-block rounded px-1.5 py-0.5 text-[10px] font-medium mb-1.5 ${
                       INTENT_STYLES[msg.intent] ?? INTENT_STYLES.general_knowledge
                     }`}
                   >
                     {intentLabel(msg.intent)}
                   </span>
                 )}
-                <p className="whitespace-pre-wrap leading-relaxed">
-                  {msg.content}
-                </p>
+                <div className="whitespace-pre-wrap leading-relaxed">
+                  <CitedText content={msg.content} references={msg.references} />
+                </div>
                 {msg.sources && msg.sources.length > 0 && (
                   <div className="mt-2 pt-2 border-t border-white/10">
-                    <p className="text-[9px] font-medium mb-1 opacity-60">
+                    <p className="text-[10px] font-medium mb-1 opacity-60">
                       Sources
                     </p>
                     <div className="flex flex-wrap gap-1">
@@ -329,7 +324,7 @@ export function ChatPanel() {
             <div className="flex justify-start">
               <div className="rounded-lg bg-[#22263a] px-3 py-2 flex items-center gap-2">
                 <Loader2 className="h-3.5 w-3.5 animate-spin text-[#4f8ef7]" />
-                <span className="text-[11px] text-[#64748b]">
+                <span className="text-xs text-[#64748b]">
                   Searching contracts...
                 </span>
               </div>
@@ -340,7 +335,7 @@ export function ChatPanel() {
         </div>
 
         {/* Input */}
-        <div className="border-t border-[#2e3248] p-3">
+        <div className="border-t border-[#2e3248] p-4">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -352,7 +347,7 @@ export function ChatPanel() {
               ref={inputRef}
               placeholder="Ask about contracts..."
               disabled={mutation.isPending}
-              className="flex-1 rounded-lg border border-[#2e3248] bg-[#22263a] px-3 py-2 text-[13px] text-white placeholder:text-[#64748b] focus:border-[#4f8ef7] focus:outline-none disabled:opacity-50"
+              className="flex-1 rounded-lg border border-[#2e3248] bg-[#22263a] px-3 py-2 text-sm text-white placeholder:text-[#64748b] focus:border-[#4f8ef7] focus:outline-none disabled:opacity-50"
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
@@ -374,8 +369,126 @@ export function ChatPanel() {
           </form>
         </div>
       </div>
-    </>
   );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Cited text — parses [1], [2] etc. and renders inline doc links     */
+/* ------------------------------------------------------------------ */
+
+function CitedText({
+  content,
+  references,
+}: {
+  content: string;
+  references?: ChatReference[];
+}) {
+  // Build a map from index number to reference
+  const refMap = new Map<number, ChatReference>();
+  if (references) {
+    for (const ref of references) {
+      refMap.set(ref.index, ref);
+    }
+  }
+
+  /** Replace [N] patterns in a text string with inline link elements. */
+  function injectCitations(text: string): ReactNode[] {
+    if (refMap.size === 0) return [text];
+    const parts = text.split(/(\[\d+\])/g);
+    return parts.map((part, i) => {
+      const match = part.match(/^\[(\d+)\]$/);
+      if (match) {
+        const idx = parseInt(match[1], 10);
+        const ref = refMap.get(idx);
+        if (ref) {
+          return (
+            <Link
+              key={`cite-${i}`}
+              href={`/dashboard/documents/${ref.document_id}`}
+              className="inline-flex items-center gap-0.5 rounded bg-[#4f8ef7]/20 px-1 py-0 mx-0.5 text-[11px] font-semibold text-[#4f8ef7] hover:bg-[#4f8ef7]/30 transition-colors no-underline align-baseline"
+              title={ref.snippet ?? ref.title ?? undefined}
+            >
+              <FileText className="h-2.5 w-2.5 shrink-0" />
+              {idx}
+            </Link>
+          );
+        }
+      }
+      return <span key={`txt-${i}`}>{part}</span>;
+    });
+  }
+
+  return (
+    <Markdown
+      components={{
+        // Render paragraphs with citation injection
+        p: ({ children }) => (
+          <p className="mb-2 last:mb-0">
+            {flatMapChildren(children, injectCitations)}
+          </p>
+        ),
+        // Headings
+        h3: ({ children }) => (
+          <h3 className="text-sm font-semibold mt-3 mb-1 text-[#94a3b8]">
+            {children}
+          </h3>
+        ),
+        h4: ({ children }) => (
+          <h4 className="text-sm font-medium mt-2 mb-1 text-[#94a3b8]">
+            {children}
+          </h4>
+        ),
+        // Bold
+        strong: ({ children }) => (
+          <strong className="font-semibold text-white">{children}</strong>
+        ),
+        // Lists
+        ul: ({ children }) => (
+          <ul className="list-disc list-inside mb-2 space-y-0.5">{children}</ul>
+        ),
+        ol: ({ children }) => (
+          <ol className="list-decimal list-inside mb-2 space-y-0.5">{children}</ol>
+        ),
+        li: ({ children }) => (
+          <li className="text-sm leading-relaxed">
+            {flatMapChildren(children, injectCitations)}
+          </li>
+        ),
+        // Code/backticks
+        code: ({ children }) => (
+          <code className="rounded bg-[#2e3248] px-1 py-0.5 text-xs text-[#94a3b8]">
+            {children}
+          </code>
+        ),
+      }}
+    >
+      {content}
+    </Markdown>
+  );
+}
+
+/** Walk ReactNode children: for any string child, run the transform; pass others through. */
+function flatMapChildren(
+  children: ReactNode,
+  transform: (text: string) => ReactNode[],
+): ReactNode {
+  if (typeof children === "string") {
+    return <>{transform(children)}</>;
+  }
+  if (Array.isArray(children)) {
+    return (
+      <>
+        {children.map((child, i) =>
+          typeof child === "string" ? (
+            <span key={i}>{transform(child)}</span>
+          ) : (
+            <span key={i}>{child}</span>
+          ),
+        )}
+      </>
+    );
+  }
+  return children;
 }
 
 /* ------------------------------------------------------------------ */
