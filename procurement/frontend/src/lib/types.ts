@@ -26,6 +26,40 @@ export type DocumentSource = "upload" | "socrata" | "sam_gov" | "eva";
 
 export type ValidationSeverity = "error" | "warning" | "info";
 
+export type DepartmentCode =
+  | "PUBLIC_WORKS"
+  | "TRANSPORTATION"
+  | "PUBLIC_SAFETY"
+  | "FINANCE"
+  | "INFORMATION_TECHNOLOGY"
+  | "PLANNING_DEVELOPMENT"
+  | "PUBLIC_UTILITIES"
+  | "PARKS_RECREATION"
+  | "HUMAN_RESOURCES"
+  | "RISK_MANAGEMENT"
+  | "COMMUNITY_DEVELOPMENT"
+  | "CITY_ASSESSOR"
+  | "PROCUREMENT"
+  | "OTHER";
+
+export type ComplianceFlag =
+  | "MBE_WBE"
+  | "DAVIS_BACON"
+  | "ADA"
+  | "DRUG_FREE_WORKPLACE"
+  | "OSHA"
+  | "VDOT_STANDARDS"
+  | "ENVIRONMENTAL"
+  | "EEO";
+
+export type ProcurementMethod =
+  | "COMPETITIVE_BID"
+  | "COOPERATIVE_PURCHASE"
+  | "SOLE_SOURCE"
+  | "EMERGENCY"
+  | "RFP"
+  | "OTHER";
+
 export type ActivityAction =
   | "uploaded"
   | "ocr_complete"
@@ -38,7 +72,8 @@ export type ActivityAction =
   | "rejected"
   | "reprocessed"
   | "reminder_set"
-  | "reminder_dismissed";
+  | "reminder_dismissed"
+  | "auto_routed";
 
 export type ActorRole = "analyst" | "supervisor" | "system";
 
@@ -60,6 +95,15 @@ export interface DocumentSummary {
   approved_by?: string | null;
   created_at: string;
   updated_at?: string;
+  primary_department?: DepartmentCode | null;
+  department_tags?: DepartmentCode[];
+  compliance_flags?: ComplianceFlag[];
+  mbe_wbe_required?: boolean | null;
+  federal_funding?: boolean | null;
+  insurance_general_liability_min?: number | null;
+  bond_required?: boolean | null;
+  procurement_method?: ProcurementMethod | null;
+  cooperative_contract_ref?: string | null;
 }
 
 export interface DocumentDetail extends DocumentSummary {
@@ -113,6 +157,27 @@ export interface ExtractedFields {
   insurance_required?: boolean | null;
   bond_required?: boolean | null;
   scope_summary?: string | null;
+  // Department routing (S15)
+  department_tags?: DepartmentCode[];
+  primary_department?: DepartmentCode | null;
+  department_confidence?: number | null;
+  // MBE/WBE & compliance (S16)
+  mbe_wbe_required?: boolean | null;
+  mbe_wbe_details?: string | null;
+  federal_funding?: boolean | null;
+  compliance_flags?: ComplianceFlag[];
+  // Insurance & bonding intelligence (S17)
+  insurance_general_liability_min?: number | null;
+  insurance_auto_liability_min?: number | null;
+  insurance_professional_liability_min?: number | null;
+  workers_comp_required?: boolean | null;
+  performance_bond_amount?: number | null;
+  payment_bond_amount?: number | null;
+  liquidated_damages_rate?: string | null;
+  // Procurement method (S18)
+  procurement_method?: ProcurementMethod | null;
+  cooperative_contract_ref?: string | null;
+  prequalification_required?: boolean | null;
   raw_extraction?: Record<string, unknown>;
   extraction_confidence?: number | null;
 }
@@ -229,4 +294,26 @@ export interface ChatMessage {
 export interface ProcurementUser {
   name: string;
   role: "analyst" | "supervisor";
+}
+
+// --- Annotations ---
+
+export interface Annotation {
+  id: string;
+  x: number;
+  y: number;
+  page: number;
+  text: string;
+  author: string;
+  initials: string;
+  time: string;
+}
+
+export interface AnnotationCreate {
+  x: number;
+  y: number;
+  page: number;
+  text: string;
+  author: string;
+  initials: string;
 }

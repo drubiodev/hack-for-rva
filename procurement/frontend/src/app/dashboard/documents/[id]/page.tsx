@@ -21,11 +21,17 @@ import {
   rejectDocument,
   reprocessDocument,
   resolveWarning,
+  fetchAnnotations,
+  createAnnotation,
 } from "@/lib/api";
+import AnnotationLayer from "@/components/AnnotationLayer";
 import { documentKeys } from "@/lib/queryKeys";
 import type {
   DocumentStatus,
   ValidationSeverity,
+  DepartmentCode,
+  ComplianceFlag,
+  ProcurementMethod,
 } from "@/lib/types";
 import {
   Upload,
@@ -238,6 +244,73 @@ const PROCESSING_STATUSES: DocumentStatus[] = [
   "classified",
 ];
 
+// --- Department & Intelligence constants ---
+
+const DEPT_LABELS: Record<DepartmentCode, string> = {
+  PUBLIC_WORKS: "Public Works",
+  TRANSPORTATION: "Transportation",
+  PUBLIC_SAFETY: "Public Safety",
+  FINANCE: "Finance",
+  INFORMATION_TECHNOLOGY: "Information Technology",
+  PLANNING_DEVELOPMENT: "Planning & Development",
+  PUBLIC_UTILITIES: "Public Utilities",
+  PARKS_RECREATION: "Parks & Recreation",
+  HUMAN_RESOURCES: "Human Resources",
+  RISK_MANAGEMENT: "Risk Management",
+  COMMUNITY_DEVELOPMENT: "Community Development",
+  CITY_ASSESSOR: "City Assessor",
+  PROCUREMENT: "Procurement",
+  OTHER: "Other",
+};
+
+const DEPT_COLORS: Record<DepartmentCode, string> = {
+  PUBLIC_WORKS: "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
+  TRANSPORTATION: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+  PUBLIC_SAFETY: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
+  FINANCE: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+  INFORMATION_TECHNOLOGY: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
+  PLANNING_DEVELOPMENT: "bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200",
+  PUBLIC_UTILITIES: "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200",
+  PARKS_RECREATION: "bg-lime-100 text-lime-800 dark:bg-lime-900 dark:text-lime-200",
+  HUMAN_RESOURCES: "bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200",
+  RISK_MANAGEMENT: "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200",
+  COMMUNITY_DEVELOPMENT: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200",
+  CITY_ASSESSOR: "bg-violet-100 text-violet-800 dark:bg-violet-900 dark:text-violet-200",
+  PROCUREMENT: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200",
+  OTHER: "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
+};
+
+const COMPLIANCE_LABELS: Record<ComplianceFlag, string> = {
+  MBE_WBE: "MBE/WBE",
+  DAVIS_BACON: "Davis-Bacon",
+  ADA: "ADA",
+  DRUG_FREE_WORKPLACE: "Drug-Free Workplace",
+  OSHA: "OSHA",
+  VDOT_STANDARDS: "VDOT Standards",
+  ENVIRONMENTAL: "Environmental",
+  EEO: "EEO",
+};
+
+const PROCUREMENT_LABELS: Record<ProcurementMethod, string> = {
+  COMPETITIVE_BID: "Competitive Bid",
+  COOPERATIVE_PURCHASE: "Cooperative Purchase",
+  SOLE_SOURCE: "Sole Source",
+  EMERGENCY: "Emergency",
+  RFP: "RFP",
+  OTHER: "Other",
+};
+
+function DeptBadge({ code }: { code: DepartmentCode | null | undefined }) {
+  if (!code) return <span className="text-muted-foreground text-sm">--</span>;
+  return (
+    <span
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${DEPT_COLORS[code] ?? DEPT_COLORS.OTHER}`}
+    >
+      {DEPT_LABELS[code] ?? code}
+    </span>
+  );
+}
+
 // --- Main page ---
 
 export default function DocumentDetailPage() {
@@ -246,6 +319,7 @@ export default function DocumentDetailPage() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   const [ocrExpanded, setOcrExpanded] = useState(false);
+  const [intelExpanded, setIntelExpanded] = useState(true);
   const [rejectReason, setRejectReason] = useState("");
   const [showRejectForm, setShowRejectForm] = useState(false);
   const [approveComments, setApproveComments] = useState("");
@@ -303,6 +377,35 @@ export default function DocumentDetailPage() {
     mutationFn: (validationId: string) =>
       resolveWarning(id, validationId, user?.name ?? "Unknown"),
     onSuccess: invalidate,
+  });
+
+  const { data: annotations = [] } = useQuery({
+    queryKey: ["annotations", id],
+    queryFn: () => fetchAnnotations(id),
+    enabled: !!id,
+  });
+
+  const annotationMutation = useMutation({
+    mutationFn: (data: { x: number; y: number; text: string }) => {
+      const name = user?.name ?? "Unknown";
+      const initials = name
+        .split(/\s+/)
+        .map((w) => w[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2) || "?";
+      return createAnnotation(id, {
+        x: data.x,
+        y: data.y,
+        page: 1,
+        text: data.text,
+        author: name,
+        initials,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["annotations", id] });
+    },
   });
 
   if (isLoading) {
@@ -620,7 +723,173 @@ export default function DocumentDetailPage() {
         </Card>
       </div>
 
-      {/* OCR Text Panel (collapsible) */}
+      {/* Contract Intelligence Card */}
+      <Card>
+        <CardHeader
+          className="cursor-pointer select-none"
+          onClick={() => setIntelExpanded(!intelExpanded)}
+        >
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Shield className="h-5 w-5" />
+              Contract Intelligence
+            </div>
+            {intelExpanded ? (
+              <ChevronDown className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            )}
+          </CardTitle>
+        </CardHeader>
+        {intelExpanded && (
+          <CardContent>
+            {fields && (fields.primary_department || fields.department_tags?.length || fields.compliance_flags?.length || fields.mbe_wbe_required != null || fields.insurance_general_liability_min != null || fields.procurement_method) ? (
+              <div className="grid gap-6 sm:grid-cols-2">
+                {/* Department Routing */}
+                <div>
+                  <h4 className="text-sm font-semibold mb-2">Department Routing</h4>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Primary Department</p>
+                      <DeptBadge code={fields.primary_department} />
+                      {fields.department_confidence != null && (
+                        <span className="ml-2 text-xs text-muted-foreground">
+                          ({Math.round(fields.department_confidence * 100)}% confidence)
+                        </span>
+                      )}
+                    </div>
+                    {fields.department_tags && fields.department_tags.length > 0 && (
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-1">Related Departments</p>
+                        <div className="flex flex-wrap gap-1">
+                          {fields.department_tags.map((dept) => (
+                            <DeptBadge key={dept} code={dept} />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Compliance */}
+                <div>
+                  <h4 className="text-sm font-semibold mb-2">Compliance</h4>
+                  <div className="space-y-2">
+                    {fields.mbe_wbe_required != null && (
+                      <div className="flex items-center gap-2">
+                        <Badge variant={fields.mbe_wbe_required ? "default" : "secondary"} className="text-xs">
+                          MBE/WBE {fields.mbe_wbe_required ? "Required" : "Not Required"}
+                        </Badge>
+                      </div>
+                    )}
+                    {fields.mbe_wbe_details && (
+                      <p className="text-xs text-muted-foreground">{fields.mbe_wbe_details}</p>
+                    )}
+                    {fields.federal_funding != null && (
+                      <Badge variant={fields.federal_funding ? "default" : "secondary"} className="text-xs">
+                        {fields.federal_funding ? "Federal Funding" : "No Federal Funding"}
+                      </Badge>
+                    )}
+                    {fields.compliance_flags && fields.compliance_flags.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {fields.compliance_flags.map((flag) => (
+                          <Badge key={flag} variant="outline" className="text-[10px]">
+                            {COMPLIANCE_LABELS[flag] ?? flag}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Financial Risk */}
+                <div>
+                  <h4 className="text-sm font-semibold mb-2">Financial Risk</h4>
+                  <div className="grid grid-cols-1 gap-1.5 text-sm">
+                    {fields.insurance_general_liability_min != null && (
+                      <div className="flex justify-between">
+                        <span className="text-xs text-muted-foreground">General Liability Min</span>
+                        <span className="text-xs font-medium">{formatCurrency(fields.insurance_general_liability_min)}</span>
+                      </div>
+                    )}
+                    {fields.insurance_auto_liability_min != null && (
+                      <div className="flex justify-between">
+                        <span className="text-xs text-muted-foreground">Auto Liability Min</span>
+                        <span className="text-xs font-medium">{formatCurrency(fields.insurance_auto_liability_min)}</span>
+                      </div>
+                    )}
+                    {fields.insurance_professional_liability_min != null && (
+                      <div className="flex justify-between">
+                        <span className="text-xs text-muted-foreground">Professional Liability Min</span>
+                        <span className="text-xs font-medium">{formatCurrency(fields.insurance_professional_liability_min)}</span>
+                      </div>
+                    )}
+                    {fields.workers_comp_required != null && (
+                      <div className="flex justify-between">
+                        <span className="text-xs text-muted-foreground">Workers Comp</span>
+                        <span className="text-xs font-medium">{fields.workers_comp_required ? "Required" : "Not Required"}</span>
+                      </div>
+                    )}
+                    {fields.performance_bond_amount != null && (
+                      <div className="flex justify-between">
+                        <span className="text-xs text-muted-foreground">Performance Bond</span>
+                        <span className="text-xs font-medium">{formatCurrency(fields.performance_bond_amount)}</span>
+                      </div>
+                    )}
+                    {fields.payment_bond_amount != null && (
+                      <div className="flex justify-between">
+                        <span className="text-xs text-muted-foreground">Payment Bond</span>
+                        <span className="text-xs font-medium">{formatCurrency(fields.payment_bond_amount)}</span>
+                      </div>
+                    )}
+                    {fields.liquidated_damages_rate && (
+                      <div className="flex justify-between">
+                        <span className="text-xs text-muted-foreground">Liquidated Damages</span>
+                        <span className="text-xs font-medium">{fields.liquidated_damages_rate}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Procurement */}
+                <div>
+                  <h4 className="text-sm font-semibold mb-2">Procurement</h4>
+                  <div className="space-y-2">
+                    {fields.procurement_method && (
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-1">Method</p>
+                        <Badge variant="secondary" className="text-xs">
+                          {PROCUREMENT_LABELS[fields.procurement_method] ?? fields.procurement_method}
+                        </Badge>
+                      </div>
+                    )}
+                    {fields.cooperative_contract_ref && (
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-1">Cooperative Contract Ref</p>
+                        <p className="text-sm font-medium">{fields.cooperative_contract_ref}</p>
+                      </div>
+                    )}
+                    {fields.prequalification_required != null && (
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-1">Prequalification</p>
+                        <Badge variant={fields.prequalification_required ? "default" : "secondary"} className="text-xs">
+                          {fields.prequalification_required ? "Required" : "Not Required"}
+                        </Badge>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <p className="text-muted-foreground text-sm">
+                Intelligence extraction pending.
+              </p>
+            )}
+          </CardContent>
+        )}
+      </Card>
+
+      {/* OCR Text Panel (collapsible) with Annotation Layer */}
       <Card>
         <CardHeader
           className="cursor-pointer select-none"
@@ -634,6 +903,11 @@ export default function DocumentDetailPage() {
                   {(doc.ocr_confidence * 100).toFixed(0)}% OCR confidence
                 </Badge>
               )}
+              {annotations.length > 0 && (
+                <Badge variant="secondary" className="text-[10px]">
+                  {annotations.length} note{annotations.length !== 1 ? "s" : ""}
+                </Badge>
+              )}
             </div>
             {ocrExpanded ? (
               <ChevronDown className="h-4 w-4" />
@@ -645,9 +919,15 @@ export default function DocumentDetailPage() {
         {ocrExpanded && (
           <CardContent>
             {doc.ocr_text ? (
-              <pre className="max-h-96 overflow-auto rounded-md bg-muted p-4 text-xs font-mono whitespace-pre-wrap">
-                {doc.ocr_text}
-              </pre>
+              <div className="relative max-h-96 overflow-auto rounded-md bg-[#111318]">
+                <pre className="p-4 text-xs font-mono whitespace-pre-wrap text-[#94a3b8]">
+                  {doc.ocr_text}
+                </pre>
+                <AnnotationLayer
+                  annotations={annotations}
+                  onAnnotationCreate={(data) => annotationMutation.mutate(data)}
+                />
+              </div>
             ) : (
               <p className="text-muted-foreground text-sm">
                 No OCR text available.
