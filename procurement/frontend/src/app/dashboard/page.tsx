@@ -61,53 +61,21 @@ const CARD =
   "bg-white rounded-[12px] border border-[#E7E5E4] shadow-[0_4px_24px_rgba(15,37,55,0.04)]";
 
 /* ------------------------------------------------------------------ */
-/*  Source tag — demo only (ExpiringContract has no source field)       */
+/*  Source tag — derived from contract title/description                */
 /* ------------------------------------------------------------------ */
 
 const SOURCE_COLORS: Record<string, string> = {
   VITA: "bg-[#BAE6FD] text-[#0F2537]",
   GSA: "bg-[#FDE047] text-[#0F2537]",
-  CITY: "bg-[#D9F99D] text-[#0F2537]",
+  City: "bg-[#D9F99D] text-[#0F2537]",
 };
 
-function pickDemoSource(index: number): string {
-  const sources = ["CITY", "VITA", "GSA"];
-  return sources[index % sources.length];
+function inferSource(contract: ExpiringContract): string {
+  const text = `${contract.title ?? ""} ${contract.vendor_name ?? ""}`.toLowerCase();
+  if (text.includes("gsa") || text.includes("federal") || text.includes("schedule")) return "GSA";
+  if (text.includes("vita") || text.includes("cooperative") || text.includes("state contract")) return "VITA";
+  return "City";
 }
-
-/* ------------------------------------------------------------------ */
-/*  Hardcoded AI Feed items                                            */
-/* ------------------------------------------------------------------ */
-
-const AI_FEED = [
-  {
-    color: "bg-[#818CF8]", // purple — consolidation
-    timestamp: "2 hours ago",
-    tag: "Consolidation",
-    tagColor: "bg-purple-100 text-purple-700",
-    description:
-      "Software category spending grew 15% QoQ across 12 vendors. Consider consolidating under a master services agreement to capture volume discounts.",
-    action: "View Analysis",
-  },
-  {
-    color: "bg-[#DC2626]", // red — risk
-    timestamp: "5 hours ago",
-    tag: "Risk Alert",
-    tagColor: "bg-red-100 text-red-700",
-    description:
-      "Auto-renewal clause detected in Waste Management contract WM-2024-089. Renewal window closes in 18 days — cancellation requires 30-day written notice.",
-    action: "Review Contract",
-  },
-  {
-    color: "bg-[#16A34A]", // green — savings
-    timestamp: "Yesterday",
-    tag: "Savings",
-    tagColor: "bg-green-100 text-green-700",
-    description:
-      "Identified GSA schedule discrepancy on IT Hardware contract. Current pricing exceeds GSA rate by 8.3%, representing ~$42K in potential annual savings.",
-    action: "Compare Rates",
-  },
-];
 
 /* ------------------------------------------------------------------ */
 /*  Reminder Form (kept from existing code)                            */
@@ -307,22 +275,26 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* Identified Savings */}
+        {/* Active Contracts */}
         <div className={`${CARD} p-5 h-[140px] flex flex-col justify-between`}>
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-[#A8A29E]">
-              Identified Savings
+              Active Contracts
             </span>
             <TrendingUp className="h-5 w-5 text-[#16A34A]" />
           </div>
-          <div>
-            <p className="text-3xl font-heading font-bold text-[#0F2537] tracking-tight">
-              $42K
-            </p>
-            <p className="text-xs text-[#16A34A] mt-0.5 font-medium">
-              +12% vs last quarter
-            </p>
-          </div>
+          {summaryLoading ? (
+            <Skeleton className="h-10 w-16" />
+          ) : (
+            <div>
+              <p className="text-3xl font-heading font-bold text-[#0F2537] tracking-tight">
+                {totalDocs.toLocaleString()}
+              </p>
+              <p className="text-xs text-[#A8A29E] mt-0.5">
+                From City of Richmond Socrata data
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -370,7 +342,7 @@ export default function DashboardPage() {
                 </thead>
                 <tbody>
                   {expiringContracts.map((contract, idx) => {
-                    const source = pickDemoSource(idx);
+                    const source = inferSource(contract);
                     const daysColor =
                       contract.days_until_expiry < 20
                         ? "text-[#DC2626]"
@@ -460,51 +432,124 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Right: AI Opportunity Feed */}
+        {/* Right: Contract Insights */}
         <div className={`${CARD} lg:col-span-5 flex flex-col`}>
           {/* Header */}
           <div className="flex items-center gap-2 px-5 py-3 border-b border-[#E7E5E4]">
             <Sparkles className="h-4 w-4 text-[#818CF8]" />
             <h3 className="text-sm font-heading font-semibold text-[#0F2537]">
-              AI Opportunity Feed
+              Contract Insights
             </h3>
           </div>
 
-          {/* Timeline */}
+          {/* Insights from real data */}
           <div className="h-[500px] overflow-y-auto px-5 py-4">
             <div className="relative">
               {/* Vertical line */}
               <div className="absolute left-[7px] top-3 bottom-3 w-px bg-[#E7E5E4]" />
 
               <div className="space-y-6">
-                {AI_FEED.map((item, i) => (
-                  <div key={i} className="relative flex gap-4 pl-0">
-                    {/* Colored circle */}
-                    <div
-                      className={`relative z-10 mt-1 h-[15px] w-[15px] rounded-full ${item.color} shrink-0`}
-                    />
-
-                    {/* Card content */}
-                    <div className="flex-1 min-w-0">
-                      <span className="text-[11px] font-mono text-[#A8A29E]">
-                        {item.timestamp}
+                {/* Expiry insight */}
+                <div className="relative flex gap-4 pl-0">
+                  <div className="relative z-10 mt-1 h-[15px] w-[15px] rounded-full bg-[#DC2626] shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <span className="text-[11px] font-mono text-[#A8A29E]">Expiring contracts</span>
+                    <div className="mt-1">
+                      <span className="inline-block px-2 py-0.5 rounded text-[11px] font-medium bg-red-100 text-red-700">
+                        Risk Alert
                       </span>
+                    </div>
+                    <p className="text-sm text-[#292524] mt-1.5 leading-relaxed">
+                      {risksLoading ? "Loading..." : (
+                        <>
+                          <strong>{risks?.total_expiring_30 ?? 0}</strong> contracts expire within 30 days,{" "}
+                          <strong>{risks?.total_expiring_60 ?? 0}</strong> within 60 days, and{" "}
+                          <strong>{risks?.total_expiring_90 ?? 0}</strong> within 90 days.
+                          Review and renew high-value contracts before deadlines.
+                        </>
+                      )}
+                    </p>
+                    <button
+                      className="text-xs font-medium text-[#818CF8] hover:underline mt-1.5"
+                      onClick={() => router.push("/dashboard/analytics")}
+                    >
+                      View Analytics &rarr;
+                    </button>
+                  </div>
+                </div>
+
+                {/* Portfolio breakdown insight */}
+                <div className="relative flex gap-4 pl-0">
+                  <div className="relative z-10 mt-1 h-[15px] w-[15px] rounded-full bg-[#818CF8] shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <span className="text-[11px] font-mono text-[#A8A29E]">Portfolio breakdown</span>
+                    <div className="mt-1">
+                      <span className="inline-block px-2 py-0.5 rounded text-[11px] font-medium bg-purple-100 text-purple-700">
+                        Analysis
+                      </span>
+                    </div>
+                    <p className="text-sm text-[#292524] mt-1.5 leading-relaxed">
+                      {summaryLoading ? "Loading..." : (
+                        <>
+                          Portfolio of <strong>{totalDocs.toLocaleString()}</strong> contracts
+                          totaling <strong>{formatCurrency(totalActiveValue)}</strong>.
+                          {summary?.by_status && Object.keys(summary.by_status).length > 0 && (
+                            <> Status breakdown:{" "}
+                              {Object.entries(summary.by_status).map(([status, count], i) => (
+                                <span key={status}>
+                                  {i > 0 && ", "}
+                                  {count} {status}
+                                </span>
+                              ))}
+                              .
+                            </>
+                          )}
+                        </>
+                      )}
+                    </p>
+                    <button
+                      className="text-xs font-medium text-[#818CF8] hover:underline mt-1.5"
+                      onClick={() => router.push("/dashboard/documents")}
+                    >
+                      View Portfolio &rarr;
+                    </button>
+                  </div>
+                </div>
+
+                {/* Top expiring contract insight */}
+                {expiringContracts.length > 0 && (
+                  <div className="relative flex gap-4 pl-0">
+                    <div className="relative z-10 mt-1 h-[15px] w-[15px] rounded-full bg-[#D97706] shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[11px] font-mono text-[#A8A29E]">Highest-value expiration</span>
                       <div className="mt-1">
-                        <span
-                          className={`inline-block px-2 py-0.5 rounded text-[11px] font-medium ${item.tagColor}`}
-                        >
-                          {item.tag}
+                        <span className="inline-block px-2 py-0.5 rounded text-[11px] font-medium bg-amber-100 text-amber-700">
+                          Priority
                         </span>
                       </div>
-                      <p className="text-sm text-[#292524] mt-1.5 leading-relaxed">
-                        {item.description}
-                      </p>
-                      <button className="text-xs font-medium text-[#818CF8] hover:underline mt-1.5">
-                        {item.action} &rarr;
+                      {(() => {
+                        const top = [...expiringContracts]
+                          .filter((c) => c.total_amount != null)
+                          .sort((a, b) => (b.total_amount ?? 0) - (a.total_amount ?? 0))[0];
+                        if (!top) return null;
+                        return (
+                          <p className="text-sm text-[#292524] mt-1.5 leading-relaxed">
+                            <strong>{top.vendor_name}</strong> contract valued at{" "}
+                            <strong>{formatCurrency(top.total_amount ?? 0)}</strong> expires in{" "}
+                            <strong>{top.days_until_expiry} days</strong>.
+                            This is the highest-value contract requiring renewal action.
+                          </p>
+                        );
+                      })()}
+                      <button
+                        className="text-xs font-medium text-[#818CF8] hover:underline mt-1.5"
+                        onClick={() => router.push(`/dashboard/documents/${expiringContracts[0].id}`)}
+                      >
+                        Review Contract &rarr;
                       </button>
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>

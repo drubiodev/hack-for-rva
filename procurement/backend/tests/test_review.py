@@ -50,6 +50,7 @@ def _make_extracted_fields(doc_id, **overrides):
         "prequalification_required": None,
         "raw_extraction": {},
         "extraction_confidence": 0.92,
+        "source_highlights": [],
     }
     defaults.update(overrides)
     ef = MagicMock(spec=ExtractedFields)

@@ -1,5 +1,6 @@
 """ORM models: Document, ExtractedFields, ValidationResult, ActivityLog."""
 
+import json
 import uuid
 from datetime import date, datetime
 
@@ -12,19 +13,37 @@ from sqlalchemy import (
     Numeric,
     String,
     Text,
+    Uuid,
     func,
 )
-from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.types import TypeDecorator
 
 from app.database import Base
+
+
+class JsonText(TypeDecorator):
+    """Store JSON as NVARCHAR(MAX) text — portable replacement for PostgreSQL JSONB."""
+
+    impl = Text
+    cache_ok = True
+
+    def process_bind_param(self, value, dialect):
+        if value is not None:
+            return json.dumps(value)
+        return None
+
+    def process_result_value(self, value, dialect):
+        if value is not None:
+            return json.loads(value)
+        return None
 
 
 class Document(Base):
     __tablename__ = "documents"
 
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, server_default=func.gen_random_uuid()
+        Uuid, primary_key=True, default=uuid.uuid4
     )
     filename: Mapped[str] = mapped_column(String(255), nullable=False)
     original_filename: Mapped[str | None] = mapped_column(String(255), nullable=True)
@@ -45,6 +64,7 @@ class Document(Base):
     # OCR
     ocr_text: Mapped[str | None] = mapped_column(Text, nullable=True)
     ocr_confidence: Mapped[float | None] = mapped_column(Numeric(5, 4), nullable=True)
+    ocr_metadata: Mapped[dict | None] = mapped_column(JsonText, default=dict)
 
     # Classification
     document_type: Mapped[str | None] = mapped_column(String(30), nullable=True)
@@ -63,8 +83,8 @@ class Document(Base):
     )
     rejection_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
 
-    # Annotations (JSONB array of annotation objects)
-    annotations: Mapped[list] = mapped_column(JSONB, default=list, server_default="[]")
+    # Annotations (JSON array of annotation objects)
+    annotations: Mapped[list | None] = mapped_column(JsonText, default=list)
 
     # Timestamps
     uploaded_at: Mapped[datetime] = mapped_column(
@@ -99,10 +119,10 @@ class ExtractedFields(Base):
     __tablename__ = "extracted_fields"
 
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, server_default=func.gen_random_uuid()
+        Uuid, primary_key=True, default=uuid.uuid4
     )
     document_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("documents.id", ondelete="CASCADE"), nullable=False
+        Uuid, ForeignKey("documents.id", ondelete="CASCADE"), nullable=False
     )
 
     # Common fields
@@ -127,7 +147,7 @@ class ExtractedFields(Base):
     scope_summary: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     # Department routing (S15)
-    department_tags: Mapped[list] = mapped_column(JSONB, default=list, server_default="[]")
+    department_tags: Mapped[list | None] = mapped_column(JsonText, default=list)
     primary_department: Mapped[str | None] = mapped_column(String(50), nullable=True)
     department_confidence: Mapped[float | None] = mapped_column(Numeric(5, 4), nullable=True)
 
@@ -135,7 +155,7 @@ class ExtractedFields(Base):
     mbe_wbe_required: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     mbe_wbe_details: Mapped[str | None] = mapped_column(Text, nullable=True)
     federal_funding: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
-    compliance_flags: Mapped[list] = mapped_column(JSONB, default=list, server_default="[]")
+    compliance_flags: Mapped[list | None] = mapped_column(JsonText, default=list)
 
     # Insurance & bonding intelligence (S17)
     insurance_general_liability_min: Mapped[float | None] = mapped_column(Numeric(15, 2), nullable=True)
@@ -152,10 +172,11 @@ class ExtractedFields(Base):
     prequalification_required: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
 
     # Raw AI output
-    raw_extraction: Mapped[dict] = mapped_column(JSONB, default=dict, server_default="{}")
+    raw_extraction: Mapped[dict | None] = mapped_column(JsonText, default=dict)
     extraction_confidence: Mapped[float | None] = mapped_column(
         Numeric(5, 4), nullable=True
     )
+    source_highlights: Mapped[list | None] = mapped_column(JsonText, default=list)
 
     # Relationship
     document: Mapped["Document"] = relationship(back_populates="extracted_fields")
@@ -165,10 +186,10 @@ class ValidationResult(Base):
     __tablename__ = "validation_results"
 
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, server_default=func.gen_random_uuid()
+        Uuid, primary_key=True, default=uuid.uuid4
     )
     document_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("documents.id", ondelete="CASCADE"), nullable=False
+        Uuid, ForeignKey("documents.id", ondelete="CASCADE"), nullable=False
     )
 
     rule_code: Mapped[str] = mapped_column(String(50), nullable=False)
@@ -191,16 +212,16 @@ class ActivityLog(Base):
     __tablename__ = "activity_log"
 
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, server_default=func.gen_random_uuid()
+        Uuid, primary_key=True, default=uuid.uuid4
     )
     document_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("documents.id", ondelete="CASCADE"), nullable=False
+        Uuid, ForeignKey("documents.id", ondelete="CASCADE"), nullable=False
     )
 
     action: Mapped[str] = mapped_column(String(50), nullable=False)
     actor_name: Mapped[str | None] = mapped_column(String(100), nullable=True)
     actor_role: Mapped[str] = mapped_column(String(30), nullable=False)
-    details: Mapped[dict] = mapped_column(JSONB, default=dict, server_default="{}")
+    details: Mapped[dict | None] = mapped_column(JsonText, default=dict)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
@@ -214,10 +235,10 @@ class ContractReminder(Base):
     __tablename__ = "contract_reminders"
 
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, server_default=func.gen_random_uuid()
+        Uuid, primary_key=True, default=uuid.uuid4
     )
     document_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("documents.id", ondelete="CASCADE"), nullable=False
+        Uuid, ForeignKey("documents.id", ondelete="CASCADE"), nullable=False
     )
     reminder_date: Mapped[date] = mapped_column(Date, nullable=False)
     created_by: Mapped[str] = mapped_column(String(100), nullable=False)

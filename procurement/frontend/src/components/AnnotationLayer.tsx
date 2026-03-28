@@ -69,7 +69,7 @@ export default function AnnotationLayer({
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (disabled) return;
-      // Only handle clicks directly on the overlay or the transparent click area, not on pins/input
+      // Only handle clicks directly on the overlay, not on pins/input
       const target = e.target as HTMLElement;
       if (target.closest("[data-annotation-pin]") || target.closest("[data-annotation-input]")) {
         return;
@@ -78,15 +78,13 @@ export default function AnnotationLayer({
       const container = containerRef.current;
       if (!container) return;
 
-      // Calculate position as percentage of the FULL scrollable content
+      // Position relative to the container element itself (which matches full content height)
       const rect = container.getBoundingClientRect();
-      const scrollLeft = container.scrollLeft;
-      const scrollTop = container.scrollTop;
-      const fullWidth = container.scrollWidth;
-      const fullHeight = container.scrollHeight;
+      const fullWidth = container.offsetWidth;
+      const fullHeight = container.offsetHeight;
 
-      const clickX = e.clientX - rect.left + scrollLeft;
-      const clickY = e.clientY - rect.top + scrollTop;
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
 
       const x = (clickX / fullWidth) * 100;
       const y = (clickY / fullHeight) * 100;
@@ -171,7 +169,7 @@ export default function AnnotationLayer({
           >
             {/* Pin circle */}
             <div
-              className="flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-bold text-white cursor-pointer transition-transform hover:scale-110 shadow-md"
+              className="flex items-center justify-center w-7 h-7 rounded-full text-[10px] font-bold text-white cursor-pointer transition-transform hover:scale-110 shadow-sm border border-white/50"
               style={{ backgroundColor: color }}
               title={annotation.text}
             >
@@ -180,14 +178,14 @@ export default function AnnotationLayer({
 
             {/* Tooltip on hover */}
             {isHovered && (
-              <div className="absolute left-8 top-1/2 -translate-y-1/2 z-20 w-56 rounded-md border border-[#2e3248] bg-[#1a1d27] p-3 shadow-lg pointer-events-none">
-                <p className="text-xs text-[#94a3b8] mb-1">
-                  <span className="font-medium text-white">
+              <div className="absolute left-8 top-1/2 -translate-y-1/2 z-20 w-56 rounded-md border border-[#E7E5E4] bg-white p-3 shadow-lg pointer-events-none">
+                <p className="text-xs text-[#A8A29E] mb-1">
+                  <span className="font-medium text-[#0F2537]">
                     {annotation.author}
                   </span>{" "}
                   &middot; {formatAnnotationTime(annotation.time)}
                 </p>
-                <p className="text-sm text-[#94a3b8]">{annotation.text}</p>
+                <p className="text-sm text-[#292524]">{annotation.text}</p>
               </div>
             )}
           </div>
@@ -206,12 +204,12 @@ export default function AnnotationLayer({
           }}
         >
           {/* Small pin indicator */}
-          <div className="flex items-center justify-center w-6 h-6 rounded-full bg-[#4f8ef7] text-[10px] font-bold text-white shadow-md -translate-x-1/2 -translate-y-1/2">
+          <div className="flex items-center justify-center w-7 h-7 rounded-full bg-[#0F2537] text-[10px] font-bold text-white shadow-sm border border-white/50 -translate-x-1/2 -translate-y-1/2">
             +
           </div>
 
           {/* Input box */}
-          <div className="mt-1 w-56 rounded-md border border-[#2e3248] bg-[#1a1d27] p-2 shadow-lg">
+          <div className="mt-1 w-56 rounded-md border border-[#E7E5E4] bg-white p-2 shadow-lg">
             <input
               ref={inputRef}
               type="text"
@@ -220,9 +218,9 @@ export default function AnnotationLayer({
               onChange={(e) => setPendingText(e.target.value)}
               onKeyDown={handleKeyDown}
               onBlur={handleBlur}
-              className="w-full bg-[#111318] border border-[#2e3248] rounded px-2 py-1.5 text-xs text-[#94a3b8] placeholder-[#64748b] outline-none focus:border-[#4f8ef7] transition-colors"
+              className="w-full bg-[#F7F5F2] border border-[#E7E5E4] rounded px-2 py-1.5 text-xs text-[#292524] placeholder-[#A8A29E] outline-none focus:border-[#1359AE] transition-colors"
             />
-            <p className="mt-1 text-[10px] text-[#64748b]">
+            <p className="mt-1 text-[10px] text-[#A8A29E]">
               Enter to save, Esc to cancel
             </p>
           </div>

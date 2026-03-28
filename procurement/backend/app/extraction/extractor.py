@@ -114,6 +114,24 @@ _EXTRACTION_SCHEMA = {
                     "required": ["title", "vendor_name", "total_amount", "effective_date", "expiration_date", "contract_type", "payment_terms", "insurance_required", "bond_required"],
                     "additionalProperties": False,
                 },
+                "field_sources": {
+                    "type": "object",
+                    "description": "For each extracted field where you found a value, provide the EXACT short quote (10-150 chars) from the document text. Only include fields you actually found.",
+                    "properties": {
+                        "vendor_name": {"type": ["string", "null"]},
+                        "total_amount": {"type": ["string", "null"]},
+                        "effective_date": {"type": ["string", "null"]},
+                        "expiration_date": {"type": ["string", "null"]},
+                        "insurance_general_liability_min": {"type": ["string", "null"]},
+                        "mbe_wbe_required": {"type": ["string", "null"]},
+                        "renewal_clause": {"type": ["string", "null"]},
+                        "liquidated_damages_rate": {"type": ["string", "null"]},
+                        "bond_required": {"type": ["string", "null"]},
+                        "scope_summary": {"type": ["string", "null"]},
+                    },
+                    "required": ["vendor_name", "total_amount", "effective_date", "expiration_date", "insurance_general_liability_min", "mbe_wbe_required", "renewal_clause", "liquidated_damages_rate", "bond_required", "scope_summary"],
+                    "additionalProperties": False,
+                },
             },
             "required": [
                 "title", "document_number", "vendor_name", "issuing_department",
@@ -128,6 +146,7 @@ _EXTRACTION_SCHEMA = {
                 "procurement_method", "cooperative_contract_ref", "prequalification_required",
                 "extraction_confidence",
                 "field_confidences",
+                "field_sources",
             ],
             "additionalProperties": False,
         },
@@ -293,6 +312,7 @@ _EMPTY_RESULT: dict = {
     "prequalification_required": None,
     "extraction_confidence": 0.0,
     "field_confidences": {},
+    "field_sources": {},
 }
 
 
@@ -332,7 +352,7 @@ async def extract_fields(ocr_text: str, document_type: str) -> dict:
             ],
             response_format=_EXTRACTION_SCHEMA,
             temperature=0.0,
-            max_completion_tokens=2000,
+            max_completion_tokens=2500,
         )
 
         result = json.loads(response.choices[0].message.content)

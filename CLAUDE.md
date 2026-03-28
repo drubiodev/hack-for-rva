@@ -21,7 +21,7 @@ Staff uploads PDF/image → FastAPI backend → Azure Blob Storage (store origin
                                                   ↓
                                         Validation Engine (13 rules + AI)
                                                   ↓
-                                        Azure PostgreSQL Flexible Server (structured data)
+                                        Azure SQL Server (structured data)
                                                   ↓
                            Next.js 16 Dashboard ← REST API (5s detail, 30s list polling)
 
@@ -37,7 +37,7 @@ Also:
 | OCR | Azure Document Intelligence (`prebuilt-read`) | external |
 | AI | Azure OpenAI ChatGPT 5.4 mini | external |
 | RAG Search | Azure AI Search (indexes extracted fields + OCR text) | external |
-| Storage | Azure Blob Storage + Azure PostgreSQL Flexible Server | external |
+| Storage | Azure Blob Storage + Azure SQL Server | external |
 | Data Sources | Socrata CSV, 10 pre-staged contract PDFs, SAM.gov (cached) | `pillar-thriving-city-hall/procurement-examples/` |
 | Deployment | Azure Container Apps (Consumption plan, both services) | external |
 | Container Registry | Azure Container Registry (Basic) | external |

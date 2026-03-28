@@ -18,7 +18,7 @@ MAX_PAGES = 100  # Budget guard: skip pages beyond this for very large documents
 
 async def _chunked_ocr(
     file_path: str, client, max_chunk_bytes: int = MAX_CHUNK_BYTES, max_pages: int = MAX_PAGES
-) -> tuple[str, float]:
+) -> tuple[str, float, dict]:
     """Split large PDFs into page-range chunks, OCR each, concatenate results."""
     global _di_pages_used
     from pypdf import PdfReader, PdfWriter
@@ -36,6 +36,7 @@ async def _chunked_ocr(
 
     all_text: list[str] = []
     all_confidences: list[float] = []
+    all_metadata_pages: list[dict] = []
 
     chunk_start = 0
     while chunk_start < pages_to_process:
@@ -89,6 +90,16 @@ async def _chunked_ocr(
                         for word in page.words:
                             if word.confidence is not None:
                                 all_confidences.append(word.confidence)
+                    page_info: dict = {
+                        "page": page.page_number,
+                        "width": page.width,
+                        "height": page.height,
+                        "unit": page.unit,
+                    }
+                    if page.spans:
+                        page_info["offset"] = page.spans[0].offset
+                        page_info["length"] = page.spans[0].length
+                    all_metadata_pages.append(page_info)
 
             logger.info(
                 "  Chunk pages %d-%d: %d chars OCR'd (budget %d/%d)",
@@ -108,17 +119,18 @@ async def _chunked_ocr(
     full_text = "\n".join(all_text)
     avg_confidence = sum(all_confidences) / len(all_confidences) if all_confidences else 0.0
 
+    metadata = {"pages": all_metadata_pages}
     logger.info(
         "Chunked OCR complete: %d total chars, %.2f avg confidence from %d pages",
         len(full_text),
         avg_confidence,
         pages_to_process,
     )
-    return (full_text, avg_confidence)
+    return (full_text, avg_confidence, metadata)
 
 
-async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str, float]:
-    """OCR scanned PDF/image via Azure Document Intelligence. Returns (text, confidence).
+async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str, float, dict]:
+    """OCR scanned PDF/image via Azure Document Intelligence. Returns (text, confidence, metadata).
 
     Uses file_path (local bytes) when blob_url is a placeholder; otherwise uses blob_url.
     """
@@ -126,7 +138,7 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
 
     if "PLACEHOLDER" in settings.azure_di_key:
         logger.warning("Azure DI credentials are PLACEHOLDER — returning empty text")
-        return ("", 0.0)
+        return ("", 0.0, {})
 
     if _di_pages_used >= settings.azure_di_page_budget:
         logger.warning(
@@ -134,12 +146,10 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
             _di_pages_used,
             settings.azure_di_page_budget,
         )
-        return ("", 0.0)
+        return ("", 0.0, {})
 
     from azure.ai.documentintelligence.aio import DocumentIntelligenceClient
     from azure.core.credentials import AzureKeyCredential
-
-    use_local = file_path and "placeholder" in blob_url.lower()
 
     from azure.ai.documentintelligence.models import AnalyzeDocumentRequest
 
@@ -147,16 +157,25 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
         endpoint=settings.azure_di_endpoint,
         credential=AzureKeyCredential(settings.azure_di_key),
     ) as client:
-        if use_local:
-            file_size = os.path.getsize(file_path)
-            if file_size > MAX_CHUNK_BYTES:
-                logger.info(
-                    "File %s is %.1f MB — using chunked OCR",
-                    file_path,
-                    file_size / 1_000_000,
-                )
-                return await _chunked_ocr(file_path, client)
+        # Large local files: always chunk locally (DI has 4MB URL limit)
+        if file_path and os.path.exists(file_path) and os.path.getsize(file_path) > MAX_CHUNK_BYTES:
+            logger.info(
+                "File %s is %.1f MB — using chunked local OCR",
+                file_path,
+                os.path.getsize(file_path) / 1_000_000,
+            )
+            return await _chunked_ocr(file_path, client)
 
+        # Small files: prefer SAS URL (lets DI download directly, avoids upload overhead)
+        # Fall back to local bytes if blob_url is a placeholder
+        is_placeholder = "placeholder" in blob_url.lower()
+        if not is_placeholder:
+            logger.info("Using blob SAS URL for DI OCR: %s", blob_url[:80])
+            poller = await client.begin_analyze_document(
+                "prebuilt-read",
+                body=AnalyzeDocumentRequest(url_source=blob_url),
+            )
+        elif file_path and os.path.exists(file_path):
             with open(file_path, "rb") as f:
                 file_bytes = f.read()
             poller = await client.begin_analyze_document(
@@ -165,10 +184,8 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
                 content_type="application/octet-stream",
             )
         else:
-            poller = await client.begin_analyze_document(
-                "prebuilt-read",
-                body=AnalyzeDocumentRequest(url_source=blob_url),
-            )
+            logger.error("No local file and placeholder blob URL — cannot OCR")
+            return ("", 0.0, {})
         result = await asyncio.wait_for(poller.result(), timeout=120)
 
         # Concatenate all page content
@@ -176,12 +193,23 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
 
         # Average confidence across all pages
         confidences: list[float] = []
+        metadata: dict = {"pages": []}
         if result.pages:
             for page in result.pages:
                 if page.words:
                     for word in page.words:
                         if word.confidence is not None:
                             confidences.append(word.confidence)
+                page_info: dict = {
+                    "page": page.page_number,
+                    "width": page.width,
+                    "height": page.height,
+                    "unit": page.unit,
+                }
+                if page.spans:
+                    page_info["offset"] = page.spans[0].offset
+                    page_info["length"] = page.spans[0].length
+                metadata["pages"].append(page_info)
 
         avg_confidence = sum(confidences) / len(confidences) if confidences else 0.0
 
@@ -195,4 +223,4 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
             _di_pages_used,
             settings.azure_di_page_budget,
         )
-        return (text, avg_confidence)
+        return (text, avg_confidence, metadata)
