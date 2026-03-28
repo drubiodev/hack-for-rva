@@ -63,6 +63,9 @@ class Document(Base):
     )
     rejection_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
 
+    # Annotations (JSONB array of annotation objects)
+    annotations: Mapped[list] = mapped_column(JSONB, default=list, server_default="[]")
+
     # Timestamps
     uploaded_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
@@ -122,6 +125,31 @@ class ExtractedFields(Base):
     insurance_required: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     bond_required: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     scope_summary: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    # Department routing (S15)
+    department_tags: Mapped[list] = mapped_column(JSONB, default=list, server_default="[]")
+    primary_department: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    department_confidence: Mapped[float | None] = mapped_column(Numeric(5, 4), nullable=True)
+
+    # MBE/WBE & compliance (S16)
+    mbe_wbe_required: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    mbe_wbe_details: Mapped[str | None] = mapped_column(Text, nullable=True)
+    federal_funding: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    compliance_flags: Mapped[list] = mapped_column(JSONB, default=list, server_default="[]")
+
+    # Insurance & bonding intelligence (S17)
+    insurance_general_liability_min: Mapped[float | None] = mapped_column(Numeric(15, 2), nullable=True)
+    insurance_auto_liability_min: Mapped[float | None] = mapped_column(Numeric(15, 2), nullable=True)
+    insurance_professional_liability_min: Mapped[float | None] = mapped_column(Numeric(15, 2), nullable=True)
+    workers_comp_required: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    performance_bond_amount: Mapped[float | None] = mapped_column(Numeric(15, 2), nullable=True)
+    payment_bond_amount: Mapped[float | None] = mapped_column(Numeric(15, 2), nullable=True)
+    liquidated_damages_rate: Mapped[str | None] = mapped_column(String(200), nullable=True)
+
+    # Procurement method (S18)
+    procurement_method: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    cooperative_contract_ref: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    prequalification_required: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
 
     # Raw AI output
     raw_extraction: Mapped[dict] = mapped_column(JSONB, default=dict, server_default="{}")

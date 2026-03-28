@@ -1,0 +1,4 @@
+[  100668ms] [ERROR] Base UI: A component that acts as a button expected a native <button> because the `nativeButton` prop is true. Rendering a non-<button> removes native button semantics, which can impact forms and accessibility. Use a real <button> in the `render` prop, or set `nativeButton` to `false`.
+    at Button (http://localhost:3000/_next/static/chunks/_0yk~g63._.js:47:214)
+    at DocumentDetailPage (http://localhost:3000/_next/static/chunks/src_0w64z6z._.js:3006:235)
+    at ClientPageRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_0z8ikg~._.js:4688:50) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272

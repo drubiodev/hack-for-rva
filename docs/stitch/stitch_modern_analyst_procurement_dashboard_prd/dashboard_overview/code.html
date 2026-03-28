@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Modern Analyst - Procurement Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400..800&amp;family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0F2537",
+                        "background": "#F7F5F2",
+                        "surface": "#FFFFFF",
+                        "text": "#292524",
+                        "muted": "#A8A29E",
+                        "tag-city": "#D9F99D",
+                        "tag-vita": "#BAE6FD",
+                        "tag-gsa": "#FDE047",
+                        "tag-risk": "#FECACA",
+                        "chart-primary": "#818CF8",
+                        "risk-bg": "#FEF2F2"
+                    },
+                    fontFamily: {
+                        "heading": ['Bricolage Grotesque', 'sans-serif'],
+                        "body": ['DM Sans', 'sans-serif'],
+                        "mono": ['DM Mono', 'monospace'],
+                    },
+                    borderRadius: {
+                        "card": "12px",
+                        "element": "6px",
+                    },
+                    boxShadow: {
+                        "soft": "0 4px 24px rgba(15, 37, 55, 0.04)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #F7F5F2;
+            color: #292524;
+        }
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+        .font-mono {
+            font-family: 'DM Mono', monospace;
+        }
+        .card-border {
+            border: 1px solid #E7E5E4;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #A8A29E;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0F2537;
+        }
+    </style>
+</head>
+<body class="bg-background flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-[250px] bg-surface card-border border-r h-full flex flex-col flex-shrink-0 z-20">
+<div class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 rounded-element bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<div>
+<h1 class="font-heading font-semibold text-lg text-primary leading-tight">Modern Analyst</h1>
+</div>
+</div>
+<nav class="flex-1 px-4 py-2 flex flex-col gap-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-element bg-background text-primary font-medium" href="#">
+<span class="material-symbols-outlined text-muted" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-[15px]">Dashboard Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-element text-muted hover:bg-background hover:text-text transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="table_chart">table_chart</span>
+<span class="text-[15px]">Unified Portfolio</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-element text-muted hover:bg-background hover:text-text transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="text-[15px]">Opportunity Matrix</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-element text-muted hover:bg-background hover:text-text transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+<span class="text-[15px]">Evaluation Hub</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-[#E7E5E4]">
+<a class="flex items-center gap-3 px-3 py-2 rounded-element text-muted hover:bg-background transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[15px]">Settings</span>
+</a>
+<div class="flex items-center gap-3 px-3 py-3 mt-2">
+<img alt="User Avatar" class="w-8 h-8 rounded-full" data-alt="minimalist user avatar placeholder with dark blue background and white text" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDswJ1QDQlmBxwrwi8gLeR1dkuPAG8lSk8aSyjLNESHSwYRP56vxolUDEXmzHzruZqFavWPNHlXC0MjcpoUXLYApvvQRIjy3TBYmPc808TwQen2lc4j5Y5YKnzf3IpcaOhy343XjTbbRLHBKPikqH1xfzeghkXeCGf0UvGjv7dvSeR2osUw-81d8O-UoDI9tcZodpl_lVxD3UiRpfbJFZV_CaewsyxBe7IJBirRtSUzUjDCinbfQBXuru6yNXsCZxoBE6_ANqc4Cu_a"/>
+<div class="flex flex-col">
+<span class="text-[14px] font-medium text-text">Admin User</span>
+<span class="text-[12px] text-muted">City of Richmond</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 h-full overflow-y-auto p-8 flex flex-col gap-6 relative">
+<!-- Header -->
+<header class="flex justify-between items-end mb-2">
+<div>
+<p class="text-sm font-mono text-muted mb-1 uppercase tracking-wider">Procurement Intelligence</p>
+<h2 class="font-heading text-3xl text-primary font-semibold">Dashboard Overview</h2>
+</div>
+<div class="flex gap-3">
+<button class="h-10 px-4 rounded-element bg-surface card-border text-text font-medium text-[14px] hover:bg-background transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                    Export Report
+                </button>
+</div>
+</header>
+<!-- Metric Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface rounded-card p-5 card-border shadow-soft h-[140px] flex flex-col justify-between group hover:border-muted transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<p class="text-[15px] font-medium text-muted">Total Active Value</p>
+<span class="material-symbols-outlined text-muted group-hover:text-primary transition-colors" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h3 class="font-heading text-[32px] text-primary font-bold leading-none">$142.5M</h3>
+<p class="text-sm text-muted mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+                        Across 342 active contracts
+                    </p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface rounded-card p-5 card-border shadow-soft h-[140px] flex flex-col justify-between group hover:border-risk-bg transition-colors cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-risk-bg rounded-bl-full opacity-50 -z-10"></div>
+<div class="flex justify-between items-start z-10">
+<p class="text-[15px] font-medium text-text">Expiring (90 days)</p>
+<span class="material-symbols-outlined text-[#DC2626]" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="z-10">
+<h3 class="font-heading text-[32px] text-[#DC2626] font-bold leading-none">24</h3>
+<p class="text-sm text-muted mt-2">
+                        Requires immediate review
+                    </p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface rounded-card p-5 card-border shadow-soft h-[140px] flex flex-col justify-between group hover:border-chart-primary transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<p class="text-[15px] font-medium text-muted">Identified Savings</p>
+<span class="material-symbols-outlined text-chart-primary" data-icon="lightbulb" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+</div>
+<div>
+<h3 class="font-heading text-[32px] text-primary font-bold leading-none">$3.2M</h3>
+<p class="text-sm text-muted mt-2 flex items-center gap-1">
+<span class="text-[#059669] font-medium">+12%</span> vs last quarter
+                    </p>
+</div>
+</div>
+</div>
+<!-- 60/40 Masonry Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- Left Column: Urgent Expirations (60%) -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="bg-surface rounded-card card-border shadow-soft overflow-hidden">
+<div class="bg-risk-bg px-6 py-4 border-b border-[#E7E5E4] flex justify-between items-center">
+<h3 class="font-heading text-lg font-semibold text-[#991B1B] flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="timer">timer</span>
+                            Urgent Expirations
+                        </h3>
+<button class="text-[13px] font-medium text-[#991B1B] hover:underline">View All</button>
+</div>
+<div class="flex flex-col">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 bg-[#F5F5F4] border-b border-[#E7E5E4] text-[13px] font-mono text-muted uppercase tracking-wider">
+<div class="col-span-5">Contract / Vendor</div>
+<div class="col-span-3 text-center">Source</div>
+<div class="col-span-4 text-right">Status</div>
+</div>
+<!-- Row 1 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-[#E7E5E4] items-center hover:bg-[#F5F5F4] transition-colors cursor-pointer">
+<div class="col-span-5 flex flex-col">
+<span class="font-medium text-[15px] text-text">Oracle Database Licensing</span>
+<span class="text-[13px] text-muted truncate">Dept of IT</span>
+</div>
+<div class="col-span-3 flex justify-center">
+<span class="px-3 py-1 bg-tag-vita text-[#0F2537] rounded-element text-[13px] font-mono font-medium">VITA</span>
+</div>
+<div class="col-span-4 flex justify-end items-center gap-3">
+<span class="text-[14px] font-medium text-[#DC2626]">12 Days Left</span>
+<span class="material-symbols-outlined text-muted text-[18px]" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-[#E7E5E4] items-center hover:bg-[#F5F5F4] transition-colors cursor-pointer">
+<div class="col-span-5 flex flex-col">
+<span class="font-medium text-[15px] text-text">Cisco Hardware Maint.</span>
+<span class="text-[13px] text-muted truncate">Emergency Communications</span>
+</div>
+<div class="col-span-3 flex justify-center">
+<span class="px-3 py-1 bg-tag-gsa text-[#0F2537] rounded-element text-[13px] font-mono font-medium">GSA</span>
+</div>
+<div class="col-span-4 flex justify-end items-center gap-3">
+<span class="text-[14px] font-medium text-[#DC2626]">18 Days Left</span>
+<span class="material-symbols-outlined text-muted text-[18px]" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-[#E7E5E4] items-center hover:bg-[#F5F5F4] transition-colors cursor-pointer">
+<div class="col-span-5 flex flex-col">
+<span class="font-medium text-[15px] text-text">Downtown Facilities Cleaning</span>
+<span class="text-[13px] text-muted truncate">Dept of Public Works</span>
+</div>
+<div class="col-span-3 flex justify-center">
+<span class="px-3 py-1 bg-tag-city text-[#0F2537] rounded-element text-[13px] font-mono font-medium">CITY</span>
+</div>
+<div class="col-span-4 flex justify-end items-center gap-3">
+<span class="text-[14px] font-medium text-[#D97706]">28 Days Left</span>
+<span class="material-symbols-outlined text-muted text-[18px]" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-[#F5F5F4] transition-colors cursor-pointer">
+<div class="col-span-5 flex flex-col">
+<span class="font-medium text-[15px] text-text">Microsoft Office 365</span>
+<span class="text-[13px] text-muted truncate">City-wide</span>
+</div>
+<div class="col-span-3 flex justify-center">
+<span class="px-3 py-1 bg-tag-vita text-[#0F2537] rounded-element text-[13px] font-mono font-medium">VITA</span>
+</div>
+<div class="col-span-4 flex justify-end items-center gap-3">
+<span class="text-[14px] font-medium text-[#D97706]">35 Days Left</span>
+<span class="material-symbols-outlined text-muted text-[18px]" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: AI Opportunity Feed (40%) -->
+<div class="lg:col-span-5 flex flex-col gap-6 h-full">
+<div class="bg-surface rounded-card card-border shadow-soft flex flex-col h-[500px]">
+<div class="px-6 py-4 border-b border-[#E7E5E4] flex justify-between items-center bg-surface rounded-t-card z-10">
+<h3 class="font-heading text-lg font-semibold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-chart-primary text-[20px]" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                            AI Opportunity Feed
+                        </h3>
+</div>
+<div class="flex-1 overflow-y-auto p-6 relative">
+<!-- Timeline Line -->
+<div class="absolute left-[39px] top-6 bottom-6 w-px bg-[#E7E5E4] z-0"></div>
+<!-- Feed Item 1 -->
+<div class="relative z-10 flex gap-4 mb-8 group cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-[#EEF2FF] border border-chart-primary flex items-center justify-center flex-shrink-0 mt-1">
+<span class="material-symbols-outlined text-chart-primary text-[16px]" data-icon="compress">compress</span>
+</div>
+<div class="bg-background rounded-element p-4 border border-[#E7E5E4] group-hover:border-chart-primary transition-colors flex-1">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[12px] font-mono text-muted">2 hrs ago</span>
+<span class="px-2 py-0.5 bg-white rounded border border-[#E7E5E4] text-[11px] font-mono text-text">Consolidation</span>
+</div>
+<p class="text-[14px] text-text leading-relaxed">
+<strong class="font-medium text-primary">Software category spending</strong> grew 15% across 3 departments. Potential to consolidate under a single VITA master agreement.
+                                </p>
+<button class="mt-3 text-[13px] font-medium text-chart-primary hover:underline flex items-center gap-1">
+                                    Analyze Overlap <span class="material-symbols-outlined text-[14px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Feed Item 2 -->
+<div class="relative z-10 flex gap-4 mb-8 group cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-[#FEF2F2] border border-[#FECACA] flex items-center justify-center flex-shrink-0 mt-1">
+<span class="material-symbols-outlined text-[#DC2626] text-[16px]" data-icon="gavel">gavel</span>
+</div>
+<div class="bg-background rounded-element p-4 border border-[#E7E5E4] group-hover:border-[#FECACA] transition-colors flex-1">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[12px] font-mono text-muted">5 hrs ago</span>
+<span class="px-2 py-0.5 bg-white rounded border border-[#E7E5E4] text-[11px] font-mono text-text">Risk Alert</span>
+</div>
+<p class="text-[14px] text-text leading-relaxed">
+                                    Auto-renewal clause detected in <strong class="font-medium text-primary">Waste Management Services</strong> contract. Renews in 45 days with a 12% rate increase.
+                                </p>
+</div>
+</div>
+<!-- Feed Item 3 -->
+<div class="relative z-10 flex gap-4 group cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-[#F0FDF4] border border-[#BBF7D0] flex items-center justify-center flex-shrink-0 mt-1">
+<span class="material-symbols-outlined text-[#16A34A] text-[16px]" data-icon="attach_money">attach_money</span>
+</div>
+<div class="bg-background rounded-element p-4 border border-[#E7E5E4] group-hover:border-[#BBF7D0] transition-colors flex-1">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[12px] font-mono text-muted">1 day ago</span>
+<span class="px-2 py-0.5 bg-white rounded border border-[#E7E5E4] text-[11px] font-mono text-text">Savings</span>
+</div>
+<p class="text-[14px] text-text leading-relaxed">
+                                    Identified <strong class="font-medium text-primary">GSA schedule discrepancy</strong> for office supplies. Switching to preferred vendor could save est. $45k annually.
+                                </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -193,6 +193,27 @@ async def process_document(
                 insurance_required=fields_dict.get("insurance_required"),
                 bond_required=fields_dict.get("bond_required"),
                 scope_summary=fields_dict.get("scope_summary"),
+                # Department routing (S15)
+                department_tags=fields_dict.get("department_tags", []),
+                primary_department=fields_dict.get("primary_department"),
+                department_confidence=fields_dict.get("department_confidence"),
+                # MBE/WBE & compliance (S16)
+                mbe_wbe_required=fields_dict.get("mbe_wbe_required"),
+                mbe_wbe_details=fields_dict.get("mbe_wbe_details"),
+                federal_funding=fields_dict.get("federal_funding"),
+                compliance_flags=fields_dict.get("compliance_flags", []),
+                # Insurance & bonding intelligence (S17)
+                insurance_general_liability_min=fields_dict.get("insurance_general_liability_min"),
+                insurance_auto_liability_min=fields_dict.get("insurance_auto_liability_min"),
+                insurance_professional_liability_min=fields_dict.get("insurance_professional_liability_min"),
+                workers_comp_required=fields_dict.get("workers_comp_required"),
+                performance_bond_amount=fields_dict.get("performance_bond_amount"),
+                payment_bond_amount=fields_dict.get("payment_bond_amount"),
+                liquidated_damages_rate=fields_dict.get("liquidated_damages_rate"),
+                # Procurement method (S18)
+                procurement_method=fields_dict.get("procurement_method"),
+                cooperative_contract_ref=fields_dict.get("cooperative_contract_ref"),
+                prequalification_required=fields_dict.get("prequalification_required"),
                 raw_extraction=fields_dict,
                 extraction_confidence=fields_dict.get("extraction_confidence"),
             )
@@ -201,6 +222,20 @@ async def process_document(
             await session.commit()
             await _log_activity(session, document_id, "extracted")
             await session.commit()
+
+            # Log auto-routing if department was assigned
+            if fields_dict.get("primary_department"):
+                await _log_activity(
+                    session,
+                    document_id,
+                    "auto_routed",
+                    details={
+                        "primary_department": fields_dict.get("primary_department"),
+                        "department_tags": fields_dict.get("department_tags", []),
+                        "confidence": fields_dict.get("department_confidence"),
+                    },
+                )
+                await session.commit()
 
             # --- 5. Validate ---
             # Pass document_type so validation can check contract-specific rules

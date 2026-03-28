@@ -188,6 +188,33 @@ def _run_rule_checks(fields: dict, ocr_confidence: float, classification_confide
                 "Verify this date against the original document — may be an AI extraction error.",
             ))
 
+    # S16. COMPLIANCE_MISSING — MBE/WBE warning for high-value contracts
+    mbe_wbe = fields.get("mbe_wbe_required")
+    if amount and amount > 100_000 and is_contract_type and mbe_wbe is not True:
+        results.append(_result(
+            "COMPLIANCE_MISSING", "warning",
+            f"Contract value ${amount:,.2f} exceeds $100K but no MBE/WBE requirement found.",
+            "mbe_wbe_required",
+            "Verify whether MBE/WBE participation should be required per City policy.",
+        ))
+
+    # S17. BOND_AMOUNT_MISMATCH — construction contracts where bond != total amount
+    perf_bond = fields.get("performance_bond_amount")
+    contract_type_lower = (doc_type or "").lower()
+    if (
+        is_contract_type
+        and "construction" in contract_type_lower
+        and perf_bond is not None
+        and amount is not None
+        and perf_bond != amount
+    ):
+        results.append(_result(
+            "BOND_AMOUNT_MISMATCH", "warning",
+            f"Performance bond ${perf_bond:,.2f} does not match contract amount ${amount:,.2f}.",
+            "performance_bond_amount",
+            "For construction contracts, the performance bond typically equals the total contract amount.",
+        ))
+
     # 12. MISSING_INSURANCE
     if amount and amount > 50_000 and is_contract_type and insurance is not True:
         results.append(_result(

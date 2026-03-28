@@ -14,6 +14,8 @@ import type {
   DocumentType,
   DocumentSource,
   ContractReminder,
+  Annotation,
+  AnnotationCreate,
 } from "./types";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -276,4 +278,25 @@ export async function ingestSocrata(): Promise<{
   return handleResponse<{ imported: number; skipped: number; message: string }>(
     res,
   );
+}
+
+// --- Annotations ---
+
+export async function fetchAnnotations(
+  documentId: string,
+): Promise<Annotation[]> {
+  const res = await fetch(`${BASE}/api/v1/documents/${documentId}/annotations`);
+  return handleResponse<Annotation[]>(res);
+}
+
+export async function createAnnotation(
+  documentId: string,
+  data: AnnotationCreate,
+): Promise<Annotation> {
+  const res = await fetch(`${BASE}/api/v1/documents/${documentId}/annotations`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return handleResponse<Annotation>(res);
 }

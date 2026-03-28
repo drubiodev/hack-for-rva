@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contract Detail - Modern Analyst</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600&amp;family=DM+Mono:wght@400&amp;family=DM+Sans:wght@400;500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1359ae",
+              "background-light": "#f6f7f8",
+              "background-dark": "#111821",
+              "surface": "#FFFFFF",
+              "muted": "#A8A29E",
+              "tag-vita": "#BAE6FD",
+              "tag-risk": "#FECACA",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"],
+              "heading": ["Bricolage Grotesque", "sans-serif"],
+              "body": ["DM Sans", "sans-serif"],
+              "mono": ["DM Mono", "monospace"],
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+            boxShadow: {
+              "soft": "0 4px 24px rgba(15, 37, 55, 0.04)",
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'DM Sans', sans-serif; }
+        h1, h2, h3 { font-family: 'Bricolage Grotesque', sans-serif; }
+        .font-mono-custom { font-family: 'DM Mono', monospace; }
+        
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-background-light text-gray-900 h-screen flex flex-col overflow-hidden">
+<!-- Minimal Header for Focused View -->
+<header class="h-14 bg-surface border-b border-gray-200 flex items-center px-6 shrink-0 z-10">
+<button class="flex items-center text-gray-600 hover:text-primary transition-colors group">
+<span class="material-symbols-outlined text-xl mr-2 group-hover:-translate-x-1 transition-transform">arrow_back</span>
+<span class="text-sm font-medium">Back to Portfolio</span>
+</button>
+<div class="mx-auto flex items-center space-x-2 text-gray-400">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="text-xs uppercase tracking-wider font-mono-custom">Secure Workspace</span>
+</div>
+</header>
+<!-- Split Screen Container -->
+<main class="flex-1 flex flex-row overflow-hidden">
+<!-- Left Pane: Extracted Data & Insights -->
+<div class="w-1/2 h-full overflow-y-auto border-r border-gray-200 p-8 flex flex-col gap-8 bg-surface">
+<!-- Header Section -->
+<div class="flex flex-col gap-4">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-tag-vita text-sky-900 text-[13px] font-mono-custom px-2 py-0.5 rounded">VITA Master</span>
+<span class="bg-tag-risk text-red-900 text-[13px] font-mono-custom px-2 py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                                Expires in 30 Days
+                            </span>
+</div>
+<h1 class="text-3xl font-semibold leading-tight text-gray-900">VITA Cloud Storage Agreement</h1>
+<p class="text-muted text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">domain</span>
+                            Vendor: Amazon Web Services, Inc.
+                        </p>
+</div>
+<button class="flex items-center justify-center gap-2 rounded h-10 px-5 bg-primary text-white text-sm font-medium hover:bg-blue-800 transition-colors shadow-sm whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Export Brief
+                    </button>
+</div>
+</div>
+<!-- Plain English Summary -->
+<div class="bg-gray-100 rounded-lg p-5 border border-gray-200">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h2 class="text-sm font-bold text-gray-900 uppercase tracking-wide">AI Summary</h2>
+</div>
+<ul class="space-y-3 text-[15px] text-gray-800 leading-relaxed list-disc pl-5">
+<li>This contract provides scalable cloud storage (S3) and computing services (EC2) for the City of Richmond's data infrastructure.</li>
+<li><strong class="text-gray-900">Critical Risk:</strong> Auto-renewal is active. Rates are subject to a mandatory 12% increase if not renegotiated before the 60-day notice period.</li>
+<li>The agreement stipulates strict US-based data sovereignty and compliance with FedRAMP High standards.</li>
+</ul>
+</div>
+<!-- Extracted Terms Grid -->
+<div>
+<h3 class="text-lg font-semibold mb-4 text-gray-900 border-b border-gray-100 pb-2">Key Extracted Terms</h3>
+<div class="grid grid-cols-2 gap-x-6 gap-y-4">
+<!-- Term Item -->
+<div class="flex flex-col gap-1 p-3 rounded hover:bg-gray-50 cursor-pointer transition-colors border border-transparent hover:border-gray-200 group">
+<p class="text-muted text-[13px] font-mono-custom uppercase tracking-wider group-hover:text-primary transition-colors">Termination Notice</p>
+<p class="text-gray-900 text-[15px] font-medium">60 Days</p>
+</div>
+<!-- Term Item -->
+<div class="flex flex-col gap-1 p-3 rounded hover:bg-gray-50 cursor-pointer transition-colors border border-transparent hover:border-gray-200 group">
+<p class="text-muted text-[13px] font-mono-custom uppercase tracking-wider group-hover:text-primary transition-colors">Auto-renewal</p>
+<p class="text-gray-900 text-[15px] font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-red-500 text-[16px]">error</span>
+                            Yes
+                        </p>
+</div>
+<!-- Term Item -->
+<div class="flex flex-col gap-1 p-3 rounded hover:bg-gray-50 cursor-pointer transition-colors border border-transparent hover:border-gray-200 group">
+<p class="text-muted text-[13px] font-mono-custom uppercase tracking-wider group-hover:text-primary transition-colors">Rate Increase Risk</p>
+<p class="text-gray-900 text-[15px] font-medium">12% at renewal</p>
+</div>
+<!-- Term Item -->
+<div class="flex flex-col gap-1 p-3 rounded hover:bg-gray-50 cursor-pointer transition-colors border border-transparent hover:border-gray-200 group">
+<p class="text-muted text-[13px] font-mono-custom uppercase tracking-wider group-hover:text-primary transition-colors">SLA</p>
+<p class="text-gray-900 text-[15px] font-medium">99.9% Uptime</p>
+</div>
+<!-- Term Item -->
+<div class="flex flex-col gap-1 p-3 rounded hover:bg-gray-50 cursor-pointer transition-colors border border-transparent hover:border-gray-200 group">
+<p class="text-muted text-[13px] font-mono-custom uppercase tracking-wider group-hover:text-primary transition-colors">Data Sovereignty</p>
+<p class="text-gray-900 text-[15px] font-medium">US-Based Only</p>
+</div>
+<!-- Term Item -->
+<div class="flex flex-col gap-1 p-3 rounded hover:bg-gray-50 cursor-pointer transition-colors border border-transparent hover:border-gray-200 group">
+<p class="text-muted text-[13px] font-mono-custom uppercase tracking-wider group-hover:text-primary transition-colors">Payment Terms</p>
+<p class="text-gray-900 text-[15px] font-medium">Net 30</p>
+</div>
+<!-- Term Item -->
+<div class="flex flex-col gap-1 p-3 rounded hover:bg-gray-50 cursor-pointer transition-colors border border-transparent hover:border-gray-200 group">
+<p class="text-muted text-[13px] font-mono-custom uppercase tracking-wider group-hover:text-primary transition-colors">Liability Cap</p>
+<p class="text-gray-900 text-[15px] font-medium">1.5x Annual Contract Value</p>
+</div>
+<!-- Term Item -->
+<div class="flex flex-col gap-1 p-3 rounded hover:bg-gray-50 cursor-pointer transition-colors border border-transparent hover:border-gray-200 group">
+<p class="text-muted text-[13px] font-mono-custom uppercase tracking-wider group-hover:text-primary transition-colors">Compliance</p>
+<p class="text-gray-900 text-[15px] font-medium">FedRAMP High</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Pane: Embedded PDF Viewer -->
+<div class="w-1/2 h-full bg-background-light p-6 flex flex-col">
+<div class="flex-1 bg-gray-300 rounded-lg overflow-hidden border border-gray-300 shadow-soft flex flex-col">
+<!-- Mock PDF Toolbar -->
+<div class="h-12 bg-gray-800 text-gray-300 flex items-center justify-between px-4 shrink-0">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[20px] cursor-pointer hover:text-white">menu</span>
+<span class="text-xs font-mono-custom bg-gray-700 px-2 py-1 rounded text-white">VITA_Cloud_Agreement_2023.pdf</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] cursor-pointer hover:text-white">remove</span>
+<span class="text-xs font-mono-custom">100%</span>
+<span class="material-symbols-outlined text-[20px] cursor-pointer hover:text-white">add</span>
+</div>
+<div class="w-px h-4 bg-gray-600"></div>
+<span class="material-symbols-outlined text-[20px] cursor-pointer hover:text-white">print</span>
+<span class="material-symbols-outlined text-[20px] cursor-pointer hover:text-white">download</span>
+</div>
+</div>
+<!-- Mock PDF Content Area -->
+<div class="flex-1 overflow-y-auto p-8 flex justify-center bg-gray-200">
+<!-- PDF Page -->
+<div class="w-full max-w-[800px] min-h-[1100px] bg-white shadow-md p-12 flex flex-col gap-6 text-[11px] leading-relaxed text-gray-800 font-serif relative">
+<div class="text-center mb-8">
+<h2 class="text-lg font-bold uppercase mb-2">Master Services Agreement</h2>
+<p>Between Virginia Information Technologies Agency (VITA) and Amazon Web Services, Inc.</p>
+</div>
+<p>This Master Services Agreement ("Agreement") is entered into as of October 1, 2023 ("Effective Date") by and between the Virginia Information Technologies Agency ("VITA") and Amazon Web Services, Inc. ("Provider").</p>
+<h3 class="font-bold mt-4">1. Scope of Services</h3>
+<p>Provider shall deliver cloud storage, computing, and associated infrastructure services as detailed in Exhibit A (Statement of Work). Services must comply with all state and federal regulations concerning data privacy and security.</p>
+<h3 class="font-bold mt-4">2. Term and Termination</h3>
+<p>The initial term of this Agreement shall be for a period of three (3) years commencing on the Effective Date.</p>
+<!-- Highlighted active section simulating interaction -->
+<div class="bg-yellow-100/50 border-l-4 border-primary pl-4 py-1 -ml-4 my-2 transition-all">
+<p class="font-semibold text-gray-900">2.1. Auto-Renewal and Notice</p>
+<p>Unless either party provides written notice of its intent not to renew at least <strong class="bg-yellow-200 px-1 rounded">sixty (60) days</strong> prior to the expiration of the then-current term, this Agreement shall automatically renew for successive one (1) year periods. Upon any such automatic renewal, Provider's standard rates shall apply, subject to a maximum increase of 12% over the previous term's rates.</p>
+</div>
+<h3 class="font-bold mt-4">3. Data Sovereignty</h3>
+<p>All VITA data, including backups and disaster recovery instances, must physically reside within the continental United States. Provider assumes full liability for any data exfiltration resulting from unauthorized cross-border transfers.</p>
+<div class="mt-auto pt-12 text-center text-gray-400 text-[10px]">
+                            Page 1 of 45
+                        </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -7,12 +7,13 @@ import math
 import mimetypes
 import os
 import tempfile
+import time
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from uuid import UUID
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Form, HTTPException, Query, UploadFile
-from fastapi.responses import StreamingResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import noload, selectinload
@@ -23,6 +24,8 @@ from app.models.document import ActivityLog, ContractReminder, Document, Extract
 from app.schemas.document import (
     ActivityEntrySchema,
     AnalyticsSummarySchema,
+    AnnotationCreate,
+    AnnotationResponse,
     ApproveRequest,
     ChatRequest,
     ChatResponse,
@@ -119,6 +122,7 @@ async def list_documents(
     document_type: str | None = Query(None),
     source: str | None = Query(None),
     search: str | None = Query(None),
+    department: str | None = Query(None),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
@@ -143,6 +147,10 @@ async def list_documents(
         query = query.where(
             Document.filename.ilike(like_pattern)
             | Document.original_filename.ilike(like_pattern)
+        )
+    if department:
+        query = query.where(
+            Document.extracted_fields.has(ExtractedFields.primary_department == department)
         )
 
     # Total count
@@ -172,10 +180,23 @@ async def list_documents(
         vendor_name = None
         total_amount = None
         expiration_date = None
-        if doc.extracted_fields:
-            vendor_name = doc.extracted_fields.vendor_name
-            total_amount = float(doc.extracted_fields.total_amount) if doc.extracted_fields.total_amount else None
-            expiration_date = doc.extracted_fields.expiration_date
+        ef = doc.extracted_fields
+        intel_kwargs: dict = {}
+        if ef:
+            vendor_name = ef.vendor_name
+            total_amount = float(ef.total_amount) if ef.total_amount else None
+            expiration_date = ef.expiration_date
+            intel_kwargs = {
+                "primary_department": ef.primary_department,
+                "department_tags": ef.department_tags or [],
+                "compliance_flags": ef.compliance_flags or [],
+                "mbe_wbe_required": ef.mbe_wbe_required,
+                "federal_funding": ef.federal_funding,
+                "insurance_general_liability_min": float(ef.insurance_general_liability_min) if ef.insurance_general_liability_min else None,
+                "bond_required": ef.bond_required,
+                "procurement_method": ef.procurement_method,
+                "cooperative_contract_ref": ef.cooperative_contract_ref,
+            }
 
         items.append(
             DocumentSummary(
@@ -194,6 +215,7 @@ async def list_documents(
                 approved_by=doc.approved_by,
                 created_at=doc.created_at,
                 updated_at=doc.updated_at,
+                **intel_kwargs,
             )
         )
 
@@ -622,6 +644,101 @@ async def resolve_warning(
     await db.refresh(vr)
 
     return ValidationResultSchema.model_validate(vr)
+
+
+# ---------------------------------------------------------------------------
+# Annotations
+# ---------------------------------------------------------------------------
+
+
+@router.get(
+    "/api/v1/documents/{document_id}/annotations",
+    response_model=list[AnnotationResponse],
+    tags=["Annotations"],
+)
+async def get_annotations(
+    document_id: UUID,
+    db: AsyncSession = Depends(get_db),
+):
+    """Get all annotations for a document."""
+    result = await db.execute(select(Document).where(Document.id == document_id))
+    doc = result.scalar_one_or_none()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+    return doc.annotations or []
+
+
+@router.post(
+    "/api/v1/documents/{document_id}/annotations",
+    response_model=AnnotationResponse,
+    status_code=201,
+    tags=["Annotations"],
+)
+async def create_annotation(
+    document_id: UUID,
+    body: AnnotationCreate,
+    db: AsyncSession = Depends(get_db),
+):
+    """Add an annotation to a document."""
+    result = await db.execute(select(Document).where(Document.id == document_id))
+    doc = result.scalar_one_or_none()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+
+    import uuid as _uuid
+
+    annotation_id = "ann_" + _uuid.uuid4().hex[:12]
+    now_iso = datetime.now(timezone.utc).isoformat()
+
+    new_annotation = {
+        "id": annotation_id,
+        "x": body.x,
+        "y": body.y,
+        "page": body.page,
+        "text": body.text,
+        "author": body.author,
+        "initials": body.initials,
+        "time": now_iso,
+    }
+
+    doc.annotations = [*(doc.annotations or []), new_annotation]
+    # Ensure SQLAlchemy detects the JSONB column change
+    from sqlalchemy.orm.attributes import flag_modified
+    try:
+        flag_modified(doc, "annotations")
+    except Exception:
+        pass  # Not a tracked instance (e.g. in tests)
+
+    activity = ActivityLog(
+        document_id=doc.id,
+        action="annotation_added",
+        actor_name=body.author,
+        actor_role="analyst",
+        details={"annotation_id": annotation_id, "text": body.text},
+    )
+    db.add(activity)
+    await db.commit()
+    await db.refresh(doc)
+
+    return new_annotation
+
+
+@router.get(
+    "/api/v1/documents/{document_id}/file",
+    tags=["Documents"],
+)
+async def get_document_file(
+    document_id: UUID,
+    db: AsyncSession = Depends(get_db),
+):
+    """Redirect to the original document file in blob storage."""
+    result = await db.execute(select(Document).where(Document.id == document_id))
+    doc = result.scalar_one_or_none()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if not doc.blob_url:
+        raise HTTPException(status_code=404, detail="No file available for this document")
+    return RedirectResponse(url=doc.blob_url)
 
 
 # ---------------------------------------------------------------------------

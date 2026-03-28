@@ -4,7 +4,7 @@ from datetime import date, datetime
 from typing import Any
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # --- Enums as literals (matching OpenAPI spec) ---
@@ -37,6 +37,27 @@ class ExtractedFieldsSchema(BaseModel):
     insurance_required: bool | None = None
     bond_required: bool | None = None
     scope_summary: str | None = None
+    # Department routing (S15)
+    department_tags: list[str] = []
+    primary_department: str | None = None
+    department_confidence: float | None = None
+    # MBE/WBE & compliance (S16)
+    mbe_wbe_required: bool | None = None
+    mbe_wbe_details: str | None = None
+    federal_funding: bool | None = None
+    compliance_flags: list[str] = []
+    # Insurance & bonding intelligence (S17)
+    insurance_general_liability_min: float | None = None
+    insurance_auto_liability_min: float | None = None
+    insurance_professional_liability_min: float | None = None
+    workers_comp_required: bool | None = None
+    performance_bond_amount: float | None = None
+    payment_bond_amount: float | None = None
+    liquidated_damages_rate: str | None = None
+    # Procurement method (S18)
+    procurement_method: str | None = None
+    cooperative_contract_ref: str | None = None
+    prequalification_required: bool | None = None
     raw_extraction: dict[str, Any] = {}
     extraction_confidence: float | None = None
 
@@ -95,6 +116,16 @@ class DocumentSummary(BaseModel):
     approved_by: str | None = None
     created_at: datetime
     updated_at: datetime | None = None
+    # Intelligence columns for list view
+    primary_department: str | None = None
+    department_tags: list[str] = []
+    compliance_flags: list[str] = []
+    mbe_wbe_required: bool | None = None
+    federal_funding: bool | None = None
+    insurance_general_liability_min: float | None = None
+    bond_required: bool | None = None
+    procurement_method: str | None = None
+    cooperative_contract_ref: str | None = None
 
 
 # --- Document Detail ---
@@ -195,6 +226,29 @@ class RiskSummarySchema(BaseModel):
     total_expiring_90: int = 0
     triggered_reminders: list[ReminderSchema] = []
     pending_reminders_count: int = 0
+
+
+# --- Annotations ---
+
+
+class AnnotationCreate(BaseModel):
+    x: float
+    y: float
+    page: int = Field(default=1, ge=1, le=9999)
+    text: str = Field(..., min_length=1, max_length=2000)
+    author: str = Field(..., min_length=1, max_length=200)
+    initials: str = Field(..., min_length=1, max_length=5)
+
+
+class AnnotationResponse(BaseModel):
+    id: str
+    x: float
+    y: float
+    page: int
+    text: str
+    author: str
+    initials: str
+    time: str
 
 
 # --- Error Response ---
