@@ -1,0 +1,4170 @@
+[  407610ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407610ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407610ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407610ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407611ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407611ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407611ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407611ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407611ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407611ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407611ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407611ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407612ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407612ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407612ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-client] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407612ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-ssr] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407612ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  407612ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408143ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-client] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-ssr] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408144ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  408147ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=ufwqh:0
+[  408198ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=ufwqh:0
+[  408243ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=ufwqh:0
+[  408250ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard:0
+[  408545ms] Error: ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./src/app/dashboard/governance/page.tsx:20:1)
+    at Object.getCompilationErrors (file:///Users/priyeshjain/source/HackathonRVA2026Mar/procurement/frontend/node_modules/next/dist/server/dev/hot-reloader-turbopack.js:1189:59)
+    at DevBundlerService.getCompilationError (file:///Users/priyeshjain/source/HackathonRVA2026Mar/procurement/frontend/node_modules/next/dist/server/lib/dev-bundler-service.js:44:55)
+    at DevServer.getCompilationError (file:///Users/priyeshjain/source/HackathonRVA2026Mar/procurement/frontend/node_modules/next/dist/server/dev/next-dev-server.js:719:42)
+    at DevServer.findPageComponents (file:///Users/priyeshjain/source/HackathonRVA2026Mar/procurement/frontend/node_modules/next/dist/server/dev/next-dev-server.js:689:43)
+    at async DevServer.renderErrorToResponseImpl (file:///Users/priyeshjain/source/HackathonRVA2026Mar/procurement/frontend/node_modules/next/dist/server/base-server.js:1745:26)
+[  408661ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408661ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408661ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408661ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-client] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-ssr] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408662ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408763ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408764ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-client] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408764ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-ssr] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408764ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408764ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408766ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408766ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-client] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-ssr] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  408767ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409021ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409021ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export activateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export activateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchActivity?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409021ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409021ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export createValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export createValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409021ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409021ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deleteValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deleteValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409021ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409021ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export deprecateValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export deprecateValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import createReminder?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409022ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409022ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchComplianceSummary doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchComplianceSummary was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnalyticsSummary?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409022ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409022ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchGlobalAuditLog doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchGlobalAuditLog was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchAnnotations?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409022ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409022ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export fetchValidationRules doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export fetchValidationRules was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import fetchDocuments?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409022ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-client] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409022ms] [ERROR] ./src/app/dashboard/governance/page.tsx:30:1
+Export governanceKeys doesn't exist in target module
+  28 |   deleteValidationRule,
+  29 | } from "@/lib/api";
+> 30 | import { governanceKeys } from "@/lib/queryKeys";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  31 | import type {
+  32 |   ValidationRuleConfig,
+  33 |   RuleType,
+
+The export governanceKeys was not found in module [project]/src/lib/queryKeys.ts [app-ssr] (ecmascript).
+Did you mean to import reminderKeys?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409022ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-client] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  409022ms] [ERROR] ./src/app/dashboard/governance/page.tsx:20:1
+Export toggleValidationRule doesn't exist in target module
+  18 | import { Textarea } from "@/components/ui/textarea";
+  19 | import { useAuth } from "@/hooks/useAuth";
+> 20 | import {
+     | ^^^^^^^
+> 21 |   fetchValidationRules,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |   fetchComplianceSummary,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |   fetchGlobalAuditLog,
+     | ^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   createValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |   toggleValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |   activateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |   deprecateValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |   deleteValidationRule,
+     | ^^^^^^^^^^^^^^^^^^^^^^^
+> 29 | } from "@/lib/api";
+     | ^^^^^^^^^^^^^^^^^^^
+  30 | import { governanceKeys } from "@/lib/queryKeys";
+  31 | import type {
+  32 |   ValidationRuleConfig,
+
+The export toggleValidationRule was not found in module [project]/src/lib/api.ts [app-ssr] (ecmascript).
+Did you mean to import uploadDocument?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/governance/page.tsx [Client Component Browser]
+    ./src/app/dashboard/governance/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/governance/page.tsx [Client Component SSR]
+    ./src/app/dashboard/governance/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  415176ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
+[  415176ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[  415176ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  415176ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  415176ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  445185ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  445185ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  445186ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  475196ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  475197ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  475197ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  505203ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  505204ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  505204ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0

@@ -1,0 +1,4 @@
+[   25695ms] [ERROR] Access to fetch at 'http://localhost:8000/api/v1/documents/769e55d5-d4d4-4a03-8d9b-0274d36d3a58' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:3000/dashboard/documents/769e55d5-d4d4-4a03-8d9b-0274d36d3a58:0
+[   25696ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost:8000/api/v1/documents/769e55d5-d4d4-4a03-8d9b-0274d36d3a58:0
+[   27136ms] [ERROR] Access to fetch at 'http://localhost:8000/api/v1/documents/769e55d5-d4d4-4a03-8d9b-0274d36d3a58' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:3000/dashboard/documents/769e55d5-d4d4-4a03-8d9b-0274d36d3a58:0
+[   27136ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost:8000/api/v1/documents/769e55d5-d4d4-4a03-8d9b-0274d36d3a58:0
