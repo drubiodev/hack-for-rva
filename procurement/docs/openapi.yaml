@@ -528,6 +528,25 @@ paths:
                     items:
                       $ref: "#/components/schemas/ActivityEntry"
 
+  /api/v1/chat:
+    post:
+      operationId: chat
+      summary: Ask questions about procurement documents (AI-powered with keyword fallback)
+      tags: [Chat]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatRequest"
+      responses:
+        "200":
+          description: Chat response with answer and source documents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatResponse"
+
   /api/v1/ingest/socrata:
     post:
       operationId: ingestSocrata
@@ -967,6 +986,42 @@ components:
           type: string
           enum: [dismissed]
         dismissed_by:
+          type: string
+
+    ChatRequest:
+      type: object
+      required: [question]
+      properties:
+        question:
+          type: string
+        conversation_id:
+          type: string
+          nullable: true
+
+    ChatSourceSchema:
+      type: object
+      required: [document_id, relevance]
+      properties:
+        document_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          nullable: true
+        relevance:
+          type: number
+
+    ChatResponse:
+      type: object
+      required: [answer, sources, conversation_id]
+      properties:
+        answer:
+          type: string
+        sources:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatSourceSchema"
+        conversation_id:
           type: string
 
     ErrorResponse:

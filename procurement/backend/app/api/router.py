@@ -1011,35 +1011,54 @@ async def chat(
     body: ChatRequest,
     db: AsyncSession = Depends(get_db),
 ):
-    """Answer questions about procurement documents using keyword search."""
+    """Answer questions about procurement documents using AI + keyword search."""
     import uuid as _uuid
+    from sqlalchemy import or_
+
+    conversation_id = body.conversation_id or str(_uuid.uuid4())
 
     keywords = [w for w in body.question.lower().split() if len(w) > 2]
     if not keywords:
         return ChatResponse(
             answer="Please ask a more specific question about procurement documents.",
             sources=[],
-            conversation_id=body.conversation_id or str(_uuid.uuid4()),
+            conversation_id=conversation_id,
         )
 
-    # Search documents by keyword matches in OCR text
-    query = select(Document, ExtractedFields).join(
-        ExtractedFields, Document.id == ExtractedFields.document_id
+    # --- 1. Keyword ILIKE search for relevant documents (top 5) ---
+    kw_query = (
+        select(Document, ExtractedFields)
+        .join(ExtractedFields, Document.id == ExtractedFields.document_id)
+        .where(or_(*(Document.ocr_text.ilike(f"%{kw}%") for kw in keywords[:5])))
+        .limit(5)
     )
-    conditions = []
-    for kw in keywords[:5]:
-        conditions.append(Document.ocr_text.ilike(f"%{kw}%"))
+    kw_result = await db.execute(kw_query)
+    rows = list(kw_result.all())
 
-    if conditions:
-        from sqlalchemy import or_
-        query = query.where(or_(*conditions))
+    # --- 2. Also query contracts expiring within 90 days ---
+    today = date.today()
+    cutoff_90 = today + timedelta(days=90)
+    expiring_result = await db.execute(
+        select(Document, ExtractedFields)
+        .join(ExtractedFields, Document.id == ExtractedFields.document_id)
+        .where(ExtractedFields.expiration_date.isnot(None))
+        .where(ExtractedFields.expiration_date >= today)
+        .where(ExtractedFields.expiration_date <= cutoff_90)
+        .order_by(ExtractedFields.expiration_date.asc())
+        .limit(5)
+    )
+    expiring_rows = expiring_result.all()
 
-    query = query.limit(5)
-    result = await db.execute(query)
-    rows = result.all()
+    # Merge, dedup by document id
+    seen_ids = {doc.id for doc, _ in rows}
+    for doc, ef in expiring_rows:
+        if doc.id not in seen_ids:
+            rows.append((doc, ef))
+            seen_ids.add(doc.id)
 
+    # --- 3. Build context from matched documents ---
     sources = []
-    summaries = []
+    context_parts = []
     for doc, ef in rows:
         sources.append(ChatSourceSchema(
             document_id=doc.id,
@@ -1048,21 +1067,86 @@ async def chat(
         ))
         amount_str = f"${ef.total_amount:,.2f}" if ef.total_amount else "N/A"
         exp_str = str(ef.expiration_date) if ef.expiration_date else "N/A"
+        eff_str = str(ef.effective_date) if ef.effective_date else "N/A"
+        days_left = f" ({(ef.expiration_date - today).days} days)" if ef.expiration_date and ef.expiration_date >= today else ""
+        context_parts.append(
+            f"Document: {ef.title or doc.filename}\n"
+            f"  Vendor: {ef.vendor_name or 'N/A'}\n"
+            f"  Department: {ef.issuing_department or 'N/A'}\n"
+            f"  Amount: {amount_str}\n"
+            f"  Effective: {eff_str}\n"
+            f"  Expires: {exp_str}{days_left}\n"
+            f"  Type: {ef.contract_type or 'N/A'}\n"
+            f"  Doc #: {ef.document_number or 'N/A'}"
+        )
+
+    # --- 4. Try AI-powered response if credentials are available ---
+    ai_available = (
+        settings.azure_openai_key != "PLACEHOLDER"
+        and settings.azure_openai_endpoint != "https://PLACEHOLDER.openai.azure.com/"
+    )
+
+    if ai_available and context_parts:
+        try:
+            from openai import AsyncOpenAI
+
+            client = AsyncOpenAI(
+                base_url=settings.azure_openai_endpoint,
+                api_key=settings.azure_openai_key,
+            )
+
+            system_prompt = (
+                "You are ContractIQ, an AI assistant for City of Richmond procurement staff.\n"
+                "Answer questions about procurement documents using ONLY the context provided.\n"
+                "If the answer isn't in the context, say so. Cite which document(s) your answer is based on.\n"
+                "Never make legal compliance determinations — you are a decision-support tool.\n"
+                "All information is AI-assisted and requires human review."
+            )
+
+            context_text = "\n\n".join(context_parts)
+            user_message = f"Context:\n{context_text}\n\nQuestion: {body.question}"
+
+            response = await client.chat.completions.create(
+                model=settings.azure_openai_deployment,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_message},
+                ],
+                max_completion_tokens=500,
+                temperature=0.3,
+            )
+
+            answer = response.choices[0].message.content or "No response generated."
+            return ChatResponse(
+                answer=answer,
+                sources=sources,
+                conversation_id=conversation_id,
+            )
+        except Exception as exc:
+            import logging
+            logging.getLogger(__name__).warning("AI chat failed, falling back to keyword: %s", exc)
+
+    # --- 5. Fallback: keyword-based response ---
+    summaries = []
+    for doc, ef in rows:
+        amount_str = f"${ef.total_amount:,.2f}" if ef.total_amount else "N/A"
+        exp_str = str(ef.expiration_date) if ef.expiration_date else "N/A"
         summaries.append(
             f"- **{ef.title or doc.filename}**: Vendor: {ef.vendor_name or 'N/A'}, "
             f"Amount: {amount_str}, Expires: {exp_str}"
         )
 
     if summaries:
-        answer = f"Found {len(summaries)} relevant document(s):\n\n" + "\n".join(summaries)
+        answer = (
+            f"Found {len(summaries)} relevant document(s):\n\n"
+            + "\n".join(summaries)
+            + "\n\n*AI-assisted, requires human review.*"
+        )
     else:
         answer = "No documents matched your query. Try different keywords."
 
     return ChatResponse(
         answer=answer,
         sources=sources,
-        conversation_id=body.conversation_id or str(_uuid.uuid4()),
+        conversation_id=conversation_id,
     )
-
-
-    # Socrata ingest endpoint moved to app/api/ingest.py

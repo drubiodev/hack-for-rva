@@ -113,7 +113,7 @@ class ExtractedFields(Base):
     expiration_date: Mapped[date | None] = mapped_column(Date, nullable=True)
 
     # Contract-specific
-    contract_type: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    contract_type: Mapped[str | None] = mapped_column(String(200), nullable=True)
     payment_terms: Mapped[str | None] = mapped_column(String(100), nullable=True)
     renewal_clause: Mapped[str | None] = mapped_column(Text, nullable=True)
     insurance_required: Mapped[bool | None] = mapped_column(Boolean, nullable=True)

@@ -21,6 +21,8 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
 
     use_local = file_path and "placeholder" in blob_url.lower()
 
+    from azure.ai.documentintelligence.models import AnalyzeDocumentRequest
+
     async with DocumentIntelligenceClient(
         endpoint=settings.azure_di_endpoint,
         credential=AzureKeyCredential(settings.azure_di_key),
@@ -30,14 +32,13 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
                 file_bytes = f.read()
             poller = await client.begin_analyze_document(
                 "prebuilt-read",
-                analyze_request=file_bytes,
+                body=file_bytes,
                 content_type="application/octet-stream",
             )
         else:
             poller = await client.begin_analyze_document(
                 "prebuilt-read",
-                analyze_request={"url_source": blob_url},
-                content_type="application/json",
+                body=AnalyzeDocumentRequest(url_source=blob_url),
             )
         result = await poller.result()
 
