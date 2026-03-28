@@ -1,9 +1,12 @@
 """FastAPI application entry point."""
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 from app.api.backfill import router as backfill_router
 from app.api.ingest import router as ingest_router
@@ -67,3 +70,12 @@ app.add_middleware(
 app.include_router(router)
 app.include_router(ingest_router)
 app.include_router(backfill_router)
+
+# Serve UI static files if the ui/ directory exists (bundled in Docker image)
+_ui_dir = os.path.join(os.path.dirname(__file__), "..", "..", "ui")
+if os.path.isdir(_ui_dir):
+    app.mount("/ui", StaticFiles(directory=_ui_dir, html=True), name="ui")
+
+    @app.get("/", include_in_schema=False)
+    async def serve_index():
+        return FileResponse(os.path.join(_ui_dir, "index.html"))
