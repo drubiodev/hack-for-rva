@@ -1587,24 +1587,91 @@
 
       /* ── Global scrollbar ── */
       /* ── Markdown body inside chat bubbles ── */
-      .md-body { line-height: 1.6; }
-      .md-body p { margin: 0 0 8px; }
-      .md-body p:last-child { margin-bottom: 0; }
-      .md-body h1,.md-body h2,.md-body h3 { font-weight: 700; margin: 10px 0 4px; font-size: 13px; color: var(--text); }
-      .md-body h1 { font-size: 14px; }
-      .md-body ul,.md-body ol { padding-left: 18px; margin: 4px 0 8px; }
-      .md-body li { margin-bottom: 3px; }
-      .md-body code { background: rgba(255,255,255,0.1); border-radius: 4px; padding: 1px 5px; font-family: monospace; font-size: 12px; }
-      .md-body pre { background: rgba(0,0,0,0.25); border-radius: 6px; padding: 10px 12px; overflow-x: auto; margin: 8px 0; }
-      .md-body pre code { background: none; padding: 0; }
-      .md-body strong { font-weight: 700; color: var(--text); }
-      .md-body em { font-style: italic; color: var(--text-dim); }
-      .md-body blockquote { border-left: 3px solid var(--accent); padding-left: 10px; margin: 6px 0; color: var(--text-dim); }
-      .md-body table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 12px; }
-      .md-body th,.md-body td { border: 1px solid var(--border); padding: 5px 8px; text-align: left; }
-      .md-body th { background: var(--surface2); font-weight: 600; }
-      .md-body a { color: var(--accent); text-decoration: underline; }
-      .md-body hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+      .md-body {
+        line-height: 1.6;
+      }
+      .md-body p {
+        margin: 0 0 8px;
+      }
+      .md-body p:last-child {
+        margin-bottom: 0;
+      }
+      .md-body h1,
+      .md-body h2,
+      .md-body h3 {
+        font-weight: 700;
+        margin: 10px 0 4px;
+        font-size: 13px;
+        color: var(--text);
+      }
+      .md-body h1 {
+        font-size: 14px;
+      }
+      .md-body ul,
+      .md-body ol {
+        padding-left: 18px;
+        margin: 4px 0 8px;
+      }
+      .md-body li {
+        margin-bottom: 3px;
+      }
+      .md-body code {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        padding: 1px 5px;
+        font-family: monospace;
+        font-size: 12px;
+      }
+      .md-body pre {
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        overflow-x: auto;
+        margin: 8px 0;
+      }
+      .md-body pre code {
+        background: none;
+        padding: 0;
+      }
+      .md-body strong {
+        font-weight: 700;
+        color: var(--text);
+      }
+      .md-body em {
+        font-style: italic;
+        color: var(--text-dim);
+      }
+      .md-body blockquote {
+        border-left: 3px solid var(--accent);
+        padding-left: 10px;
+        margin: 6px 0;
+        color: var(--text-dim);
+      }
+      .md-body table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 8px 0;
+        font-size: 12px;
+      }
+      .md-body th,
+      .md-body td {
+        border: 1px solid var(--border);
+        padding: 5px 8px;
+        text-align: left;
+      }
+      .md-body th {
+        background: var(--surface2);
+        font-weight: 600;
+      }
+      .md-body a {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+      .md-body hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 10px 0;
+      }
 
       /* ── Global scrollbar ── */
       ::-webkit-scrollbar {
@@ -1671,14 +1738,17 @@
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 12px;
-        box-shadow: 0 12px 48px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.3);
+        box-shadow:
+          0 12px 48px rgba(0, 0, 0, 0.6),
+          0 2px 8px rgba(0, 0, 0, 0.3);
         display: flex;
         flex-direction: column;
         overflow: hidden;
         transform: translateY(16px) scale(0.98);
         opacity: 0;
-        transition: transform 0.38s cubic-bezier(0.34,1.56,0.64,1),
-                    opacity 0.26s ease;
+        transition:
+          transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.26s ease;
         pointer-events: none;
       }
       .pq-float.pq-visible {
@@ -1704,8 +1774,9 @@
         max-height: 380px;
         overflow-y: auto;
         overscroll-behavior: contain;
-        transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1),
-                    opacity 0.2s ease;
+        transition:
+          max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.2s ease;
         opacity: 1;
       }
       .pq-float.pq-minimized .pq-body {
@@ -1722,12 +1793,14 @@
         justify-content: center;
         padding: 4px;
         border-radius: 5px;
-        transition: color 0.15s, background 0.15s;
+        transition:
+          color 0.15s,
+          background 0.15s;
         flex-shrink: 0;
       }
       .pq-icon-btn:hover {
         color: var(--text);
-        background: rgba(255,255,255,0.07);
+        background: rgba(255, 255, 255, 0.07);
       }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1832,8 +1905,10 @@
         <div class="search-box">
           <span class="search-icon"><i data-lucide="search"></i></span>
           <input
+            id="globalSearch"
             type="text"
-            placeholder="Search contracts, vendors, clauses…"
+            placeholder="Search contracts, vendors…"
+            autocomplete="off"
           />
         </div>
         <button class="btn btn-ghost">
@@ -2011,7 +2086,7 @@
           <!-- Document table -->
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Document Queue</div>
+              <div class="card-title">Documents</div>
               <div class="filter-tabs">
                 <div class="filter-tab active">All</div>
                 <div class="filter-tab">Flagged</div>
@@ -2128,7 +2203,6 @@
             </div>
           </div>
         </div>
-
       </div>
       <!-- /content -->
     </div>
@@ -2171,7 +2245,9 @@
         ></i>
         <div class="chat-panel-title">ContractIQ Chat</div>
         <div class="chat-panel-context">
-          <span class="badge badge-blue" style="font-size: 10px">All Documents</span>
+          <span class="badge badge-blue" style="font-size: 10px"
+            >All Documents</span
+          >
         </div>
         <button class="btn-icon" id="chatClose" title="Close">
           <i data-lucide="x"></i>
@@ -2382,6 +2458,28 @@
 
       let activeFilter = "all";
       let allDocs = [];
+      let _searchQuery = "";
+
+      // Live search — filter allDocs by vendor name or filename, re-render in place
+      const _globalSearch = document.getElementById("globalSearch");
+      let _searchDebounce = null;
+      _globalSearch.addEventListener("input", () => {
+        clearTimeout(_searchDebounce);
+        _searchDebounce = setTimeout(() => {
+          _searchQuery = _globalSearch.value.trim().toLowerCase();
+          const filtered = _searchQuery
+            ? allDocs.filter(d =>
+                (d.vendor_name || "").toLowerCase().includes(_searchQuery) ||
+                (d.filename || "").toLowerCase().includes(_searchQuery) ||
+                (d.document_type || "").toLowerCase().includes(_searchQuery)
+              )
+            : allDocs;
+          renderTable(filtered);
+        }, 150);
+      });
+      _globalSearch.addEventListener("keydown", e => {
+        if (e.key === "Escape") { _globalSearch.value = ""; _searchQuery = ""; renderTable(allDocs); }
+      });
 
       function isAdmin() {
         return currentUser && currentUser.role === "Supervisor";
@@ -2413,7 +2511,15 @@
           }
           allDocs = items;
           _docsFirstLoad = false;
-          renderTable(allDocs);
+          // Respect any active search query when re-rendering after a poll
+          const _filtered = _searchQuery
+            ? allDocs.filter(d =>
+                (d.vendor_name || "").toLowerCase().includes(_searchQuery) ||
+                (d.filename || "").toLowerCase().includes(_searchQuery) ||
+                (d.document_type || "").toLowerCase().includes(_searchQuery)
+              )
+            : allDocs;
+          renderTable(_filtered);
         } catch (e) {
           if (_docsFirstLoad) {
             tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--red);padding:24px">⚠ Could not reach API at ${API} — is the backend running?</td></tr>`;
@@ -2459,11 +2565,13 @@
         }
 
         // Remove any placeholder rows (loading/error — no data-id)
-        tbody.querySelectorAll("tr:not([data-id])").forEach(r => r.remove());
+        tbody.querySelectorAll("tr:not([data-id])").forEach((r) => r.remove());
 
-        const incoming = new Map(docs.map(d => [String(d.id), d]));
+        const incoming = new Map(docs.map((d) => [String(d.id), d]));
         const existing = new Map();
-        tbody.querySelectorAll("tr[data-id]").forEach(r => existing.set(r.dataset.id, r));
+        tbody
+          .querySelectorAll("tr[data-id]")
+          .forEach((r) => existing.set(r.dataset.id, r));
 
         // Remove rows no longer in data
         existing.forEach((row, id) => {
@@ -2491,7 +2599,7 @@
         });
 
         // Re-attach clicks for any in-place kept rows (cheap, no flicker)
-        tbody.querySelectorAll("tr[data-id]").forEach(row => {
+        tbody.querySelectorAll("tr[data-id]").forEach((row) => {
           if (!row._clickAttached) {
             _attachRowClick(row);
             row._clickAttached = true;
@@ -2637,11 +2745,14 @@
       let _chatConvId = null;
 
       function _escHtml(s) {
-        return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
       }
 
       function _renderMd(text) {
-        if (typeof marked !== 'undefined') {
+        if (typeof marked !== "undefined") {
           return marked.parse(text, { breaks: true, gfm: true });
         }
         // Fallback: basic bold + paragraphs
@@ -2709,7 +2820,10 @@
           const res = await fetch(`${API}/chat`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ question: val, conversation_id: _chatConvId }),
+            body: JSON.stringify({
+              question: val,
+              conversation_id: _chatConvId,
+            }),
           });
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const data = await res.json();
@@ -2721,9 +2835,13 @@
 
           let sourcesHtml = "";
           if (data.sources && data.sources.length > 0) {
-            const links = data.sources.slice(0, 5).map(s =>
-              `<a href="document.html?id=${_escHtml(s.document_id)}" style="color:var(--accent);font-size:11px;text-decoration:none;background:rgba(79,142,247,0.08);padding:2px 8px;border-radius:4px;border:1px solid rgba(79,142,247,0.2);white-space:nowrap">&#128206; ${_escHtml(s.title || s.document_id.slice(0,12))}</a>`
-            ).join("");
+            const links = data.sources
+              .slice(0, 5)
+              .map(
+                (s) =>
+                  `<a href="document.html?id=${_escHtml(s.document_id)}" style="color:var(--accent);font-size:11px;text-decoration:none;background:rgba(79,142,247,0.08);padding:2px 8px;border-radius:4px;border:1px solid rgba(79,142,247,0.2);white-space:nowrap">&#128206; ${_escHtml(s.title || s.document_id.slice(0, 12))}</a>`,
+              )
+              .join("");
             sourcesHtml = `<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:5px">${links}</div>`;
           }
 
@@ -3251,20 +3369,81 @@
     </script>
 
     <!-- ── Floating processing queue panel ── -->
-    <div id="processingQueueWrap" class="pq-float" role="status" aria-live="polite">
+    <div
+      id="processingQueueWrap"
+      class="pq-float"
+      role="status"
+      aria-live="polite"
+    >
       <div class="pq-header">
-        <i data-lucide="activity" style="width:14px;height:14px;color:var(--accent);flex-shrink:0"></i>
-        <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em">Processing Queue</span>
-        <span id="processingQueueCount" style="background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px">0</span>
-        <span style="margin-left:auto;font-size:10px;color:var(--text-muted)">AI-assisted &middot; requires human review</span>
-        <button class="pq-icon-btn" id="pqMinimizeBtn" title="Minimize" onclick="document.getElementById('processingQueueWrap').classList.toggle('pq-minimized');this.title=document.getElementById('processingQueueWrap').classList.contains('pq-minimized')?'Expand':'Minimize'">
-          <i data-lucide="minus" style="width:14px;height:14px"></i>
+        <i
+          data-lucide="activity"
+          style="
+            width: 14px;
+            height: 14px;
+            color: var(--accent);
+            flex-shrink: 0;
+          "
+        ></i>
+        <span
+          style="
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+          "
+          >Processing Queue</span
+        >
+        <span
+          id="processingQueueCount"
+          style="
+            background: var(--accent);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 20px;
+          "
+          >0</span
+        >
+        <span
+          style="margin-left: auto; font-size: 10px; color: var(--text-muted)"
+          >AI-assisted &middot; requires human review</span
+        >
+        <button
+          class="pq-icon-btn"
+          id="pqMinimizeBtn"
+          title="Minimize"
+          onclick="
+            document
+              .getElementById('processingQueueWrap')
+              .classList.toggle('pq-minimized');
+            this.title = document
+              .getElementById('processingQueueWrap')
+              .classList.contains('pq-minimized')
+              ? 'Expand'
+              : 'Minimize';
+          "
+        >
+          <i data-lucide="minus" style="width: 14px; height: 14px"></i>
         </button>
-        <button class="pq-icon-btn" title="Close" onclick="document.getElementById('processingQueueWrap').classList.remove('pq-visible')">
-          <i data-lucide="x" style="width:14px;height:14px"></i>
+        <button
+          class="pq-icon-btn"
+          title="Close"
+          onclick="
+            document
+              .getElementById('processingQueueWrap')
+              .classList.remove('pq-visible')
+          "
+        >
+          <i data-lucide="x" style="width: 14px; height: 14px"></i>
         </button>
       </div>
-      <div id="processingQueue" class="pq-body" style="display:flex;flex-direction:column"></div>
+      <div
+        id="processingQueue"
+        class="pq-body"
+        style="display: flex; flex-direction: column"
+      ></div>
     </div>
   </body>
 </html>
