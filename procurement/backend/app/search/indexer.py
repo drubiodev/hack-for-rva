@@ -35,8 +35,60 @@ def _isoformat(val) -> str | None:
     return datetime(val.year, val.month, val.day, tzinfo=timezone.utc).isoformat()
 
 
+def _build_risk_summary(risk: dict) -> str | None:
+    """Flatten risk assessment into a searchable string."""
+    if not risk:
+        return None
+    parts = []
+    if risk.get("insurance_gaps"):
+        parts.append(f"Insurance: {risk['insurance_gaps']}")
+    if risk.get("bonding_adequacy"):
+        parts.append(f"Bonding: {risk['bonding_adequacy']}")
+    if risk.get("liability_exposure"):
+        parts.append(f"Liability: {risk['liability_exposure']}")
+    if risk.get("termination_penalties"):
+        parts.append(f"Termination: {risk['termination_penalties']}")
+    for term in risk.get("unusual_terms", []):
+        parts.append(f"Unusual: {term}")
+    for factor in risk.get("risk_factors", []):
+        parts.append(factor)
+    return ". ".join(parts) if parts else None
+
+
+def _build_clauses_summary(clauses: dict) -> str | None:
+    """Flatten key clauses into a searchable string."""
+    if not clauses:
+        return None
+    parts = []
+    for key in ["termination_conditions", "renewal_terms", "indemnification", "force_majeure", "liquidated_damages"]:
+        if clauses.get(key):
+            parts.append(f"{key.replace('_', ' ').title()}: {clauses[key]}")
+    for metric in clauses.get("performance_metrics", []):
+        parts.append(f"KPI: {metric}")
+    return ". ".join(parts) if parts else None
+
+
+def _build_financial_summary(financial: dict) -> str | None:
+    """Flatten financial intelligence into a searchable string."""
+    if not financial:
+        return None
+    parts = []
+    for key in ["cost_breakdown", "rate_analysis", "escalation_clauses", "budget_impact"]:
+        if financial.get(key):
+            parts.append(financial[key])
+    for milestone in financial.get("payment_milestones", []):
+        parts.append(f"Milestone: {milestone}")
+    return ". ".join(parts) if parts else None
+
+
 def _build_search_doc(doc: Document, ef: ExtractedFields) -> dict:
     """Build a search document dict from ORM models."""
+    # Extract intelligence from ocr_metadata
+    intel = (doc.ocr_metadata or {}).get("intelligence", {})
+    risk = intel.get("risk_assessment", {})
+    financial = intel.get("financial_intelligence", {})
+    clauses = intel.get("key_clauses", {})
+
     return {
         "id": str(doc.id),
         "title": ef.title or doc.filename,
@@ -60,6 +112,12 @@ def _build_search_doc(doc: Document, ef: ExtractedFields) -> dict:
         "contract_type": ef.contract_type,
         "document_number": ef.document_number,
         "renewal_clause": ef.renewal_clause,
+        # Document intelligence fields
+        "executive_summary": intel.get("executive_summary"),
+        "overall_risk_level": risk.get("overall_risk_level"),
+        "risk_assessment_summary": _build_risk_summary(risk),
+        "key_clauses_summary": _build_clauses_summary(clauses),
+        "financial_intelligence_summary": _build_financial_summary(financial),
     }
 
 

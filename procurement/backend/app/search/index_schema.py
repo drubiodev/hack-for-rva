@@ -54,6 +54,12 @@ def get_index_definition() -> SearchIndex:
         SearchableField(name="contract_type", type=SearchFieldDataType.String, filterable=True),
         SimpleField(name="document_number", type=SearchFieldDataType.String, filterable=True),
         SearchableField(name="renewal_clause", type=SearchFieldDataType.String),
+        # Document intelligence fields (from AI analysis)
+        SearchableField(name="executive_summary", type=SearchFieldDataType.String),
+        SearchableField(name="risk_assessment_summary", type=SearchFieldDataType.String),
+        SimpleField(name="overall_risk_level", type=SearchFieldDataType.String, filterable=True, facetable=True),
+        SearchableField(name="key_clauses_summary", type=SearchFieldDataType.String),
+        SearchableField(name="financial_intelligence_summary", type=SearchFieldDataType.String),
     ]
 
     semantic_config = SemanticConfiguration(
@@ -62,6 +68,7 @@ def get_index_definition() -> SearchIndex:
             title_field=SemanticField(field_name="title"),
             content_fields=[
                 SemanticField(field_name="scope_summary"),
+                SemanticField(field_name="executive_summary"),
                 SemanticField(field_name="ocr_text"),
             ],
             keywords_fields=[

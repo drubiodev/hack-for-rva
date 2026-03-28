@@ -284,6 +284,27 @@ async def process_document(
                 )
                 await session.commit()
 
+            # --- 4b. Extract document intelligence ---
+            try:
+                from app.extraction.intelligence import extract_intelligence
+
+                intelligence = await _retry_async(
+                    lambda: extract_intelligence(ocr_text, document_type, fields_dict),
+                    operation="Intelligence extraction",
+                )
+                existing_metadata = doc.ocr_metadata or {}
+                existing_metadata["intelligence"] = intelligence
+                doc.ocr_metadata = existing_metadata
+                from sqlalchemy.orm.attributes import flag_modified
+                try:
+                    flag_modified(doc, "ocr_metadata")
+                except Exception:
+                    pass
+                await session.commit()
+                logger.info("Intelligence extracted for document %s", document_id)
+            except Exception as intel_err:
+                logger.warning("Intelligence extraction failed (non-fatal) for %s: %s", document_id, intel_err)
+
             # --- 5. Validate ---
             # Pass document_type so validation can check contract-specific rules
             fields_dict["_document_type"] = document_type

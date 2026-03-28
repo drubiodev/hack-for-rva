@@ -4168,3 +4168,345 @@ Import traces:
 [  505203ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
 [  505204ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
 [  505204ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  535210ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  535211ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  535211ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  565218ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  565218ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  565219ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  595229ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  595230ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  595230ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  625233ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  625233ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  625233ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  655247ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  655247ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  655248ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  685254ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  685255ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  685255ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  715265ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  715266ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  715266ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  745272ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  745273ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  745274ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  775279ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  775280ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  775280ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  805287ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  805288ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  805288ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  835294ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  835295ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  835295ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  865296ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  865296ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  865296ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  895305ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  895305ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  895305ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[  925312ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[  925312ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[  925312ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[ 1241113ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[ 1241207ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[ 1241209ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=14s8m:0
+[ 1241293ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[ 1241294ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=14s8m:0
+[ 1241348ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[ 1241353ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=14s8m:0
+[ 1241373ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=14s8m:0
+[ 1241400ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[ 1241433ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard?_rsc=14s8m:0
+[ 1241453ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/dashboard:0
+[ 1241532ms] Error: ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+
+    at <unknown> (Error: ./src/components/ChatPanel.tsx:370:6)
+    at Object.getCompilationErrors (file:///Users/priyeshjain/source/HackathonRVA2026Mar/procurement/frontend/node_modules/next/dist/server/dev/hot-reloader-turbopack.js:1189:59)
+    at DevBundlerService.getCompilationError (file:///Users/priyeshjain/source/HackathonRVA2026Mar/procurement/frontend/node_modules/next/dist/server/lib/dev-bundler-service.js:44:55)
+    at DevServer.getCompilationError (file:///Users/priyeshjain/source/HackathonRVA2026Mar/procurement/frontend/node_modules/next/dist/server/dev/next-dev-server.js:719:42)
+    at DevServer.findPageComponents (file:///Users/priyeshjain/source/HackathonRVA2026Mar/procurement/frontend/node_modules/next/dist/server/dev/next-dev-server.js:689:43)
+    at async DevServer.renderErrorToResponseImpl (file:///Users/priyeshjain/source/HackathonRVA2026Mar/procurement/frontend/node_modules/next/dist/server/base-server.js:1745:26)
+[ 1241569ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[ 1241569ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[ 1241569ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[ 1241570ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[ 1241570ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[ 1241570ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[ 1241618ms] [ERROR] ./src/components/ChatPanel.tsx:370:6
+Unterminated regexp literal
+  368 |         </div>
+  369 |       </div>
+> 370 |     </>
+      |      ^^
+  371 |   );
+  372 | }
+  373 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/components/ChatPanel.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Client Component Browser]
+    ./src/app/dashboard/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/components/ChatPanel.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Client Component SSR]
+    ./src/app/dashboard/layout.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945

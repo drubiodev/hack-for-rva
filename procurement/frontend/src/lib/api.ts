@@ -228,11 +228,17 @@ export async function fetchActivity(
 export async function sendChatMessage(
   question: string,
   conversationId?: string,
+  documentId?: string,
 ): Promise<import("./types").ChatResponse> {
+  const payload: Record<string, unknown> = {
+    question,
+    conversation_id: conversationId,
+  };
+  if (documentId) payload.document_id = documentId;
   const res = await fetch(`${BASE}/api/v1/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question, conversation_id: conversationId }),
+    body: JSON.stringify(payload),
   });
   return handleResponse<import("./types").ChatResponse>(res);
 }

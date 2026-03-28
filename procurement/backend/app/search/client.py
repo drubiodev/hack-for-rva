@@ -132,7 +132,9 @@ async def semantic_search(
             top=top,
             select="id,title,vendor_name,document_type,primary_department,total_amount,"
                    "scope_summary,effective_date,expiration_date,procurement_method,"
-                   "compliance_flags,mbe_wbe_required,federal_funding,source,document_number",
+                   "compliance_flags,mbe_wbe_required,federal_funding,source,document_number,"
+                   "executive_summary,overall_risk_level,risk_assessment_summary,"
+                   "key_clauses_summary,financial_intelligence_summary",
             query_caption="extractive",
             query_answer="extractive",
         )
@@ -151,6 +153,11 @@ async def semantic_search(
                 "expiration_date": result.get("expiration_date"),
                 "procurement_method": result.get("procurement_method"),
                 "document_number": result.get("document_number"),
+                "executive_summary": result.get("executive_summary"),
+                "overall_risk_level": result.get("overall_risk_level"),
+                "risk_assessment_summary": result.get("risk_assessment_summary"),
+                "key_clauses_summary": result.get("key_clauses_summary"),
+                "financial_intelligence_summary": result.get("financial_intelligence_summary"),
                 "relevance_score": result.get("@search.score", 0),
                 "reranker_score": result.get("@search.reranker_score", 0),
             }
@@ -438,6 +445,8 @@ def _doc_caption(doc: dict) -> str | None:
         parts.append(doc["primary_department"].replace("_", " ").title())
     if doc.get("expiration_date"):
         parts.append(f"exp {doc['expiration_date']}")
+    if doc.get("overall_risk_level") and doc["overall_risk_level"] in ("high", "critical"):
+        parts.append(f"RISK: {doc['overall_risk_level'].upper()}")
     return " — ".join(parts) if parts else None
 
 
@@ -463,6 +472,7 @@ async def execute_query(
     question: str,
     db: AsyncSession,
     conversation_history: list[dict] | None = None,
+    document_id: str | None = None,
 ) -> dict:
     """Main entry point: classify intent, execute, return structured result."""
     classification = await classify_intent(question)
@@ -474,6 +484,69 @@ async def execute_query(
 
     context_parts = []
     sources = []
+
+    # --- Inject focused document context when user is on a specific document page ---
+    if document_id:
+        try:
+            result = await db.execute(
+                select(Document, ExtractedFields)
+                .join(ExtractedFields, Document.id == ExtractedFields.document_id)
+                .where(Document.id == document_id)
+            )
+            row = result.one_or_none()
+            if row:
+                doc, ef = row
+                intel = (doc.ocr_metadata or {}).get("intelligence", {})
+                risk = intel.get("risk_assessment", {})
+
+                amount_str = f"${float(ef.total_amount):,.2f}" if ef.total_amount else "N/A"
+                doc_context = (
+                    f"=== CURRENT DOCUMENT (user is viewing this) ===\n"
+                    f"Title: {ef.title or doc.filename}\n"
+                    f"Vendor: {ef.vendor_name or 'N/A'}\n"
+                    f"Department: {ef.primary_department or ef.issuing_department or 'N/A'}\n"
+                    f"Type: {doc.document_type or 'N/A'}\n"
+                    f"Amount: {amount_str}\n"
+                    f"Effective: {ef.effective_date or 'N/A'} — Expires: {ef.expiration_date or 'N/A'}\n"
+                    f"Status: {doc.status}\n"
+                    f"Procurement Method: {ef.procurement_method or 'N/A'}\n"
+                )
+                if intel.get("executive_summary"):
+                    doc_context += f"Executive Summary: {intel['executive_summary']}\n"
+                if risk.get("overall_risk_level"):
+                    doc_context += f"Risk Level: {risk['overall_risk_level']}\n"
+                if risk.get("risk_factors"):
+                    doc_context += f"Risk Factors: {'; '.join(risk['risk_factors'])}\n"
+                if intel.get("key_clauses"):
+                    clauses = intel["key_clauses"]
+                    for k in ["termination_conditions", "renewal_terms", "indemnification", "force_majeure", "liquidated_damages"]:
+                        if clauses.get(k):
+                            doc_context += f"{k.replace('_', ' ').title()}: {clauses[k]}\n"
+                if intel.get("financial_intelligence"):
+                    fin = intel["financial_intelligence"]
+                    for k in ["cost_breakdown", "escalation_clauses", "budget_impact"]:
+                        if fin.get(k):
+                            doc_context += f"{k.replace('_', ' ').title()}: {fin[k]}\n"
+                if intel.get("compliance_intelligence"):
+                    comp = intel["compliance_intelligence"]
+                    for k in ["mbe_wbe_summary", "federal_funding_implications", "prevailing_wage"]:
+                        if comp.get(k):
+                            doc_context += f"{k.replace('_', ' ').title()}: {comp[k]}\n"
+                if ef.scope_summary:
+                    doc_context += f"Scope: {ef.scope_summary}\n"
+                if ef.renewal_clause:
+                    doc_context += f"Renewal Clause: {ef.renewal_clause}\n"
+                doc_context += "=== END CURRENT DOCUMENT ===\n"
+
+                context_parts.append(doc_context)
+                sources.append({
+                    "id": str(doc.id),
+                    "title": ef.title or doc.filename,
+                    "relevance": 1.0,
+                    "caption": f"{ef.vendor_name or ''} — {amount_str}",
+                })
+        except Exception as e:
+            logger.warning("Failed to load document context for %s: %s", document_id, e)
 
     if intent == "aggregation":
         agg_results = await sql_aggregation(
@@ -585,8 +658,13 @@ async def execute_query(
                     f"Amount: {amount_str}, "
                     f"Type: {hit.get('document_type') or 'N/A'}, "
                     f"Method: {hit.get('procurement_method') or 'N/A'}, "
-                    f"Expires: {hit.get('expiration_date') or 'N/A'}"
-                    + (f"\nSummary: {hit.get('scope_summary')}" if hit.get("scope_summary") else "")
+                    f"Expires: {hit.get('expiration_date') or 'N/A'}, "
+                    f"Risk: {hit.get('overall_risk_level') or 'N/A'}"
+                    + (f"\nSummary: {hit.get('executive_summary')}" if hit.get("executive_summary")
+                       else (f"\nSummary: {hit.get('scope_summary')}" if hit.get("scope_summary") else ""))
+                    + (f"\nRisk Analysis: {hit.get('risk_assessment_summary')}" if hit.get("risk_assessment_summary") else "")
+                    + (f"\nKey Clauses: {hit.get('key_clauses_summary')}" if hit.get("key_clauses_summary") else "")
+                    + (f"\nFinancial: {hit.get('financial_intelligence_summary')}" if hit.get("financial_intelligence_summary") else "")
                     + (f"\nCaption: {hit.get('caption')}" if hit.get("caption") else "")
                 )
 

@@ -1760,6 +1760,11 @@ components:
         conversation_id:
           type: string
           nullable: true
+        document_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: When set, the chatbot loads this document's full context (fields, intelligence, scope) as primary context for the query.
 
     ChatSourceSchema:
       type: object

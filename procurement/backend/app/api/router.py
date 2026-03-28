@@ -1401,6 +1401,60 @@ async def admin_ensure_index():
 
 
 # ---------------------------------------------------------------------------
+# Backfill — document intelligence for existing documents
+# ---------------------------------------------------------------------------
+
+
+@router.post("/api/v1/admin/backfill-intelligence", tags=["Admin"])
+async def backfill_document_intelligence(
+    db: AsyncSession = Depends(get_db),
+    limit: int = 50,
+):
+    """Backfill AI document intelligence for processed documents missing it."""
+    from app.extraction.intelligence import extract_intelligence
+
+    result = await db.execute(
+        select(Document, ExtractedFields)
+        .join(ExtractedFields, Document.id == ExtractedFields.document_id)
+        .where(Document.status.notin_(["failed", "processing", "uploading", "error"]))
+        .where(Document.ocr_text.isnot(None))
+        .limit(limit)
+    )
+    rows = list(result.all())
+
+    updated = 0
+    skipped = 0
+    for doc, ef in rows:
+        metadata = doc.ocr_metadata or {}
+        if metadata.get("intelligence"):
+            skipped += 1
+            continue
+
+        try:
+            intel = await extract_intelligence(
+                doc.ocr_text,
+                doc.document_type or "other",
+                ef.raw_extraction or {},
+            )
+            metadata["intelligence"] = intel
+            doc.ocr_metadata = metadata
+            from sqlalchemy.orm.attributes import flag_modified
+            try:
+                flag_modified(doc, "ocr_metadata")
+            except Exception:
+                pass
+            updated += 1
+        except Exception as e:
+            _logger.warning("Intelligence backfill failed for %s: %s", doc.id, e)
+
+        if updated % 5 == 0 and updated > 0:
+            await db.flush()
+
+    await db.commit()
+    return {"updated": updated, "skipped": skipped, "total_checked": len(rows)}
+
+
+# ---------------------------------------------------------------------------
 # Chat — AI-powered with semantic search + SQL intelligence via query router
 # ---------------------------------------------------------------------------
 
@@ -1432,7 +1486,10 @@ async def chat(
 
     # --- 1. Route query and retrieve context ---
     try:
-        query_result = await execute_query(body.question, db)
+        query_result = await execute_query(
+            body.question, db,
+            document_id=str(body.document_id) if body.document_id else None,
+        )
     except Exception as exc:
         _logger.exception("Query execution failed: %s", exc)
         return ChatResponse(
@@ -1507,6 +1564,9 @@ async def chat(
                 "- Answer using ONLY the context provided below. If the answer isn't in the context, say so.\n"
                 f"{citation_instruction}"
                 "- For numerical aggregations, show the numbers clearly.\n"
+                "- When risk assessments, key clauses, or financial intelligence are available in the context, "
+                "incorporate them into your answer — they provide pre-analyzed insights.\n"
+                "- Highlight HIGH or CRITICAL risk documents prominently.\n"
                 "- Never make legal compliance determinations — you are a decision-support tool.\n"
                 "- All information is AI-assisted and requires human review.\n\n"
                 f"Query intent: {intent}"
@@ -1520,7 +1580,7 @@ async def chat(
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_message},
                 ],
-                max_completion_tokens=900,
+                max_completion_tokens=1200,
                 temperature=0.3,
             )
 

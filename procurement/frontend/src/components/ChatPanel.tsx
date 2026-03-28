@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback, type ReactNode } from "react";
+import { isValidElement, cloneElement, useRef, useEffect, useCallback, type ReactNode, type ReactElement } from "react";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import { useMutation } from "@tanstack/react-query";
@@ -98,7 +98,7 @@ export function ChatPanel() {
 
   const mutation = useMutation({
     mutationFn: (question: string) =>
-      sendChatMessage(question, conversationId),
+      sendChatMessage(question, conversationId, documentContext?.documentId),
     onSuccess: (data) => {
       setConversationId(data.conversation_id);
       setMessages((prev: ChatMessage[]) => [
@@ -467,7 +467,7 @@ function CitedText({
   );
 }
 
-/** Walk ReactNode children: for any string child, run the transform; pass others through. */
+/** Walk ReactNode children recursively: for any string child, run the transform; recurse into elements. */
 function flatMapChildren(
   children: ReactNode,
   transform: (text: string) => ReactNode[],
@@ -475,18 +475,25 @@ function flatMapChildren(
   if (typeof children === "string") {
     return <>{transform(children)}</>;
   }
+  if (typeof children === "number") {
+    return <>{transform(String(children))}</>;
+  }
   if (Array.isArray(children)) {
     return (
       <>
-        {children.map((child, i) =>
-          typeof child === "string" ? (
-            <span key={i}>{transform(child)}</span>
-          ) : (
-            <span key={i}>{child}</span>
-          ),
-        )}
+        {children.map((child, i) => (
+          <span key={i}>{flatMapChildren(child, transform)}</span>
+        ))}
       </>
     );
+  }
+  // Recurse into React elements (e.g. <strong>, <em>) so citations inside bold/italic text are transformed
+  if (isValidElement(children)) {
+    const el = children as ReactElement<{ children?: ReactNode }>;
+    if (el.props.children != null) {
+      const inner = flatMapChildren(el.props.children, transform);
+      return cloneElement(el, {}, inner);
+    }
   }
   return children;
 }

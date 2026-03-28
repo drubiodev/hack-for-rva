@@ -402,6 +402,7 @@ class ReprocessRequest(BaseModel):
 class ChatRequest(BaseModel):
     question: str
     conversation_id: str | None = None
+    document_id: UUID | None = None
 
 
 class ChatSourceSchema(BaseModel):
