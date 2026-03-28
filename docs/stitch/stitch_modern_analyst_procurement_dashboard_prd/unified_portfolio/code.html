@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Modern Analyst - Unified Portfolio</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600&amp;family=DM+Mono:wght@400&amp;family=DM+Sans:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0F2537",
+                        "background-light": "#F7F5F2",
+                        "surface": "#FFFFFF",
+                        "text-main": "#292524",
+                        "muted": "#A8A29E",
+                        "accent-city": "#D9F99D",
+                        "accent-vita": "#BAE6FD",
+                        "accent-gsa": "#FDE047",
+                        "accent-risk": "#FECACA",
+                        "border-color": "#E7E5E4",
+                        "row-hover": "#F5F5F4"
+                    },
+                    fontFamily: {
+                        "heading": ["'Bricolage Grotesque'", "sans-serif"],
+                        "body": ["'DM Sans'", "sans-serif"],
+                        "mono": ["'DM Mono'", "monospace"],
+                    },
+                    borderRadius: {
+                        "card": "12px",
+                        "element": "6px",
+                    },
+                    boxShadow: {
+                        "soft": "0 4px 24px rgba(15, 37, 55, 0.04)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background-light');
+            color: theme('colors.text-main');
+            font-family: theme('fontFamily.body');
+        }
+        .sidebar-item {
+            transition: all 0.2s ease;
+        }
+        .sidebar-item:hover, .sidebar-item.active {
+            background-color: theme('colors.row-hover');
+            border-radius: theme('borderRadius.element');
+        }
+        .table-row-hover {
+            transition: background-color 0.15s ease;
+            cursor: pointer;
+        }
+        .table-row-hover:hover {
+            background-color: theme('colors.row-hover');
+        }
+        /* Custom scrollbar for horizontal filters if needed */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex text-text-main bg-background-light font-body">
+<!-- Shared SideNavBar -->
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-row">
+<!-- Sidebar (Assuming standard 250px from PRD overview, simplified for this view) -->
+<div class="w-[250px] flex-shrink-0 bg-surface border-r border-border-color hidden md:flex flex-col">
+<div class="p-6">
+<h1 class="font-heading text-xl text-primary font-semibold tracking-tight">Modern Analyst</h1>
+</div>
+<div class="flex flex-col gap-1 px-4 mt-4">
+<div class="flex items-center gap-3 px-3 py-2 sidebar-item cursor-pointer">
+<span class="material-symbols-outlined text-muted" style="font-size: 20px;">dashboard</span>
+<p class="text-sm font-medium">Dashboard Overview</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 sidebar-item active cursor-pointer">
+<span class="material-symbols-outlined text-primary" style="font-size: 20px;">table_chart</span>
+<p class="text-sm font-medium text-primary">Unified Portfolio</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 sidebar-item cursor-pointer">
+<span class="material-symbols-outlined text-muted" style="font-size: 20px;">insights</span>
+<p class="text-sm font-medium">Opportunity Matrix</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 sidebar-item cursor-pointer">
+<span class="material-symbols-outlined text-muted" style="font-size: 20px;">analytics</span>
+<p class="text-sm font-medium">Evaluation Hub</p>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col h-screen overflow-hidden">
+<!-- Header Section -->
+<div class="px-8 pt-8 pb-6 flex-shrink-0">
+<h2 class="font-heading text-[32px] leading-tight font-semibold text-primary mb-6">Unified Portfolio</h2>
+<div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+<!-- Search -->
+<div class="relative w-full lg:w-[400px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-muted" style="font-size: 20px;">search</span>
+<input class="w-full h-10 pl-10 pr-4 bg-surface border border-border-color rounded-element text-sm placeholder-muted focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-sm" placeholder="Search vendors, terms, or departments..." type="text"/>
+</div>
+<!-- Filters -->
+<div class="flex gap-2 overflow-x-auto hide-scrollbar w-full pb-1 lg:pb-0">
+<button class="flex items-center gap-2 h-10 px-4 bg-surface border border-border-color rounded-element text-sm font-medium hover:bg-row-hover whitespace-nowrap shadow-sm">
+                                Source <span class="material-symbols-outlined text-muted" style="font-size: 16px;">arrow_drop_down</span>
+</button>
+<button class="flex items-center gap-2 h-10 px-4 bg-surface border border-border-color rounded-element text-sm font-medium hover:bg-row-hover whitespace-nowrap shadow-sm">
+                                Department <span class="material-symbols-outlined text-muted" style="font-size: 16px;">arrow_drop_down</span>
+</button>
+<button class="flex items-center gap-2 h-10 px-4 bg-surface border border-border-color rounded-element text-sm font-medium hover:bg-row-hover whitespace-nowrap shadow-sm">
+                                Value Range <span class="material-symbols-outlined text-muted" style="font-size: 16px;">arrow_drop_down</span>
+</button>
+<button class="flex items-center gap-2 h-10 px-4 bg-surface border border-border-color rounded-element text-sm font-medium hover:bg-row-hover whitespace-nowrap shadow-sm">
+                                Status <span class="material-symbols-outlined text-muted" style="font-size: 16px;">arrow_drop_down</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Table Container -->
+<div class="flex-1 overflow-auto px-8 pb-8">
+<div class="bg-surface border border-border-color rounded-card shadow-soft overflow-hidden">
+<table class="w-full text-left border-collapse whitespace-nowrap">
+<thead class="bg-row-hover border-b border-border-color sticky top-0 z-10">
+<tr>
+<th class="h-10 px-6 font-mono text-[13px] uppercase text-muted font-normal tracking-wider cursor-pointer hover:text-text-main group w-[25%]">
+<div class="flex items-center gap-1">Vendor <span class="material-symbols-outlined opacity-0 group-hover:opacity-100" style="font-size: 14px;">arrow_downward</span></div>
+</th>
+<th class="h-10 px-6 font-mono text-[13px] uppercase text-muted font-normal tracking-wider cursor-pointer hover:text-text-main group w-[10%]">
+<div class="flex items-center gap-1">Source <span class="material-symbols-outlined opacity-0 group-hover:opacity-100" style="font-size: 14px;">arrow_downward</span></div>
+</th>
+<th class="h-10 px-6 font-mono text-[13px] uppercase text-muted font-normal tracking-wider cursor-pointer hover:text-text-main group hidden md:table-cell w-[20%]">
+<div class="flex items-center gap-1">Department <span class="material-symbols-outlined opacity-0 group-hover:opacity-100" style="font-size: 14px;">arrow_downward</span></div>
+</th>
+<th class="h-10 px-6 font-mono text-[13px] uppercase text-muted font-normal tracking-wider cursor-pointer hover:text-text-main group w-[15%]">
+<div class="flex items-center gap-1">Value <span class="material-symbols-outlined opacity-0 group-hover:opacity-100" style="font-size: 14px;">arrow_downward</span></div>
+</th>
+<th class="h-10 px-6 font-mono text-[13px] uppercase text-muted font-normal tracking-wider cursor-pointer hover:text-text-main group hidden md:table-cell w-[15%]">
+<div class="flex items-center gap-1">Start Date <span class="material-symbols-outlined opacity-0 group-hover:opacity-100" style="font-size: 14px;">arrow_downward</span></div>
+</th>
+<th class="h-10 px-6 font-mono text-[13px] uppercase text-muted font-normal tracking-wider cursor-pointer hover:text-text-main group w-[15%]">
+<div class="flex items-center gap-1">Expiration <span class="material-symbols-outlined opacity-0 group-hover:opacity-100" style="font-size: 14px;">arrow_downward</span></div>
+</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-color">
+<!-- Row 1 -->
+<tr class="h-[56px] table-row-hover">
+<td class="px-6 text-[15px] font-medium text-text-main">Microsoft Corporation</td>
+<td class="px-6">
+<span class="inline-flex items-center justify-center h-6 px-3 bg-accent-vita text-text-main font-mono text-[13px] rounded-[4px]">VITA</span>
+</td>
+<td class="px-6 text-[15px] text-muted hidden md:table-cell">IT Services</td>
+<td class="px-6 text-[15px] text-text-main">$1.2M</td>
+<td class="px-6 text-[15px] text-muted hidden md:table-cell">Jan 1, 2022</td>
+<td class="px-6 text-[15px] text-text-main">Dec 31, 2024</td>
+</tr>
+<!-- Row 2 -->
+<tr class="h-[56px] table-row-hover">
+<td class="px-6 text-[15px] font-medium text-text-main">Dell Technologies</td>
+<td class="px-6">
+<span class="inline-flex items-center justify-center h-6 px-3 bg-accent-gsa text-text-main font-mono text-[13px] rounded-[4px]">GSA</span>
+</td>
+<td class="px-6 text-[15px] text-muted hidden md:table-cell">Hardware</td>
+<td class="px-6 text-[15px] text-text-main">$850K</td>
+<td class="px-6 text-[15px] text-muted hidden md:table-cell">Mar 15, 2023</td>
+<td class="px-6 text-[15px] text-text-main">Mar 14, 2026</td>
+</tr>
+<!-- Row 3 -->
+<tr class="h-[56px] table-row-hover">
+<td class="px-6 text-[15px] font-medium text-text-main">Local Janitorial Co.</td>
+<td class="px-6">
+<span class="inline-flex items-center justify-center h-6 px-3 bg-accent-city text-text-main font-mono text-[13px] rounded-[4px]">City</span>
+</td>
+<td class="px-6 text-[15px] text-muted hidden md:table-cell">Facilities</td>
+<td class="px-6 text-[15px] text-text-main">$120K</td>
+<td class="px-6 text-[15px] text-muted hidden md:table-cell">Jul 1, 2023</td>
+<td class="px-6 text-[15px] text-text-main">Jun 30, 2025</td>
+</tr>
+<!-- Row 4 -->
+<tr class="h-[56px] table-row-hover">
+<td class="px-6 text-[15px] font-medium text-text-main">Amazon Web Services</td>
+<td class="px-6">
+<span class="inline-flex items-center justify-center h-6 px-3 bg-accent-vita text-text-main font-mono text-[13px] rounded-[4px]">VITA</span>
+</td>
+<td class="px-6 text-[15px] text-muted hidden md:table-cell">IT Services</td>
+<td class="px-6 text-[15px] text-text-main">$2.5M</td>
+<td class="px-6 text-[15px] text-muted hidden md:table-cell">Nov 1, 2021</td>
+<td class="px-6 text-[15px] text-text-main text-accent-risk font-medium">Oct 31, 2024</td>
+</tr>
+<!-- Row 5 -->
+<tr class="h-[56px] table-row-hover">
+<td class="px-6 text-[15px] font-medium text-text-main">Ernst &amp; Young</td>
+<td class="px-6">
+<span class="inline-flex items-center justify-center h-6 px-3 bg-accent-gsa text-text-main font-mono text-[13px] rounded-[4px]">GSA</span>
+</td>
+<td class="px-6 text-[15px] text-muted hidden md:table-cell">Consulting</td>
+<td class="px-6 text-[15px] text-text-main">$500K</td>
+<td class="px-6 text-[15px] text-muted hidden md:table-cell">Feb 1, 2023</td>
+<td class="px-6 text-[15px] text-text-main">Jan 31, 2025</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

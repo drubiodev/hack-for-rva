@@ -1,0 +1,11 @@
+[  305058ms] [WARNING] [HMR] Invalid message: {"isTrusted":true}
+TypeError: Cannot convert undefined or null to object
+    at Object.keys (<anonymous>)
+    at extractModulesFromTurbopackMessage (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13631:39)
+    at TurbopackHmr.onTurbopackMessage (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13578:32)
+    at processMessage (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13936:30)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13335:52) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  334749ms] [WARNING] The resource http://localhost:3000/_next/static/media/a73419dd2ba2d841-s.p.0x-0vqtj_fzf1.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/dashboard/documents:0
+[  334749ms] [WARNING] The resource http://localhost:3000/_next/static/media/36363bfb06833f56-s.p.0-pny06~-x26a.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/dashboard/documents:0
+[  343032ms] [WARNING] The resource http://localhost:3000/_next/static/media/a73419dd2ba2d841-s.p.0x-0vqtj_fzf1.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/dashboard:0
+[  343032ms] [WARNING] The resource http://localhost:3000/_next/static/media/36363bfb06833f56-s.p.0-pny06~-x26a.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/dashboard:0

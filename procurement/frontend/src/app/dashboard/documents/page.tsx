@@ -3,23 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { FileText, Search, ChevronLeft, ChevronRight } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { FileText, Search, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -27,10 +11,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { StatusBadge } from "@/components/StatusBadge";
 import { fetchDocuments } from "@/lib/api";
 import { documentKeys } from "@/lib/queryKeys";
-import type { DocumentStatus, DocumentType, DocumentSource } from "@/lib/types";
+import type { DocumentStatus, DocumentType, DocumentSource, DepartmentCode } from "@/lib/types";
+
+const DEPT_LABELS: Record<string, string> = {
+  PUBLIC_WORKS: "Public Works", TRANSPORTATION: "Transportation",
+  PUBLIC_SAFETY: "Public Safety", FINANCE: "Finance",
+  INFORMATION_TECHNOLOGY: "IT", PLANNING_DEVELOPMENT: "Planning & Dev",
+  PUBLIC_UTILITIES: "Public Utilities", PARKS_RECREATION: "Parks & Rec",
+  HUMAN_RESOURCES: "HR", RISK_MANAGEMENT: "Risk Mgmt",
+  COMMUNITY_DEVELOPMENT: "Community Dev", CITY_ASSESSOR: "City Assessor",
+  PROCUREMENT: "Procurement", OTHER: "Other",
+};
 
 const PAGE_SIZE = 20;
 
@@ -64,8 +57,14 @@ const SOURCE_OPTIONS: { value: DocumentSource; label: string }[] = [
   { value: "eva", label: "eVA" },
 ];
 
-function formatCurrency(amount: number | null | undefined): string {
+function formatCompactCurrency(amount: number | null | undefined): string {
   if (amount == null) return "--";
+  if (amount >= 1_000_000) {
+    return `$${(amount / 1_000_000).toFixed(1)}M`;
+  }
+  if (amount >= 1_000) {
+    return `$${(amount / 1_000).toFixed(0)}K`;
+  }
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -74,12 +73,50 @@ function formatCurrency(amount: number | null | undefined): string {
   }).format(amount);
 }
 
-function formatDate(dateStr: string): string {
+function formatDate(dateStr: string | null | undefined): string {
+  if (!dateStr) return "--";
   return new Date(dateStr).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
+}
+
+function getSourceTag(source: DocumentSource, docType?: DocumentType | null): {
+  label: string;
+  bg: string;
+  text: string;
+} {
+  // Map source + document_type to colored tags
+  if (source === "socrata") {
+    return { label: "City", bg: "bg-[#D9F99D]", text: "text-[#365314]" };
+  }
+  if (source === "upload") {
+    if (docType === "rfp") {
+      return { label: "GSA", bg: "bg-[#FDE047]", text: "text-[#713F12]" };
+    }
+    if (docType === "cooperative") {
+      return { label: "VITA", bg: "bg-[#BAE6FD]", text: "text-[#0C4A6E]" };
+    }
+    return { label: "Upload", bg: "bg-[#E7E5E4]", text: "text-[#57534E]" };
+  }
+  if (source === "sam_gov") {
+    return { label: "SAM", bg: "bg-[#FDE047]", text: "text-[#713F12]" };
+  }
+  if (source === "eva") {
+    return { label: "eVA", bg: "bg-[#BAE6FD]", text: "text-[#0C4A6E]" };
+  }
+  return { label: source, bg: "bg-[#E7E5E4]", text: "text-[#57534E]" };
+}
+
+function isExpiringSoon(dateStr: string | null | undefined): "expired" | "warning" | null {
+  if (!dateStr) return null;
+  const exp = new Date(dateStr);
+  const now = new Date();
+  const diffDays = Math.floor((exp.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  if (diffDays < 0) return "expired";
+  if (diffDays <= 30) return "warning";
+  return null;
 }
 
 export default function DocumentsPage() {
@@ -110,53 +147,64 @@ export default function DocumentsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Documents</h1>
+      {/* Header */}
+      <h1 className="font-heading text-[32px] font-semibold text-[#0F2537]">
+        Unified Portfolio
+      </h1>
 
-      {/* Filters */}
+      {/* Filter Bar */}
       <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Search documents..."
+        {/* Search */}
+        <div className="relative w-[400px]">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A8A29E]" />
+          <input
+            type="text"
+            placeholder="Search vendors, terms, or departments..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
               setPage(1);
             }}
-            className="pl-8"
+            className="h-10 w-full rounded-[6px] border border-[#E7E5E4] bg-white pl-9 pr-3 text-sm placeholder-[#A8A29E] outline-none focus:border-[#0F2537] focus:ring-1 focus:ring-[#0F2537]/20"
           />
         </div>
+
+        {/* Source filter */}
         <Select
-          value={statusFilter || null}
-          onValueChange={(val) => {
-            setStatusFilter((val as DocumentStatus) || "");
+          value={sourceFilter || undefined}
+          onValueChange={(val: string | null) => {
+            setSourceFilter(!val || val === "__all__" ? "" : (val as DocumentSource));
             setPage(1);
           }}
         >
-          <SelectTrigger>
-            <SelectValue placeholder="All Statuses" />
+          <SelectTrigger className="h-10 w-auto min-w-[120px] gap-2 rounded-[6px] border border-[#E7E5E4] bg-white px-4 text-sm font-medium hover:bg-[#F5F5F4] [&>svg]:hidden">
+            <SelectValue placeholder="Source" />
+            <ChevronDown className="ml-1 h-3.5 w-3.5 text-[#A8A29E]" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={""}>All Statuses</SelectItem>
-            {STATUS_OPTIONS.map((opt) => (
+            <SelectItem value="__all__">All Sources</SelectItem>
+            {SOURCE_OPTIONS.map((opt) => (
               <SelectItem key={opt.value} value={opt.value}>
                 {opt.label}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
+
+        {/* Department (Type) filter */}
         <Select
-          value={typeFilter || null}
-          onValueChange={(val) => {
-            setTypeFilter((val as DocumentType) || "");
+          value={typeFilter || undefined}
+          onValueChange={(val: string | null) => {
+            setTypeFilter(!val || val === "__all__" ? "" : (val as DocumentType));
             setPage(1);
           }}
         >
-          <SelectTrigger>
-            <SelectValue placeholder="All Types" />
+          <SelectTrigger className="h-10 w-auto min-w-[140px] gap-2 rounded-[6px] border border-[#E7E5E4] bg-white px-4 text-sm font-medium hover:bg-[#F5F5F4] [&>svg]:hidden">
+            <SelectValue placeholder="Department" />
+            <ChevronDown className="ml-1 h-3.5 w-3.5 text-[#A8A29E]" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={""}>All Types</SelectItem>
+            <SelectItem value="__all__">All Types</SelectItem>
             {TYPE_OPTIONS.map((opt) => (
               <SelectItem key={opt.value} value={opt.value}>
                 {opt.label}
@@ -164,19 +212,22 @@ export default function DocumentsPage() {
             ))}
           </SelectContent>
         </Select>
+
+        {/* Status filter */}
         <Select
-          value={sourceFilter || null}
-          onValueChange={(val) => {
-            setSourceFilter((val as DocumentSource) || "");
+          value={statusFilter || undefined}
+          onValueChange={(val: string | null) => {
+            setStatusFilter(!val || val === "__all__" ? "" : (val as DocumentStatus));
             setPage(1);
           }}
         >
-          <SelectTrigger>
-            <SelectValue placeholder="All Sources" />
+          <SelectTrigger className="h-10 w-auto min-w-[120px] gap-2 rounded-[6px] border border-[#E7E5E4] bg-white px-4 text-sm font-medium hover:bg-[#F5F5F4] [&>svg]:hidden">
+            <SelectValue placeholder="Status" />
+            <ChevronDown className="ml-1 h-3.5 w-3.5 text-[#A8A29E]" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={""}>All Sources</SelectItem>
-            {SOURCE_OPTIONS.map((opt) => (
+            <SelectItem value="__all__">All Statuses</SelectItem>
+            {STATUS_OPTIONS.map((opt) => (
               <SelectItem key={opt.value} value={opt.value}>
                 {opt.label}
               </SelectItem>
@@ -185,118 +236,139 @@ export default function DocumentsPage() {
         </Select>
       </div>
 
-      {/* Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            All Documents{data ? ` (${data.total})` : ""}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isError && (
-            <div className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
-              Failed to load documents:{" "}
-              {error instanceof Error ? error.message : "Unknown error"}
-            </div>
-          )}
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Filename</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Vendor</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Source</TableHead>
-                <TableHead>Date</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {isLoading ? (
-                Array.from({ length: 5 }).map((_, i) => (
-                  <TableRow key={i}>
-                    {Array.from({ length: 7 }).map((_, j) => (
-                      <TableCell key={j}>
-                        <div className="h-4 w-20 animate-pulse rounded bg-muted" />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : items.length === 0 ? (
-                <TableRow>
-                  <TableCell
-                    colSpan={7}
-                    className="py-8 text-center text-muted-foreground"
-                  >
-                    <FileText className="mx-auto mb-2 h-8 w-8 opacity-50" />
-                    No documents found. Try adjusting your filters or upload a
-                    new document.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                items.map((doc) => (
-                  <TableRow
-                    key={doc.id}
-                    className="cursor-pointer hover:bg-muted/50"
-                    onClick={() =>
-                      router.push(`/dashboard/documents/${doc.id}`)
-                    }
-                  >
-                    <TableCell className="max-w-[200px] truncate font-medium">
-                      {doc.original_filename ?? doc.filename}
-                    </TableCell>
-                    <TableCell className="capitalize">
-                      {doc.document_type?.replace("_", " ") ?? "--"}
-                    </TableCell>
-                    <TableCell className="max-w-[150px] truncate">
-                      {doc.vendor_name ?? "--"}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {formatCurrency(doc.total_amount)}
-                    </TableCell>
-                    <TableCell>
-                      <StatusBadge status={doc.status} />
-                    </TableCell>
-                    <TableCell className="capitalize">
-                      {doc.source.replace("_", " ")}
-                    </TableCell>
-                    <TableCell>{formatDate(doc.created_at)}</TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+      {/* Error */}
+      {isError && (
+        <div className="rounded-[6px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          Failed to load documents:{" "}
+          {error instanceof Error ? error.message : "Unknown error"}
+        </div>
+      )}
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="mt-4 flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
-                Page {page} of {totalPages}
-              </p>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={page <= 1}
-                  onClick={() => setPage((p) => p - 1)}
-                >
-                  <ChevronLeft className="mr-1 h-4 w-4" />
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={page >= totalPages}
-                  onClick={() => setPage((p) => p + 1)}
-                >
-                  Next
-                  <ChevronRight className="ml-1 h-4 w-4" />
-                </Button>
-              </div>
+      {/* Data Table */}
+      <div className="overflow-hidden rounded-[12px] border border-[#E7E5E4] bg-white shadow-[0_4px_24px_rgba(15,37,55,0.04)]">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-[#E7E5E4] bg-[#F5F5F4]">
+              <th className="px-5 py-3 text-left font-mono text-[13px] font-medium uppercase tracking-wider text-[#A8A29E]">
+                Vendor
+              </th>
+              <th className="px-5 py-3 text-left font-mono text-[13px] font-medium uppercase tracking-wider text-[#A8A29E]">
+                Source
+              </th>
+              <th className="px-5 py-3 text-left font-mono text-[13px] font-medium uppercase tracking-wider text-[#A8A29E]">
+                Department
+              </th>
+              <th className="px-5 py-3 text-right font-mono text-[13px] font-medium uppercase tracking-wider text-[#A8A29E]">
+                Value
+              </th>
+              <th className="px-5 py-3 text-left font-mono text-[13px] font-medium uppercase tracking-wider text-[#A8A29E]">
+                Type
+              </th>
+              <th className="px-5 py-3 text-left font-mono text-[13px] font-medium uppercase tracking-wider text-[#A8A29E]">
+                Expiration
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              Array.from({ length: 5 }).map((_, i) => (
+                <tr key={i} className="border-b border-[#E7E5E4] last:border-b-0">
+                  {Array.from({ length: 6 }).map((_, j) => (
+                    <td key={j} className="h-[56px] px-5">
+                      <div className="h-4 w-20 animate-pulse rounded bg-[#F5F5F4]" />
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : items.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="px-5 py-12 text-center text-[#A8A29E]">
+                  <FileText className="mx-auto mb-2 h-8 w-8 opacity-50" />
+                  No documents found. Try adjusting your filters or upload a new document.
+                </td>
+              </tr>
+            ) : (
+              items.map((doc) => {
+                const tag = getSourceTag(doc.source, doc.document_type);
+                const expiry = isExpiringSoon(doc.expiration_date);
+
+                return (
+                  <tr
+                    key={doc.id}
+                    className="h-[56px] cursor-pointer border-b border-[#E7E5E4] transition-colors last:border-b-0 hover:bg-[#F5F5F4]"
+                    onClick={() => router.push(`/dashboard/documents/${doc.id}`)}
+                  >
+                    {/* Vendor */}
+                    <td className="max-w-[220px] truncate px-5 text-[15px] font-medium text-[#292524]">
+                      {doc.vendor_name ?? doc.original_filename ?? doc.filename}
+                    </td>
+                    {/* Source */}
+                    <td className="px-5">
+                      <span
+                        className={`inline-flex h-6 items-center rounded-[4px] px-3 font-mono text-[13px] ${tag.bg} ${tag.text}`}
+                      >
+                        {tag.label}
+                      </span>
+                    </td>
+                    {/* Department */}
+                    <td className="max-w-[180px] truncate px-5 text-[15px] text-[#78716C]">
+                      {doc.primary_department ? (DEPT_LABELS[doc.primary_department] ?? doc.primary_department) : "--"}
+                    </td>
+                    {/* Value */}
+                    <td className="px-5 text-right text-[15px] text-[#292524]">
+                      {formatCompactCurrency(doc.total_amount)}
+                    </td>
+                    {/* Type */}
+                    <td className="px-5 text-[15px] text-[#78716C] capitalize">
+                      {doc.document_type?.replace("_", " ") ?? "--"}
+                    </td>
+                    {/* Expiration */}
+                    <td
+                      className={`px-5 text-[15px] ${
+                        expiry === "expired"
+                          ? "font-semibold text-red-600"
+                          : expiry === "warning"
+                            ? "font-semibold text-amber-600"
+                            : "text-[#292524]"
+                      }`}
+                    >
+                      {formatDate(doc.expiration_date)}
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between border-t border-[#E7E5E4] px-5 py-3">
+            <p className="text-sm text-[#A8A29E]">
+              Page {page} of {totalPages}
+              {data?.total ? ` \u00b7 ${data.total} documents` : ""}
+            </p>
+            <div className="flex items-center gap-2">
+              <button
+                disabled={page <= 1}
+                onClick={() => setPage((p) => p - 1)}
+                className="inline-flex h-9 items-center gap-1.5 rounded-[6px] border border-[#E7E5E4] bg-white px-3.5 text-sm font-medium text-[#292524] transition-colors hover:bg-[#F5F5F4] disabled:pointer-events-none disabled:opacity-40"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Previous
+              </button>
+              <button
+                disabled={page >= totalPages}
+                onClick={() => setPage((p) => p + 1)}
+                className="inline-flex h-9 items-center gap-1.5 rounded-[6px] border border-[#E7E5E4] bg-white px-3.5 text-sm font-medium text-[#292524] transition-colors hover:bg-[#F5F5F4] disabled:pointer-events-none disabled:opacity-40"
+              >
+                Next
+                <ChevronRight className="h-4 w-4" />
+              </button>
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -32,6 +32,70 @@ _EXTRACTION_SCHEMA = {
                 "insurance_required": {"type": ["boolean", "null"], "description": "Whether insurance is required."},
                 "bond_required": {"type": ["boolean", "null"], "description": "Whether a performance bond is required."},
                 "scope_summary": {"type": ["string", "null"], "description": "Brief summary of scope of work (1-2 sentences)."},
+                # --- Department routing (S15) ---
+                "department_tags": {
+                    "type": "array",
+                    "items": {"type": "string", "enum": [
+                        "PUBLIC_WORKS", "TRANSPORTATION", "PUBLIC_SAFETY", "FINANCE",
+                        "INFORMATION_TECHNOLOGY", "PLANNING_DEVELOPMENT", "PUBLIC_UTILITIES",
+                        "PARKS_RECREATION", "HUMAN_RESOURCES", "RISK_MANAGEMENT",
+                        "COMMUNITY_DEVELOPMENT", "CITY_ASSESSOR", "PROCUREMENT", "OTHER",
+                    ]},
+                    "description": (
+                        "City departments this contract serves (1-3 tags). Classify by the OPERATIONAL department, not issuing department. Examples: "
+                        "sidewalk/paving/road/bridge/drainage → PUBLIC_WORKS; "
+                        "VDOT/traffic/highway/transit → TRANSPORTATION; "
+                        "police/law enforcement/camera/surveillance/firearm → PUBLIC_SAFETY; "
+                        "audit/financial statement/accounting/budget → FINANCE; "
+                        "workers comp/liability claims/insurance/loss control → RISK_MANAGEMENT; "
+                        "software/SaaS/hardware/network/CAMA → INFORMATION_TECHNOLOGY; "
+                        "building code/zoning/inspection/elevator/permit → PLANNING_DEVELOPMENT; "
+                        "water/sewer/gas/electric/meter → PUBLIC_UTILITIES; "
+                        "park/recreation/trail/playground → PARKS_RECREATION; "
+                        "property assessment/appraisal/valuation → CITY_ASSESSOR; "
+                        "housing/neighborhood/community/block grant → COMMUNITY_DEVELOPMENT; "
+                        "staffing/employee/training/benefits → HUMAN_RESOURCES."
+                    ),
+                },
+                "primary_department": {
+                    "type": "string",
+                    "enum": [
+                        "PUBLIC_WORKS", "TRANSPORTATION", "PUBLIC_SAFETY", "FINANCE",
+                        "INFORMATION_TECHNOLOGY", "PLANNING_DEVELOPMENT", "PUBLIC_UTILITIES",
+                        "PARKS_RECREATION", "HUMAN_RESOURCES", "RISK_MANAGEMENT",
+                        "COMMUNITY_DEVELOPMENT", "CITY_ASSESSOR", "PROCUREMENT", "OTHER",
+                    ],
+                    "description": "The single primary department owner for this contract. Must be one of the department_tags values.",
+                },
+                "department_confidence": {"type": "number", "description": "Confidence in department classification 0.0-1.0."},
+                # --- MBE/WBE & compliance (S16) ---
+                "mbe_wbe_required": {"type": ["boolean", "null"], "description": "Whether MBE/WBE (Minority/Women Business Enterprise) participation is required."},
+                "mbe_wbe_details": {"type": ["string", "null"], "description": "MBE/WBE percentage targets, certification requirements, or 'N/A' if not found."},
+                "federal_funding": {"type": ["boolean", "null"], "description": "Whether federal funds are involved (triggers Davis-Bacon, Buy America, EEO requirements)."},
+                "compliance_flags": {
+                    "type": "array",
+                    "items": {"type": "string", "enum": [
+                        "MBE_WBE", "DAVIS_BACON", "ADA", "DRUG_FREE_WORKPLACE",
+                        "OSHA", "VDOT_STANDARDS", "ENVIRONMENTAL", "EEO",
+                    ]},
+                    "description": "Compliance requirements detected in the document.",
+                },
+                # --- Insurance & bonding intelligence (S17) ---
+                "insurance_general_liability_min": {"type": ["number", "null"], "description": "Minimum commercial general liability insurance coverage in dollars (e.g., 2000000 for $2M)."},
+                "insurance_auto_liability_min": {"type": ["number", "null"], "description": "Minimum automobile liability insurance coverage in dollars."},
+                "insurance_professional_liability_min": {"type": ["number", "null"], "description": "Minimum professional liability/E&O insurance coverage in dollars."},
+                "workers_comp_required": {"type": ["boolean", "null"], "description": "Whether workers' compensation insurance is required."},
+                "performance_bond_amount": {"type": ["number", "null"], "description": "Performance bond amount in dollars (often equals total contract amount)."},
+                "payment_bond_amount": {"type": ["number", "null"], "description": "Payment bond amount in dollars."},
+                "liquidated_damages_rate": {"type": ["string", "null"], "description": "Liquidated damages rate if specified (e.g., '$600 per calendar day')."},
+                # --- Procurement method (S18) ---
+                "procurement_method": {
+                    "type": ["string", "null"],
+                    "enum": ["COMPETITIVE_BID", "COOPERATIVE_PURCHASE", "SOLE_SOURCE", "EMERGENCY", "RFP", "OTHER", None],
+                    "description": "How this contract was procured.",
+                },
+                "cooperative_contract_ref": {"type": ["string", "null"], "description": "Parent cooperative contract identifier if applicable."},
+                "prequalification_required": {"type": ["boolean", "null"], "description": "Whether vendor prequalification was required."},
                 "extraction_confidence": {"type": "number", "description": "Overall extraction confidence 0.0-1.0."},
                 "field_confidences": {
                     "type": "object",
@@ -55,7 +119,14 @@ _EXTRACTION_SCHEMA = {
                 "title", "document_number", "vendor_name", "issuing_department",
                 "total_amount", "currency", "document_date", "effective_date",
                 "expiration_date", "expiration_date_source", "contract_type", "payment_terms", "renewal_clause",
-                "insurance_required", "bond_required", "scope_summary", "extraction_confidence",
+                "insurance_required", "bond_required", "scope_summary",
+                "department_tags", "primary_department", "department_confidence",
+                "mbe_wbe_required", "mbe_wbe_details", "federal_funding", "compliance_flags",
+                "insurance_general_liability_min", "insurance_auto_liability_min",
+                "insurance_professional_liability_min", "workers_comp_required",
+                "performance_bond_amount", "payment_bond_amount", "liquidated_damages_rate",
+                "procurement_method", "cooperative_contract_ref", "prequalification_required",
+                "extraction_confidence",
                 "field_confidences",
             ],
             "additionalProperties": False,
@@ -203,6 +274,23 @@ _EMPTY_RESULT: dict = {
     "insurance_required": None,
     "bond_required": None,
     "scope_summary": None,
+    "department_tags": [],
+    "primary_department": "OTHER",
+    "department_confidence": 0.0,
+    "mbe_wbe_required": None,
+    "mbe_wbe_details": None,
+    "federal_funding": None,
+    "compliance_flags": [],
+    "insurance_general_liability_min": None,
+    "insurance_auto_liability_min": None,
+    "insurance_professional_liability_min": None,
+    "workers_comp_required": None,
+    "performance_bond_amount": None,
+    "payment_bond_amount": None,
+    "liquidated_damages_rate": None,
+    "procurement_method": None,
+    "cooperative_contract_ref": None,
+    "prequalification_required": None,
     "extraction_confidence": 0.0,
     "field_confidences": {},
 }
@@ -244,7 +332,7 @@ async def extract_fields(ocr_text: str, document_type: str) -> dict:
             ],
             response_format=_EXTRACTION_SCHEMA,
             temperature=0.0,
-            max_completion_tokens=1200,
+            max_completion_tokens=2000,
         )
 
         result = json.loads(response.choices[0].message.content)

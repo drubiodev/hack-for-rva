@@ -10,6 +10,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.backfill import compute_intelligence
 from app.database import get_db
 from app.models.document import ActivityLog, Document, ExtractedFields
 
@@ -33,6 +34,9 @@ def _parse_date(value: str | None) -> date | None:
     if not value or not value.strip():
         return None
     value = value.strip()
+    # Strip time component if present (e.g., "01/31/2011 12:00:00 AM")
+    if " " in value:
+        value = value.split(" ")[0]
     for fmt in ("%m/%d/%Y", "%Y-%m-%d", "%m-%d-%Y", "%m/%d/%y", "%Y/%m/%d"):
         try:
             return datetime.strptime(value, fmt).date()
@@ -167,12 +171,12 @@ def _parse_csv_rows(csv_text: str) -> list[dict]:
         effective_date_str = _get_field(
             row, col_map,
             "start_date", "effective_date", "begin_date", "startdate",
-            "contract_start_date",
+            "contract_start_date", "effective_from",
         )
         expiration_date_str = _get_field(
             row, col_map,
             "end_date", "expiration_date", "expire_date", "enddate",
-            "contract_end_date", "termination_date",
+            "contract_end_date", "termination_date", "effective_to",
         )
         contract_type = _get_field(
             row, col_map,
@@ -263,6 +267,11 @@ async def ingest_socrata(db: AsyncSession = Depends(get_db)):
         )
         batch_docs.append(doc)
 
+        intel = compute_intelligence(
+            row_data.get("raw", {}),
+            row_data.get("issuing_department"),
+            row_data.get("total_amount"),
+        )
         fields = ExtractedFields(
             document=doc,
             title=row_data.get("title"),
@@ -275,6 +284,18 @@ async def ingest_socrata(db: AsyncSession = Depends(get_db)):
             contract_type=row_data.get("contract_type"),
             raw_extraction=row_data.get("raw", {}),
             extraction_confidence=1.0,  # Socrata data is authoritative
+            primary_department=intel["primary_department"],
+            department_tags=intel["department_tags"],
+            department_confidence=intel["department_confidence"],
+            procurement_method=intel["procurement_method"],
+            cooperative_contract_ref=intel["cooperative_contract_ref"],
+            prequalification_required=intel["prequalification_required"],
+            compliance_flags=intel["compliance_flags"],
+            mbe_wbe_required=intel["mbe_wbe_required"],
+            federal_funding=intel["federal_funding"],
+            bond_required=intel.get("bond_required") or None,
+            insurance_required=intel.get("insurance_required") or None,
+            workers_comp_required=intel["workers_comp_required"],
         )
         batch_fields.append(fields)
         imported += 1

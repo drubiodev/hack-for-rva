@@ -2,34 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarInset,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { useAuth } from "@/hooks/useAuth";
 import {
   LayoutDashboard,
   Upload,
-  FileText,
+  FolderOpen,
   BarChart3,
   LogOut,
+  Settings,
+  Activity,
 } from "lucide-react";
 
 const NAV_ITEMS = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/documents", label: "Documents", icon: FileText },
+  { href: "/dashboard", label: "Dashboard Overview", icon: LayoutDashboard },
+  { href: "/dashboard/documents", label: "Unified Portfolio", icon: FolderOpen },
   { href: "/dashboard/upload", label: "Upload", icon: Upload },
   { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
 ];
@@ -44,76 +32,123 @@ export default function DashboardLayout({
 
   if (!mounted || !user) return null;
 
+  const isActive = (href: string) => {
+    if (href === "/dashboard") return pathname === "/dashboard";
+    return pathname.startsWith(href);
+  };
+
   return (
-    <SidebarProvider>
-      <Sidebar>
-        <SidebarHeader className="p-4">
-          <h2 className="text-lg font-semibold">Procurement</h2>
-          <p className="text-xs text-muted-foreground">City of Richmond</p>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarMenu>
-            {NAV_ITEMS.map((item) => (
-              <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton
-                  render={<Link href={item.href} />}
-                  isActive={pathname === item.href}
-                  tooltip={item.label}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarContent>
-        <SidebarFooter className="p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-sm font-medium truncate">{user.name}</span>
-            <Badge
-              variant={user.role === "supervisor" ? "default" : "secondary"}
-              className={
-                user.role === "supervisor"
-                  ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                  : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-              }
-            >
-              {user.role === "supervisor" ? "Supervisor" : "Analyst"}
-            </Badge>
+    <div className="flex h-screen overflow-hidden">
+      {/* Sidebar */}
+      <aside className="flex w-[250px] flex-col border-r border-[#E7E5E4] bg-white">
+        {/* Logo */}
+        <div className="flex items-center gap-2.5 px-5 py-5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0F2537]">
+            <Activity className="h-4 w-4 text-white" />
           </div>
+          <div>
+            <span className="text-sm font-semibold tracking-tight text-[#292524]" style={{ fontFamily: "'Bricolage Grotesque', var(--font-heading), sans-serif" }}>
+              ContractIQ
+            </span>
+            <p className="text-[10px] leading-tight text-[#A8A29E]">
+              City of Richmond
+            </p>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 px-3 py-2">
+          <ul className="space-y-0.5">
+            {NAV_ITEMS.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
+                      active
+                        ? "bg-[#F7F5F2] font-medium text-[#0F2537]"
+                        : "text-[#A8A29E] hover:bg-[#F7F5F2] hover:text-[#292524]"
+                    }`}
+                  >
+                    <item.icon className={`h-4 w-4 ${active ? "text-[#0F2537]" : ""}`} />
+                    <span>{item.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Bottom section */}
+        <div className="border-t border-[#E7E5E4] px-3 py-3">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[#A8A29E] transition-colors hover:bg-[#F7F5F2] hover:text-[#292524]"
+          >
+            <Settings className="h-4 w-4" />
+            <span>Settings</span>
+          </Link>
+
+          <div className="mt-2 flex items-center gap-3 rounded-lg px-3 py-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0F2537] text-xs font-medium text-white">
+              {user.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .toUpperCase()
+                .slice(0, 2)}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="truncate text-sm font-medium text-[#292524]">
+                {user.name}
+              </p>
+              <Badge
+                variant="secondary"
+                className={`text-[10px] px-1.5 py-0 ${
+                  user.role === "supervisor"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-blue-100 text-blue-800"
+                }`}
+              >
+                {user.role === "supervisor" ? "Supervisor" : "Analyst"}
+              </Badge>
+            </div>
+          </div>
+
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-start"
+            className="mt-1 w-full justify-start text-[#A8A29E] hover:text-[#292524]"
             onClick={logout}
           >
             <LogOut className="h-4 w-4 mr-2" />
             Sign out
           </Button>
-        </SidebarFooter>
-      </Sidebar>
-      <SidebarInset>
-        <header className="flex h-14 items-center gap-2 border-b px-4">
-          <SidebarTrigger />
-          <Separator orientation="vertical" className="h-6" />
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold leading-tight">
-              Procurement Document Processing
-            </span>
-            <span className="text-[10px] text-muted-foreground leading-tight">
-              AI-assisted, requires human review
-            </span>
-          </div>
-          <div className="flex-1" />
-          <div className="flex items-center gap-2">
-            <span className="hidden sm:inline text-xs text-muted-foreground">
-              {user.name} — {user.role === "supervisor" ? "Supervisor" : "Analyst"}
-            </span>
-            <ThemeToggle />
-          </div>
+        </div>
+      </aside>
+
+      {/* Main content area */}
+      <div className="flex flex-1 flex-col overflow-hidden">
+        {/* Header bar */}
+        <header className="flex h-14 items-center gap-3 border-b border-[#E7E5E4] bg-white px-8">
+          <span
+            className="text-[10px] font-medium uppercase tracking-widest text-[#A8A29E]"
+            style={{ fontFamily: "'DM Mono', var(--font-mono), monospace" }}
+          >
+            Procurement Intelligence
+          </span>
+          <span className="text-[#E7E5E4]">|</span>
+          <span className="text-sm font-medium text-[#292524]">
+            AI-assisted, requires human review
+          </span>
         </header>
-        <main className="flex-1 p-6">{children}</main>
-      </SidebarInset>
-    </SidebarProvider>
+
+        {/* Page content */}
+        <main className="flex-1 overflow-y-auto bg-[#F7F5F2] p-8">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 }

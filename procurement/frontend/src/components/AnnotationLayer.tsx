@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import type { Annotation } from "@/lib/types";
 
 const COLOR_PALETTE = [
@@ -44,8 +44,6 @@ interface AnnotationLayerProps {
 interface PendingAnnotation {
   x: number;
   y: number;
-  screenX: number;
-  screenY: number;
 }
 
 export default function AnnotationLayer({
@@ -53,44 +51,61 @@ export default function AnnotationLayer({
   onAnnotationCreate,
   disabled = false,
 }: AnnotationLayerProps) {
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState<PendingAnnotation | null>(null);
   const [pendingText, setPendingText] = useState("");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  // Guard against onBlur firing after Enter already submitted
+  const submittedRef = useRef(false);
 
-  const handleOverlayClick = useCallback(
+  // Focus input when pending annotation is created
+  useEffect(() => {
+    if (pending && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [pending]);
+
+  const handleClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (disabled) return;
-      // Only handle clicks directly on the overlay, not on pins or input
-      if (e.target !== e.currentTarget) return;
+      // Only handle clicks directly on the overlay or the transparent click area, not on pins/input
+      const target = e.target as HTMLElement;
+      if (target.closest("[data-annotation-pin]") || target.closest("[data-annotation-input]")) {
+        return;
+      }
 
-      const rect = overlayRef.current?.getBoundingClientRect();
-      if (!rect) return;
+      const container = containerRef.current;
+      if (!container) return;
 
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      // Calculate position as percentage of the FULL scrollable content
+      const rect = container.getBoundingClientRect();
+      const scrollLeft = container.scrollLeft;
+      const scrollTop = container.scrollTop;
+      const fullWidth = container.scrollWidth;
+      const fullHeight = container.scrollHeight;
 
-      setPending({
-        x,
-        y,
-        screenX: e.clientX - rect.left,
-        screenY: e.clientY - rect.top,
-      });
+      const clickX = e.clientX - rect.left + scrollLeft;
+      const clickY = e.clientY - rect.top + scrollTop;
+
+      const x = (clickX / fullWidth) * 100;
+      const y = (clickY / fullHeight) * 100;
+
+      submittedRef.current = false;
+      setPending({ x, y });
       setPendingText("");
-
-      // Focus input after render
-      setTimeout(() => inputRef.current?.focus(), 0);
     },
     [disabled],
   );
 
   const submitAnnotation = useCallback(() => {
+    if (submittedRef.current) return;
     if (!pending || !pendingText.trim()) {
       setPending(null);
       setPendingText("");
       return;
     }
+    submittedRef.current = true;
     onAnnotationCreate({
       x: pending.x,
       y: pending.y,
@@ -101,6 +116,7 @@ export default function AnnotationLayer({
   }, [pending, pendingText, onAnnotationCreate]);
 
   const cancelAnnotation = useCallback(() => {
+    submittedRef.current = true;
     setPending(null);
     setPendingText("");
   }, []);
@@ -118,11 +134,21 @@ export default function AnnotationLayer({
     [submitAnnotation, cancelAnnotation],
   );
 
+  const handleBlur = useCallback(() => {
+    // Delay to allow click events on other elements to fire first
+    setTimeout(() => {
+      if (!submittedRef.current) {
+        submitAnnotation();
+      }
+    }, 150);
+  }, [submitAnnotation]);
+
   return (
     <div
-      ref={overlayRef}
-      className="absolute inset-0 pointer-events-auto z-10"
-      onClick={handleOverlayClick}
+      ref={containerRef}
+      className="absolute inset-0 z-10"
+      style={{ pointerEvents: "auto" }}
+      onClick={handleClick}
     >
       {/* Existing annotation pins */}
       {annotations.map((annotation) => {
@@ -132,11 +158,13 @@ export default function AnnotationLayer({
         return (
           <div
             key={annotation.id}
-            className="absolute pointer-events-auto"
+            data-annotation-pin
+            className="absolute"
             style={{
               left: `${annotation.x}%`,
               top: `${annotation.y}%`,
               transform: "translate(-50%, -50%)",
+              pointerEvents: "auto",
             }}
             onMouseEnter={() => setHoveredId(annotation.id)}
             onMouseLeave={() => setHoveredId(null)}
@@ -169,10 +197,12 @@ export default function AnnotationLayer({
       {/* Pending annotation input */}
       {pending && (
         <div
-          className="absolute z-20 pointer-events-auto"
+          data-annotation-input
+          className="absolute z-20"
           style={{
             left: `${pending.x}%`,
             top: `${pending.y}%`,
+            pointerEvents: "auto",
           }}
         >
           {/* Small pin indicator */}
@@ -189,7 +219,7 @@ export default function AnnotationLayer({
               value={pendingText}
               onChange={(e) => setPendingText(e.target.value)}
               onKeyDown={handleKeyDown}
-              onBlur={submitAnnotation}
+              onBlur={handleBlur}
               className="w-full bg-[#111318] border border-[#2e3248] rounded px-2 py-1.5 text-xs text-[#94a3b8] placeholder-[#64748b] outline-none focus:border-[#4f8ef7] transition-colors"
             />
             <p className="mt-1 text-[10px] text-[#64748b]">

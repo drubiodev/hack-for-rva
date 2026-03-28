@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.backfill import router as backfill_router
 from app.api.ingest import router as ingest_router
 from app.api.router import router
 from app.config import settings
@@ -65,3 +66,4 @@ app.add_middleware(
 
 app.include_router(router)
 app.include_router(ingest_router)
+app.include_router(backfill_router)
