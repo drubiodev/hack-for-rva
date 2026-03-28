@@ -366,11 +366,19 @@ export interface ChatSource {
   snippet?: string | null;
 }
 
+export interface ChatReference {
+  index: number;
+  document_id: string;
+  title: string | null;
+  snippet: string | null;
+}
+
 export interface ChatResponse {
   answer: string;
   sources: ChatSource[];
   conversation_id: string;
   intent?: string | null;
+  references?: ChatReference[];
 }
 
 export interface ChatMessage {
@@ -378,6 +386,7 @@ export interface ChatMessage {
   content: string;
   sources?: ChatSource[];
   intent?: string;
+  references?: ChatReference[];
 }
 
 // --- Intelligence ---

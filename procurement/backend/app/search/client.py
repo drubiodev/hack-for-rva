@@ -423,6 +423,39 @@ async def sql_filter_list(
 
 
 # ---------------------------------------------------------------------------
+# Source helpers
+# ---------------------------------------------------------------------------
+
+
+def _doc_caption(doc: dict) -> str | None:
+    """Build a one-line caption from document fields for source chips."""
+    parts = []
+    if doc.get("vendor_name"):
+        parts.append(doc["vendor_name"])
+    if doc.get("total_amount"):
+        parts.append(f"${doc['total_amount']:,.0f}")
+    if doc.get("primary_department"):
+        parts.append(doc["primary_department"].replace("_", " ").title())
+    if doc.get("expiration_date"):
+        parts.append(f"exp {doc['expiration_date']}")
+    return " — ".join(parts) if parts else None
+
+
+def _deduplicate_sources(sources: list[dict], max_count: int = 8) -> list[dict]:
+    """Deduplicate by document ID, keep highest relevance, cap at max_count."""
+    seen: dict[str, dict] = {}
+    for src in sources:
+        doc_id = src.get("id")
+        if not doc_id:
+            continue
+        existing = seen.get(doc_id)
+        if not existing or src.get("relevance", 0) > existing.get("relevance", 0):
+            seen[doc_id] = src
+    ranked = sorted(seen.values(), key=lambda s: s.get("relevance", 0), reverse=True)
+    return ranked[:max_count]
+
+
+# ---------------------------------------------------------------------------
 # Orchestrator — routes intent to the right execution path
 # ---------------------------------------------------------------------------
 
@@ -456,11 +489,24 @@ async def execute_query(
                 f"total ${row['total_value']:,.2f}, avg ${row['avg_value']:,.2f}"
             )
 
+        # Fetch top backing documents so the user can drill into the data
+        backing_docs = await sql_filter_list(db, sql_filters=sql_filters, limit=8)
+        for doc in backing_docs:
+            sources.append({
+                "id": doc["id"],
+                "title": doc["title"],
+                "relevance": 0.9,
+                "caption": _doc_caption(doc),
+            })
+
     elif intent == "expiration_alert":
         days = classification.get("days_ahead") or 90
         expiring = await sql_expiring_contracts(db, days_ahead=days)
         for doc in expiring:
-            sources.append({"id": doc["id"], "title": doc["title"], "relevance": 0.95})
+            caption = f"{doc['vendor_name'] or 'N/A'} — expires {doc['expiration_date']} ({doc['days_until_expiry']}d)"
+            if doc.get("total_amount"):
+                caption += f" — ${doc['total_amount']:,.0f}"
+            sources.append({"id": doc["id"], "title": doc["title"], "relevance": 0.95, "caption": caption})
             context_parts.append(
                 f"{doc['title']} — {doc['vendor_name'] or 'N/A'}, "
                 f"expires {doc['expiration_date']} ({doc['days_until_expiry']} days), "
@@ -472,7 +518,8 @@ async def execute_query(
     elif intent == "compliance_check":
         gaps = await sql_compliance_gaps(db)
         for doc in gaps:
-            sources.append({"id": doc["id"], "title": doc["title"], "relevance": 0.9})
+            caption = f"{doc['vendor_name'] or 'N/A'} — missing: {', '.join(doc['missing_fields'])}"
+            sources.append({"id": doc["id"], "title": doc["title"], "relevance": 0.9, "caption": caption})
             context_parts.append(
                 f"{doc['title']} ({doc['vendor_name'] or 'N/A'}): "
                 f"missing {', '.join(doc['missing_fields'])}, "
@@ -485,7 +532,7 @@ async def execute_query(
         # Combine SQL filter + semantic search for vendor queries
         filtered = await sql_filter_list(db, sql_filters=sql_filters, limit=10)
         for doc in filtered:
-            sources.append({"id": doc["id"], "title": doc["title"], "relevance": 0.85})
+            sources.append({"id": doc["id"], "title": doc["title"], "relevance": 0.85, "caption": _doc_caption(doc)})
             amount_str = f"${doc['total_amount']:,.2f}" if doc['total_amount'] else "N/A"
             context_parts.append(
                 f"{doc['title']} — {doc['vendor_name'] or 'N/A'}, "
@@ -496,7 +543,7 @@ async def execute_query(
     elif intent == "filter_list":
         filtered = await sql_filter_list(db, sql_filters=sql_filters, limit=10)
         for doc in filtered:
-            sources.append({"id": doc["id"], "title": doc["title"], "relevance": 0.85})
+            sources.append({"id": doc["id"], "title": doc["title"], "relevance": 0.85, "caption": _doc_caption(doc)})
             amount_str = f"${doc['total_amount']:,.2f}" if doc['total_amount'] else "N/A"
             context_parts.append(
                 f"{doc['title']} — {doc['vendor_name'] or 'N/A'}, "
@@ -515,7 +562,7 @@ async def execute_query(
             # Fallback to SQL filter
             hits_sql = await sql_filter_list(db, sql_filters=sql_filters, limit=8)
             for doc in hits_sql:
-                sources.append({"id": doc["id"], "title": doc["title"], "relevance": 0.7})
+                sources.append({"id": doc["id"], "title": doc["title"], "relevance": 0.7, "caption": _doc_caption(doc)})
                 amount_str = f"${doc['total_amount']:,.2f}" if doc['total_amount'] else "N/A"
                 context_parts.append(
                     f"{doc['title']} — {doc['vendor_name'] or 'N/A'}, "
@@ -547,5 +594,5 @@ async def execute_query(
         "intent": intent,
         "classification": classification,
         "context": "\n\n".join(context_parts),
-        "sources": sources,
+        "sources": _deduplicate_sources(sources),
     }

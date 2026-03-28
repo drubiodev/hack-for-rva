@@ -28,15 +28,12 @@ const NAV_ITEMS = [
 
 function ChatFAB() {
   const { toggle, isOpen } = useChatPanel();
+  if (isOpen) return null;
   return (
     <button
       onClick={toggle}
-      className={`fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-all duration-200 ${
-        isOpen
-          ? "bg-[#0F2537] text-white scale-90"
-          : "bg-[#4f8ef7] text-white hover:bg-[#3d7ce5] hover:scale-105"
-      }`}
-      style={{ boxShadow: isOpen ? "none" : "0 4px 16px rgba(79, 142, 247, 0.35)" }}
+      className="fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-[#4f8ef7] text-white shadow-lg hover:bg-[#3d7ce5] hover:scale-105 transition-all duration-200"
+      style={{ boxShadow: "0 4px 16px rgba(79, 142, 247, 0.35)" }}
       title="Chat with ContractIQ"
     >
       <MessageSquare className="h-6 w-6" />
@@ -139,7 +136,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main content area */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         {/* Header bar */}
         <header className="flex h-14 items-center gap-3 border-b border-[#E7E5E4] bg-white px-8">
           <span
@@ -160,9 +157,11 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
         </main>
       </div>
 
-      {/* Chat FAB + Panel */}
-      <ChatFAB />
+      {/* Chat sidebar — inline, pushes content over */}
       <ChatPanel />
+
+      {/* Chat FAB */}
+      <ChatFAB />
     </div>
   );
 }

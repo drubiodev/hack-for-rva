@@ -35,6 +35,7 @@ from app.schemas.document import (
     AnnotationCreate,
     AnnotationResponse,
     ApproveRequest,
+    ChatReferenceSchema,
     ChatRequest,
     ChatResponse,
     ChatSourceSchema,
@@ -1444,9 +1445,10 @@ async def chat(
     context_text = query_result["context"]
     raw_sources = query_result["sources"]
 
-    # Build source schemas
+    # Build source schemas and numbered reference map
     sources = []
-    for src in raw_sources:
+    references: list[ChatReferenceSchema] = []
+    for idx, src in enumerate(raw_sources, 1):
         try:
             sources.append(ChatSourceSchema(
                 document_id=src["id"],
@@ -1454,8 +1456,25 @@ async def chat(
                 relevance=src.get("relevance", 0.8),
                 snippet=src.get("caption"),
             ))
+            references.append(ChatReferenceSchema(
+                index=idx,
+                document_id=src["id"],
+                title=src.get("title"),
+                snippet=src.get("caption"),
+            ))
         except Exception:
             pass  # skip malformed sources
+
+    # Build numbered context for the LLM so it can cite [1], [2], etc.
+    context_lines = context_text.split("\n\n") if context_text else []
+    numbered_context_parts = []
+    for i, line in enumerate(context_lines):
+        ref_num = i + 1 if i < len(references) else None
+        if ref_num:
+            numbered_context_parts.append(f"[{ref_num}] {line}")
+        else:
+            numbered_context_parts.append(line)
+    numbered_context = "\n\n".join(numbered_context_parts)
 
     # --- 2. Generate AI answer grounded in retrieved context ---
     ai_available = (
@@ -1463,7 +1482,7 @@ async def chat(
         and settings.azure_openai_endpoint != "https://PLACEHOLDER.openai.azure.com/"
     )
 
-    if ai_available and context_text:
+    if ai_available and (context_text or intent == "general_knowledge"):
         try:
             from openai import AsyncOpenAI
 
@@ -1472,19 +1491,28 @@ async def chat(
                 api_key=settings.azure_openai_key,
             )
 
+            citation_instruction = ""
+            if references:
+                citation_instruction = (
+                    "- IMPORTANT: When listing results or mentioning specific documents, "
+                    "cite them using their reference number like [1], [2], etc. "
+                    "Place the citation right after the document name or relevant fact. "
+                    "Example: 'BP ENERGY COMPANY [1] has a contract worth $810M.'\n"
+                )
+
             system_prompt = (
                 "You are ContractIQ, an AI assistant for City of Richmond procurement staff.\n"
                 "You help analysts and supervisors understand procurement documents, contracts, and risks.\n\n"
                 "Rules:\n"
                 "- Answer using ONLY the context provided below. If the answer isn't in the context, say so.\n"
-                "- Cite which document(s) your answer is based on by name.\n"
+                f"{citation_instruction}"
                 "- For numerical aggregations, show the numbers clearly.\n"
                 "- Never make legal compliance determinations — you are a decision-support tool.\n"
                 "- All information is AI-assisted and requires human review.\n\n"
                 f"Query intent: {intent}"
             )
 
-            user_message = f"Context:\n{context_text}\n\nQuestion: {body.question}"
+            user_message = f"Context:\n{numbered_context}\n\nQuestion: {body.question}"
 
             response = await client.chat.completions.create(
                 model=settings.azure_openai_deployment,
@@ -1492,7 +1520,7 @@ async def chat(
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_message},
                 ],
-                max_completion_tokens=700,
+                max_completion_tokens=900,
                 temperature=0.3,
             )
 
@@ -1509,13 +1537,14 @@ async def chat(
                 sources=sources,
                 conversation_id=conversation_id,
                 intent=intent,
+                references=references,
             )
         except Exception as exc:
             _logger.warning("AI answer generation failed, using context directly: %s", exc)
 
     # --- 3. Fallback: return context directly if AI unavailable ---
     if context_text:
-        answer = f"**{intent.replace('_', ' ').title()}** results:\n\n{context_text}\n\n*AI-assisted, requires human review.*"
+        answer = f"**{intent.replace('_', ' ').title()}** results:\n\n{numbered_context}\n\n*AI-assisted, requires human review.*"
     else:
         answer = "No documents matched your query. Try different keywords or a more specific question."
 
@@ -1524,6 +1553,7 @@ async def chat(
         sources=sources,
         conversation_id=conversation_id,
         intent=intent,
+        references=references,
     )
 
 
