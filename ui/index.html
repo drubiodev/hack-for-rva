@@ -1187,7 +1187,237 @@
           opacity: 1;
         }
       }
+
+      /* ── Lucide SVG base ── */
+      svg[data-lucide] {
+        display: inline-flex;
+        vertical-align: middle;
+        flex-shrink: 0;
+        stroke-width: 1.75;
+      }
+
+      /* ── Logo enhancement ── */
+      .logo-icon {
+        background: linear-gradient(
+          135deg,
+          #4f8ef7 0%,
+          #6366f1 100%
+        ) !important;
+        box-shadow: 0 4px 14px rgba(79, 142, 247, 0.35);
+      }
+      .logo-icon svg[data-lucide] {
+        width: 18px;
+        height: 18px;
+        color: #fff;
+      }
+
+      /* ── Nav icon sizes ── */
+      .nav-item svg[data-lucide] {
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+      }
+
+      /* ── KPI card label fix ── */
+      .kpi-label {
+        margin-bottom: 0;
+      }
+      .kpi-card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 14px;
+      }
+      .kpi-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .kpi-icon svg[data-lucide] {
+        width: 17px;
+        height: 17px;
+      }
+      .kpi-icon-blue {
+        background: rgba(79, 142, 247, 0.15);
+        color: var(--accent);
+      }
+      .kpi-icon-yellow {
+        background: rgba(251, 191, 36, 0.15);
+        color: var(--yellow);
+      }
+      .kpi-icon-green {
+        background: rgba(52, 211, 153, 0.15);
+        color: var(--green);
+      }
+      .kpi-icon-purple {
+        background: rgba(167, 139, 250, 0.15);
+        color: var(--purple);
+      }
+
+      /* ── KPI card accent border + hover ── */
+      .kpi-card {
+        position: relative;
+        overflow: hidden;
+        transition:
+          box-shadow 0.2s,
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .kpi-card:hover {
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+        transform: translateY(-2px);
+      }
+      .kpi-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+      }
+      .kpi-card:nth-child(1)::after {
+        background: var(--accent);
+      }
+      .kpi-card:nth-child(2)::after {
+        background: var(--yellow);
+      }
+      .kpi-card:nth-child(3)::after {
+        background: var(--green);
+      }
+      .kpi-card:nth-child(4)::after {
+        background: linear-gradient(90deg, var(--purple), var(--accent));
+      }
+
+      /* ── Dept queue hover ── */
+      .dept-queue-card {
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s,
+          transform 0.15s;
+      }
+      .dept-queue-card:hover {
+        border-color: rgba(255, 255, 255, 0.09);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+        transform: translateY(-1px);
+      }
+      .dq-icon svg[data-lucide] {
+        width: 15px;
+        height: 15px;
+      }
+      .dq-icon.proc {
+        color: var(--accent);
+      }
+      .dq-icon.legal {
+        color: var(--purple);
+      }
+      .dq-icon.fin {
+        color: var(--green);
+      }
+      .dq-icon.hr {
+        color: var(--yellow);
+      }
+
+      /* ── Card hover ── */
+      .card {
+        transition: border-color 0.15s;
+      }
+      .card:hover {
+        border-color: rgba(255, 255, 255, 0.07);
+      }
+
+      /* ── Upload zone ── */
+      .upload-zone:hover {
+        box-shadow:
+          0 0 0 1px var(--accent),
+          0 8px 32px rgba(79, 142, 247, 0.08);
+      }
+      .upload-icon svg[data-lucide] {
+        width: 40px;
+        height: 40px;
+        stroke-width: 1.4;
+        opacity: 0.5;
+      }
+
+      /* ── Topbar glass ── */
+      .topbar {
+        backdrop-filter: blur(10px);
+        background: rgba(26, 29, 39, 0.92) !important;
+      }
+      .search-box:focus-within {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.13);
+      }
+      .search-icon svg[data-lucide] {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* ── Button icon sizes ── */
+      .btn svg[data-lucide] {
+        width: 14px;
+        height: 14px;
+      }
+      .btn-send svg[data-lucide] {
+        width: 16px;
+        height: 16px;
+      }
+      .btn-icon svg[data-lucide] {
+        width: 14px;
+        height: 14px;
+      }
+      .btn-chat-toggle svg[data-lucide] {
+        width: 14px;
+        height: 14px;
+      }
+      .chat-panel-header svg[data-lucide] {
+        width: 18px;
+        height: 18px;
+      }
+      .preview-panel-header svg[data-lucide] {
+        width: 15px;
+        height: 15px;
+      }
+      .card-title svg[data-lucide] {
+        width: 14px;
+        height: 14px;
+        vertical-align: -2px;
+      }
+
+      /* ── Val dot glow ── */
+      .val-dot.red {
+        box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.2);
+      }
+      .val-dot.yellow {
+        box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+      }
+
+      /* ── Global scrollbar ── */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-muted);
+      }
     </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script type="module">
       import "https://esm.sh/@quincarter/document-viewer@0.1.5";
     </script>
@@ -1197,7 +1427,7 @@
     <nav class="sidebar">
       <div class="sidebar-logo">
         <div class="logo-mark">
-          <div class="logo-icon">📄</div>
+          <div class="logo-icon"><i data-lucide="file-text"></i></div>
           <div>
             <div class="logo-text">ContractIQ</div>
             <div class="logo-sub">City of Richmond</div>
@@ -1208,31 +1438,31 @@
       <div class="sidebar-nav">
         <div class="nav-label">Workspace</div>
         <div class="nav-item active">
-          <span class="nav-icon">⊞</span> Dashboard
+          <i data-lucide="layout-dashboard"></i> Dashboard
           <span class="nav-badge">7</span>
         </div>
         <div class="nav-item">
-          <span class="nav-icon">📂</span> All Documents
+          <i data-lucide="folder-open"></i> All Documents
         </div>
-        <div class="nav-item"><span class="nav-icon">⬆</span> Upload</div>
+        <div class="nav-item"><i data-lucide="upload"></i> Upload</div>
 
         <div class="nav-label">Queues</div>
         <div class="nav-item">
-          <span class="nav-icon">🛒</span> Procurement
+          <i data-lucide="shopping-cart"></i> Procurement
           <span class="nav-badge warn">3</span>
         </div>
-        <div class="nav-item"><span class="nav-icon">⚖</span> Legal</div>
-        <div class="nav-item"><span class="nav-icon">💰</span> Finance</div>
-        <div class="nav-item"><span class="nav-icon">👤</span> HR</div>
+        <div class="nav-item"><i data-lucide="scale"></i> Legal</div>
+        <div class="nav-item"><i data-lucide="dollar-sign"></i> Finance</div>
+        <div class="nav-item"><i data-lucide="users"></i> HR</div>
 
         <div class="nav-label">Tools</div>
-        <div class="nav-item"><span class="nav-icon">💬</span> Chat</div>
+        <div class="nav-item"><i data-lucide="message-circle"></i> Chat</div>
         <div class="nav-item">
-          <span class="nav-icon">✅</span> Validation Rules
+          <i data-lucide="shield-check"></i> Validation Rules
         </div>
-        <div class="nav-item"><span class="nav-icon">📊</span> Reports</div>
+        <div class="nav-item"><i data-lucide="bar-chart-2"></i> Reports</div>
         <div class="nav-item">
-          <span class="nav-icon">🌐</span> Transparency Portal
+          <i data-lucide="globe"></i> Transparency Portal
         </div>
       </div>
 
@@ -1268,7 +1498,7 @@
             this.style.borderColor = 'var(--border)';
           "
         >
-          ↩ Switch User
+          <i data-lucide="log-out"></i> Switch User
         </button>
       </div>
     </nav>
@@ -1280,15 +1510,21 @@
         <div class="page-title">Dashboard</div>
         <div class="topbar-sep"></div>
         <div class="search-box">
-          <span class="search-icon">🔍</span>
+          <span class="search-icon"><i data-lucide="search"></i></span>
           <input
             type="text"
             placeholder="Search contracts, vendors, clauses…"
           />
         </div>
-        <button class="btn btn-ghost">⬇ Export</button>
-        <button class="btn-chat-toggle" id="chatToggle">💬 Chat</button>
-        <button class="btn btn-primary">⬆ Upload Contract</button>
+        <button class="btn btn-ghost">
+          <i data-lucide="download"></i> Export
+        </button>
+        <button class="btn-chat-toggle" id="chatToggle">
+          <i data-lucide="message-circle"></i> Chat
+        </button>
+        <button class="btn btn-primary">
+          <i data-lucide="upload"></i> Upload Contract
+        </button>
       </div>
 
       <!-- Page content -->
@@ -1296,24 +1532,44 @@
         <!-- KPIs -->
         <div class="kpis">
           <div class="kpi-card">
-            <div class="kpi-label">Documents in Queue</div>
-            <div class="kpi-value">24 <span>docs</span></div>
-            <div class="kpi-delta up">↑ 6 added this week</div>
+            <div class="kpi-card-top">
+              <div class="kpi-label">Total Documents</div>
+              <div class="kpi-icon kpi-icon-blue">
+                <i data-lucide="files"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiTotal">— <span>docs</span></div>
+            <div class="kpi-delta" id="kpiTotalDelta">Loading…</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-label">Flagged for Review</div>
-            <div class="kpi-value">7 <span>issues</span></div>
-            <div class="kpi-delta warn">⚠ 3 critical flags</div>
+            <div class="kpi-card-top">
+              <div class="kpi-label">Pending Review</div>
+              <div class="kpi-icon kpi-icon-yellow">
+                <i data-lucide="clock"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiPending">— <span>docs</span></div>
+            <div class="kpi-delta" id="kpiPendingDelta">Loading…</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-label">Approved This Month</div>
-            <div class="kpi-value">41 <span>docs</span></div>
-            <div class="kpi-delta up">↑ 12% vs last month</div>
+            <div class="kpi-card-top">
+              <div class="kpi-label">Approved</div>
+              <div class="kpi-icon kpi-icon-green">
+                <i data-lucide="check-circle-2"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiApproved">— <span>docs</span></div>
+            <div class="kpi-delta" id="kpiApprovedDelta">Loading…</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-label">Total Contract Value</div>
-            <div class="kpi-value">$8.4M <span>active</span></div>
-            <div class="kpi-delta down">↓ $1.1M pending approval</div>
+            <div class="kpi-card-top">
+              <div class="kpi-label">Total Contract Value</div>
+              <div class="kpi-icon kpi-icon-purple">
+                <i data-lucide="banknote"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiValue">— <span>active</span></div>
+            <div class="kpi-delta" id="kpiValueDelta">Loading…</div>
           </div>
         </div>
 
@@ -1323,7 +1579,9 @@
           <div class="dept-queues" style="margin-top: 14px">
             <div class="dept-queue-card">
               <div class="dq-header">
-                <div class="dq-icon proc">🛒</div>
+                <div class="dq-icon proc">
+                  <i data-lucide="shopping-cart"></i>
+                </div>
                 <div class="dq-name">Procurement</div>
                 <div class="dq-count" style="color: var(--accent)">8</div>
               </div>
@@ -1334,7 +1592,7 @@
             </div>
             <div class="dept-queue-card">
               <div class="dq-header">
-                <div class="dq-icon legal">⚖</div>
+                <div class="dq-icon legal"><i data-lucide="scale"></i></div>
                 <div class="dq-name">Legal</div>
                 <div class="dq-count" style="color: var(--purple)">5</div>
               </div>
@@ -1345,7 +1603,7 @@
             </div>
             <div class="dept-queue-card">
               <div class="dq-header">
-                <div class="dq-icon fin">💰</div>
+                <div class="dq-icon fin"><i data-lucide="dollar-sign"></i></div>
                 <div class="dq-name">Finance</div>
                 <div class="dq-count" style="color: var(--green)">7</div>
               </div>
@@ -1356,7 +1614,7 @@
             </div>
             <div class="dept-queue-card">
               <div class="dq-header">
-                <div class="dq-icon hr">👤</div>
+                <div class="dq-icon hr"><i data-lucide="users"></i></div>
                 <div class="dq-name">HR</div>
                 <div class="dq-count" style="color: var(--yellow)">4</div>
               </div>
@@ -1391,98 +1649,18 @@
                   <th>Flags</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="docTableBody">
                 <tr>
-                  <td>
-                    <div class="doc-name">
-                      Stormwater Infrastructure Maintenance
-                    </div>
-                    <div class="doc-meta">Uploaded Mar 26 · PDF · 18 pages</div>
+                  <td
+                    colspan="5"
+                    style="
+                      text-align: center;
+                      color: var(--text-muted);
+                      padding: 24px;
+                    "
+                  >
+                    Loading documents…
                   </td>
-                  <td><span class="dept-tag">Procurement</span></td>
-                  <td><span class="contract-value">$2,400,000</span></td>
-                  <td>
-                    <span class="badge badge-yellow">⚠ Under Review</span>
-                  </td>
-                  <td>
-                    <span class="flag-icon" title="Missing vendor reg">🚩</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="doc-name">
-                      IT Services Agreement — Carahsoft
-                    </div>
-                    <div class="doc-meta">Uploaded Mar 25 · PDF · 34 pages</div>
-                  </td>
-                  <td><span class="dept-tag">Procurement</span></td>
-                  <td><span class="contract-value">$890,000</span></td>
-                  <td><span class="badge badge-red">🚫 Flagged</span></td>
-                  <td>
-                    <span class="flag-icon" title="Missing insurance cert"
-                      >🚩 🚩</span
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="doc-name">
-                      Legal Services Retainer — Hunton Andrews
-                    </div>
-                    <div class="doc-meta">Uploaded Mar 25 · PDF · 9 pages</div>
-                  </td>
-                  <td><span class="dept-tag">Legal</span></td>
-                  <td><span class="contract-value">$240,000</span></td>
-                  <td><span class="badge badge-blue">🔵 Under Review</span></td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="doc-name">
-                      Community Development Block Grant
-                    </div>
-                    <div class="doc-meta">Uploaded Mar 24 · PDF · 52 pages</div>
-                  </td>
-                  <td><span class="dept-tag">Finance</span></td>
-                  <td><span class="contract-value">$1,750,000</span></td>
-                  <td>
-                    <span class="badge badge-yellow">⚠ Under Review</span>
-                  </td>
-                  <td><span class="flag-icon">🚩</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="doc-name">
-                      Fleet Vehicle Maintenance Contract
-                    </div>
-                    <div class="doc-meta">Uploaded Mar 23 · PDF · 11 pages</div>
-                  </td>
-                  <td><span class="dept-tag">Procurement</span></td>
-                  <td><span class="contract-value">$312,000</span></td>
-                  <td><span class="badge badge-green">✅ Approved</span></td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="doc-name">Staff Augmentation — Temp Labor</div>
-                    <div class="doc-meta">Uploaded Mar 22 · PDF · 7 pages</div>
-                  </td>
-                  <td><span class="dept-tag">HR</span></td>
-                  <td><span class="contract-value">$175,000</span></td>
-                  <td>
-                    <span class="badge badge-yellow">⚠ Under Review</span>
-                  </td>
-                  <td><span class="flag-icon">🚩</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="doc-name">Parks & Rec Vendor Services</div>
-                    <div class="doc-meta">Uploaded Mar 21 · PDF · 6 pages</div>
-                  </td>
-                  <td><span class="dept-tag">Procurement</span></td>
-                  <td><span class="contract-value">$88,500</span></td>
-                  <td><span class="badge badge-green">✅ Approved</span></td>
-                  <td>—</td>
                 </tr>
               </tbody>
             </table>
@@ -1504,7 +1682,7 @@
                   >Active Document</span
                 >
                 <span class="badge badge-red" style="margin-left: auto"
-                  >🚫 Flagged</span
+                  ><i data-lucide="alert-circle"></i> Flagged</span
                 >
               </div>
               <div class="detail-title">
@@ -1570,16 +1748,16 @@
 
               <div style="display: flex; gap: 8px">
                 <button class="btn btn-ghost" style="flex: 1; font-size: 12px">
-                  💬 Chat Doc
+                  <i data-lucide="message-circle"></i> Chat Doc
                 </button>
                 <button class="btn btn-ghost" style="flex: 1; font-size: 12px">
-                  📝 Add Note
+                  <i data-lucide="pencil"></i> Add Note
                 </button>
                 <button
                   class="btn btn-primary"
                   style="flex: 1; font-size: 12px"
                 >
-                  Approve ✓
+                  <i data-lucide="check"></i> Approve
                 </button>
               </div>
             </div>
@@ -1587,7 +1765,9 @@
             <!-- Validation alerts -->
             <div class="card">
               <div class="card-header">
-                <div class="card-title">⚠ Validation Alerts</div>
+                <div class="card-title">
+                  <i data-lucide="alert-triangle"></i> Validation Alerts
+                </div>
                 <div class="card-title-sub">LLM-flagged issues</div>
               </div>
               <div class="validation-list">
@@ -1650,7 +1830,7 @@
 
         <!-- Upload zone -->
         <div class="upload-zone">
-          <div class="upload-icon">☁</div>
+          <div class="upload-icon"><i data-lucide="cloud-upload"></i></div>
           <div class="upload-title">Upload a Contract or Document</div>
           <div class="upload-sub">
             Drag &amp; drop PDF, Word, or scanned docs · Auto-extract ·
@@ -1666,22 +1846,22 @@
     <div class="preview-panel" id="previewPanel">
       <div class="preview-panel-resize" id="previewResize"></div>
       <div class="preview-panel-header">
-        <span style="font-size: 15px">📄</span>
+        <i
+          data-lucide="file-text"
+          style="color: var(--text-muted); flex-shrink: 0"
+        ></i>
         <div class="preview-panel-title" id="previewPanelTitle">
           Document Preview
         </div>
         <span class="badge badge-gray" style="font-size: 10px; flex-shrink: 0"
           >AI-assisted · requires human review</span
         >
-        <button
-          class="btn-icon"
-          id="previewFullscreen"
-          title="Fullscreen"
-          style="font-size: 14px"
-        >
-          ⛶
+        <button class="btn-icon" id="previewFullscreen" title="Fullscreen">
+          <i data-lucide="maximize-2"></i>
         </button>
-        <button class="btn-icon" id="previewClose" title="Close">✕</button>
+        <button class="btn-icon" id="previewClose" title="Close">
+          <i data-lucide="x"></i>
+        </button>
       </div>
       <div class="preview-panel-body">
         <document-viewer id="docViewer"></document-viewer>
@@ -1693,7 +1873,10 @@
       <div class="chat-panel-resize" id="chatResize"></div>
 
       <div class="chat-panel-header">
-        <span style="font-size: 16px">💬</span>
+        <i
+          data-lucide="message-circle"
+          style="color: var(--accent); flex-shrink: 0"
+        ></i>
         <div class="chat-panel-title">Chat with Document</div>
         <div class="chat-panel-context">
           <span class="badge badge-blue" style="font-size: 10px"
@@ -1703,7 +1886,9 @@
         <button class="btn btn-ghost" style="font-size: 11px; padding: 4px 8px">
           All Docs
         </button>
-        <button class="btn-icon" id="chatClose" title="Close">✕</button>
+        <button class="btn-icon" id="chatClose" title="Close">
+          <i data-lucide="x"></i>
+        </button>
       </div>
 
       <div class="chat-panel-body" id="chatPanelMessages">
@@ -1766,7 +1951,9 @@
           rows="1"
           placeholder="Ask anything about this contract…"
         ></textarea>
-        <button class="btn-send" id="chatPanelSend">➤</button>
+        <button class="btn-send" id="chatPanelSend">
+          <i data-lucide="send-horizontal"></i>
+        </button>
       </div>
     </div>
 
@@ -1793,16 +1980,164 @@
         if (ctxBadge) ctxBadge.textContent = user.department || "All Docs";
       })();
 
-      // Filter tabs
+      // ── API ──
+      const API = "http://localhost:8000/api/v1";
+
+      function statusBadge(status) {
+        const map = {
+          approved: ["badge-green", "Approved"],
+          rejected: ["badge-red", "Rejected"],
+          analyst_review: ["badge-yellow", "Under Review"],
+          pending_approval: ["badge-blue", "Pending Approval"],
+          processing: ["badge-gray", "Processing"],
+          uploaded: ["badge-gray", "Uploaded"],
+          error: ["badge-red", "Error"],
+        };
+        const [cls, label] = map[status] || ["badge-gray", status];
+        return `<span class="badge ${cls}">${label}</span>`;
+      }
+
+      function fmtMoney(n) {
+        if (n == null) return "—";
+        if (n >= 1_000_000) return "$" + (n / 1_000_000).toFixed(1) + "M";
+        if (n >= 1_000) return "$" + Math.round(n).toLocaleString();
+        return "$" + n;
+      }
+
+      function fmtDate(d) {
+        if (!d) return "—";
+        return new Date(d).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      }
+
+      async function loadAnalytics() {
+        try {
+          const r = await fetch(`${API}/analytics/summary`);
+          if (!r.ok) return;
+          const d = await r.json();
+          const byStatus = d.by_status || {};
+          const total = d.total_documents || 0;
+          const approved = byStatus.approved || 0;
+          const pending =
+            (byStatus.analyst_review || 0) + (byStatus.pending_approval || 0);
+          const value = d.total_contract_value || 0;
+
+          document.getElementById("kpiTotal").innerHTML =
+            `${total} <span>docs</span>`;
+          document.getElementById("kpiTotalDelta").textContent =
+            `${d.documents_processed_today || 0} processed today`;
+          document.getElementById("kpiTotalDelta").className = "kpi-delta up";
+
+          document.getElementById("kpiPending").innerHTML =
+            `${pending} <span>docs</span>`;
+          document.getElementById("kpiPendingDelta").textContent =
+            pending > 0 ? `⚠ needs attention` : "✓ all clear";
+          document.getElementById("kpiPendingDelta").className =
+            pending > 0 ? "kpi-delta warn" : "kpi-delta up";
+
+          document.getElementById("kpiApproved").innerHTML =
+            `${approved} <span>docs</span>`;
+          document.getElementById("kpiApprovedDelta").textContent =
+            `of ${total} total`;
+          document.getElementById("kpiApprovedDelta").className =
+            "kpi-delta up";
+
+          document.getElementById("kpiValue").innerHTML =
+            `${fmtMoney(value)} <span>active</span>`;
+          document.getElementById("kpiValueDelta").textContent =
+            `across ${total} contracts`;
+          document.getElementById("kpiValueDelta").className = "kpi-delta";
+        } catch (e) {
+          console.warn("Analytics unavailable:", e.message);
+        }
+      }
+
+      let activeFilter = "all";
+      let allDocs = [];
+
+      async function loadDocuments(statusFilter) {
+        const tbody = document.getElementById("docTableBody");
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px">Loading…</td></tr>`;
+        try {
+          const params = new URLSearchParams({ page_size: 50 });
+          if (statusFilter && statusFilter !== "all")
+            params.set("status", statusFilter);
+          const r = await fetch(`${API}/documents?${params}`);
+          if (!r.ok) throw new Error(r.statusText);
+          const data = await r.json();
+          allDocs = data.items || [];
+          renderTable(allDocs);
+        } catch (e) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--red);padding:24px">⚠ Could not reach API at ${API} — is the backend running?</td></tr>`;
+        }
+      }
+
+      function renderTable(docs) {
+        const tbody = document.getElementById("docTableBody");
+        if (!docs.length) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px">No documents found.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = docs
+          .map((doc, i) => {
+            const cnt = doc.validation_error_count || 0;
+            const flags = cnt
+              ? `<span style="color:var(--red);font-size:11px;font-weight:600">${cnt} flag${cnt > 1 ? "s" : ""}</span>`
+              : `<span style="color:var(--text-muted)">—</span>`;
+            const name = doc.vendor_name || doc.filename || "—";
+            const dept = doc.document_type || "—";
+            return `<tr data-id="${doc.id}" style="cursor:pointer">
+            <td>
+              <div class="doc-name">${name}</div>
+              <div class="doc-meta">Uploaded ${fmtDate(doc.created_at)} · ${doc.source || ""}</div>
+            </td>
+            <td><span class="dept-tag">${dept}</span></td>
+            <td><span class="contract-value">${fmtMoney(doc.total_amount)}</span></td>
+            <td>${statusBadge(doc.status)}</td>
+            <td>${flags}</td>
+          </tr>`;
+          })
+          .join("");
+
+        // Row click → document detail page
+        tbody.querySelectorAll("tr[data-id]").forEach((row) => {
+          row.addEventListener("click", () => {
+            window.location.href = `document.html?id=${row.dataset.id}`;
+          });
+        });
+      }
+
+      // Filter tabs wired to API
       document.querySelectorAll(".filter-tab").forEach((tab) => {
         tab.addEventListener("click", () => {
-          tab
-            .closest(".filter-tabs")
+          document
             .querySelectorAll(".filter-tab")
             .forEach((t) => t.classList.remove("active"));
           tab.classList.add("active");
+          const label = tab.textContent.trim().toLowerCase();
+          const statusMap = {
+            all: "all",
+            flagged: "error",
+            pending: "pending_approval",
+            approved: "approved",
+          };
+          activeFilter = statusMap[label] || "all";
+          loadDocuments(activeFilter);
         });
       });
+
+      // Initial load
+      loadAnalytics();
+      loadDocuments("all");
+
+      // Poll every 30s
+      setInterval(loadAnalytics, 30000);
+      setInterval(() => loadDocuments(activeFilter), 30000);
+
+      // Filter tabs
 
       // Nav items
       document.querySelectorAll(".nav-item").forEach((item) => {
@@ -1847,7 +2182,8 @@
 
       function closePreview() {
         previewPanel.classList.remove("open", "fullscreen");
-        previewFullscreen.textContent = "⛶";
+        previewFullscreen.innerHTML = '<i data-lucide="maximize-2"></i>';
+        lucide.createIcons({ nodes: [previewFullscreen] });
         setTimeout(() => docViewer.removeAttribute("src"), 250);
       }
 
@@ -1855,7 +2191,10 @@
 
       previewFullscreen.addEventListener("click", () => {
         const isFs = previewPanel.classList.toggle("fullscreen");
-        previewFullscreen.textContent = isFs ? "⊠" : "⛶";
+        previewFullscreen.innerHTML = isFs
+          ? '<i data-lucide="minimize-2"></i>'
+          : '<i data-lucide="maximize-2"></i>';
+        lucide.createIcons({ nodes: [previewFullscreen] });
         previewFullscreen.title = isFs ? "Exit Fullscreen" : "Fullscreen";
       });
 
@@ -1863,7 +2202,8 @@
         if (e.key === "Escape") {
           if (previewPanel.classList.contains("fullscreen")) {
             previewPanel.classList.remove("fullscreen");
-            previewFullscreen.textContent = "⛶";
+            previewFullscreen.innerHTML = '<i data-lucide="maximize-2"></i>';
+            lucide.createIcons({ nodes: [previewFullscreen] });
             previewFullscreen.title = "Fullscreen";
           } else if (previewPanel.classList.contains("open")) {
             closePreview();
@@ -1900,13 +2240,6 @@
         previewResize.classList.remove("dragging");
         document.body.style.cursor = "";
         document.body.style.userSelect = "";
-      });
-
-      document.querySelectorAll(".doc-table tbody tr").forEach((row, i) => {
-        row.style.cursor = "pointer";
-        row.addEventListener("click", () => {
-          window.location.href = "document.html?idx=" + i;
-        });
       });
 
       // ── Chat Panel ──
@@ -2029,6 +2362,9 @@
         e.preventDefault();
         uploadZone.style.borderColor = "";
       });
+
+      // Initialize Lucide icons
+      if (typeof lucide !== "undefined") lucide.createIcons();
     </script>
   </body>
 </html>

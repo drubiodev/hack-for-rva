@@ -738,7 +738,7 @@
         border-color: var(--accent);
       }
 
-      /* Disclaimer */
+      /* ── Disclaimer ── */
       .disclaimer {
         font-size: 10px;
         color: var(--text-muted);
@@ -749,20 +749,33 @@
         line-height: 1.5;
       }
     </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   </head>
   <body>
     <!-- ── Top bar ── -->
     <div class="topbar">
       <button class="btn-back" onclick="window.location.href = 'index.html'">
-        ← Back
+        <i data-lucide="arrow-left"></i> Back
       </button>
       <div class="topbar-title" id="topbarTitle">Document Review</div>
       <span class="badge badge-gray" id="statusBadge">—</span>
       <div class="topbar-sep"></div>
-      <button class="btn btn-annotate" id="annotateToggle">📍 Annotate</button>
-      <button class="btn btn-ghost">💬 Chat</button>
-      <button class="btn btn-primary" id="approveBtn">Approve ✓</button>
+      <button class="btn btn-annotate" id="annotateToggle">
+        <i data-lucide="map-pin"></i> Annotate
+      </button>
+      <button class="btn btn-ghost">
+        <i data-lucide="message-circle"></i> Chat
+      </button>
+      <button class="btn btn-primary" id="approveBtn">
+        <i data-lucide="check"></i> Approve
+      </button>
     </div>
 
     <!-- ── Body ── -->
@@ -771,7 +784,9 @@
       <div class="pdf-area">
         <!-- Page navigation toolbar -->
         <div class="page-toolbar">
-          <button class="page-nav-btn" id="prevPage">◀ Prev</button>
+          <button class="page-nav-btn" id="prevPage">
+            <i data-lucide="chevron-left"></i> Prev
+          </button>
           <span class="page-indicator"
             >Page
             <input
@@ -783,7 +798,9 @@
             />
             of <strong id="totalPages">—</strong></span
           >
-          <button class="page-nav-btn" id="nextPage">Next ▶</button>
+          <button class="page-nav-btn" id="nextPage">
+            Next <i data-lucide="chevron-right"></i>
+          </button>
           <span
             id="annPageLabel"
             style="
@@ -794,7 +811,8 @@
               font-weight: 600;
               display: none;
             "
-            >📍 Annotating · page <span id="annotatePageNum">1</span></span
+            ><i data-lucide="map-pin" style="width: 11px; height: 11px"></i>
+            Annotating · page <span id="annotatePageNum">1</span></span
           >
         </div>
 
@@ -808,13 +826,15 @@
             </div>
 
             <div class="annotate-hint" id="annotateHint">
-              📍 Click anywhere on the document to add a note
+              <i data-lucide="map-pin" style="width: 13px; height: 13px"></i>
+              Click anywhere on the document to add a note
             </div>
 
             <!-- Floating input popup -->
             <div class="ann-input-popup" id="annInputPopup">
               <div class="ann-input-popup-label">
-                📍 Add Annotation · Page <span id="annPopupPage">1</span>
+                <i data-lucide="map-pin" style="width: 12px; height: 12px"></i>
+                Add Annotation · Page <span id="annPopupPage">1</span>
               </div>
               <textarea
                 id="annInputText"
@@ -895,7 +915,11 @@
           <!-- Validation alerts -->
           <div>
             <div class="section-heading">
-              ⚠ Validation Alerts
+              <i
+                data-lucide="alert-triangle"
+                style="width: 13px; height: 13px; color: var(--yellow)"
+              ></i>
+              Validation Alerts
               <span
                 id="valCount"
                 style="
@@ -1083,40 +1107,151 @@
 
       // ── Parse URL params ──
       const params = new URLSearchParams(location.search);
+      const docId = params.get("id");
       const idx = Math.max(
         0,
         Math.min(parseInt(params.get("idx") || "0", 10), DOCS.length - 1),
       );
-      const doc = DOCS[idx];
+      let doc = DOCS[idx];
 
-      // ── Populate header ──
-      document.title = doc.name + " — ContractIQ";
-      document.getElementById("topbarTitle").textContent = doc.name;
-
+      // ── Status badge helper ──
       const statusBadge = document.getElementById("statusBadge");
       const badgeMap = {
         flagged: ["badge badge-red", "🚫 Flagged"],
         review: ["badge badge-yellow", "⚠ Under Review"],
         approved: ["badge badge-green", "✅ Approved"],
+        analyst_review: ["badge badge-yellow", "⚠ Under Review"],
+        pending_approval: ["badge badge-yellow", "⏳ Pending Approval"],
+        extracted: ["badge badge-blue", "⚙ Extracted"],
+        ocr_complete: ["badge badge-blue", "⚙ OCR Complete"],
+        rejected: ["badge badge-red", "✕ Rejected"],
+        error: ["badge badge-red", "⚠ Error"],
       };
-      const [cls, label] = badgeMap[doc.status] || [
-        "badge badge-gray",
-        doc.status,
-      ];
-      statusBadge.className = cls;
-      statusBadge.textContent = label;
 
-      // Supervisor-only approve button
+      function applyStatusBadge(status) {
+        const [cls, label] = badgeMap[status] || ["badge badge-gray", status];
+        statusBadge.className = cls;
+        statusBadge.textContent = label;
+      }
+
+      // ── Validation render helper ──
+      function renderValidationList(vals) {
+        const valList = document.getElementById("validationList");
+        valList.innerHTML = "";
+        if (vals && vals.length) {
+          document.getElementById("valCount").textContent = `(${vals.length})`;
+          vals.forEach((v) => {
+            // Support static format {level, text} and API format {severity, message, suggestion}
+            const dotColor =
+              v.level ||
+              (v.severity === "error"
+                ? "red"
+                : v.severity === "warning"
+                  ? "yellow"
+                  : "green");
+            const text = esc(v.text || v.message || "");
+            const suggestion = v.suggestion
+              ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${esc(v.suggestion)}</div>`
+              : "";
+            const el = document.createElement("div");
+            el.className = "val-item";
+            el.innerHTML = `<div class="val-dot ${dotColor}"></div><div class="val-text">${text}${suggestion}</div>`;
+            valList.appendChild(el);
+          });
+        } else {
+          document.getElementById("valCount").textContent = "";
+          valList.innerHTML =
+            '<div style="font-size:12px; color: var(--text-muted); padding: 4px 0;">No validation issues found.</div>';
+        }
+      }
+
+      // ── Date / money formatters ──
+      function fmtDateStr(s) {
+        if (!s) return "—";
+        try {
+          return new Date(s).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          });
+        } catch {
+          return s;
+        }
+      }
+
+      function fmtMoneyVal(n) {
+        if (n == null) return "—";
+        return "$" + Number(n).toLocaleString();
+      }
+
+      // ── Populate header + fields from static demo data ──
+      function populateStatic() {
+        document.title = doc.name + " — ContractIQ";
+        document.getElementById("topbarTitle").textContent = doc.name;
+        applyStatusBadge(doc.status);
+        document.getElementById("fVendor").textContent = doc.vendor || "—";
+        document.getElementById("fValue").textContent = doc.value || "—";
+        document.getElementById("fEffective").textContent =
+          doc.effective || "—";
+        document.getElementById("fExpiry").textContent = doc.expiry || "—";
+        document.getElementById("fType").textContent = doc.type || "—";
+        renderValidationList(VALIDATIONS[idx] || []);
+      }
+
+      // ── Populate header + fields from API response ──
+      function populateFromApi(data) {
+        const ef = data.extracted_fields || {};
+        const name =
+          ef.title || data.vendor_name || data.filename || "Document";
+        doc = { name };
+        document.title = name + " — ContractIQ";
+        document.getElementById("topbarTitle").textContent = name;
+        applyStatusBadge(data.status);
+        document.getElementById("fVendor").textContent =
+          ef.vendor_name || data.vendor_name || "—";
+        document.getElementById("fValue").textContent =
+          ef.total_amount != null
+            ? fmtMoneyVal(ef.total_amount)
+            : data.total_amount != null
+              ? fmtMoneyVal(data.total_amount)
+              : "—";
+        document.getElementById("fEffective").textContent = fmtDateStr(
+          ef.effective_date,
+        );
+        document.getElementById("fExpiry").textContent = fmtDateStr(
+          ef.expiration_date || data.expiration_date,
+        );
+        document.getElementById("fType").textContent =
+          ef.contract_type || data.document_type || "—";
+
+        // Update dept dropdown if we have a value from the API
+        const dept = ef.issuing_department;
+        if (dept) {
+          const fDept = document.getElementById("fDept");
+          let found = false;
+          for (const opt of fDept.options) {
+            if (opt.value === dept) {
+              fDept.value = dept;
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            const opt = document.createElement("option");
+            opt.value = dept;
+            opt.textContent = dept;
+            fDept.appendChild(opt);
+            fDept.value = dept;
+          }
+        }
+
+        renderValidationList(data.validations || []);
+      }
+
+      // ── Supervisor-only approve button ──
       if (!currentUser || currentUser.role !== "Supervisor") {
         document.getElementById("approveBtn").style.display = "none";
       }
-
-      // ── Populate fields ──
-      document.getElementById("fVendor").textContent = doc.vendor;
-      document.getElementById("fValue").textContent = doc.value;
-      document.getElementById("fEffective").textContent = doc.effective;
-      document.getElementById("fExpiry").textContent = doc.expiry;
-      document.getElementById("fType").textContent = doc.type;
 
       // ── Department dropdown ──
       const DEPARTMENTS = [
@@ -1160,7 +1295,7 @@
         "Social Services",
         "Treasurer",
       ];
-      const deptKey = `contractiq_dept_${idx}`;
+      const deptKey = `contractiq_dept_${docId || idx}`;
       const savedDept = localStorage.getItem(deptKey) || doc.dept;
       const fDept = document.getElementById("fDept");
       DEPARTMENTS.forEach((d) => {
@@ -1222,29 +1357,27 @@
         }
       }
 
+      // ── Initialise: show static data immediately, then override from API ──
+      populateStatic();
       loadPdf(pdfBase + samplePdfs[idx % samplePdfs.length]);
 
-      // ── Validation ──
-      const vals = VALIDATIONS[idx] || [];
-      const valList = document.getElementById("validationList");
-      document.getElementById("valCount").textContent = vals.length
-        ? `(${vals.length})`
-        : "";
-      if (vals.length) {
-        vals.forEach((v) => {
-          const el = document.createElement("div");
-          el.className = "val-item";
-          el.innerHTML = `<div class="val-dot ${v.level}"></div><div class="val-text">${v.text}</div>`;
-          valList.appendChild(el);
-        });
-      } else {
-        valList.innerHTML =
-          '<div style="font-size:12px; color: var(--text-muted); padding: 4px 0;">No validation issues found.</div>';
+      if (docId) {
+        fetch(
+          `http://localhost:8000/api/v1/documents/${encodeURIComponent(docId)}`,
+        )
+          .then((r) => {
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            return r.json();
+          })
+          .then((data) => populateFromApi(data))
+          .catch((err) =>
+            console.warn("Could not load document from API:", err),
+          );
       }
 
       // ── Storage ──
-      const ANN_KEY = `contractiq_annotations_${idx}`;
-      const NOTE_KEY = `contractiq_notes_${idx}`;
+      const ANN_KEY = `contractiq_annotations_${docId || idx}`;
+      const NOTE_KEY = `contractiq_notes_${docId || idx}`;
 
       let annotations = [];
       let notes = [];
@@ -1548,7 +1681,7 @@
       document.getElementById("approveBtn")?.addEventListener("click", () => {
         if (confirm(`Approve "${doc.name}"? This will be logged.`)) {
           statusBadge.className = "badge badge-green";
-          statusBadge.textContent = "✅ Approved";
+          statusBadge.textContent = "Approved";
         }
       });
 
@@ -1561,6 +1694,9 @@
           overlay.querySelectorAll(".pin-tooltip").forEach((t) => t.remove());
         }
       });
+
+      // Initialize Lucide icons
+      if (typeof lucide !== "undefined") lucide.createIcons();
     </script>
   </body>
 </html>

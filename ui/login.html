@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign In — ContractIQ · City of Richmond</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <style>
       *,
       *::before,
@@ -71,15 +78,15 @@
       }
 
       .logo-icon {
-        width: 42px;
-        height: 42px;
-        background: var(--accent);
-        border-radius: 10px;
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, #4f8ef7 0%, #6366f1 100%);
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 22px;
         flex-shrink: 0;
+        box-shadow: 0 6px 20px rgba(79, 142, 247, 0.35);
       }
 
       .logo-text {
@@ -300,13 +307,34 @@
       .error-banner.visible {
         display: block;
       }
+
+      /* Lucide */
+      svg[data-lucide] {
+        display: inline-flex;
+        vertical-align: middle;
+        flex-shrink: 0;
+        stroke-width: 1.75;
+      }
+      .logo-icon svg[data-lucide] {
+        width: 24px;
+        height: 24px;
+        color: #fff;
+      }
+      .role-pill-icon svg[data-lucide] {
+        width: 22px;
+        height: 22px;
+      }
+      .btn-login svg[data-lucide] {
+        width: 15px;
+        height: 15px;
+      }
     </style>
   </head>
   <body>
     <div class="login-wrap">
       <!-- Logo -->
       <div class="logo-row">
-        <div class="logo-icon">📄</div>
+        <div class="logo-icon"><i data-lucide="file-text"></i></div>
         <div>
           <div class="logo-text">ContractIQ</div>
           <div class="logo-sub">City of Richmond</div>
@@ -394,17 +422,17 @@
         <!-- Role -->
         <div class="role-group" id="roleGroup">
           <div class="role-pill selected" data-role="Analyst">
-            <div class="role-pill-icon">🔍</div>
+            <div class="role-pill-icon"><i data-lucide="search"></i></div>
             <div class="role-pill-label">Analyst</div>
             <div class="role-pill-desc">Review &amp; flag</div>
           </div>
           <div class="role-pill" data-role="Supervisor">
-            <div class="role-pill-icon">✅</div>
+            <div class="role-pill-icon"><i data-lucide="check-circle"></i></div>
             <div class="role-pill-label">Supervisor</div>
             <div class="role-pill-desc">Approve &amp; override</div>
           </div>
           <div class="role-pill" data-role="Read Only">
-            <div class="role-pill-icon">👁</div>
+            <div class="role-pill-icon"><i data-lucide="eye"></i></div>
             <div class="role-pill-label">Read Only</div>
             <div class="role-pill-desc">View access</div>
           </div>
@@ -521,6 +549,9 @@
         // Redirect to dashboard
         window.location.href = "index.html";
       });
+
+      // Initialize Lucide icons
+      if (typeof lucide !== "undefined") lucide.createIcons();
     </script>
   </body>
 </html>
