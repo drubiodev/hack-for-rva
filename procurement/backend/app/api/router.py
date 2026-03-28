@@ -12,7 +12,7 @@ from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from uuid import UUID
 
-from fastapi import APIRouter, BackgroundTasks, Depends, Form, HTTPException, Query, UploadFile
+from fastapi import APIRouter, BackgroundTasks, Depends, Form, HTTPException, Query, Response, UploadFile
 from fastapi.responses import RedirectResponse, StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -321,6 +321,7 @@ async def upload_document(
     file: UploadFile,
     uploaded_by: str = Form(...),
     db: AsyncSession = Depends(get_db),
+    response: Response = None,
 ):
     """Upload a PDF/image for processing. Returns 202 and processes in background."""
     # Rate limiting
@@ -397,7 +398,19 @@ async def upload_document(
     existing = dup_result.scalar_one_or_none()
     if existing:
         os.unlink(tmp.name)
-        # Return existing document summary (skip extracted_fields lookup for simplicity)
+        if response is not None:
+            response.status_code = 200  # 200 = duplicate (already processed), 202 = new upload
+        ef = existing.extracted_fields
+        # Count validations for the duplicate document
+        val_counts = await db.execute(
+            select(
+                ValidationResult.severity,
+                func.count(ValidationResult.id).label("n"),
+            )
+            .where(ValidationResult.document_id == existing.id)
+            .group_by(ValidationResult.severity)
+        )
+        vc_map = {row.severity: row.n for row in val_counts}
         return DocumentSummary(
             id=existing.id,
             filename=existing.filename,
@@ -405,15 +418,24 @@ async def upload_document(
             source=existing.source,
             status=existing.status,
             document_type=existing.document_type,
-            vendor_name=None,
-            total_amount=None,
-            expiration_date=None,
-            validation_error_count=0,
-            validation_warning_count=0,
+            vendor_name=ef.vendor_name if ef else None,
+            total_amount=ef.total_amount if ef else None,
+            expiration_date=ef.expiration_date if ef else None,
+            validation_error_count=vc_map.get("error", 0),
+            validation_warning_count=vc_map.get("warning", 0),
             submitted_by=existing.submitted_by,
             approved_by=existing.approved_by,
             created_at=existing.created_at,
             updated_at=existing.updated_at,
+            primary_department=ef.primary_department if ef else None,
+            department_tags=ef.department_tags if ef else [],
+            compliance_flags=ef.compliance_flags if ef else [],
+            mbe_wbe_required=ef.mbe_wbe_required if ef else None,
+            federal_funding=ef.federal_funding if ef else None,
+            insurance_general_liability_min=ef.insurance_general_liability_min if ef else None,
+            bond_required=ef.bond_required if ef else None,
+            procurement_method=ef.procurement_method if ef else None,
+            cooperative_contract_ref=ef.cooperative_contract_ref if ef else None,
         )
 
     # Record timestamp for rate limiting (only after all validation passes)
@@ -731,14 +753,41 @@ async def get_document_file(
     document_id: UUID,
     db: AsyncSession = Depends(get_db),
 ):
-    """Redirect to the original document file in blob storage."""
+    """Stream the original document file from blob storage (avoids CORS issues)."""
     result = await db.execute(select(Document).where(Document.id == document_id))
     doc = result.scalar_one_or_none()
     if not doc:
         raise HTTPException(status_code=404, detail="Document not found")
     if not doc.blob_url:
         raise HTTPException(status_code=404, detail="No file available for this document")
-    return RedirectResponse(url=doc.blob_url)
+
+    # Proxy the bytes from blob storage so the browser never needs CORS on the container
+    import aiohttp
+    from app.ocr.azure_blob import regenerate_sas_url
+
+    fresh_url = regenerate_sas_url(doc.blob_url)
+
+    async def _stream():
+        try:
+            async with aiohttp.ClientSession() as http:
+                async with http.get(fresh_url) as resp:
+                    if resp.status != 200:
+                        raise HTTPException(status_code=502, detail="Could not fetch document from storage")
+                    async for chunk in resp.content.iter_chunked(65536):
+                        yield chunk
+        except aiohttp.ClientError as exc:
+            raise HTTPException(status_code=502, detail=f"Storage error: {exc}")
+
+    mime = doc.mime_type or "application/pdf"
+    disposition = f'inline; filename="{doc.filename}"'
+    return StreamingResponse(
+        _stream(),
+        media_type=mime,
+        headers={
+            "Content-Disposition": disposition,
+            "Cache-Control": "private, max-age=300",
+        },
+    )
 
 
 # ---------------------------------------------------------------------------

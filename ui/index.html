@@ -662,11 +662,148 @@
       .upload-zone {
         border: 2px dashed var(--border);
         border-radius: var(--radius);
-        padding: 28px 20px;
+        padding: 32px 24px 26px;
         text-align: center;
         cursor: pointer;
-        transition: all 0.2s;
+        transition:
+          border-color 0.2s,
+          background 0.2s,
+          transform 0.15s,
+          box-shadow 0.2s;
         background: var(--surface);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .upload-zone.drag-active {
+        border-color: var(--accent);
+        background: rgba(79, 142, 247, 0.08);
+        transform: scale(1.005);
+        box-shadow:
+          0 0 0 1px var(--accent),
+          0 8px 32px rgba(79, 142, 247, 0.12);
+      }
+
+      .upload-zone.uploading {
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .upload-zone-default {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .upload-zone.has-file .upload-zone-default {
+        display: none;
+      }
+
+      .upload-zone-file {
+        display: none;
+        align-items: center;
+        gap: 12px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 14px;
+        text-align: left;
+        margin: 0 auto;
+        max-width: 460px;
+        width: 100%;
+      }
+
+      .upload-zone.has-file .upload-zone-file {
+        display: flex;
+      }
+
+      .upload-file-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(79, 142, 247, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .upload-file-name {
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+      }
+
+      .upload-file-meta {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+
+      .upload-file-clear {
+        margin-left: auto;
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 1;
+        padding: 0 4px;
+        flex-shrink: 0;
+        transition: color 0.15s;
+      }
+
+      .upload-file-clear:hover {
+        color: var(--text);
+      }
+
+      .upload-confirm-btn {
+        display: none;
+        margin: 12px auto 0;
+        padding: 9px 22px;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .upload-zone.has-file .upload-confirm-btn {
+        display: inline-flex;
+      }
+
+      .upload-confirm-btn:hover {
+        background: #3b7de8;
+      }
+
+      .upload-progress-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--border);
+        display: none;
+      }
+
+      .upload-zone.uploading .upload-progress-bar {
+        display: block;
+      }
+
+      .upload-progress-fill {
+        height: 100%;
+        background: var(--accent);
+        width: 0%;
+        transition: width 0.2s ease;
       }
 
       .upload-zone:hover {
@@ -676,13 +813,15 @@
 
       .upload-icon {
         font-size: 28px;
-        margin-bottom: 10px;
+        margin-bottom: 4px;
       }
+
       .upload-title {
         font-size: 14px;
         font-weight: 600;
         margin-bottom: 4px;
       }
+
       .upload-sub {
         font-size: 12px;
         color: var(--text-muted);
@@ -1330,7 +1469,7 @@
         border-color: rgba(255, 255, 255, 0.07);
       }
 
-      /* ── Upload zone ── */
+      /* ── Upload zone enhanced ── */
       .upload-zone:hover {
         box-shadow:
           0 0 0 1px var(--accent),
@@ -1341,6 +1480,23 @@
         height: 40px;
         stroke-width: 1.4;
         opacity: 0.5;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
+      .upload-zone:hover .upload-icon svg[data-lucide],
+      .upload-zone.drag-active .upload-icon svg[data-lucide] {
+        opacity: 0.85;
+        transform: translateY(-3px);
+      }
+      .upload-file-icon svg[data-lucide] {
+        width: 18px;
+        height: 18px;
+        stroke-width: 2;
+      }
+      .upload-confirm-btn svg[data-lucide] {
+        width: 14px;
+        height: 14px;
       }
 
       /* ── Topbar glass ── */
@@ -1522,7 +1678,7 @@
         <button class="btn-chat-toggle" id="chatToggle">
           <i data-lucide="message-circle"></i> Chat
         </button>
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" id="uploadBtn">
           <i data-lucide="upload"></i> Upload Contract
         </button>
       </div>
@@ -1639,31 +1795,46 @@
                 <div class="filter-tab">Approved</div>
               </div>
             </div>
-            <table class="doc-table">
-              <thead>
-                <tr>
-                  <th>Document</th>
-                  <th>Department</th>
-                  <th>Value</th>
-                  <th>Status</th>
-                  <th>Flags</th>
-                </tr>
-              </thead>
-              <tbody id="docTableBody">
-                <tr>
-                  <td
-                    colspan="5"
-                    style="
-                      text-align: center;
-                      color: var(--text-muted);
-                      padding: 24px;
-                    "
-                  >
-                    Loading documents…
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div
+              style="
+                max-height: 430px;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+              "
+            >
+              <table class="doc-table">
+                <thead
+                  style="
+                    position: sticky;
+                    top: 0;
+                    z-index: 1;
+                    background: var(--surface);
+                  "
+                >
+                  <tr>
+                    <th>Document</th>
+                    <th>Department</th>
+                    <th>Value</th>
+                    <th>Status</th>
+                    <th>Flags</th>
+                  </tr>
+                </thead>
+                <tbody id="docTableBody">
+                  <tr>
+                    <td
+                      colspan="5"
+                      style="
+                        text-align: center;
+                        color: var(--text-muted);
+                        padding: 24px;
+                      "
+                    >
+                      Loading documents…
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <!-- Right column -->
@@ -1735,13 +1906,145 @@
         </div>
 
         <!-- Upload zone -->
-        <div class="upload-zone">
-          <div class="upload-icon"><i data-lucide="cloud-upload"></i></div>
-          <div class="upload-title">Upload a Contract or Document</div>
-          <div class="upload-sub">
-            Drag &amp; drop PDF, Word, or scanned docs · Auto-extract ·
-            Auto-route · Auto-validate
+        <div class="upload-zone" id="uploadZone">
+          <input
+            type="file"
+            id="fileInput"
+            accept=".pdf,.png,.jpg,.jpeg,.tiff,.tif"
+            multiple
+            style="display: none"
+          />
+          <!-- Default / idle state -->
+          <div class="upload-zone-default">
+            <div class="upload-icon"><i data-lucide="cloud-upload"></i></div>
+            <div class="upload-title">Drop a contract or document here</div>
+            <div class="upload-sub">
+              Drag &amp; drop or click to browse &mdash; PDF, PNG, JPG, TIFF
+              &middot; Max 20 MB
+            </div>
+            <div
+              class="upload-sub"
+              style="margin-top: 4px; color: var(--accent); font-weight: 500"
+            >
+              &#10022;&nbsp;Auto-extract &middot; Auto-validate
+            </div>
           </div>
+          <!-- File selected preview (shows before upload starts) -->
+          <div class="upload-zone-file" id="uploadFilePreview">
+            <div class="upload-file-icon">
+              <i data-lucide="file-text" style="color: var(--accent)"></i>
+            </div>
+            <div style="min-width: 0; flex: 1">
+              <div class="upload-file-name" id="uploadFileName">—</div>
+              <div class="upload-file-meta" id="uploadFileMeta">—</div>
+            </div>
+            <button
+              class="upload-file-clear"
+              id="uploadFileClear"
+              title="Remove"
+            >
+              &times;
+            </button>
+          </div>
+          <button class="upload-confirm-btn" id="uploadConfirmBtn">
+            <i data-lucide="upload"></i> Upload Document
+          </button>
+          <!-- HTTP upload progress bar (appears at bottom of zone while uploading) -->
+          <div class="upload-progress-bar">
+            <div class="upload-progress-fill" id="uploadProgressFill"></div>
+          </div>
+        </div>
+
+        <!-- Processing queue (shown when uploads are in-flight / recently completed) -->
+        <div
+          id="processingQueueWrap"
+          style="
+            display: none;
+            flex-direction: column;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              padding: 11px 16px;
+              border-bottom: 1px solid var(--border);
+              background: var(--surface2);
+            "
+          >
+            <i
+              data-lucide="activity"
+              style="
+                width: 14px;
+                height: 14px;
+                color: var(--accent);
+                flex-shrink: 0;
+              "
+            ></i>
+            <span
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.07em;
+              "
+              >Processing Queue</span
+            >
+            <span
+              id="processingQueueCount"
+              style="
+                background: var(--accent);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 700;
+                padding: 1px 7px;
+                border-radius: 20px;
+              "
+              >0</span
+            >
+            <span
+              style="
+                margin-left: auto;
+                font-size: 11px;
+                color: var(--text-muted);
+              "
+              >AI-assisted &middot; requires human review</span
+            >
+            <button
+              onclick="
+                document.getElementById('processingQueueWrap').style.display =
+                  'none'
+              "
+              style="
+                background: none;
+                border: none;
+                color: var(--text-muted);
+                cursor: pointer;
+                font-size: 18px;
+                line-height: 1;
+                padding: 0 2px;
+              "
+              onmouseover="this.style.color = 'var(--text)'"
+              onmouseout="this.style.color = 'var(--text-muted)'"
+            >
+              &times;
+            </button>
+          </div>
+          <div
+            id="processingQueue"
+            style="
+              display: flex;
+              flex-direction: column;
+              max-height: 430px;
+              overflow-y: auto;
+              overscroll-behavior: contain;
+            "
+          ></div>
         </div>
       </div>
       <!-- /content -->
@@ -2290,19 +2593,414 @@
         document.body.style.userSelect = "";
       });
 
-      // Upload zone drag visual
-      const uploadZone = document.querySelector(".upload-zone");
+      // ── Upload ──
+      const uploadZone = document.getElementById("uploadZone");
+      const fileInput = document.getElementById("fileInput");
+      const uploadBtn = document.getElementById("uploadBtn");
+      const uploadConfirmBtn = document.getElementById("uploadConfirmBtn");
+      const uploadFileName = document.getElementById("uploadFileName");
+      const uploadFileMeta = document.getElementById("uploadFileMeta");
+      const uploadFileClear = document.getElementById("uploadFileClear");
+      const uploadProgressFill = document.getElementById("uploadProgressFill");
+
+      let pendingFile = null;
+
+      function fmtBytes(b) {
+        if (b < 1024) return b + " B";
+        if (b < 1048576) return (b / 1024).toFixed(1) + " KB";
+        return (b / 1048576).toFixed(1) + " MB";
+      }
+
+      function validateUploadFile(file) {
+        if (file.size > 20 * 1024 * 1024) return "File too large (max 20 MB)";
+        if (!/\.(pdf|png|jpe?g|tiff?)$/i.test(file.name))
+          return "Unsupported type — use PDF, PNG, JPG, or TIFF";
+        return null;
+      }
+
+      function setUploadFile(file) {
+        pendingFile = file;
+        uploadFileName.textContent =
+          file.name.length > 50 ? file.name.slice(0, 47) + "…" : file.name;
+        const ext = file.name.split(".").pop().toUpperCase();
+        uploadFileMeta.textContent =
+          fmtBytes(file.size) + " · " + (file.type || ext);
+        uploadZone.classList.add("has-file");
+        uploadZone.classList.remove("uploading");
+        uploadProgressFill.style.width = "0%";
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      }
+
+      function clearUploadFile() {
+        pendingFile = null;
+        uploadZone.classList.remove("has-file", "uploading");
+        uploadProgressFill.style.width = "0%";
+        fileInput.value = "";
+      }
+
+      uploadFileClear.addEventListener("click", (e) => {
+        e.stopPropagation();
+        clearUploadFile();
+      });
+
+      // Click zone → open file picker (but not when clicking confirm/clear or during upload)
+      uploadZone.addEventListener("click", (e) => {
+        if (
+          uploadConfirmBtn.contains(e.target) ||
+          uploadFileClear === e.target ||
+          uploadZone.classList.contains("uploading")
+        )
+          return;
+        fileInput.click();
+      });
+
+      uploadBtn.addEventListener("click", () => fileInput.click());
+
+      fileInput.addEventListener("change", () => {
+        const files = Array.from(fileInput.files || []);
+        fileInput.value = "";
+        if (!files.length) return;
+        if (files.length === 1) {
+          const err = validateUploadFile(files[0]);
+          if (err) {
+            showToast(err, "error");
+            return;
+          }
+          setUploadFile(files[0]);
+        } else {
+          // Multiple files: queue them all immediately without preview
+          files.forEach((f) => {
+            const err = validateUploadFile(f);
+            if (err) {
+              showToast(`${f.name}: ${err}`, "error");
+              return;
+            }
+            doUpload(f);
+          });
+        }
+      });
+
+      uploadConfirmBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!pendingFile) return;
+        const file = pendingFile;
+        clearUploadFile();
+        doUpload(file);
+      });
+
+      // Drag-and-drop
       uploadZone.addEventListener("dragover", (e) => {
         e.preventDefault();
-        uploadZone.style.borderColor = "var(--accent)";
+        uploadZone.classList.add("drag-active");
       });
-      uploadZone.addEventListener("dragleave", () => {
-        uploadZone.style.borderColor = "";
+      uploadZone.addEventListener("dragleave", (e) => {
+        if (!uploadZone.contains(e.relatedTarget))
+          uploadZone.classList.remove("drag-active");
       });
       uploadZone.addEventListener("drop", (e) => {
         e.preventDefault();
-        uploadZone.style.borderColor = "";
+        uploadZone.classList.remove("drag-active");
+        const files = Array.from(e.dataTransfer.files);
+        if (!files.length) return;
+        if (files.length === 1) {
+          const err = validateUploadFile(files[0]);
+          if (err) {
+            showToast(err, "error");
+            return;
+          }
+          setUploadFile(files[0]);
+        } else {
+          files.forEach((f) => {
+            const err = validateUploadFile(f);
+            if (err) {
+              showToast(`${f.name}: ${err}`, "error");
+              return;
+            }
+            doUpload(f);
+          });
+        }
       });
+
+      function doUpload(file) {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("uploaded_by", currentUser ? currentUser.name : "anonymous");
+
+        const xhr = new XMLHttpRequest();
+
+        // Show live HTTP upload progress on the zone bar
+        xhr.upload.addEventListener("progress", (e) => {
+          if (e.lengthComputable) {
+            uploadProgressFill.style.width =
+              Math.round((e.loaded / e.total) * 100) + "%";
+            uploadZone.classList.add("uploading");
+          }
+        });
+
+        xhr.addEventListener("load", () => {
+          uploadZone.classList.remove("uploading");
+          uploadProgressFill.style.width = "0%";
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              const doc = JSON.parse(xhr.responseText);
+              loadDocuments(activeFilter);
+              loadAnalytics();
+              if (xhr.status === 200) {
+                // Duplicate detected — document already in the system
+                showToast(
+                  `"${file.name}" already exists — showing existing record`,
+                  "info",
+                );
+                trackProcessing(doc.id, file.name, /* isDuplicate */ true);
+              } else {
+                trackProcessing(doc.id, file.name, false);
+              }
+            } catch (_) {
+              showToast("Upload failed: bad server response", "error");
+            }
+          } else {
+            let msg = "Upload failed";
+            try {
+              msg = JSON.parse(xhr.responseText).detail || msg;
+            } catch (_) {}
+            showToast(msg, "error");
+          }
+        });
+
+        xhr.addEventListener("error", () => {
+          uploadZone.classList.remove("uploading");
+          uploadProgressFill.style.width = "0%";
+          showToast("Network error during upload", "error");
+        });
+
+        // Show uploading state immediately (don't wait for first progress event)
+        uploadZone.classList.add("uploading");
+
+        xhr.addEventListener("abort", () => {
+          uploadZone.classList.remove("uploading");
+          uploadProgressFill.style.width = "0%";
+          showToast("Upload cancelled", "info");
+        });
+
+        xhr.open("POST", `${API}/documents/upload`);
+        xhr.send(fd);
+      }
+
+      // ── Processing tracker ──
+      const PIPELINE_STAGES = [
+        { key: "uploading", label: "Upload" },
+        { key: "ocr_complete", label: "OCR" },
+        { key: "classified", label: "Classify" },
+        { key: "extracted", label: "Extract" },
+        { key: "analyst_review", label: "Ready" },
+      ];
+      const TERMINAL = new Set([
+        "analyst_review",
+        "pending_approval",
+        "approved",
+        "rejected",
+        "error",
+      ]);
+
+      function stageIndex(status) {
+        const idx = PIPELINE_STAGES.findIndex((s) => s.key === status);
+        return idx === -1 ? 0 : idx;
+      }
+
+      function updateQueueBadge() {
+        const queue = document.getElementById("processingQueue");
+        const wrap = document.getElementById("processingQueueWrap");
+        const count = queue.children.length;
+        if (count === 0) {
+          wrap.style.display = "none";
+        } else {
+          wrap.style.display = "flex";
+          wrap.style.flexDirection = "column";
+          document.getElementById("processingQueueCount").textContent = count;
+          if (typeof lucide !== "undefined") lucide.createIcons();
+        }
+      }
+
+      // Track active intervals by docId so we can cancel stale ones
+      const _activeTrackers = {};
+
+      function trackProcessing(docId, fileName, isDuplicate = false) {
+        // Cancel any existing interval for this docId (prevents duplicate polling)
+        if (_activeTrackers[docId]) {
+          clearInterval(_activeTrackers[docId]);
+          delete _activeTrackers[docId];
+          const old = document.getElementById(`tracker-${docId}`);
+          if (old) old.remove();
+        }
+
+        const queue = document.getElementById("processingQueue");
+        const shortName =
+          fileName.length > 46 ? fileName.slice(0, 43) + "…" : fileName;
+
+        // Inject pulse keyframe once
+        if (!document.getElementById("uploader-pulse-style")) {
+          const s = document.createElement("style");
+          s.id = "uploader-pulse-style";
+          s.textContent =
+            "@keyframes uploader-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.65)}}";
+          document.head.appendChild(s);
+        }
+
+        const card = document.createElement("div");
+        card.id = `tracker-${docId}`;
+        card.style.cssText =
+          "padding:14px 16px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:9px;";
+
+        function stagePct(status) {
+          const i = stageIndex(status);
+          return Math.round((i / (PIPELINE_STAGES.length - 1)) * 100);
+        }
+
+        function render(status) {
+          const isErr = status === "error";
+          const isDone = TERMINAL.has(status) && !isErr;
+          const cur = stageIndex(status);
+          const pct = isErr ? 100 : isDone ? 100 : stagePct(status);
+          const barColor = isErr
+            ? "var(--red)"
+            : isDone
+              ? "var(--green)"
+              : "var(--accent)";
+
+          const steps = PIPELINE_STAGES.map((s, i) => {
+            const done =
+              i < cur || (isDone && i === PIPELINE_STAGES.length - 1);
+            const active = i === cur && !isDone && !isErr;
+            const color = done
+              ? "var(--green)"
+              : active
+                ? "var(--accent)"
+                : "var(--text-muted)";
+            const dotHtml = done
+              ? `<span style="color:var(--green);font-weight:700;font-size:11px">&#10003;</span>`
+              : active
+                ? `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);animation:uploader-pulse 1s ease-in-out infinite"></span>`
+                : `<span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--border)"></span>`;
+            return `<span style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:${color};white-space:nowrap">${dotHtml} ${s.label}</span>`;
+          }).join(
+            `<span style="flex:1;height:1px;background:var(--border);min-width:6px;align-self:center;margin:0 3px"></span>`,
+          );
+
+          const statusLabel = isErr
+            ? `<span class="tracker-status" style="font-size:11px;color:var(--red);font-weight:600">&#9888; Failed</span>`
+            : isDuplicate
+              ? `<span class="tracker-status" style="font-size:11px;color:var(--text-muted);font-weight:600">&#9432; Already in system</span>`
+              : isDone
+                ? `<span class="tracker-status" style="font-size:11px;color:var(--green);font-weight:600">&#10003; Ready</span>`
+                : `<span class="tracker-status" style="font-size:11px;color:var(--text-muted)">Processing…</span>`;
+
+          card.innerHTML = `
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:13px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${fileName}">${shortName}</span>
+              ${statusLabel}
+              <a href="document.html?id=${docId}" style="font-size:12px;color:${isDone ? "#fff" : "var(--accent)"};font-weight:600;text-decoration:none;white-space:nowrap;padding:3px 11px;background:${isDone ? "var(--accent)" : "transparent"};border:1px solid ${isDone ? "transparent" : "var(--accent)"};border-radius:6px">View &rarr;</a>
+              <button onclick="dismissTracker('${docId}')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;flex-shrink:0" title="Dismiss">&times;</button>
+            </div>
+            <div style="display:flex;align-items:center;overflow:hidden">${steps}</div>
+            <div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden">
+              <div style="height:100%;width:${pct}%;background:${barColor};border-radius:2px;transition:width 0.5s ease"></div>
+            </div>
+            ${isErr ? `<div style="font-size:11px;color:var(--red)">Processing failed — open the document to see details.</div>` : ""}
+          `;
+        }
+
+        render("uploading");
+        queue.insertBefore(card, queue.firstChild); // newest on top
+        updateQueueBadge();
+
+        // Duplicate: doc already processed — show final state immediately, no polling
+        if (isDuplicate) {
+          render("analyst_review");
+          return;
+        }
+
+        let attempts = 0;
+        const MAX_ATTEMPTS = 60; // ~3 minutes
+        const interval = setInterval(async () => {
+          attempts++;
+          // Always check max attempts first (covers 404s and network errors too)
+          if (attempts >= MAX_ATTEMPTS) {
+            clearInterval(interval);
+            delete _activeTrackers[docId];
+            // Show timed-out state inline instead of a toast
+            card.querySelector && (card.style.opacity = "0.7");
+            const hdr = card.querySelector ? card.children[0] : null;
+            if (hdr) {
+              const stale = hdr.querySelector(".tracker-status");
+              if (stale) stale.textContent = "⏱ Timed out";
+            }
+            loadDocuments(activeFilter);
+            loadAnalytics();
+            return;
+          }
+          try {
+            const r = await fetch(`${API}/documents/${docId}`);
+            if (!r.ok) return; // will retry next tick unless MAX_ATTEMPTS reached
+            const d = await r.json();
+            render(d.status);
+            if (TERMINAL.has(d.status)) {
+              clearInterval(interval);
+              delete _activeTrackers[docId];
+              if (d.status === "analyst_review")
+                showToast(`"${shortName}" is ready for review`, "success");
+              else if (d.status === "error")
+                showToast(`"${shortName}" failed to process`, "error");
+              loadDocuments(activeFilter);
+              loadAnalytics();
+            }
+          } catch (_) {
+            /* silently retry */
+          }
+        }, 3000);
+        _activeTrackers[docId] = interval;
+      }
+
+      function dismissTracker(docId) {
+        // Cancel interval first so polling stops immediately
+        if (_activeTrackers[docId]) {
+          clearInterval(_activeTrackers[docId]);
+          delete _activeTrackers[docId];
+        }
+        const card = document.getElementById(`tracker-${docId}`);
+        if (card) card.remove();
+        updateQueueBadge();
+      }
+
+      function showToast(message, type = "info") {
+        const toast = document.createElement("div");
+        toast.style.cssText = [
+          "position:fixed",
+          "bottom:24px",
+          "right:24px",
+          "z-index:9999",
+          "padding:12px 18px",
+          "border-radius:10px",
+          "font-size:13px",
+          "font-weight:600",
+          "max-width:360px",
+          "box-shadow:0 4px 20px rgba(0,0,0,0.4)",
+          "display:flex",
+          "align-items:center",
+          "gap:10px",
+          "transition:opacity 0.3s",
+          type === "success"
+            ? "background:#1a2e1f;color:#34d399;border:1px solid rgba(52,211,153,0.3)"
+            : type === "error"
+              ? "background:#2e1a1a;color:#f87171;border:1px solid rgba(248,113,113,0.3)"
+              : "background:#1a1d27;color:#e2e8f0;border:1px solid #2e3248",
+        ].join(";");
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
 
       // Initialize Lucide icons
       if (typeof lucide !== "undefined") lucide.createIcons();

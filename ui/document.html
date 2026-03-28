@@ -1378,9 +1378,11 @@
 
       // ── Initialise: show static data immediately, then override from API ──
       populateStatic();
-      loadPdf(pdfBase + samplePdfs[idx % samplePdfs.length]);
 
       if (docId) {
+        // Load PDF from the backend proxy (avoids CORS on blob storage)
+        loadPdf(`/api/v1/documents/${encodeURIComponent(docId)}/file`);
+
         fetch(`/api/v1/documents/${encodeURIComponent(docId)}`)
           .then((r) => {
             if (!r.ok) throw new Error(`HTTP ${r.status}`);
@@ -1390,6 +1392,9 @@
           .catch((err) =>
             console.warn("Could not load document from API:", err),
           );
+      } else {
+        // Fallback: use static sample PDFs by idx
+        loadPdf(pdfBase + samplePdfs[idx % samplePdfs.length]);
       }
 
       // ── Storage ──

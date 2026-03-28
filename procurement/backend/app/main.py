@@ -21,8 +21,10 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("procurement")
 
 # ── Application Insights (OpenTelemetry) ──────────────────────────────────────
-# Must be called before the FastAPI app is created so all traces are captured.
-if settings.applicationinsights_connection_string:
+# Only configure when running on Azure App Service (WEBSITE_INSTANCE_ID is set).
+# Skipped locally to avoid namespace-package warnings from the WatchFiles subprocess.
+_on_azure = bool(os.environ.get("WEBSITE_INSTANCE_ID"))
+if _on_azure and settings.applicationinsights_connection_string:
     try:
         from azure.monitor.opentelemetry import configure_azure_monitor
         configure_azure_monitor(

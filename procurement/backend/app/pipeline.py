@@ -303,8 +303,10 @@ async def process_document(
             await session.commit()
 
             # --- 6. Final status ---
-            doc.status = "extracted"
+            doc.status = "analyst_review"
             doc.processed_at = datetime.now(timezone.utc)
+            await session.commit()
+            await _log_activity(session, document_id, "ready_for_review")
             await session.commit()
 
             logger.info("Pipeline complete for document %s", document_id)
