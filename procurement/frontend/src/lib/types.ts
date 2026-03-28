@@ -36,7 +36,9 @@ export type ActivityAction =
   | "submitted"
   | "approved"
   | "rejected"
-  | "reprocessed";
+  | "reprocessed"
+  | "reminder_set"
+  | "reminder_dismissed";
 
 export type ActorRole = "analyst" | "supervisor" | "system";
 
@@ -79,6 +81,19 @@ export interface DocumentDetail extends DocumentSummary {
 }
 
 // --- Extracted fields ---
+
+export interface FieldConfidences {
+  title?: number;
+  vendor_name?: number;
+  total_amount?: number;
+  effective_date?: number;
+  expiration_date?: number;
+  contract_type?: number;
+  payment_terms?: number;
+  insurance_required?: number;
+  bond_required?: number;
+  [key: string]: number | undefined;
+}
 
 export interface ExtractedFields {
   id: string;
@@ -162,15 +177,51 @@ export interface ExpiringContract {
   days_until_expiry: number;
 }
 
+export interface ContractReminder {
+  id: string;
+  document_id: string;
+  reminder_date: string;
+  created_by: string;
+  note?: string | null;
+  status: "pending" | "triggered" | "dismissed";
+  created_at: string;
+  triggered_at?: string | null;
+  vendor_name?: string | null;
+  title?: string | null;
+  expiration_date?: string | null;
+}
+
 export interface RiskSummary {
   expiring_contracts: ExpiringContract[];
   total_expiring_30: number;
   total_expiring_60: number;
   total_expiring_90: number;
+  triggered_reminders: ContractReminder[];
+  pending_reminders_count: number;
 }
 
 export interface ErrorResponse {
   detail: string;
+}
+
+// --- Chat ---
+
+export interface ChatSource {
+  document_id: string;
+  title: string | null;
+  relevance: number;
+}
+
+export interface ChatResponse {
+  answer: string;
+  sources: ChatSource[];
+  conversation_id: string;
+}
+
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+  sources?: ChatSource[];
 }
 
 // --- Auth (localStorage, not real auth) ---

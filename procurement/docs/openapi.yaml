@@ -411,6 +411,99 @@ paths:
               schema:
                 $ref: "#/components/schemas/RiskSummary"
 
+  /api/v1/documents/{id}/reminders:
+    post:
+      operationId: createReminder
+      summary: Create a renewal reminder for a document
+      tags: [Reminders]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReminderCreateRequest"
+      responses:
+        "201":
+          description: Reminder created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reminder"
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/v1/reminders:
+    get:
+      operationId: listReminders
+      summary: List contract reminders
+      tags: [Reminders]
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, triggered, dismissed]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        "200":
+          description: List of reminders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Reminder"
+
+  /api/v1/reminders/{id}:
+    patch:
+      operationId: updateReminder
+      summary: Update reminder status (e.g. dismiss)
+      tags: [Reminders]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReminderUpdateRequest"
+      responses:
+        "200":
+          description: Reminder updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reminder"
+        "404":
+          description: Reminder not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
   /api/v1/activity:
     get:
       operationId: getActivity
@@ -714,6 +807,8 @@ components:
             - approved
             - rejected
             - reprocessed
+            - reminder_set
+            - reminder_dismissed
         actor_name:
           type: string
           nullable: true
@@ -806,6 +901,73 @@ components:
           type: integer
         total_expiring_90:
           type: integer
+        triggered_reminders:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reminder"
+        pending_reminders_count:
+          type: integer
+
+    Reminder:
+      type: object
+      required: [id, document_id, reminder_date, created_by, status, created_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        document_id:
+          type: string
+          format: uuid
+        reminder_date:
+          type: string
+          format: date
+        created_by:
+          type: string
+        note:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [pending, triggered, dismissed]
+        created_at:
+          type: string
+          format: date-time
+        triggered_at:
+          type: string
+          format: date-time
+          nullable: true
+        vendor_name:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        expiration_date:
+          type: string
+          format: date
+          nullable: true
+
+    ReminderCreateRequest:
+      type: object
+      required: [reminder_date, created_by]
+      properties:
+        reminder_date:
+          type: string
+          format: date
+        created_by:
+          type: string
+        note:
+          type: string
+
+    ReminderUpdateRequest:
+      type: object
+      required: [status, dismissed_by]
+      properties:
+        status:
+          type: string
+          enum: [dismissed]
+        dismissed_by:
+          type: string
 
     ErrorResponse:
       type: object

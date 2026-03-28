@@ -63,12 +63,11 @@ async def classify_document(ocr_text: str) -> tuple[str, float]:
     if not ocr_text.strip():
         return ("other", 0.0)
 
-    from openai import AsyncAzureOpenAI
+    from openai import AsyncOpenAI
 
-    client = AsyncAzureOpenAI(
-        azure_endpoint=settings.azure_openai_endpoint,
+    client = AsyncOpenAI(
+        base_url=settings.azure_openai_endpoint,
         api_key=settings.azure_openai_key,
-        api_version=settings.azure_openai_api_version,
     )
 
     # Truncate to avoid token limits (first 4000 chars is enough for classification)
@@ -83,7 +82,7 @@ async def classify_document(ocr_text: str) -> tuple[str, float]:
             ],
             response_format=_CLASSIFY_SCHEMA,
             temperature=0.0,
-            max_tokens=200,
+            max_completion_tokens=200,
         )
 
         result = json.loads(response.choices[0].message.content)

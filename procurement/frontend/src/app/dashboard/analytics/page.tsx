@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -21,8 +21,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
-import { fetchAnalyticsSummary, fetchRisks } from "@/lib/api";
+import { fetchAnalyticsSummary, fetchRisks, createReminder } from "@/lib/api";
 import { analyticsKeys } from "@/lib/queryKeys";
 import type { ExpiringContract } from "@/lib/types";
 import {
@@ -31,6 +32,8 @@ import {
   BarChart3,
   CalendarClock,
   AlertTriangle,
+  Calendar,
+  Check,
 } from "lucide-react";
 
 function formatCurrency(amount: number): string {
@@ -94,7 +97,22 @@ function expiryBadgeVariant(days: number): "destructive" | "secondary" | "outlin
 export default function AnalyticsPage() {
   const { user } = useAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [daysFilter, setDaysFilter] = useState<number>(90);
+  const [reminderFormId, setReminderFormId] = useState<string | null>(null);
+  const [reminderDate, setReminderDate] = useState("");
+  const [reminderSetIds, setReminderSetIds] = useState<Set<string>>(new Set());
+
+  const reminderMutation = useMutation({
+    mutationFn: (contractId: string) =>
+      createReminder(contractId, reminderDate, user?.name ?? "Unknown"),
+    onSuccess: (_data, contractId) => {
+      queryClient.invalidateQueries({ queryKey: analyticsKeys.all });
+      setReminderSetIds((prev) => new Set(prev).add(contractId));
+      setReminderFormId(null);
+      setReminderDate("");
+    },
+  });
 
   const { data: summary, isLoading: summaryLoading } = useQuery({
     queryKey: analyticsKeys.summary(),
@@ -264,6 +282,7 @@ export default function AnalyticsPage() {
                   <TableHead className="text-right">Amount</TableHead>
                   <TableHead>Expiration</TableHead>
                   <TableHead className="text-right">Days Left</TableHead>
+                  <TableHead>Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -298,6 +317,43 @@ export default function AnalyticsPage() {
                       >
                         {contract.days_until_expiry}
                       </span>
+                    </TableCell>
+                    <TableCell onClick={(e) => e.stopPropagation()}>
+                      {reminderSetIds.has(contract.id) ? (
+                        <span className="flex items-center gap-1 text-sm text-green-600">
+                          <Check className="h-3 w-3" /> Set
+                        </span>
+                      ) : reminderFormId === contract.id ? (
+                        <div className="flex items-center gap-1">
+                          <Input
+                            type="date"
+                            value={reminderDate}
+                            onChange={(e) => setReminderDate(e.target.value)}
+                            className="h-8 w-36 text-xs"
+                          />
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-8"
+                            disabled={!reminderDate || reminderMutation.isPending}
+                            onClick={() => reminderMutation.mutate(contract.id)}
+                          >
+                            Save
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            setReminderFormId(contract.id);
+                            setReminderDate("");
+                          }}
+                        >
+                          <Calendar className="h-3 w-3 mr-1" />
+                          Set Reminder
+                        </Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}

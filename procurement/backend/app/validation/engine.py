@@ -136,14 +136,43 @@ def _run_rule_checks(fields: dict, ocr_confidence: float, classification_confide
             "Enter the vendor name manually.",
         ))
 
-    # 11. MISSING_EXPIRATION
+    # 11. MISSING_EXPIRATION — elevated to error for contract types
     if not expiration and is_contract_type:
+        source = fields.get("expiration_date_source") or ""
+        msg = "No expiration date found on this contract/PO."
+        if source:
+            msg += f" AI note: {source}"
         results.append(_result(
-            "MISSING_EXPIRATION", "warning",
-            "No expiration date found on this contract/PO.",
+            "MISSING_EXPIRATION", "error",
+            msg,
             "expiration_date",
-            "Enter the expiration date manually to enable expiry tracking.",
+            "Enter the expiration date manually — this is critical for renewal tracking.",
         ))
+
+    # 11b. LOW_EXPIRATION_CONFIDENCE — field-level confidence below threshold
+    field_confs = fields.get("field_confidences", {})
+    exp_conf = field_confs.get("expiration_date")
+    threshold = settings.confidence_threshold
+    if expiration and exp_conf is not None and exp_conf < threshold:
+        results.append(_result(
+            "LOW_EXPIRATION_CONFIDENCE", "warning",
+            f"Expiration date confidence is {exp_conf:.0%} (below {threshold:.0%} threshold). "
+            f"The extracted date {expiration} may be incorrect.",
+            "expiration_date",
+            "Verify the expiration date against the original document before relying on it for renewal decisions.",
+        ))
+
+    # 11c. LOW_FIELD_CONFIDENCE — flag any other fields below threshold
+    _CRITICAL_FIELDS = {"vendor_name", "total_amount", "effective_date"}
+    for fname in _CRITICAL_FIELDS:
+        fconf = field_confs.get(fname)
+        if fconf is not None and fconf < threshold and fields.get(fname) is not None:
+            results.append(_result(
+                "LOW_FIELD_CONFIDENCE", "warning",
+                f"{fname.replace('_', ' ').title()} confidence is {fconf:.0%} (below {threshold:.0%} threshold).",
+                fname,
+                f"Verify {fname.replace('_', ' ')} against the original document.",
+            ))
 
     # 12. MISSING_INSURANCE
     if amount and amount > 50_000 and is_contract_type and insurance is not True:
@@ -171,12 +200,11 @@ async def _ai_consistency_check(fields: dict) -> list[dict]:
     if "PLACEHOLDER" in settings.azure_openai_key:
         return []
 
-    from openai import AsyncAzureOpenAI
+    from openai import AsyncOpenAI
 
-    client = AsyncAzureOpenAI(
-        azure_endpoint=settings.azure_openai_endpoint,
+    client = AsyncOpenAI(
+        base_url=settings.azure_openai_endpoint,
         api_key=settings.azure_openai_key,
-        api_version=settings.azure_openai_api_version,
     )
 
     # Remove internal keys for prompt
@@ -231,7 +259,7 @@ async def _ai_consistency_check(fields: dict) -> list[dict]:
             ],
             response_format=schema,
             temperature=0.0,
-            max_tokens=400,
+            max_completion_tokens=400,
         )
 
         result = json.loads(response.choices[0].message.content)

@@ -17,6 +17,11 @@ export const analyticsKeys = {
   risks: (days?: number) => [...analyticsKeys.all, "risks", days] as const,
 };
 
+export const reminderKeys = {
+  all: ["reminders"] as const,
+  list: (status?: string) => [...reminderKeys.all, "list", status] as const,
+};
+
 export const activityKeys = {
   all: ["activity"] as const,
   list: (limit?: number) => [...activityKeys.all, "list", limit] as const,

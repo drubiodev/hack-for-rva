@@ -161,11 +161,40 @@ class ExpiringContractSchema(BaseModel):
     days_until_expiry: int
 
 
+class ReminderCreateRequest(BaseModel):
+    reminder_date: date
+    created_by: str
+    note: str | None = None
+
+
+class ReminderUpdateRequest(BaseModel):
+    status: str
+    dismissed_by: str
+
+
+class ReminderSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    document_id: UUID
+    reminder_date: date
+    created_by: str
+    note: str | None = None
+    status: str
+    created_at: datetime
+    triggered_at: datetime | None = None
+    vendor_name: str | None = None
+    title: str | None = None
+    expiration_date: date | None = None
+
+
 class RiskSummarySchema(BaseModel):
     expiring_contracts: list[ExpiringContractSchema] = []
     total_expiring_30: int = 0
     total_expiring_60: int = 0
     total_expiring_90: int = 0
+    triggered_reminders: list[ReminderSchema] = []
+    pending_reminders_count: int = 0
 
 
 # --- Error Response ---
@@ -173,3 +202,44 @@ class RiskSummarySchema(BaseModel):
 
 class ErrorResponse(BaseModel):
     detail: str
+
+
+# --- Approval workflow requests ---
+
+
+class SubmitRequest(BaseModel):
+    submitted_by: str
+
+
+class ApproveRequest(BaseModel):
+    approved_by: str
+    comments: str | None = None
+
+
+class RejectRequest(BaseModel):
+    rejected_by: str
+    reason: str
+
+
+class ReprocessRequest(BaseModel):
+    requested_by: str
+
+
+# --- Chat ---
+
+
+class ChatRequest(BaseModel):
+    question: str
+    conversation_id: str | None = None
+
+
+class ChatSourceSchema(BaseModel):
+    document_id: UUID
+    title: str | None = None
+    relevance: float
+
+
+class ChatResponse(BaseModel):
+    answer: str
+    sources: list[ChatSourceSchema]
+    conversation_id: str

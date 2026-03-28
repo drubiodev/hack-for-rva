@@ -389,14 +389,118 @@ created_at TIMESTAMPTZ DEFAULT NOW()
 
 ---
 
+### Phase 4b — Contract Renewal Reminders (Hours 36-40)
+
+**Goal:** Proactive contract renewal management — dashboard call-to-action for expiring contracts, reminder scheduling with in-app notifications.
+
+**Why this matters:** The core value proposition is preventing missed renewals. Extracting the expiration date is necessary but not sufficient — staff need to be prompted to act, and they need a way to schedule follow-up for contracts that expire further out. This feature closes the loop from "data extraction" to "action taken."
+
+**Design decisions:**
+- **No real email infrastructure** — in-app notifications only. Demo pitch: "In production, reminders dispatch via Azure Communication Services. For the demo, we surface in-app notifications."
+- **Reminder checking piggybacks on existing `/analytics/risks` endpoint** — already polled every 30s by the dashboard. Zero infrastructure cost.
+- **Dashboard home page gets an "Action Required" card** — transforms the dashboard from passive KPIs to active task management.
+
+#### Database Schema
+
+```sql
+contract_reminders
+  id UUID PK,
+  document_id UUID FK → documents.id,
+  reminder_date DATE NOT NULL,
+  created_by VARCHAR(100) NOT NULL,
+  note TEXT,
+  status VARCHAR(20) DEFAULT 'pending',  -- pending | triggered | dismissed
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  triggered_at TIMESTAMPTZ
+```
+
+Auto-created by `Base.metadata.create_all` (no Alembic migration needed).
+
+#### New API Endpoints
+
+| Method | Path | Who | Description |
+|--------|------|-----|-------------|
+| POST | `/api/v1/documents/{id}/reminders` | All | Create a renewal reminder for a contract → 201 |
+| GET | `/api/v1/reminders` | All | List reminders (optional `?status=pending\|triggered\|dismissed`) |
+| PATCH | `/api/v1/reminders/{id}` | All | Dismiss or update a reminder |
+
+#### Modified Endpoint
+
+`GET /api/v1/analytics/risks` — on each call, checks for reminders where `reminder_date <= today AND status = 'pending'`, flips them to `triggered`, and returns them in the response as `triggered_reminders` alongside `pending_reminders_count`.
+
+#### Tasks
+
+| ID | Task | Owner | Effort | Acceptance Criteria |
+|----|------|-------|--------|---------------------|
+| BE-19 | `ContractReminder` model + relationship | Backend | 15min | Table auto-creates on startup. Relationship loads via `selectin`. |
+| BE-20 | Reminder schemas (create, response, list) | Backend | 10min | Pydantic schemas with `from_attributes=True`. |
+| BE-21 | Reminder CRUD endpoints (POST, GET, PATCH) | Backend | 30min | Create returns 201, list supports `?status` filter, dismiss sets `status=dismissed`. Activity logged. |
+| BE-22 | Modify `/analytics/risks` to check & trigger reminders | Backend | 20min | Due reminders flipped to `triggered`. Response includes `triggered_reminders[]` and `pending_reminders_count`. |
+| FE-11 | Reminder types + API functions + query keys | Frontend | 15min | `ContractReminder` type, `createReminder`, `fetchReminders`, `dismissReminder` in `api.ts`. |
+| FE-12 | Dashboard "Action Required" card | Frontend | 40min | Shows contracts expiring <90d / missing date / low confidence. Each row has "Review" link + "Set Reminder" button with inline date picker. Triggered reminder banner with dismiss. |
+| FE-13 | Analytics table "Action" column | Frontend | 25min | "Set Reminder" button per expiring contract row. Shows existing reminder date if set. |
+| FE-14 | Notification bell in layout header (stretch) | Frontend | 20min | Bell icon with badge count. Dropdown of triggered reminders with View/Dismiss. |
+
+#### Call-to-Action Logic
+
+A contract appears in the "Action Required" card if ANY of:
+1. **Expiring within 90 days** — from `GET /analytics/risks?days=90`
+2. **Missing expiration date** — documents with `status=extracted`, `document_type` in contract types, and `expiration_date IS NULL`
+3. **Low expiration confidence** — `field_confidences.expiration_date < 0.9` (configurable threshold)
+
+Color coding:
+- **Red** (critical): Expires in <30 days, or expired, or missing date
+- **Yellow** (warning): Expires in 30-60 days, or low confidence on date
+- **Green** (monitor): Expires in 60-90 days
+
+#### Reminder Lifecycle
+
+```
+Staff sets reminder (date + optional note)
+    ↓
+Status: pending (stored in DB)
+    ↓
+Dashboard polls /analytics/risks every 30s
+    ↓
+When reminder_date <= today:
+  → Backend flips status to "triggered", sets triggered_at
+  → Response includes triggered_reminders[]
+    ↓
+Frontend shows notification banner: "Reminder: Contract XYZ renewal due"
+    ↓
+Staff clicks "Dismiss" → status: dismissed
+  OR clicks "Review" → navigates to document detail
+```
+
+#### Demo Narrative Addition
+
+After showing the risk dashboard with real Socrata data and live PDF extraction:
+
+*"But surfacing the data isn't enough — staff need to act on it. Contracts expiring within 90 days automatically appear in the Action Required panel. For contracts further out, the reviewer sets a reminder — the system triggers an in-app notification on the reminder date. Nothing falls through the cracks."*
+
+[Set a reminder for today's date on a contract → refresh → show the triggered notification banner]
+
+*"In production, this dispatches an email via Azure Communication Services — the City's existing Microsoft stack. For the demo, we show the notification in-app."*
+
+**Phase 4b Gate:**
+- [ ] Dashboard "Action Required" card shows expiring/missing/low-confidence contracts
+- [ ] Reviewer can set a reminder with date + note
+- [ ] Reminder triggers notification on dashboard when date arrives
+- [ ] Reminder can be dismissed
+- [ ] Activity log records reminder creation
+- [ ] Backend tests cover reminder CRUD + trigger logic
+- [ ] Frontend type-check passes
+
+---
+
 ### Phase 5 — Demo Prep (Hours 40-48)
 
 **Goal:** Demo-ready. Rehearsed. Backup plan.
 
 | ID | Task | Owner | Effort |
 |----|------|-------|--------|
-| DEMO-01 | Rehearse 3-5 min demo script (include chatbot wow moment) | Both | 1h |
-| DEMO-02 | Pre-load demo data (processed contracts + Socrata) | Backend | 0.5h |
+| DEMO-01 | Rehearse 3-5 min demo script (include chatbot + reminder wow moments) | Both | 1h |
+| DEMO-02 | Pre-load demo data (processed contracts + Socrata + sample reminders) | Backend | 0.5h |
 | DEMO-03 | Screenshot backup for each demo step | Frontend | 0.5h |
 | DEMO-04 | Final bug fixes | Both | 2h |
 
@@ -565,6 +669,11 @@ The database schema from the original plan (with `submitted_by`, `approved_by`, 
 - `POST /api/v1/documents/{id}/approve` — supervisor approves
 - `POST /api/v1/documents/{id}/reject` — supervisor rejects with reason
 
+**Phase 4b (should have):**
+- `POST /api/v1/documents/{id}/reminders` — set renewal reminder
+- `GET /api/v1/reminders` — list reminders
+- `PATCH /api/v1/reminders/{id}` — dismiss reminder
+
 ### Demo Narrative
 
 If approval flow is ready: show the full analyst → supervisor → approve cycle with role switching.
@@ -649,7 +758,15 @@ These are the fields the extraction prompts must prioritize. If the OCR is noisy
 - Show validation warnings: "Contract expires in 67 days"
 - Show the confidence score and "AI-assisted" disclaimer
 
-**4. Ask the Chatbot — WOW MOMENT (60s)** ← HERO MOMENT #2
+**4. Renewal Reminders — PROACTIVE MANAGEMENT (45s)** ← HERO MOMENT #2
+- Go back to Dashboard home → show "Action Required" panel with expiring contracts
+- *"The dashboard doesn't just show data — it tells staff what to do. Contracts expiring within 90 days automatically surface here."*
+- Point to a contract expiring in 67 days → click "Set Reminder" → pick a date 30 days out → add note "Check renewal options with vendor"
+- *"Now the system will notify the team when that date arrives. Nothing falls through the cracks."*
+- Show a pre-set reminder that's already triggered → notification banner appears
+- *"In production, this dispatches an email via Azure Communication Services — the City's existing Microsoft stack."*
+
+**5. Ask the Chatbot — WOW MOMENT (45s)** ← HERO MOMENT #3
 - Open the Chat page
 - Type: *"Which contracts expire in the next 60 days?"*
 - AI responds with a list from real Socrata + extracted data, citing source documents
@@ -657,10 +774,10 @@ These are the fields the extraction prompts must prioritize. If the OCR is noisy
 - AI responds with aggregated info from extracted fields
 - *"Staff can ask questions in plain English and get answers from their entire document archive."*
 
-**5. Close (30s)**
-*"We built this in 48 hours on the City's own open data, all running on Azure. This isn't a new system — it's a lens that surfaces what's already there, enhanced with AI extraction and a chatbot. The procurement team gets a dashboard, a PDF reader, and a research assistant — all from one tool."*
+**6. Close (30s)**
+*"We built this in 48 hours on the City's own open data, all running on Azure. This isn't a new system — it's a lens that surfaces what's already there, enhanced with AI extraction, a chatbot, and proactive renewal management. The procurement team gets a dashboard, a PDF reader, a research assistant, and a reminder system — all from one tool."*
 
-*"Post-hackathon, this runs as Azure Functions plugged into the City's existing Microsoft stack — Dynamics 365, Power Automate, SharePoint. No new infrastructure required."*
+*"Post-hackathon, this runs as Azure Functions plugged into the City's existing Microsoft stack — Dynamics 365, Power Automate, SharePoint. Reminders become emails via Azure Communication Services. No new infrastructure required."*
 
 ---
 
@@ -746,6 +863,9 @@ Simple review in Phase 3. Approval gating in Phase 4:
 12. **No "new system" language in demo:** Pitch frames as "view layer on City's own open data"
 13. **Real data only in demo:** No synthetic contracts shown. Every row is from Socrata or pre-staged PDFs.
 14. **Azure deployment:** Both Container Apps accessible, health checks pass
+15. **Per-field confidence:** Expiration date confidence shown on document detail. Low confidence (<90%) flagged with red badge + validation warning.
+16. **Renewal reminders:** Set a reminder on an expiring contract → reminder appears in dashboard when date arrives → dismiss works
+17. **Action Required panel:** Dashboard home shows contracts needing attention (expiring <90d, missing date, low confidence) with Review + Set Reminder actions
 
 ---
 

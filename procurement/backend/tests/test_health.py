@@ -13,21 +13,20 @@ async def test_health_returns_ok(client):
 
 
 @pytest.mark.asyncio
-async def test_stub_endpoints_return_501(client):
-    """Stub endpoints should return 501 Not Implemented."""
-    # These endpoints are still stubs
+async def test_approval_endpoints_require_body(client):
+    """Approval endpoints require a JSON body (422 without one)."""
     from uuid import uuid4
 
     fake_id = uuid4()
 
     response = await client.post(f"/api/v1/documents/{fake_id}/submit")
-    assert response.status_code == 501
+    assert response.status_code == 422
 
     response = await client.post(f"/api/v1/documents/{fake_id}/approve")
-    assert response.status_code == 501
+    assert response.status_code == 422
 
     response = await client.post(f"/api/v1/documents/{fake_id}/reject")
-    assert response.status_code == 501
+    assert response.status_code == 422
 
     response = await client.post(f"/api/v1/documents/{fake_id}/reprocess")
-    assert response.status_code == 501
+    assert response.status_code == 422

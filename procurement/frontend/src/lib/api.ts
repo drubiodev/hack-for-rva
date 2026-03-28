@@ -13,6 +13,7 @@ import type {
   DocumentStatus,
   DocumentType,
   DocumentSource,
+  ContractReminder,
 } from "./types";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -154,6 +155,40 @@ export async function reprocessDocument(
   return handleResponse<DocumentSummary>(res);
 }
 
+// --- Review ---
+
+export async function reviewDocument(
+  id: string,
+  reviewedBy: string,
+  role: "analyst" | "supervisor",
+  notes?: string,
+): Promise<DocumentSummary> {
+  const res = await fetch(`${BASE}/api/v1/documents/${id}/review`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ reviewed_by: reviewedBy, role, notes }),
+  });
+  return handleResponse<DocumentSummary>(res);
+}
+
+// --- Resolve warning ---
+
+export async function resolveWarning(
+  documentId: string,
+  validationId: string,
+  resolvedBy: string,
+): Promise<import("./types").ValidationResult> {
+  const res = await fetch(
+    `${BASE}/api/v1/documents/${documentId}/resolve-warning`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ validation_id: validationId, resolved_by: resolvedBy }),
+    },
+  );
+  return handleResponse<import("./types").ValidationResult>(res);
+}
+
 // --- Analytics ---
 
 export async function fetchAnalyticsSummary(): Promise<AnalyticsSummary> {
@@ -177,6 +212,57 @@ export async function fetchActivity(
   if (limit !== undefined) url.searchParams.set("limit", String(limit));
   const res = await fetch(url.toString());
   return handleResponse<{ items: ActivityEntry[] }>(res);
+}
+
+// --- Chat ---
+
+export async function sendChatMessage(
+  question: string,
+  conversationId?: string,
+): Promise<import("./types").ChatResponse> {
+  const res = await fetch(`${BASE}/api/v1/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question, conversation_id: conversationId }),
+  });
+  return handleResponse<import("./types").ChatResponse>(res);
+}
+
+// --- Reminders ---
+
+export async function createReminder(
+  documentId: string,
+  reminderDate: string,
+  createdBy: string,
+  note?: string,
+): Promise<ContractReminder> {
+  const res = await fetch(`${BASE}/api/v1/documents/${documentId}/reminders`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ reminder_date: reminderDate, created_by: createdBy, note }),
+  });
+  return handleResponse<ContractReminder>(res);
+}
+
+export async function fetchReminders(
+  status?: string,
+): Promise<{ items: ContractReminder[] }> {
+  const url = new URL(`${BASE}/api/v1/reminders`);
+  if (status) url.searchParams.set("status", status);
+  const res = await fetch(url.toString());
+  return handleResponse<{ items: ContractReminder[] }>(res);
+}
+
+export async function dismissReminder(
+  reminderId: string,
+  dismissedBy: string,
+): Promise<ContractReminder> {
+  const res = await fetch(`${BASE}/api/v1/reminders/${reminderId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status: "dismissed", dismissed_by: dismissedBy }),
+  });
+  return handleResponse<ContractReminder>(res);
 }
 
 // --- Ingest ---

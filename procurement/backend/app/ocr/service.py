@@ -39,7 +39,7 @@ async def extract_text(
 
     # 3. For images or scanned PDFs, use Azure DI
     if mime_type in _IMAGE_MIMES or mime_type == "application/pdf":
-        text, confidence = await azure_di_ocr(blob_url)
+        text, confidence = await azure_di_ocr(blob_url, file_path=file_path)
         if text:
             return (text, confidence)
 

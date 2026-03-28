@@ -42,3 +42,7 @@
 [  315282ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
 [  320372ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
 [  325521ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=0KWlWNqLI_UasErHzN2aU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ 7324284ms] [ERROR] Base UI: A component that acts as a button expected a native <button> because the `nativeButton` prop is true. Rendering a non-<button> removes native button semantics, which can impact forms and accessibility. Use a real <button> in the `render` prop, or set `nativeButton` to `false`.
+    at Button (http://localhost:3000/_next/static/chunks/src_0s8yeb-._.js:83:214)
+    at DocumentDetailPage (http://localhost:3000/_next/static/chunks/src_04-xkgv._.js:1891:235)
+    at ClientPageRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_0z8ikg~._.js:4688:50) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
