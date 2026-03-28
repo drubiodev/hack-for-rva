@@ -39,6 +39,13 @@ def _make_mock_db():
 
     mock_db.flush = AsyncMock(side_effect=_flush)
     mock_db.commit = AsyncMock()
+
+    # Configure execute to return a result where scalar_one_or_none() returns None
+    # (no duplicate found for file hash check)
+    mock_result = MagicMock()
+    mock_result.scalar_one_or_none.return_value = None
+    mock_db.execute = AsyncMock(return_value=mock_result)
+
     return mock_db
 
 

@@ -382,31 +382,74 @@ export default function DocumentDetailPage() {
         </div>
       </div>
 
-      {/* Processing stepper */}
-      <Card>
-        <CardContent className="pt-4 pb-3">
-          <ProcessingStepper status={doc.status} />
-        </CardContent>
-      </Card>
+      {/* Processing stepper — only for uploaded documents */}
+      {doc.source !== "socrata" && (
+        <Card>
+          <CardContent className="pt-4 pb-3">
+            <ProcessingStepper status={doc.status} />
+          </CardContent>
+        </Card>
+      )}
 
-      {/* AI disclaimer */}
-      <div className="rounded-md border border-yellow-300 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950 px-4 py-3">
-        <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-          AI-assisted, requires human review.{" "}
-          <span className="font-normal text-yellow-700 dark:text-yellow-300">
-            Extracted fields may contain errors. Verify all data before making
-            decisions.
-          </span>
-        </p>
-      </div>
+      {/* Source-appropriate disclaimer */}
+      {doc.source === "socrata" ? (
+        <div className="rounded-md border border-blue-300 bg-blue-50 dark:border-blue-800 dark:bg-blue-950 px-4 py-3">
+          <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
+            Official City data source.{" "}
+            <span className="font-normal text-blue-700 dark:text-blue-300">
+              This record was imported from the City of Richmond Open Data Portal (Socrata).
+              Fields reflect the published dataset — no AI extraction was applied.
+            </span>
+          </p>
+        </div>
+      ) : (
+        <div className="rounded-md border border-yellow-300 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950 px-4 py-3">
+          <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+            AI-assisted, requires human review.{" "}
+            <span className="font-normal text-yellow-700 dark:text-yellow-300">
+              Extracted fields may contain errors. Verify all data before making
+              decisions.
+            </span>
+          </p>
+        </div>
+      )}
+
+      {/* Error state with reprocess button */}
+      {doc.status === "error" && doc.error_message && (
+        <div className="rounded-md border border-red-300 bg-red-50 dark:border-red-800 dark:bg-red-950 px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+              <p className="text-sm font-medium text-red-800 dark:text-red-200">
+                Processing failed
+              </p>
+            </div>
+            {/* Reprocess button for any role on error documents */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => reprocessMutation.mutate()}
+              disabled={reprocessMutation.isPending}
+            >
+              {reprocessMutation.isPending ? (
+                <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+              ) : (
+                <RotateCw className="h-3 w-3 mr-1" />
+              )}
+              Reprocess
+            </Button>
+          </div>
+          <p className="mt-1 text-sm text-red-700 dark:text-red-300">{doc.error_message}</p>
+        </div>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Extracted Fields */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              Extracted Fields
-              {fields?.extraction_confidence != null && (
+              {doc.source === "socrata" ? "Contract Details" : "Extracted Fields"}
+              {doc.source !== "socrata" && fields?.extraction_confidence != null && (
                 <Badge variant="outline">
                   {(fields.extraction_confidence * 100).toFixed(0)}% confidence
                 </Badge>
@@ -416,17 +459,19 @@ export default function DocumentDetailPage() {
           <CardContent>
             {fields ? (
               <>
-                {/* Per-field confidence legend */}
-                <div className="flex items-center gap-3 mb-4 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <span className="inline-block w-2 h-2 rounded-full bg-green-500" />
-                    {"\u2265"}{CONFIDENCE_THRESHOLD * 100}% confidence
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <span className="inline-block w-2 h-2 rounded-full bg-red-500" />
-                    {"<"}{CONFIDENCE_THRESHOLD * 100}% — verify manually
-                  </span>
-                </div>
+                {/* Per-field confidence legend — only for AI-extracted docs */}
+                {doc.source !== "socrata" && fc && (
+                  <div className="flex items-center gap-3 mb-4 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <span className="inline-block w-2 h-2 rounded-full bg-green-500" />
+                      {"\u2265"}{CONFIDENCE_THRESHOLD * 100}% confidence
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span className="inline-block w-2 h-2 rounded-full bg-red-500" />
+                      {"<"}{CONFIDENCE_THRESHOLD * 100}% — verify manually
+                    </span>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
                   <FieldRow label="Title" value={fields.title} confidence={fc?.title} />
                   <FieldRow label="Document #" value={fields.document_number} />

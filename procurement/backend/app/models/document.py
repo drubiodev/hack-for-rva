@@ -35,6 +35,9 @@ class Document(Base):
     mime_type: Mapped[str | None] = mapped_column(String(100), nullable=True)
     page_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
+    # Duplicate detection
+    file_hash: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+
     # Processing
     status: Mapped[str] = mapped_column(String(30), default="uploading", nullable=False)
     error_message: Mapped[str | None] = mapped_column(Text, nullable=True)
@@ -113,7 +116,7 @@ class ExtractedFields(Base):
     expiration_date: Mapped[date | None] = mapped_column(Date, nullable=True)
 
     # Contract-specific
-    contract_type: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    contract_type: Mapped[str | None] = mapped_column(String(200), nullable=True)
     payment_terms: Mapped[str | None] = mapped_column(String(100), nullable=True)
     renewal_clause: Mapped[str | None] = mapped_column(Text, nullable=True)
     insurance_required: Mapped[bool | None] = mapped_column(Boolean, nullable=True)

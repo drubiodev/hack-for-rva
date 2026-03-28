@@ -1,491 +1,0 @@
-# Contract 25000012048.pdf
-
---- Page 1 ---
-Contract No. 25000012048
-Page 1 of 8 
- 
- 
- 
-                               CITY OF RICHMOND 
-    GOODS AND SERVICES CONTRACT 
- 
- 
-This Contract, dated this _______ day of _________________________, 2025, (the “Commencement 
-Date”) between the City of Richmond, Virginia (the “City”), Insight Public Sector (the “Contractor”), 
-and Flock Group Inc. (“Flock”) is binding among and between these parties as of the date of the City’s 
-final signature. 
- 
-WHEREAS, Cobb County Contract No. 23-6692-03 was awarded by Cobb County, Georgia as the 
-Principal Procurement Agency, on behalf of OMNIA Partners, Public Sector to Contractor effective 
-May 1, 2023, pursuant to Solicitation No. 23-6692  (the “Cobb County Contract No. 23-6692-03”); 
- 
-WHEREAS, in connection with the City’s purchase, Flock requires execution of its End-User Software 
-License Agreement (“EULA”) solely to facilitate the provision of certain technology products and 
-services resold through the Contractor; 
- 
-WHEREAS, the City desires to exercise its authority pursuant to section 21-40(b)(1) of the Code of the 
-City of Richmond to make purchases off of the Cobb County Contract; 
- 
-THEREFORE, in consideration of the Recitals set forth above and good and valuable consideration as 
-set forth below, the parties agree as follows: 
- 
-1. Scope of Contract.  The Contractor shall provide the goods and services to the City as set forth in 
-the Contract Documents enumerated in Section 3 below.  
- 
-2. Contract Amount. The maximum authorized contract amount for this Contract is Two Hundred 
-Seventy-Six Thousand and 00/100 U. S. dollars ($276,000.00). The aggregate of all payments by the 
-City under this Contract shall not exceed this amount.  All payments shall be as provided in the 
-Contract Documents. All payments and other obligations by the City under this Contract are subject 
-to annual appropriations by the Richmond City Council; consequently, this Contract shall bind the 
-City only to the extent that Richmond City Council appropriates sufficient funds for the City to 
-perform its obligations hereunder. 
- 
-3. Contract Documents.  This Contract shall consist of the following Contract Documents, listed in 
-order of precedence from highest to lowest: 
-‘ 
-A. This Goods and Services Contract between the City and the Contractor. 
-B. The Cobb County Contract 23-6692-03. 
-C. Contractor Quote No. 0228418552 dated May 2 
-D. , 2025, consisting of two pages, and attached hereto as Attachment A. 
-E. Flock Safety End-User Software License Agreement, consisting of seven pages, and attached 
-hereto as Attachment B. 
-F. Any purchase orders issued by the City pursuant to this Contract. 
-$)'!##*"$%
-		
-
-)"+
-(
-
---- Page 2 ---
-Contract No. 25000012048 
- 
-Page 2 of 8 
- 
- 
-All of these documents are incorporated herein by reference. 
- 
-3. Additional Provisions.  The parties further agree as follows: 
- 
-A. 
-Definitions. Whenever the term “Lead Public Agency,” “Cobb County,” “Owner,” “the County,” 
-“Principal Procurement Agency,” “Participating Public Agency,” or “Public Agencies” appears in 
-the Contract Documents, it shall have the same meaning as “City” for purposes of this 
-contractual relationship between the City and the Contractor.   
- 
-B. 
-Payments.   
- 
-1. The Contractor shall submit invoices that include (i) a unique invoice number, (ii) the City’s 
-purchase order number, and (iii) the Contractor’s Federal Tax Identification Number to 
-either accountspayable@rva.gov or City of Richmond, Accounts Payable, 900 East Broad 
-Street, Richmond, VA 23219. 
- 
-2. The City shall pay the Contractor as follows: Net 45 days. 
- 
-3. Method of Ordering. 
- 
-a. The City may place orders pursuant to this Contract by requesting the Contractor provide 
-a quote, which shall be incorporated into the Contract upon the issuance of a Purchase 
-Order to which the quote is attached. Each quote provided by the Contract must (i) 
-identify this Contract by reference to the City Contract Number; (ii) identify the Cobb 
-County Contract No. 23-6692-03  by reference; (iii) identify the license, equipment, 
-products, or services being ordered or renewed by the City; (iv) identify any applicable 
-term or renewal period (start and end dates), (v) identify the price per license or product, 
-or the total renewal cost and set forth any payments to be made to the Contractor by the 
-City, and (vi) state that the terms and conditions of this Contract are controlling.  
- 
-For equipment requiring installation, the term shall not commence until the City has 
-confirmed successful installation and accepted the equipment in writing. Acceptance 
-shall not be unreasonably withheld and will occur upon the City’s verification that the 
-equipment is installed, operational, and in material conformance with the specifications 
-set forth in the quote or applicable documentation. Upon acceptance, the City and 
-Contractor shall document the acceptance date, and the term associated with the 
-equipment shall be deemed to begin on that date and shall be incorporated into the 
-Contract. Any subsequent quote submitted for renewal of such equipment must reflect the 
-term start date established upon acceptance. 
- 
-Pricing for licenses, equipment, products, and services ordered under this section shall be 
-in accordance with the prices established under Cobb County Contract No. 23-6692-03. 
-Notwithstanding any provisions appearing on or incorporated into the Contractor’s quote, 
-the parties agree that such provisions shall not have any effect or be enforceable against 
-the City to the extent the terms are in addition to, or in conflict of, the terms of this 
-Contract which shall govern all transactions between the parties. 
- 
-$)'!##*"$%
-		
-
-
---- Page 3 ---
-Contract No. 25000012048 
- 
-Page 3 of 8 
- 
- 
-b. The City retains the right to cancel any individual order placed under this Contract 
-without terminating or otherwise affecting the term of the Contract. Cancellation of an 
-individual order shall not affect any other outstanding or future orders under the Contract, 
-and the Contract shall remain in full force and effect with respect to such orders. 
- 
-c. Under no circumstances shall any third-party software publisher or reseller, including 
-Flock, be authorized to invoice the City directly, nor shall the City be responsible for any 
-such invoices. 
- 
-C. 
-Term. This Contract shall commence on the Commencement Date set forth in the Goods and 
-Services Contract and shall expire upon expiration of the Cobb County Contract No. 23-6692-03, 
-unless terminated earlier in accordance with the provisions of the Contract.  
- 
-D. 
-Insurance. The City shall be named an additional insured along with its officers and employees 
-on the Contractor’s insurance policies and the Contractor and any subcontractor performing work 
-on City property shall furnish the City with a certificate of insurance meeting the City’s 
-requirements prior to any work commencing under the Contract. 
- 
-E. 
-Forum and Venue.  Any and all disputes, claims, and causes of action arising out of or in 
-connection with this Contract or any performance hereunder shall be brought and maintained 
-only in the Circuit Court of the City of Richmond, Virginia.  
- 
-F. 
-Governing Law. All issues and questions concerning the construction, enforcement, 
-interpretation and validity of this Contract, or the rights and obligations of the City and the 
-Contractor in connection with this Contract, shall be governed by, and construed and interpreted 
-in accordance with, the laws of the Commonwealth of Virginia, without giving effect to any 
-choice of law or conflict of laws rules or provisions, whether of the Commonwealth of Virginia 
-or any other jurisdiction, that would cause the application of the laws of any jurisdiction other 
-than those of the Commonwealth of Virginia. 
- 
-G. 
-Notice.  Any written notice by either party to the Contract shall be sufficiently given by any one 
-or combination of the following, whichever shall first occur: (i) delivered by hand to the last 
-known business address of the person to whom the notice is due, (ii) delivered by hand to the 
-person’s authorized agent, representative or officer wherever they may be found or (iii) enclosed 
-in a postage prepaid envelope addressed to such last known business address and delivered to a 
-United States Postal Service official or mailbox.  Notice is effective upon such delivery. All legal 
-notices to the City shall be delivered to the City Attorney’s Office for the City of Richmond, 
-Suite 400, 900 E. Broad Street, Richmond, Virginia 23219. All notices to the City shall be 
-delivered to the Director of Procurement Services, 900 E. Broad Street, Room 1104, Richmond 
-Virginia, 23219, with a copy to the Richmond City Attorney, Suite 400, 900 E. Broad Street, 
-Richmond, Virginia 23219. 
- 
-H. 
-Mandatory Contractual Provisions. The City and the Contractor agree that, because the City is 
-subject to certain public procurement requirements set forth in Chapter 21 of the Code of the 
-City of Richmond (2020) (“City Code”), certain contract provisions mandated by that Chapter 
-must be included as a part of the Contract. Accordingly, the mandatory provisions of City Code 
-§ 21- 43(d) (i.e., the City’s obligation not to discriminate against faith-based organizations), City 
-$)'!##*"$%
-		
-
-
---- Page 4 ---
-Contract No. 25000012048 
- 
-Page 4 of 8 
- 
- 
-Code § 21-70 (i.e., non-discrimination requirements for contracts with a value above $10,000), 
-City Code § 21-167 (i.e., the procedure for filing claims), and City Code § 21-280 (i.e., 
-prohibitions on kickbacks) are hereby incorporated by reference into the Contract. 
- 
-I. 
-Drug Free Workplace. (1) City Council Resolution No. 2000-R197-191 prohibits the City from 
-contracting with any contractor that fails to comply with this policy.  The Contractor certifies 
-that it has taken and will continue to take appropriate and effective action to (i) educate its 
-employees about the dangers of drug abuse in the workplace, (ii) provide its employees with 
-effective drug counseling, rehabilitation and employee assistance programs, any or all, (iii) 
-discipline employees who violate the requirement of a drug-free workplace, and (iv) minimize, 
-to the greatest extent possible, the risks of drugs entering the workplace.  The Contractor is also 
-prohibited from contracting with any other party that fails to comply with this policy.  Failure by 
-the Contractor or its subcontractor to comply with the provisions outlined above will be cause for 
-termination of the Contract.  (2) The Contractor shall implement and maintain a Drug-Free 
-Workplace Plan specific to the services and work covered by this Contract that is implemented 
-and effectively used throughout the duration of this Contract to accomplish the requirements of 
-subsection (1) above. 
- 
-J. 
-Entire Agreement.  This Contract constitutes the entire agreement between the parties and may 
-not be waived or modified except by written agreement between the parties. 
- 
-K. 
-Exclusions. Attachment B is incorporated solely for the purpose of documenting services to be 
-provided by Flock and shall have effect only to the extent not inconsistent with this Contract. 
-Notwithstanding any provisions appearing in, or incorporated into the Cobb County Contract No. 
-23-6692-03, Attachment A, or Attachment B, the following provisions shall have no force or 
-effect and shall not be enforceable against the City: 
- 
-1. Requiring the City to maintain any type of insurance either for the City’s benefit or for the 
-Contractor or Flock’s benefit; 
- 
-2. Renewing or extending the Contract beyond the initial term or automatically continuing the 
-contract period from term to term; 
- 
-3. Requiring or stating that the terms of the Cobb County Contract or Attachment A, or 
-Attachment B, shall prevail over the terms of this Contract in the event of conflict or 
-otherwise; 
- 
-4. Requiring the City to indemnify, hold harmless or defend the Contractor or Flock for third-
-party claims of any kind or waiving the City’s sovereign immunity; 
- 
-5. Imposing interest or finance charges greater than those specified in City Code § 21-9 / Va. 
-Code § 2.2-4352, concerning prompt payment; 
- 
-6. Requiring the application of the law of any state other than Virginia in interpreting or 
-enforcing the Contract or requiring or permitting that any dispute under the Contract be 
-resolved in any court other than the Circuit Court of the City of Richmond, Virginia; 
- 
-$)'!##*"$%
-		
-
-
---- Page 5 ---
-Contract No. 25000012048 
- 
-Page 5 of 8 
- 
- 
-7. Requiring the City to pay liquidated damages, pay termination fees or charges, or make any 
-payment for lost profits or lost revenues if the Contract is terminated before its ordinary term 
-ends; 
- 
-8. Requiring that the Contract be “accepted” or endorsed by the home office or by any other 
-officer subsequent to execution by the City’s Director of Procurement Services before the 
-Contract is considered in effect; 
- 
-9. Delaying the formation or effective date of the Contract beyond the date on which the City’s 
-Director of Procurement Services signs this Contract; 
- 
-10. Limiting or adding to the time period within which claims can be made or actions can be 
-brought; 
- 
-11. Limiting the liability of the Contractor, or Flock, or remedy of the City for property damage, 
-personal injury, wrongful death, or infringement of intellectual property rights; 
- 
-12. Permitting unilateral modification of the Contract by the Contractor, or Flock, or deeming the 
-City to agree to a modification of the Contract by means other than affirmatively signing a 
-contract modification on paper; 
- 
-13. Binding the City to any arbitration or to the decision of any arbitration board, commission, 
-panel or other entity; 
- 
-14. Obligating the City to pay amounts beyond the maximum aggregate contract amount set forth 
-in this Contract or any costs of collection or attorney’s fees; 
- 
-15. Granting the Contractor, or Flock, a security interest in property of the City, a right to an 
-injunction against the City greater than authorized by City Charter § 2.08, or a right to any 
-other form of equitable relief not authorized by the Constitution or laws of the 
-Commonwealth of Virginia; 
- 
-16. Requiring the City to keep confidential any records subject to disclosure under the Virginia 
-Freedom of Information Act or with respect to which the Contractor, or Flock, has not 
-complied with the requirements of City Code § 21-5 / Va. Code § 2.2-4342; 
- 
-17. Limiting the City’s selection and approval of counsel and approval of any settlement in any 
-claim arising under the Contract and in which the City or any of its officers, employees, or 
-agents is a named party; 
- 
-18. Requiring any dispute resolution procedure other than in accordance with City Code § 21-
-167; 
- 
-19. Requiring the City to limit its rights or waive its remedies at law or in equity, including the 
-right to a trial by jury; 
- 
-$)'!##*"$%
-		
-
-
---- Page 6 ---
-Contract No. 25000012048 
- 
-Page 6 of 8 
- 
- 
-20. Establishing a presumption of severe or irreparable harm to the Contractor, or Flock, by the 
-actions or inactions of the City or any officer, employee, or agent thereof; and 
- 
-21. Granting any right or incurring any obligation that is beyond the duly granted authority of the 
-undersigned City representative to grant or incur on behalf of the City, or requiring the City 
-to violate any applicable law or regulation. 
- 
-22. Granting the Contractor or Flock or any subcontractor any right to use, analyze, access, 
-license, or commercialize the City’s data, including anonymized or aggregated data, beyond 
-what is required to perform the services under this Contract. 
- 
-23. Permitting the Contractor or Flock to access any City records or data, except pursuant to 
-court order; 
- 
-24. Permitting the Contractor or Flock to use any information provided by the City except for 
-Flock or the Contractor’s own internal administrative purposes; 
- 
-25. Enforcing the United Nations Convention on Contracts for the International Sale of Goods 
-and all other laws and international treaties or conventions relating to the sale of goods, 
-which are hereby expressly disclaimed, except that UCITA shall apply to this Contract only 
-to the extent required by Va. Code § 59.1-501.15; 
- 
-26. Requiring that the City, which is tax exempt, be responsible for payment of any taxes, duties, 
-or penalties; 
- 
-27. Requiring or construing that any provision in this Contract conveys any rights or interest in 
-the City’s data to Flock or the Contractor; 
- 
-28. Permitting termination by Flock or the Contractor of the Contract or the licenses granted 
-thereunder, or permitting suspension of services by Flock or the Contractor, except pursuant 
-to an order from a court of competent jurisdiction; 
- 
-29. Defining “perpetual” license rights to have any meaning other than license rights that exist in 
-perpetuity unless otherwise terminated in accordance with the applicable provisions of the 
-Contract; 
- 
-30. Permitting modification or replacement of the Contract pursuant to any new release, update 
-or upgrade of the Software or subsequent renewal of maintenance; 
- 
-31. Requiring purchase of a new release, update, or upgrade of the Software or subsequent 
-renewal of maintenance in order for the City to receive or maintain the benefits of Flock or 
-the Contractor’s indemnification of the City against any claims of infringement on any third-
-party intellectual property rights; and 
- 
-32. Granting Flock or the Contractor or an agent of Flock or the Contractor the right to audit or 
-examine the books, records, or accounts of the City. 
- 
-$)'!##*"$%
-		
-
-
---- Page 7 ---
-Contract No. 25000012048 
- 
-Page 7 of 8 
- 
- 
- 
-The parties agree that any provision in Attachment A or Attachment B purporting to impose any 
-of the foregoing unenforceable terms on the City shall be deemed void and of no effect, whether 
-or not expressly rejected or modified herein. 
- 
-L. Requirements of Flock and Contractor.  Notwithstanding any provisions appearing in 
-Attachment A or Attachment B, the City, Flock, and the Contractor further agree as follows: 
- 
-1. Flock and the Contractor warrants that it is the owner of the Software or otherwise has the 
-right to grant to the City the license to use the Software granted hereunder without violating 
-or infringing any law, rule, regulation, copyright, patent, trade secret or other proprietary 
-right of any third party. 
- 
-2. If Flock or the Contractor provides an update or upgrade subject to additional payment, the 
-City has the right to reject such update or upgrade. 
- 
-3. Flock and the Contractor agrees to indemnify, defend and hold harmless the City or its 
-officers, directors, agents and employees (“City’s Indemnified Parties”) from and against 
-any and all third party claims, demands, proceedings, suits and actions, including any related 
-liabilities, obligations, losses, damages, fines, judgments, settlements, expenses (including 
-attorneys’ and accountants’ fees and disbursements) and costs (each, a “Claim” and 
-collectively, “Claims”), incurred by, borne by or asserted against any of City’s Indemnified 
-Parties to the extent such Claims in any way relate to, arise out of or result from: (i) any 
-intentional or willful conduct or negligence of any employee or subcontractor of Flock or the 
-Contractor, (ii) any act or omission of any employee or subcontractor of Flock or the 
-Contractor, (iii) breach of any representation, warranty or covenant of Flock or the 
-Contractor contained herein, (iv) any defect in the Software, or (v) any actual or alleged 
-infringement or misappropriation of any third party’s intellectual property rights by any of 
-the Software.  In all Claims asserted against the City’s Indemnified Parties, the selection and 
-approval of counsel and approval of any settlement shall be satisfactory to the City. 
- 
-4. The City may rely on independent contractors, acting on behalf of the City, to perform 
-functions requiring the use of and access to the Software. Nothing in Attachment A or 
-Attachment B shall limit such third parties from using or accessing the Software in order to 
-perform such functions. 
- 
-5. If any invention, work of authorship, or confidential information is developed exclusively by 
-an employee, consultant, or third-party contractor or subcontractor of the City during the 
-performance of services by Flock or the Contractor, Flock or the Contractor shall have no 
-ownership claim to such invention, work of authorship, or confidential information. 
- 
-6. Any travel expenses incurred by the Contractor in the course of performing the services 
-must be pre-approved by the City and shall be reimbursed only in accordance with the City’s 
-travel procedures. 
- 
-7. The City may require that the Contractor’s personnel submit to a criminal background check 
-prior to performance of any services under this Contract. 
-$)'!##*"$%
-		
-
-
---- Page 8 ---
-Contract No. 25000012048
-Page 8 of 8 
-8. Payments for license fees, including subscription fees, and maintenance and support services 
-may be made only to the prime contractor who has a direct contractual relationship with the 
-City via the Contract.  No software reseller or software publisher or licensor who is the 
-Contractor identified in the Contract is authorized to invoice the City directly, and the City 
-will not pay any such invoices. 
- 
-IN WITNESS WHEREOF, the parties hereto on the latest day and year written below have executed 
-this Contract. 
- 
- 
-For the CONTRACTOR: 
-For the CITY: 
-By: 
- 
- 
-By: 
- 
- 
-(signature) 
-Date 
-Rene M. Almaraz 
-Date 
- 
- 
- 
-Director of Procurement Services 
-(typed name) 
- 
- 
-(typed title) 
- 
- 
- 
- 
- 
- 
-IF A CORPORATION, AFFIX CORPORATE SEAL 
- 
-For Flock: 
-Flock is a party to this Contract solely for the limited purpose of performing the services and fulfilling 
-the obligations set forth in Attachment B (Flock Safety End-User Software License Agreement), as 
-modified and incorporated by reference into this Contract. Flock expressly acknowledges and agrees that 
-the City shall have no financial obligation to Flock under any circumstance. In the event of any conflict 
-between the terms of Attachment B and this Contract, the terms of this Contract shall govern and 
-supersede. 
-By: 
- 
- 
- 
-(signature) 
-Date 
- 
- 
- 
- 
- 
-(typed name) 
- 
- 
-(typed title) 
- 
- 
- 
- 
- 
- 
-IF A CORPORATION, AFFIX CORPORATE SEAL 
-Lisanne Steinheiser
-Global Compliance Officer
-06/27/2025
-Mark Smith (Jul 9, 2025 12:00 PDT)
-Mark Smith
-Mark Smith
-General Counsel
-$)'!##*"$%
-		
-
-

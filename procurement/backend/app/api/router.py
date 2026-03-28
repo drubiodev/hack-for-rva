@@ -1,11 +1,13 @@
 """REST API router — all /api/v1 endpoints."""
 
 import csv
+import hashlib
 import io
 import math
 import mimetypes
 import os
 import tempfile
+from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from uuid import UUID
 
@@ -13,6 +15,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Form, HTTPException, Qu
 from fastapi.responses import StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import noload, selectinload
 
 from app.config import settings
 from app.database import get_db
@@ -42,6 +45,53 @@ from app.schemas.document import (
 )
 
 router = APIRouter()
+
+# ---------------------------------------------------------------------------
+# Magic-bytes validation
+# ---------------------------------------------------------------------------
+
+_MAGIC_BYTES = {
+    b"%PDF": {"application/pdf"},
+    b"\x89PNG": {"image/png"},
+    b"\xff\xd8\xff": {"image/jpeg", "image/jpg"},
+    b"II\x2a\x00": {"image/tiff"},  # Little-endian TIFF
+    b"MM\x00\x2a": {"image/tiff"},  # Big-endian TIFF
+}
+
+
+def _validate_magic_bytes(file_path: str, claimed_mime: str) -> bool:
+    """Check if file content matches its claimed MIME type."""
+    with open(file_path, "rb") as f:
+        header = f.read(8)
+    for magic, valid_mimes in _MAGIC_BYTES.items():
+        if header.startswith(magic):
+            return claimed_mime in valid_mimes or any(
+                claimed_mime.startswith(m.split("/")[0]) for m in valid_mimes
+            )
+    return False
+
+
+# ---------------------------------------------------------------------------
+# Duplicate detection helper
+# ---------------------------------------------------------------------------
+
+
+def _compute_file_hash(file_path: str) -> str:
+    """Compute SHA-256 hash of a file."""
+    h = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+# ---------------------------------------------------------------------------
+# Upload rate limiter (in-memory)
+# ---------------------------------------------------------------------------
+
+_upload_timestamps: dict[str, list[datetime]] = defaultdict(list)
+_RATE_LIMIT = 5  # max uploads
+_RATE_WINDOW = 300  # per 5 minutes (seconds)
 
 
 # ---------------------------------------------------------------------------
@@ -74,7 +124,12 @@ async def list_documents(
     db: AsyncSession = Depends(get_db),
 ):
     """List documents with optional filters and pagination."""
-    query = select(Document)
+    query = select(Document).options(
+        selectinload(Document.extracted_fields),
+        selectinload(Document.validations),
+        noload(Document.activity),
+        noload(Document.reminders),
+    )
 
     # Filters
     if status:
@@ -246,6 +301,19 @@ async def upload_document(
     db: AsyncSession = Depends(get_db),
 ):
     """Upload a PDF/image for processing. Returns 202 and processes in background."""
+    # Rate limiting
+    now = datetime.now(timezone.utc)
+    user_key = uploaded_by.lower().strip()
+    _upload_timestamps[user_key] = [
+        t for t in _upload_timestamps[user_key]
+        if (now - t).total_seconds() < _RATE_WINDOW
+    ]
+    if len(_upload_timestamps[user_key]) >= _RATE_LIMIT:
+        raise HTTPException(
+            status_code=429,
+            detail=f"Too many uploads. Maximum {_RATE_LIMIT} uploads per {_RATE_WINDOW // 60} minutes.",
+        )
+
     # Validate file extension
     ext = os.path.splitext(file.filename or "")[1].lower()
     if ext not in settings.allowed_extension_list:
@@ -254,23 +322,80 @@ async def upload_document(
             detail=f"File type '{ext}' not allowed. Allowed: {settings.allowed_extensions}",
         )
 
-    # Read file content and validate size
-    content = await file.read()
-    max_bytes = settings.max_file_size_mb * 1024 * 1024
-    if len(content) > max_bytes:
-        raise HTTPException(
-            status_code=400,
-            detail=f"File too large. Maximum size: {settings.max_file_size_mb}MB",
-        )
-
     # Determine mime type
     mime_type = file.content_type or mimetypes.guess_type(file.filename or "")[0] or "application/pdf"
 
-    # Save to temp file
+    # Stream file to temp and validate size
+    CHUNK_SIZE = 65536  # 64KB chunks
+    max_bytes = settings.max_file_size_mb * 1024 * 1024
+
     suffix = ext or ".pdf"
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
-    tmp.write(content)
-    tmp.close()
+    total_bytes = 0
+    try:
+        while True:
+            chunk = await file.read(CHUNK_SIZE)
+            if not chunk:
+                break
+            total_bytes += len(chunk)
+            if total_bytes > max_bytes:
+                tmp.close()
+                os.unlink(tmp.name)
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"File too large. Maximum size: {settings.max_file_size_mb}MB",
+                )
+            tmp.write(chunk)
+        tmp.close()
+    except HTTPException:
+        raise
+    except Exception:
+        tmp.close()
+        os.unlink(tmp.name)
+        raise
+
+    # Validate magic bytes
+    if not _validate_magic_bytes(tmp.name, mime_type):
+        os.unlink(tmp.name)
+        raise HTTPException(
+            status_code=400,
+            detail="File content does not match expected type. Ensure the file is a valid PDF, PNG, JPG, or TIFF.",
+        )
+
+    file_size_bytes = total_bytes
+
+    # Duplicate detection via file hash
+    file_hash = _compute_file_hash(tmp.name)
+    dup_result = await db.execute(
+        select(Document)
+        .options(selectinload(Document.extracted_fields))
+        .where(Document.file_hash == file_hash)
+        .limit(1)
+    )
+    existing = dup_result.scalar_one_or_none()
+    if existing:
+        os.unlink(tmp.name)
+        # Return existing document summary (skip extracted_fields lookup for simplicity)
+        return DocumentSummary(
+            id=existing.id,
+            filename=existing.filename,
+            original_filename=existing.original_filename,
+            source=existing.source,
+            status=existing.status,
+            document_type=existing.document_type,
+            vendor_name=None,
+            total_amount=None,
+            expiration_date=None,
+            validation_error_count=0,
+            validation_warning_count=0,
+            submitted_by=existing.submitted_by,
+            approved_by=existing.approved_by,
+            created_at=existing.created_at,
+            updated_at=existing.updated_at,
+        )
+
+    # Record timestamp for rate limiting (only after all validation passes)
+    _upload_timestamps[user_key].append(now)
 
     # Create document record
     doc = Document(
@@ -278,9 +403,10 @@ async def upload_document(
         original_filename=file.filename,
         source="upload",
         status="uploading",
-        file_size_bytes=len(content),
+        file_size_bytes=file_size_bytes,
         mime_type=mime_type,
         submitted_by=uploaded_by,
+        file_hash=file_hash,
     )
     db.add(doc)
     await db.flush()
@@ -1011,35 +1137,54 @@ async def chat(
     body: ChatRequest,
     db: AsyncSession = Depends(get_db),
 ):
-    """Answer questions about procurement documents using keyword search."""
+    """Answer questions about procurement documents using AI + keyword search."""
     import uuid as _uuid
+    from sqlalchemy import or_
+
+    conversation_id = body.conversation_id or str(_uuid.uuid4())
 
     keywords = [w for w in body.question.lower().split() if len(w) > 2]
     if not keywords:
         return ChatResponse(
             answer="Please ask a more specific question about procurement documents.",
             sources=[],
-            conversation_id=body.conversation_id or str(_uuid.uuid4()),
+            conversation_id=conversation_id,
         )
 
-    # Search documents by keyword matches in OCR text
-    query = select(Document, ExtractedFields).join(
-        ExtractedFields, Document.id == ExtractedFields.document_id
+    # --- 1. Keyword ILIKE search for relevant documents (top 5) ---
+    kw_query = (
+        select(Document, ExtractedFields)
+        .join(ExtractedFields, Document.id == ExtractedFields.document_id)
+        .where(or_(*(Document.ocr_text.ilike(f"%{kw}%") for kw in keywords[:5])))
+        .limit(5)
     )
-    conditions = []
-    for kw in keywords[:5]:
-        conditions.append(Document.ocr_text.ilike(f"%{kw}%"))
+    kw_result = await db.execute(kw_query)
+    rows = list(kw_result.all())
 
-    if conditions:
-        from sqlalchemy import or_
-        query = query.where(or_(*conditions))
+    # --- 2. Also query contracts expiring within 90 days ---
+    today = date.today()
+    cutoff_90 = today + timedelta(days=90)
+    expiring_result = await db.execute(
+        select(Document, ExtractedFields)
+        .join(ExtractedFields, Document.id == ExtractedFields.document_id)
+        .where(ExtractedFields.expiration_date.isnot(None))
+        .where(ExtractedFields.expiration_date >= today)
+        .where(ExtractedFields.expiration_date <= cutoff_90)
+        .order_by(ExtractedFields.expiration_date.asc())
+        .limit(5)
+    )
+    expiring_rows = expiring_result.all()
 
-    query = query.limit(5)
-    result = await db.execute(query)
-    rows = result.all()
+    # Merge, dedup by document id
+    seen_ids = {doc.id for doc, _ in rows}
+    for doc, ef in expiring_rows:
+        if doc.id not in seen_ids:
+            rows.append((doc, ef))
+            seen_ids.add(doc.id)
 
+    # --- 3. Build context from matched documents ---
     sources = []
-    summaries = []
+    context_parts = []
     for doc, ef in rows:
         sources.append(ChatSourceSchema(
             document_id=doc.id,
@@ -1048,21 +1193,86 @@ async def chat(
         ))
         amount_str = f"${ef.total_amount:,.2f}" if ef.total_amount else "N/A"
         exp_str = str(ef.expiration_date) if ef.expiration_date else "N/A"
+        eff_str = str(ef.effective_date) if ef.effective_date else "N/A"
+        days_left = f" ({(ef.expiration_date - today).days} days)" if ef.expiration_date and ef.expiration_date >= today else ""
+        context_parts.append(
+            f"Document: {ef.title or doc.filename}\n"
+            f"  Vendor: {ef.vendor_name or 'N/A'}\n"
+            f"  Department: {ef.issuing_department or 'N/A'}\n"
+            f"  Amount: {amount_str}\n"
+            f"  Effective: {eff_str}\n"
+            f"  Expires: {exp_str}{days_left}\n"
+            f"  Type: {ef.contract_type or 'N/A'}\n"
+            f"  Doc #: {ef.document_number or 'N/A'}"
+        )
+
+    # --- 4. Try AI-powered response if credentials are available ---
+    ai_available = (
+        settings.azure_openai_key != "PLACEHOLDER"
+        and settings.azure_openai_endpoint != "https://PLACEHOLDER.openai.azure.com/"
+    )
+
+    if ai_available and context_parts:
+        try:
+            from openai import AsyncOpenAI
+
+            client = AsyncOpenAI(
+                base_url=settings.azure_openai_endpoint,
+                api_key=settings.azure_openai_key,
+            )
+
+            system_prompt = (
+                "You are ContractIQ, an AI assistant for City of Richmond procurement staff.\n"
+                "Answer questions about procurement documents using ONLY the context provided.\n"
+                "If the answer isn't in the context, say so. Cite which document(s) your answer is based on.\n"
+                "Never make legal compliance determinations — you are a decision-support tool.\n"
+                "All information is AI-assisted and requires human review."
+            )
+
+            context_text = "\n\n".join(context_parts)
+            user_message = f"Context:\n{context_text}\n\nQuestion: {body.question}"
+
+            response = await client.chat.completions.create(
+                model=settings.azure_openai_deployment,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_message},
+                ],
+                max_completion_tokens=500,
+                temperature=0.3,
+            )
+
+            answer = response.choices[0].message.content or "No response generated."
+            return ChatResponse(
+                answer=answer,
+                sources=sources,
+                conversation_id=conversation_id,
+            )
+        except Exception as exc:
+            import logging
+            logging.getLogger(__name__).warning("AI chat failed, falling back to keyword: %s", exc)
+
+    # --- 5. Fallback: keyword-based response ---
+    summaries = []
+    for doc, ef in rows:
+        amount_str = f"${ef.total_amount:,.2f}" if ef.total_amount else "N/A"
+        exp_str = str(ef.expiration_date) if ef.expiration_date else "N/A"
         summaries.append(
             f"- **{ef.title or doc.filename}**: Vendor: {ef.vendor_name or 'N/A'}, "
             f"Amount: {amount_str}, Expires: {exp_str}"
         )
 
     if summaries:
-        answer = f"Found {len(summaries)} relevant document(s):\n\n" + "\n".join(summaries)
+        answer = (
+            f"Found {len(summaries)} relevant document(s):\n\n"
+            + "\n".join(summaries)
+            + "\n\n*AI-assisted, requires human review.*"
+        )
     else:
         answer = "No documents matched your query. Try different keywords."
 
     return ChatResponse(
         answer=answer,
         sources=sources,
-        conversation_id=body.conversation_id or str(_uuid.uuid4()),
+        conversation_id=conversation_id,
     )
-
-
-    # Socrata ingest endpoint moved to app/api/ingest.py

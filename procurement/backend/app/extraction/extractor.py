@@ -2,6 +2,7 @@
 
 import json
 import logging
+import re
 
 from app.config import settings
 
@@ -73,6 +74,85 @@ _TYPE_HINTS: dict[str, str] = {
     "other": "Extract whatever fields are clearly present in the text.",
 }
 
+_HIGH_VALUE_KEYWORDS = [
+    "expir", "terminat", "end date", "renew", "insurance", "bond",
+    "performance bond", "indemnif", "total amount", "not to exceed",
+    "effective date", "commence", "shall expire",
+]
+
+_CHARS_PER_PAGE = 3000
+
+
+def _smart_truncate(text: str, budget: int = 8000) -> str:
+    """Strategically truncate OCR text to fit within token budget.
+
+    Instead of naively slicing the first N chars, scans the full document
+    for high-value keyword windows (expiration dates, amounts, insurance, etc.)
+    and assembles a representative sample.
+    """
+    if len(text) <= budget:
+        return text
+
+    head_budget = 2500
+    tail_budget = 1500
+    keyword_budget = budget - head_budget - tail_budget - 100  # markers overhead
+
+    # Find 500-char windows around high-value keywords
+    window_half = 250
+    text_lower = text.lower()
+    windows: list[tuple[int, int]] = []
+
+    for kw in _HIGH_VALUE_KEYWORDS:
+        start = 0
+        while True:
+            idx = text_lower.find(kw, start)
+            if idx == -1:
+                break
+            win_start = max(0, idx - window_half)
+            win_end = min(len(text), idx + window_half)
+            windows.append((win_start, win_end))
+            start = idx + len(kw)
+
+    if not windows:
+        # Fallback: first 6500 + last 1500
+        return text[:budget - tail_budget] + "\n\n[...document continues...]\n\n" + text[-tail_budget:]
+
+    # Sort by position and deduplicate overlapping windows
+    windows.sort()
+    merged: list[tuple[int, int]] = []
+    for ws, we in windows:
+        if merged and ws <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], we))
+        else:
+            merged.append((ws, we))
+
+    # Skip windows that overlap with head or tail
+    head_end = head_budget
+    tail_start = len(text) - tail_budget
+    filtered = [(s, e) for s, e in merged if s >= head_end and e <= tail_start]
+
+    # Collect keyword windows within budget
+    keyword_parts: list[str] = []
+    used = 0
+    for ws, we in filtered:
+        chunk = text[ws:we]
+        if used + len(chunk) > keyword_budget:
+            break
+        page_num = ws // _CHARS_PER_PAGE + 1
+        keyword_parts.append(f"[...page ~{page_num}...]\n{chunk}")
+        used += len(chunk)
+
+    # Assemble
+    parts = [text[:head_budget]]
+    if keyword_parts:
+        parts.append("\n\n[...document continues...]\n\n")
+        parts.append("\n\n".join(keyword_parts))
+    parts.append("\n\n[...document continues...]\n\n")
+    parts.append(text[-tail_budget:])
+
+    return "".join(parts)
+
+
 _SYSTEM_PROMPT = """You are a procurement data extractor for the City of Richmond, Virginia.
 Given OCR-extracted text from a {doc_type} document, extract structured fields.
 
@@ -94,6 +174,8 @@ For each field in field_confidences, score 0.0-1.0:
 - 0.0 = field not found at all (return null for the field value)
 
 Rules:
+- The text may contain [...document continues...] and [...page ~N...] gap markers indicating
+  skipped sections. Extract fields from ALL available sections, not just the beginning.
 - OCR artifacts may be present — extract what is clearly legible
 - Use YYYY-MM-DD format for all dates
 - Return null for fields not found in the text
@@ -138,18 +220,20 @@ async def extract_fields(ocr_text: str, document_type: str) -> dict:
     if not ocr_text.strip():
         return dict(_EMPTY_RESULT)
 
+    import httpx
     from openai import AsyncOpenAI
 
     client = AsyncOpenAI(
         base_url=settings.azure_openai_endpoint,
         api_key=settings.azure_openai_key,
+        timeout=httpx.Timeout(30.0),
     )
 
     type_hint = _TYPE_HINTS.get(document_type, _TYPE_HINTS["other"])
     system = _SYSTEM_PROMPT.format(doc_type=document_type, type_hint=type_hint)
 
-    # Use more text for extraction than classification
-    truncated = ocr_text[:8000]
+    # Smart truncation: capture keyword-rich sections across the full document
+    truncated = _smart_truncate(ocr_text)
 
     try:
         response = await client.chat.completions.create(

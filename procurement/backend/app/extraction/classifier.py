@@ -63,11 +63,13 @@ async def classify_document(ocr_text: str) -> tuple[str, float]:
     if not ocr_text.strip():
         return ("other", 0.0)
 
+    import httpx
     from openai import AsyncOpenAI
 
     client = AsyncOpenAI(
         base_url=settings.azure_openai_endpoint,
         api_key=settings.azure_openai_key,
+        timeout=httpx.Timeout(30.0),
     )
 
     # Truncate to avoid token limits (first 4000 chars is enough for classification)
