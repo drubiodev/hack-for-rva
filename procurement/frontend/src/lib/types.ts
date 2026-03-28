@@ -139,6 +139,14 @@ export interface FieldConfidences {
   [key: string]: number | undefined;
 }
 
+export interface SourceHighlight {
+  field: string;
+  offset: number;
+  length: number;
+  category: "risk" | "compliance" | "financial" | "identity" | "date";
+  quote: string;
+}
+
 export interface ExtractedFields {
   id: string;
   document_id: string;
@@ -180,6 +188,7 @@ export interface ExtractedFields {
   prequalification_required?: boolean | null;
   raw_extraction?: Record<string, unknown>;
   extraction_confidence?: number | null;
+  source_highlights?: SourceHighlight[];
 }
 
 // --- Validation ---

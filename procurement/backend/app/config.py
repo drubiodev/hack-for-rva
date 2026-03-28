@@ -11,8 +11,8 @@ class Settings(BaseSettings):
     Values are read from environment variables or a .env file.
     """
 
-    # Database (Azure PostgreSQL Flexible Server)
-    database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/procurement"
+    # Database (Azure SQL Server)
+    database_url: str = "mssql+aioodbc://hackrva:x70ZTKon9616%24%40q@hackrvasqlserver.database.windows.net:1433/hackrva?driver=ODBC+Driver+18+for+SQL+Server&Encrypt=yes&TrustServerCertificate=no"
 
     # Azure Blob Storage
     azure_blob_connection_string: str = "PLACEHOLDER"
@@ -44,7 +44,7 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000"
 
     # File upload limits
-    max_file_size_mb: int = 20
+    max_file_size_mb: int = 100
     allowed_extensions: str = ".pdf,.png,.jpg,.jpeg,.tiff"
 
     # Azure Application Insights

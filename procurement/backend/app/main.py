@@ -44,29 +44,32 @@ async def lifespan(app: FastAPI):
     # TODO: re-enable once Azure SQL is configured
     # await init_db()
 
-    # # Recover stale processing documents (stuck from prior server restart)
+    # Recover stale processing documents (MSSQL-compatible, no .returning())
+    # TODO: re-enable once Azure SQL init_db is configured
     # from datetime import datetime, timedelta, timezone
-    # from sqlalchemy import update
+    # from sqlalchemy import select, update
     # from app.database import AsyncSessionLocal
     # from app.models.document import Document
-
     # async with AsyncSessionLocal() as session:
     #     stale_cutoff = datetime.now(timezone.utc) - timedelta(minutes=10)
     #     processing_statuses = ("uploading", "ocr_complete", "classified")
-    #     result = await session.execute(
-    #         update(Document)
+    #     stale_result = await session.execute(
+    #         select(Document.id)
     #         .where(Document.status.in_(processing_statuses))
     #         .where(Document.updated_at < stale_cutoff)
-    #         .values(
-    #             status="error",
-    #             error_message="Processing interrupted — please click Reprocess to retry.",
-    #         )
-    #         .returning(Document.id)
     #     )
-    #     recovered = result.all()
-    #     if recovered:
+    #     stale_ids = [row[0] for row in stale_result.all()]
+    #     if stale_ids:
+    #         await session.execute(
+    #             update(Document)
+    #             .where(Document.id.in_(stale_ids))
+    #             .values(
+    #                 status="error",
+    #                 error_message="Processing interrupted — please click Reprocess to retry.",
+    #             )
+    #         )
     #         await session.commit()
-    #         logger.info("Recovered %d stale documents on startup", len(recovered))
+    #         logger.info("Recovered %d stale documents on startup", len(stale_ids))
 
     logger.info("Procurement API startup complete")
     yield

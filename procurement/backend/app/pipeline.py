@@ -7,8 +7,6 @@ from datetime import datetime, timezone
 
 from sqlalchemy import select
 
-from pathlib import Path
-
 from app.config import settings
 from app.database import AsyncSessionLocal
 from app.models.document import ActivityLog, Document, ExtractedFields, ValidationResult
@@ -19,6 +17,37 @@ from app.extraction.extractor import extract_fields
 from app.validation.engine import validate_document
 
 logger = logging.getLogger(__name__)
+
+_FIELD_CATEGORIES = {
+    "expiration_date": "risk", "renewal_clause": "risk", "liquidated_damages_rate": "risk",
+    "mbe_wbe_required": "compliance", "federal_funding": "compliance",
+    "total_amount": "financial", "insurance_general_liability_min": "financial",
+    "bond_required": "financial",
+    "vendor_name": "identity", "scope_summary": "identity",
+    "effective_date": "date", "document_date": "date",
+}
+
+
+def _compute_source_highlights(ocr_text: str, field_sources: dict) -> list[dict]:
+    """Match AI-reported source quotes back to OCR text and return highlight spans."""
+    highlights: list[dict] = []
+    text_lower = ocr_text.lower()
+    for field, quote in field_sources.items():
+        if not quote or not isinstance(quote, str):
+            continue
+        idx = text_lower.find(quote.lower()[:80])  # fuzzy: search first 80 chars
+        if idx == -1:
+            # Try shorter substring (first 40 chars)
+            idx = text_lower.find(quote.lower()[:40])
+        if idx >= 0:
+            highlights.append({
+                "field": field,
+                "offset": idx,
+                "length": min(len(quote), 200),
+                "category": _FIELD_CATEGORIES.get(field, "identity"),
+                "quote": quote[:200],
+            })
+    return highlights
 
 # Limit concurrent document processing to prevent resource exhaustion
 _pipeline_semaphore = asyncio.Semaphore(3)
@@ -88,7 +117,7 @@ async def process_document(
             # --- 2. OCR ---
             mime_type = doc.mime_type or "application/pdf"
             try:
-                ocr_text, ocr_confidence = await _retry_async(
+                ocr_text, ocr_confidence, ocr_metadata = await _retry_async(
                     lambda: extract_text(file_path, blob_url, mime_type, original_filename),
                     operation="OCR",
                 )
@@ -100,6 +129,7 @@ async def process_document(
 
             doc.ocr_text = ocr_text
             doc.ocr_confidence = ocr_confidence
+            doc.ocr_metadata = ocr_metadata
             doc.status = "ocr_complete"
             await session.commit()
             await _log_activity(session, document_id, "ocr_complete")
@@ -111,30 +141,17 @@ async def process_document(
                 await session.commit()
                 return
 
-            # --- 3. Classify (with demo cache shortcut) ---
-            _demo_cached_extraction = None
-            _is_demo = "PLACEHOLDER" in settings.azure_openai_key and original_filename
-            if _is_demo:
-                from fixtures.demo_cache import DEMO_CLASSIFICATIONS, DEMO_EXTRACTIONS
-                stem = Path(original_filename).stem
-                if stem in DEMO_CLASSIFICATIONS:
-                    document_type, classification_confidence = DEMO_CLASSIFICATIONS[stem]
-                    _demo_cached_extraction = DEMO_EXTRACTIONS.get(stem)
-                    logger.info("Using demo cache for classification: %s -> %s", stem, document_type)
-                else:
-                    document_type, classification_confidence = ("other", 0.0)
-                    logger.info("Demo mode but no cache for %s — defaulting to other", stem)
-            else:
-                try:
-                    document_type, classification_confidence = await _retry_async(
-                        lambda: classify_document(ocr_text),
-                        operation="Classification",
-                    )
-                except Exception as e:
-                    doc.status = "error"
-                    doc.error_message = f"Classification failed after 3 retries: {type(e).__name__}: {str(e)[:200]}"
-                    await session.commit()
-                    return
+            # --- 3. Classify ---
+            try:
+                document_type, classification_confidence = await _retry_async(
+                    lambda: classify_document(ocr_text),
+                    operation="Classification",
+                )
+            except Exception as e:
+                doc.status = "error"
+                doc.error_message = f"Classification failed after 3 retries: {type(e).__name__}: {str(e)[:200]}"
+                await session.commit()
+                return
 
             doc.document_type = document_type
             doc.classification_confidence = classification_confidence
@@ -148,21 +165,24 @@ async def process_document(
             )
             await session.commit()
 
-            # --- 4. Extract fields (with demo cache shortcut) ---
-            if _demo_cached_extraction:
-                fields_dict = dict(_demo_cached_extraction)
-                logger.info("Using demo cache for extraction: %s", Path(original_filename).stem)
-            else:
-                try:
-                    fields_dict = await _retry_async(
-                        lambda: extract_fields(ocr_text, document_type),
-                        operation="Field extraction",
-                    )
-                except Exception as e:
+            # --- 4. Extract fields ---
+            try:
+                fields_dict = await _retry_async(
+                    lambda: extract_fields(ocr_text, document_type),
+                    operation="Field extraction",
+                )
+            except Exception as e:
                     doc.status = "error"
                     doc.error_message = f"Field extraction failed after 3 retries: {type(e).__name__}: {str(e)[:200]}"
                     await session.commit()
                     return
+
+            # Compute source highlights from field_sources
+            field_sources = fields_dict.get("field_sources", {})
+            if field_sources and ocr_text:
+                source_highlights = _compute_source_highlights(ocr_text, field_sources)
+            else:
+                source_highlights = []
 
             # Parse date strings to date objects
             def _parse_date(val):
@@ -216,6 +236,7 @@ async def process_document(
                 prequalification_required=fields_dict.get("prequalification_required"),
                 raw_extraction=fields_dict,
                 extraction_confidence=fields_dict.get("extraction_confidence"),
+                source_highlights=source_highlights,
             )
             session.add(extracted)
             doc.status = "extracted"

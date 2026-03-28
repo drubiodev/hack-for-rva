@@ -15,12 +15,16 @@ import {
   rejectDocument,
   reprocessDocument,
   resolveWarning,
+  fetchAnnotations,
+  createAnnotation,
 } from "@/lib/api";
+import AnnotationLayer from "@/components/AnnotationLayer";
 import { documentKeys } from "@/lib/queryKeys";
 import type {
   DocumentStatus,
   ValidationSeverity,
 } from "@/lib/types";
+import HighlightedText, { CATEGORY_COLORS } from "@/components/HighlightedText";
 import {
   Upload,
   ScanText,
@@ -282,6 +286,7 @@ export default function DocumentDetailPage() {
   const [approveComments, setApproveComments] = useState("");
   const [showApproveForm, setShowApproveForm] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(100);
+  const [activeHighlightField, setActiveHighlightField] = useState<string | null>(null);
 
   const id = params.id;
 
@@ -337,6 +342,25 @@ export default function DocumentDetailPage() {
     onSuccess: invalidate,
   });
 
+  const { data: annotations = [] } = useQuery({
+    queryKey: ["annotations", id],
+    queryFn: () => fetchAnnotations(id),
+    enabled: !!doc?.ocr_text,
+  });
+
+  const createAnnotationMutation = useMutation({
+    mutationFn: (data: { x: number; y: number; text: string }) =>
+      createAnnotation(id, {
+        ...data,
+        page: 1,
+        author: user?.name ?? "Unknown",
+        initials: (user?.name ?? "??").split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase(),
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["annotations", id] });
+    },
+  });
+
   if (isLoading) {
     return (
       <div className="flex h-[calc(100vh-56px)] gap-0">
@@ -381,6 +405,23 @@ export default function DocumentDetailPage() {
   const infos = validations.filter((v) => v.severity === "info");
   const sortedValidations = [...errors, ...warnings, ...infos];
   const expiring = isExpiringSoon(fields?.expiration_date);
+
+  // Build a map from field name to highlight category for the colored dots on TermCards
+  const highlightsByField: Record<string, string> = {};
+  for (const hl of fields?.source_highlights ?? []) {
+    if (!highlightsByField[hl.field]) {
+      highlightsByField[hl.field] = hl.category;
+    }
+  }
+
+  function termCardProps(label: string) {
+    const fieldName = LABEL_TO_FIELD[label];
+    const cat = fieldName ? highlightsByField[fieldName] : undefined;
+    return {
+      highlightCategory: cat,
+      onClick: fieldName && cat ? () => setActiveHighlightField(fieldName) : undefined,
+    };
+  }
 
   return (
     <div className="flex flex-col h-[calc(100vh-56px)] -m-6">
@@ -569,36 +610,41 @@ export default function DocumentDetailPage() {
               )}
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-1">
-                <TermCard label="Payment Terms" value={fields.payment_terms} confidence={fc?.payment_terms} />
-                <TermCard label="Auto-Renewal" value={fields.renewal_clause} />
+                <TermCard label="Payment Terms" value={fields.payment_terms} confidence={fc?.payment_terms} {...termCardProps("Payment Terms")} />
+                <TermCard label="Auto-Renewal" value={fields.renewal_clause} {...termCardProps("Auto-Renewal")} />
                 <TermCard
                   label="Insurance Required"
                   value={fields.insurance_required == null ? "N/A" : fields.insurance_required ? "Yes" : "No"}
                   confidence={fc?.insurance_required}
+                  {...termCardProps("Insurance Required")}
                 />
                 <TermCard
                   label="Bond Required"
                   value={fields.bond_required == null ? "N/A" : fields.bond_required ? "Yes" : "No"}
                   confidence={fc?.bond_required}
+                  {...termCardProps("Bond Required")}
                 />
-                <TermCard label="Contract Type" value={fields.contract_type} confidence={fc?.contract_type} />
-                <TermCard label="Document #" value={fields.document_number} />
+                <TermCard label="Contract Type" value={fields.contract_type} confidence={fc?.contract_type} {...termCardProps("Contract Type")} />
+                <TermCard label="Document #" value={fields.document_number} {...termCardProps("Document #")} />
                 <TermCard
                   label="Total Amount"
                   value={formatCurrency(fields.total_amount)}
                   confidence={fc?.total_amount}
+                  {...termCardProps("Total Amount")}
                 />
-                <TermCard label="Department" value={fields.issuing_department} />
+                <TermCard label="Department" value={fields.issuing_department} {...termCardProps("Department")} />
                 <TermCard
                   label="Effective Date"
                   value={formatDate(fields.effective_date)}
                   confidence={fc?.effective_date}
+                  {...termCardProps("Effective Date")}
                 />
                 <TermCard
                   label="Expiration Date"
                   value={formatDate(fields.expiration_date)}
                   confidence={fc?.expiration_date}
                   critical
+                  {...termCardProps("Expiration Date")}
                 />
               </div>
 
@@ -850,6 +896,11 @@ export default function DocumentDetailPage() {
                   OCR {(doc.ocr_confidence * 100).toFixed(0)}%
                 </span>
               )}
+              {doc.ocr_text && (
+                <span className="text-[9px] font-mono text-[#6B7280] bg-[#374151] rounded px-1.5 py-0.5 ml-2">
+                  Click text to annotate
+                </span>
+              )}
             </div>
             <div className="flex items-center gap-1">
               <button
@@ -869,6 +920,22 @@ export default function DocumentDetailPage() {
               >
                 <ZoomIn className="h-3.5 w-3.5" />
               </button>
+              <div className="w-px h-4 bg-[#4B5563] mx-1" />
+              <div className="flex items-center gap-2 mx-2">
+                {Object.entries(CATEGORY_COLORS).map(([key, { bg, label }]) => (
+                  <span key={key} className="flex items-center gap-0.5">
+                    <span className={`w-2 h-2 rounded-full ${bg.replace("/70", "")}`} />
+                    <span className="text-[9px] text-[#9CA3AF]">{label}</span>
+                  </span>
+                ))}
+              </div>
+              {doc.ocr_text && (
+                <div className="flex items-center gap-1.5 mx-1">
+                  <span className="text-[10px] font-mono text-[#9CA3AF]">
+                    {annotations.length} {annotations.length === 1 ? "note" : "notes"}
+                  </span>
+                </div>
+              )}
               <div className="w-px h-4 bg-[#4B5563] mx-1" />
               <button
                 onClick={() => window.print()}
@@ -893,23 +960,33 @@ export default function DocumentDetailPage() {
           {/* Document content area */}
           <div className="flex-1 overflow-auto p-6">
             {doc.ocr_text ? (
-              <div
-                className="mx-auto bg-white shadow-lg rounded-sm border border-[#E7E5E4]"
-                style={{
-                  maxWidth: "800px",
-                  padding: `${Math.round(48 * zoomLevel / 100)}px ${Math.round(56 * zoomLevel / 100)}px`,
-                  fontSize: `${Math.round(11 * zoomLevel / 100)}px`,
-                }}
-              >
-                <pre
-                  className="whitespace-pre-wrap leading-relaxed text-[#1C1917]"
+              <div className="relative" style={{ minHeight: "100%" }}>
+                <AnnotationLayer
+                  annotations={annotations}
+                  onAnnotationCreate={(data) => createAnnotationMutation.mutate(data)}
+                />
+                <div
+                  className="mx-auto bg-white shadow-lg rounded-sm border border-[#E7E5E4]"
                   style={{
-                    fontFamily: "Georgia, 'Times New Roman', serif",
+                    maxWidth: "800px",
+                    padding: `${Math.round(48 * zoomLevel / 100)}px ${Math.round(56 * zoomLevel / 100)}px`,
                     fontSize: `${Math.round(11 * zoomLevel / 100)}px`,
                   }}
                 >
-                  {doc.ocr_text}
-                </pre>
+                  <HighlightedText
+                    text={doc.ocr_text}
+                    highlights={fields?.source_highlights ?? []}
+                    activeField={activeHighlightField}
+                    onHighlightClick={(field) => {
+                      setActiveHighlightField(field);
+                    }}
+                    className="whitespace-pre-wrap leading-relaxed text-[#1C1917]"
+                    style={{
+                      fontFamily: "Georgia, 'Times New Roman', serif",
+                      fontSize: `${Math.round(11 * zoomLevel / 100)}px`,
+                    }}
+                  />
+                </div>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-[#78716C]">
@@ -933,21 +1010,43 @@ export default function DocumentDetailPage() {
 
 // --- Term card helper for the 2-column grid ---
 
+// Map display labels to field names for highlight linking
+const LABEL_TO_FIELD: Record<string, string> = {
+  "Payment Terms": "payment_terms",
+  "Auto-Renewal": "renewal_clause",
+  "Insurance Required": "insurance_required",
+  "Bond Required": "bond_required",
+  "Contract Type": "contract_type",
+  "Document #": "document_number",
+  "Total Amount": "total_amount",
+  "Department": "issuing_department",
+  "Effective Date": "effective_date",
+  "Expiration Date": "expiration_date",
+};
+
 function TermCard({
   label,
   value,
   confidence,
   critical,
+  highlightCategory,
+  onClick,
 }: {
   label: string;
   value: string | number | null | undefined;
   confidence?: number;
   critical?: boolean;
+  highlightCategory?: string;
+  onClick?: () => void;
 }) {
   const isLow = confidence !== undefined && confidence < CONFIDENCE_THRESHOLD;
+  const colors = highlightCategory ? CATEGORY_COLORS[highlightCategory] : null;
   return (
     <div
+      onClick={onClick}
       className={`group rounded-lg p-3 transition-colors hover:bg-[#F3F4F6] ${
+        onClick ? "cursor-pointer" : ""
+      } ${
         critical && isLow
           ? "border border-red-200 bg-red-50"
           : "border border-transparent"
@@ -957,6 +1056,9 @@ function TermCard({
         <p className="text-[11px] font-mono uppercase tracking-wider text-[#78716C]">
           {label}
         </p>
+        {colors && (
+          <span className={`w-2 h-2 rounded-full ${colors.bg.replace("/70", "")}`} title={`Has ${colors.label} highlight`} />
+        )}
         <ConfidenceBadge confidence={confidence} />
       </div>
       <p className="text-[15px] font-medium text-[#0F2537]">{value ?? "N/A"}</p>

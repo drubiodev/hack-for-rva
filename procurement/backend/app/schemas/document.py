@@ -60,6 +60,7 @@ class ExtractedFieldsSchema(BaseModel):
     prequalification_required: bool | None = None
     raw_extraction: dict[str, Any] = {}
     extraction_confidence: float | None = None
+    source_highlights: list[dict[str, Any]] | None = None
 
 
 # --- Validation Result ---
