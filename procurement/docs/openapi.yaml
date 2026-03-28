@@ -4,7 +4,9 @@ info:
   description: >
     AI-powered procurement document processing for City of Richmond.
     Decision-support tool — AI-assisted, requires human review.
-  version: 1.0.0
+    Includes semantic search via Azure AI Search, intelligence analytics,
+    configurable validation rules, and RAG-powered chatbot.
+  version: 2.0.0
 
 servers:
   - url: http://localhost:8000
@@ -29,7 +31,11 @@ paths:
                     example: ok
                   version:
                     type: string
-                    example: 1.0.0
+                    example: 2.0.0
+
+  # -----------------------------------------------------------------------
+  # Documents
+  # -----------------------------------------------------------------------
 
   /api/v1/documents:
     get:
@@ -49,6 +55,10 @@ paths:
           in: query
           schema:
             $ref: "#/components/schemas/DocumentSource"
+        - name: department
+          in: query
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -90,7 +100,7 @@ paths:
                 file:
                   type: string
                   format: binary
-                  description: PDF, PNG, JPG, or TIFF file (max 20MB)
+                  description: PDF, PNG, JPG, or TIFF file (max 100MB)
                 uploaded_by:
                   type: string
                   description: Name of the analyst uploading
@@ -114,12 +124,7 @@ paths:
       summary: Get document detail with fields, validations, and activity
       tags: [Documents]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/DocumentId"
       responses:
         "200":
           description: Full document detail
@@ -134,18 +139,26 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
+  /api/v1/documents/{id}/file:
+    get:
+      operationId: getDocumentFile
+      summary: Redirect to blob storage SAS URL for the original document
+      tags: [Documents]
+      parameters:
+        - $ref: "#/components/parameters/DocumentId"
+      responses:
+        "302":
+          description: Redirect to blob URL
+        "404":
+          description: Document or blob not found
+
   /api/v1/documents/{id}/fields:
     patch:
       operationId: updateFields
       summary: Edit extracted fields (analyst only)
       tags: [Documents]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/DocumentId"
       requestBody:
         required: true
         content:
@@ -166,12 +179,7 @@ paths:
       summary: Submit document for supervisor approval (analyst only)
       tags: [Approvals]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/DocumentId"
       requestBody:
         required: true
         content:
@@ -196,12 +204,7 @@ paths:
       summary: Approve a document (supervisor only)
       tags: [Approvals]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/DocumentId"
       requestBody:
         required: true
         content:
@@ -228,12 +231,7 @@ paths:
       summary: Reject a document (supervisor only)
       tags: [Approvals]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/DocumentId"
       requestBody:
         required: true
         content:
@@ -260,12 +258,7 @@ paths:
       summary: Mark document as reviewed with notes
       tags: [Documents]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/DocumentId"
       requestBody:
         required: true
         content:
@@ -295,12 +288,7 @@ paths:
       summary: Export extracted fields as CSV
       tags: [Documents]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/DocumentId"
       responses:
         "200":
           description: CSV file download
@@ -322,12 +310,7 @@ paths:
       summary: Resolve a validation warning
       tags: [Documents]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/DocumentId"
       requestBody:
         required: true
         content:
@@ -355,12 +338,7 @@ paths:
       summary: Re-run AI pipeline on document (supervisor only)
       tags: [Documents]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/DocumentId"
       requestBody:
         required: true
         content:
@@ -379,37 +357,58 @@ paths:
               schema:
                 $ref: "#/components/schemas/DocumentSummary"
 
-  /api/v1/analytics/summary:
-    get:
-      operationId: getAnalyticsSummary
-      summary: KPI summary (total docs, by type, total value)
-      tags: [Analytics]
-      responses:
-        "200":
-          description: Analytics summary
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AnalyticsSummary"
+  # -----------------------------------------------------------------------
+  # Annotations
+  # -----------------------------------------------------------------------
 
-  /api/v1/analytics/risks:
+  /api/v1/documents/{id}/annotations:
     get:
-      operationId: getRisks
-      summary: Expiring contracts and risk alerts
-      tags: [Analytics]
+      operationId: getAnnotations
+      summary: Get all annotations for a document
+      tags: [Annotations]
       parameters:
-        - name: days
-          in: query
-          schema:
-            type: integer
-            default: 90
+        - $ref: "#/components/parameters/DocumentId"
       responses:
         "200":
-          description: Risk data
+          description: List of annotations
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RiskSummary"
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnnotationResponse"
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    post:
+      operationId: createAnnotation
+      summary: Add an annotation to a document
+      tags: [Annotations]
+      parameters:
+        - $ref: "#/components/parameters/DocumentId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnnotationCreate"
+      responses:
+        "201":
+          description: Annotation created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnnotationResponse"
+        "404":
+          description: Document not found
+
+  # -----------------------------------------------------------------------
+  # Reminders
+  # -----------------------------------------------------------------------
 
   /api/v1/documents/{id}/reminders:
     post:
@@ -417,12 +416,7 @@ paths:
       summary: Create a renewal reminder for a document
       tags: [Reminders]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/DocumentId"
       requestBody:
         required: true
         content:
@@ -438,10 +432,6 @@ paths:
                 $ref: "#/components/schemas/Reminder"
         "404":
           description: Document not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
 
   /api/v1/reminders:
     get:
@@ -499,10 +489,194 @@ paths:
                 $ref: "#/components/schemas/Reminder"
         "404":
           description: Reminder not found
+
+  # -----------------------------------------------------------------------
+  # Analytics
+  # -----------------------------------------------------------------------
+
+  /api/v1/analytics/summary:
+    get:
+      operationId: getAnalyticsSummary
+      summary: KPI summary (total docs, by type, total value)
+      tags: [Analytics]
+      responses:
+        "200":
+          description: Analytics summary
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/AnalyticsSummary"
+
+  /api/v1/analytics/risks:
+    get:
+      operationId: getRisks
+      summary: Expiring contracts and risk alerts
+      tags: [Analytics]
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 90
+      responses:
+        "200":
+          description: Risk data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RiskSummary"
+
+  # -----------------------------------------------------------------------
+  # Intelligence (Azure AI Search powered)
+  # -----------------------------------------------------------------------
+
+  /api/v1/intelligence/department-spend:
+    get:
+      operationId: intelligenceDepartmentSpend
+      summary: Aggregated contract spend by department
+      tags: [Intelligence]
+      responses:
+        "200":
+          description: Department spend breakdown
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  departments:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/DepartmentSpend"
+
+  /api/v1/intelligence/expiring:
+    get:
+      operationId: intelligenceExpiring
+      summary: Documents expiring within N days
+      tags: [Intelligence]
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 90
+            minimum: 1
+            maximum: 365
+      responses:
+        "200":
+          description: Expiring documents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  documents:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ExpiringDocument"
+                  days:
+                    type: integer
+                  count:
+                    type: integer
+
+  /api/v1/intelligence/compliance-gaps:
+    get:
+      operationId: intelligenceComplianceGaps
+      summary: Documents with missing compliance fields (high-value contracts)
+      tags: [Intelligence]
+      responses:
+        "200":
+          description: Compliance gap list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  gaps:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ComplianceGap"
+                  count:
+                    type: integer
+
+  /api/v1/intelligence/vendor-concentration:
+    get:
+      operationId: intelligenceVendorConcentration
+      summary: Vendors with multiple contracts — concentration risk
+      tags: [Intelligence]
+      responses:
+        "200":
+          description: Vendor concentration data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vendors:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/VendorConcentration"
+                  count:
+                    type: integer
+
+  /api/v1/intelligence/sole-source-review:
+    get:
+      operationId: intelligenceSoleSourceReview
+      summary: Sole-source contracts above a dollar threshold
+      tags: [Intelligence]
+      parameters:
+        - name: threshold
+          in: query
+          schema:
+            type: number
+            default: 50000
+      responses:
+        "200":
+          description: Sole-source contracts for review
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  documents:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/IntelligenceDocument"
+                  threshold:
+                    type: number
+                  count:
+                    type: integer
+
+  # -----------------------------------------------------------------------
+  # Chat (RAG-powered with Azure AI Search + SQL intelligence)
+  # -----------------------------------------------------------------------
+
+  /api/v1/chat:
+    post:
+      operationId: chat
+      summary: Ask questions about procurement documents using AI query routing + semantic search
+      description: >
+        Routes questions through an AI intent classifier, then dispatches to
+        Azure AI Search (semantic), SQL aggregation, or SQL filtering.
+        Returns a markdown-formatted answer with numbered inline citations [1], [2]
+        that map to the references array.
+      tags: [Chat]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatRequest"
+      responses:
+        "200":
+          description: Chat response with answer, source documents, and inline references
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatResponse"
+
+  # -----------------------------------------------------------------------
+  # Activity
+  # -----------------------------------------------------------------------
 
   /api/v1/activity:
     get:
@@ -528,83 +702,322 @@ paths:
                     items:
                       $ref: "#/components/schemas/ActivityEntry"
 
-  /api/v1/chat:
-    post:
-      operationId: chat
-      summary: Ask questions about procurement documents (AI-powered with keyword fallback)
-      tags: [Chat]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ChatRequest"
-      responses:
-        "200":
-          description: Chat response with answer and source documents
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ChatResponse"
+  # -----------------------------------------------------------------------
+  # Validation Rules (configurable policy engine)
+  # -----------------------------------------------------------------------
 
-  /api/v1/documents/{id}/annotations:
+  /api/v1/validation-rules:
     get:
-      operationId: getAnnotations
-      summary: Get all annotations for a document
-      tags: [Annotations]
+      operationId: listValidationRules
+      summary: List all validation rules with optional filters
+      tags: [Validation Rules]
       parameters:
-        - name: id
-          in: path
-          required: true
+        - name: scope
+          in: query
           schema:
             type: string
-            format: uuid
+            enum: [global, department]
+        - name: department
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, active, deprecated]
+        - name: enabled
+          in: query
+          schema:
+            type: boolean
+        - name: rule_type
+          in: query
+          schema:
+            type: string
+            enum: [threshold, required_field, semantic_policy, district_check, date_window]
       responses:
         "200":
-          description: List of annotations
+          description: List of validation rules
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/AnnotationResponse"
-        "404":
-          description: Document not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                  $ref: "#/components/schemas/ValidationRuleConfig"
 
     post:
-      operationId: createAnnotation
-      summary: Add an annotation to a document
-      tags: [Annotations]
+      operationId: createValidationRule
+      summary: Create a new validation rule (supervisor only)
+      tags: [Validation Rules]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/SupervisorRole"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AnnotationCreate"
+              $ref: "#/components/schemas/ValidationRuleConfigCreate"
       responses:
         "201":
-          description: Annotation created
+          description: Rule created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AnnotationResponse"
-        "404":
-          description: Document not found
+                $ref: "#/components/schemas/ValidationRuleConfig"
+
+  /api/v1/validation-rules/compliance-summary:
+    get:
+      operationId: getComplianceSummary
+      summary: Department-level compliance aggregates, top triggered rules, recent violations
+      tags: [Validation Rules]
+      responses:
+        "200":
+          description: Compliance summary
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/ComplianceSummary"
+
+  /api/v1/validation-rules/audit-log:
+    get:
+      operationId: getGlobalAuditLog
+      summary: Global audit log across all validation rules
+      tags: [Validation Rules]
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: Paginated audit log
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ValidationRuleAuditLog"
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+
+  /api/v1/validation-rules/{rule_id}:
+    patch:
+      operationId: updateValidationRule
+      summary: Update a validation rule (supervisor only)
+      tags: [Validation Rules]
+      parameters:
+        - name: rule_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/SupervisorRole"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ValidationRuleConfigUpdate"
+      responses:
+        "200":
+          description: Rule updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationRuleConfig"
+
+    delete:
+      operationId: deleteValidationRule
+      summary: Delete a validation rule (hard-delete for draft, soft-deprecate for active)
+      tags: [Validation Rules]
+      parameters:
+        - name: rule_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/SupervisorRole"
+      responses:
+        "200":
+          description: Rule deleted or deprecated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+
+  /api/v1/validation-rules/{rule_id}/toggle:
+    post:
+      operationId: toggleValidationRule
+      summary: Toggle a rule's enabled flag (supervisor only)
+      tags: [Validation Rules]
+      parameters:
+        - name: rule_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/SupervisorRole"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                toggled_by:
+                  type: string
+      responses:
+        "200":
+          description: Rule toggled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationRuleConfig"
+
+  /api/v1/validation-rules/{rule_id}/activate:
+    post:
+      operationId: activateValidationRule
+      summary: Move a rule from draft to active (supervisor only)
+      tags: [Validation Rules]
+      parameters:
+        - name: rule_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/SupervisorRole"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activated_by:
+                  type: string
+      responses:
+        "200":
+          description: Rule activated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationRuleConfig"
+
+  /api/v1/validation-rules/{rule_id}/deprecate:
+    post:
+      operationId: deprecateValidationRule
+      summary: Move a rule from active to deprecated (supervisor only)
+      tags: [Validation Rules]
+      parameters:
+        - name: rule_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/SupervisorRole"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deprecated_by:
+                  type: string
+      responses:
+        "200":
+          description: Rule deprecated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationRuleConfig"
+
+  /api/v1/validation-rules/{rule_id}/audit-log:
+    get:
+      operationId: getRuleAuditLog
+      summary: Audit log entries for a specific validation rule
+      tags: [Validation Rules]
+      parameters:
+        - name: rule_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Rule audit log
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ValidationRuleAuditLog"
+
+  # -----------------------------------------------------------------------
+  # Admin (search index management)
+  # -----------------------------------------------------------------------
+
+  /api/v1/admin/reindex:
+    post:
+      operationId: adminReindex
+      summary: Recreate search index and reindex all documents (supervisor only)
+      tags: [Admin]
+      parameters:
+        - $ref: "#/components/parameters/SupervisorRole"
+      responses:
+        "200":
+          description: Reindex complete
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: "Reindex complete: 1375 documents indexed"
+
+  /api/v1/admin/ensure-index:
+    post:
+      operationId: adminEnsureIndex
+      summary: Create or update the Azure AI Search index schema
+      tags: [Admin]
+      responses:
+        "200":
+          description: Index created/updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: "Index 'contracts' created/updated"
+
+  # -----------------------------------------------------------------------
+  # Ingest
+  # -----------------------------------------------------------------------
 
   /api/v1/ingest/socrata:
     post:
@@ -621,15 +1034,57 @@ paths:
                 properties:
                   imported:
                     type: integer
-                    description: Number of records imported
                   skipped:
                     type: integer
-                    description: Number of records skipped (duplicates)
                   message:
                     type: string
 
+  /api/v1/ingest/backfill-intelligence:
+    post:
+      operationId: backfillIntelligence
+      summary: Backfill intelligence fields on existing documents using AI
+      tags: [Ingest]
+      responses:
+        "200":
+          description: Backfill complete
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  processed:
+                    type: integer
+                  skipped:
+                    type: integer
+                  errors:
+                    type: integer
+
+# =========================================================================
+# Components
+# =========================================================================
+
 components:
+  parameters:
+    DocumentId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    SupervisorRole:
+      name: X-User-Role
+      in: header
+      required: true
+      schema:
+        type: string
+        enum: [supervisor]
+      description: Must be "supervisor" for protected operations
+
   schemas:
+    # --- Enums ---
+
     DocumentStatus:
       type: string
       enum:
@@ -645,23 +1100,13 @@ components:
 
     DocumentType:
       type: string
-      enum:
-        - rfp
-        - rfq
-        - contract
-        - purchase_order
-        - invoice
-        - amendment
-        - cooperative
-        - other
+      enum: [rfp, rfq, contract, purchase_order, invoice, amendment, cooperative, other]
 
     DocumentSource:
       type: string
-      enum:
-        - upload
-        - socrata
-        - sam_gov
-        - eva
+      enum: [upload, socrata, sam_gov, eva]
+
+    # --- Documents ---
 
     DocumentSummary:
       type: object
@@ -700,6 +1145,27 @@ components:
           type: string
           nullable: true
         approved_by:
+          type: string
+          nullable: true
+        # Intelligence columns
+        primary_department:
+          type: string
+          nullable: true
+        department_tags:
+          type: array
+          items:
+            type: string
+        compliance_flags:
+          type: array
+          items:
+            type: string
+        mbe_wbe_required:
+          type: boolean
+          nullable: true
+        federal_funding:
+          type: boolean
+          nullable: true
+        procurement_method:
           type: string
           nullable: true
         created_at:
@@ -821,12 +1287,88 @@ components:
         scope_summary:
           type: string
           nullable: true
+        # Department routing
+        department_tags:
+          type: array
+          items:
+            type: string
+        primary_department:
+          type: string
+          nullable: true
+        department_confidence:
+          type: number
+          nullable: true
+        # MBE/WBE & compliance
+        mbe_wbe_required:
+          type: boolean
+          nullable: true
+        mbe_wbe_details:
+          type: string
+          nullable: true
+        federal_funding:
+          type: boolean
+          nullable: true
+        compliance_flags:
+          type: array
+          items:
+            type: string
+        # Insurance & bonding
+        insurance_general_liability_min:
+          type: number
+          nullable: true
+        insurance_auto_liability_min:
+          type: number
+          nullable: true
+        insurance_professional_liability_min:
+          type: number
+          nullable: true
+        workers_comp_required:
+          type: boolean
+          nullable: true
+        performance_bond_amount:
+          type: number
+          nullable: true
+        payment_bond_amount:
+          type: number
+          nullable: true
+        liquidated_damages_rate:
+          type: string
+          nullable: true
+        # Procurement method
+        procurement_method:
+          type: string
+          nullable: true
+          enum: [COMPETITIVE_BID, RFP, COOPERATIVE_PURCHASE, SOLE_SOURCE, EMERGENCY, null]
+        cooperative_contract_ref:
+          type: string
+          nullable: true
+        prequalification_required:
+          type: boolean
+          nullable: true
         raw_extraction:
           type: object
           default: {}
         extraction_confidence:
           type: number
           nullable: true
+        source_highlights:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              offset:
+                type: integer
+              length:
+                type: integer
+              category:
+                type: string
+              quote:
+                type: string
+
+    # --- Validation ---
 
     ValidationResult:
       type: object
@@ -861,6 +1403,425 @@ components:
           type: string
           format: date-time
           nullable: true
+        policy_rule_id:
+          type: string
+          format: uuid
+          nullable: true
+        ai_evidence:
+          type: string
+          nullable: true
+        ai_confidence:
+          type: number
+          nullable: true
+
+    ValidationRuleConfig:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        rule_type:
+          type: string
+          enum: [threshold, required_field, semantic_policy, district_check, date_window]
+        scope:
+          type: string
+          enum: [global, department]
+        department:
+          type: string
+          nullable: true
+        severity:
+          type: string
+          enum: [error, warning, info]
+        status:
+          type: string
+          enum: [draft, active, deprecated]
+        policy_statement:
+          type: string
+          nullable: true
+        field_name:
+          type: string
+          nullable: true
+        operator:
+          type: string
+          nullable: true
+          enum: [gt, lt, gte, lte, eq, neq, is_empty, is_not_empty, null]
+        threshold_value:
+          type: string
+          nullable: true
+        message_template:
+          type: string
+          nullable: true
+        suggestion:
+          type: string
+          nullable: true
+        enabled:
+          type: boolean
+        applies_to_doc_types:
+          type: array
+          nullable: true
+          items:
+            type: string
+        created_by:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    ValidationRuleConfigCreate:
+      type: object
+      required: [name, rule_type, created_by]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        rule_type:
+          type: string
+          enum: [threshold, required_field, semantic_policy, district_check, date_window]
+        scope:
+          type: string
+          default: global
+        department:
+          type: string
+        severity:
+          type: string
+          default: warning
+        policy_statement:
+          type: string
+        field_name:
+          type: string
+        operator:
+          type: string
+        threshold_value:
+          type: string
+        message_template:
+          type: string
+        suggestion:
+          type: string
+        applies_to_doc_types:
+          type: array
+          items:
+            type: string
+        created_by:
+          type: string
+
+    ValidationRuleConfigUpdate:
+      type: object
+      required: [updated_by]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        severity:
+          type: string
+        scope:
+          type: string
+        department:
+          type: string
+        policy_statement:
+          type: string
+        field_name:
+          type: string
+        operator:
+          type: string
+        threshold_value:
+          type: string
+        message_template:
+          type: string
+        suggestion:
+          type: string
+        applies_to_doc_types:
+          type: array
+          items:
+            type: string
+        updated_by:
+          type: string
+
+    ValidationRuleAuditLog:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        rule_id:
+          type: string
+          format: uuid
+          nullable: true
+        rule_name:
+          type: string
+        action:
+          type: string
+          enum: [created, updated, toggled, activated, deprecated, deleted]
+        changed_by:
+          type: string
+        changed_at:
+          type: string
+          format: date-time
+        old_values:
+          type: object
+          nullable: true
+        new_values:
+          type: object
+          nullable: true
+
+    ComplianceSummary:
+      type: object
+      properties:
+        department_cards:
+          type: array
+          items:
+            type: object
+            properties:
+              department:
+                type: string
+              total_violations:
+                type: integer
+              error_count:
+                type: integer
+              warning_count:
+                type: integer
+              info_count:
+                type: integer
+              document_count:
+                type: integer
+        top_triggered_rules:
+          type: array
+          items:
+            type: object
+            properties:
+              rule_id:
+                type: string
+                format: uuid
+                nullable: true
+              rule_code:
+                type: string
+              rule_name:
+                type: string
+                nullable: true
+              severity:
+                type: string
+              trigger_count:
+                type: integer
+        recent_violations:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              document_id:
+                type: string
+                format: uuid
+              document_title:
+                type: string
+                nullable: true
+              vendor_name:
+                type: string
+                nullable: true
+              rule_code:
+                type: string
+              severity:
+                type: string
+              message:
+                type: string
+              department:
+                type: string
+                nullable: true
+        total_violations:
+          type: integer
+        total_rules_active:
+          type: integer
+
+    # --- Intelligence ---
+
+    DepartmentSpend:
+      type: object
+      properties:
+        group:
+          type: string
+          description: Department name
+        document_count:
+          type: integer
+        total_value:
+          type: number
+        avg_value:
+          type: number
+        max_value:
+          type: number
+
+    ExpiringDocument:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        vendor_name:
+          type: string
+          nullable: true
+        total_amount:
+          type: number
+          nullable: true
+        expiration_date:
+          type: string
+          format: date
+        days_until_expiry:
+          type: integer
+        primary_department:
+          type: string
+          nullable: true
+
+    ComplianceGap:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        vendor_name:
+          type: string
+          nullable: true
+        total_amount:
+          type: number
+          nullable: true
+        primary_department:
+          type: string
+          nullable: true
+        missing_fields:
+          type: array
+          items:
+            type: string
+
+    VendorConcentration:
+      type: object
+      properties:
+        vendor_name:
+          type: string
+        contract_count:
+          type: integer
+        total_value:
+          type: number
+        earliest_expiry:
+          type: string
+          format: date
+          nullable: true
+
+    IntelligenceDocument:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        vendor_name:
+          type: string
+          nullable: true
+        document_type:
+          type: string
+          nullable: true
+        total_amount:
+          type: number
+          nullable: true
+        primary_department:
+          type: string
+          nullable: true
+        expiration_date:
+          type: string
+          format: date
+          nullable: true
+        procurement_method:
+          type: string
+          nullable: true
+        status:
+          type: string
+
+    # --- Chat ---
+
+    ChatRequest:
+      type: object
+      required: [question]
+      properties:
+        question:
+          type: string
+          maxLength: 1000
+        conversation_id:
+          type: string
+          nullable: true
+
+    ChatSourceSchema:
+      type: object
+      required: [document_id, relevance]
+      properties:
+        document_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          nullable: true
+        relevance:
+          type: number
+          description: "0.0-1.0 for normalized scores, >1.0 for Azure AI Search reranker scores"
+        snippet:
+          type: string
+          nullable: true
+          description: Extractive caption or document summary for tooltip display
+
+    ChatReference:
+      type: object
+      required: [index, document_id]
+      description: "Numbered reference cited inline in the answer as [1], [2], etc."
+      properties:
+        index:
+          type: integer
+          description: "Reference number used in the answer text (e.g., [1])"
+        document_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          nullable: true
+        snippet:
+          type: string
+          nullable: true
+
+    ChatResponse:
+      type: object
+      required: [answer, sources, conversation_id]
+      properties:
+        answer:
+          type: string
+          description: "Markdown-formatted answer. Contains inline citations like [1], [2] that map to the references array."
+        sources:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatSourceSchema"
+          description: Source documents backing the answer (max 8, deduplicated)
+        conversation_id:
+          type: string
+        intent:
+          type: string
+          nullable: true
+          description: "Query classification: semantic_search, aggregation, filter_list, compliance_check, expiration_alert, vendor_lookup, comparison, general_knowledge"
+        references:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatReference"
+          description: "Numbered references for inline citations. [N] in the answer text maps to references[N-1]."
+
+    # --- Activity ---
 
     ActivityEntry:
       type: object
@@ -879,6 +1840,9 @@ components:
             - ocr_complete
             - classified
             - extracted
+            - auto_routed
+            - search_indexed
+            - ready_for_review
             - field_edited
             - warning_resolved
             - submitted
@@ -899,6 +1863,8 @@ components:
         created_at:
           type: string
           format: date-time
+
+    # --- Misc ---
 
     FieldUpdate:
       type: object
@@ -1047,52 +2013,14 @@ components:
         dismissed_by:
           type: string
 
-    ChatRequest:
-      type: object
-      required: [question]
-      properties:
-        question:
-          type: string
-        conversation_id:
-          type: string
-          nullable: true
-
-    ChatSourceSchema:
-      type: object
-      required: [document_id, relevance]
-      properties:
-        document_id:
-          type: string
-          format: uuid
-        title:
-          type: string
-          nullable: true
-        relevance:
-          type: number
-
-    ChatResponse:
-      type: object
-      required: [answer, sources, conversation_id]
-      properties:
-        answer:
-          type: string
-        sources:
-          type: array
-          items:
-            $ref: "#/components/schemas/ChatSourceSchema"
-        conversation_id:
-          type: string
-
     AnnotationCreate:
       type: object
       required: [x, y, text, author, initials]
       properties:
         x:
           type: number
-          description: Horizontal position (percentage of page width)
         y:
           type: number
-          description: Vertical position (percentage of page height)
         page:
           type: integer
           default: 1
@@ -1117,7 +2045,6 @@ components:
       properties:
         id:
           type: string
-          description: Annotation ID (e.g. ann_abc123def456)
         x:
           type: number
         y:
