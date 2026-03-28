@@ -114,12 +114,11 @@ export default function UploadPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Drop zone */}
-          <div
+          {/* Drop zone — label wraps input for reliable file picker */}
+          <label
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            onClick={() => fileInputRef.current?.click()}
             className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed py-16 transition-colors ${
               dragOver
                 ? "border-primary bg-primary/5"
@@ -133,14 +132,14 @@ export default function UploadPage() {
             <p className="mt-1 text-xs text-muted-foreground">
               Supported: PDF, PNG, JPG, TIFF (max 50 MB)
             </p>
-          </div>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept={ACCEPTED_EXTENSIONS.join(",")}
-            onChange={handleInputChange}
-            className="hidden"
-          />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept={ACCEPTED_EXTENSIONS.join(",")}
+              onChange={handleInputChange}
+              className="sr-only"
+            />
+          </label>
 
           {/* Validation error */}
           {validationError && (

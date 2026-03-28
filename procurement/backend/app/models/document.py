@@ -84,6 +84,9 @@ class Document(Base):
     activity: Mapped[list["ActivityLog"]] = relationship(
         back_populates="document", lazy="selectin", order_by="ActivityLog.created_at.desc()"
     )
+    reminders: Mapped[list["ContractReminder"]] = relationship(
+        back_populates="document", lazy="selectin"
+    )
 
 
 class ExtractedFields(Base):
@@ -174,3 +177,27 @@ class ActivityLog(Base):
 
     # Relationship
     document: Mapped["Document"] = relationship(back_populates="activity")
+
+
+class ContractReminder(Base):
+    __tablename__ = "contract_reminders"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, server_default=func.gen_random_uuid()
+    )
+    document_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("documents.id", ondelete="CASCADE"), nullable=False
+    )
+    reminder_date: Mapped[date] = mapped_column(Date, nullable=False)
+    created_by: Mapped[str] = mapped_column(String(100), nullable=False)
+    note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    status: Mapped[str] = mapped_column(String(20), default="pending", nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+    triggered_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+
+    # Relationship
+    document: Mapped["Document"] = relationship(back_populates="reminders")

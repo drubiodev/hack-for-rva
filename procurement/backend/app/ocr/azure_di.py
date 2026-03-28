@@ -7,8 +7,11 @@ from app.config import settings
 logger = logging.getLogger(__name__)
 
 
-async def azure_di_ocr(blob_url: str) -> tuple[str, float]:
-    """OCR scanned PDF/image via Azure Document Intelligence. Returns (text, confidence)."""
+async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str, float]:
+    """OCR scanned PDF/image via Azure Document Intelligence. Returns (text, confidence).
+
+    Uses file_path (local bytes) when blob_url is a placeholder; otherwise uses blob_url.
+    """
     if "PLACEHOLDER" in settings.azure_di_key:
         logger.warning("Azure DI credentials are PLACEHOLDER — returning empty text")
         return ("", 0.0)
@@ -16,15 +19,26 @@ async def azure_di_ocr(blob_url: str) -> tuple[str, float]:
     from azure.ai.documentintelligence.aio import DocumentIntelligenceClient
     from azure.core.credentials import AzureKeyCredential
 
+    use_local = file_path and "placeholder" in blob_url.lower()
+
     async with DocumentIntelligenceClient(
         endpoint=settings.azure_di_endpoint,
         credential=AzureKeyCredential(settings.azure_di_key),
     ) as client:
-        poller = await client.begin_analyze_document(
-            "prebuilt-read",
-            analyze_request={"url_source": blob_url},
-            content_type="application/json",
-        )
+        if use_local:
+            with open(file_path, "rb") as f:
+                file_bytes = f.read()
+            poller = await client.begin_analyze_document(
+                "prebuilt-read",
+                analyze_request=file_bytes,
+                content_type="application/octet-stream",
+            )
+        else:
+            poller = await client.begin_analyze_document(
+                "prebuilt-read",
+                analyze_request={"url_source": blob_url},
+                content_type="application/json",
+            )
         result = await poller.result()
 
         # Concatenate all page content

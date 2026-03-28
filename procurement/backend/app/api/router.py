@@ -16,10 +16,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
 from app.database import get_db
-from app.models.document import ActivityLog, Document, ExtractedFields, ValidationResult
+from app.models.document import ActivityLog, ContractReminder, Document, ExtractedFields, ValidationResult
 from app.schemas.document import (
     ActivityEntrySchema,
     AnalyticsSummarySchema,
+    ApproveRequest,
+    ChatRequest,
+    ChatResponse,
+    ChatSourceSchema,
     DocumentDetail,
     DocumentListResponse,
     DocumentSummary,
@@ -27,7 +31,13 @@ from app.schemas.document import (
     ExpiringContractSchema,
     ExtractedFieldsSchema,
     FieldUpdateRequest,
+    RejectRequest,
+    ReminderCreateRequest,
+    ReminderSchema,
+    ReminderUpdateRequest,
+    ReprocessRequest,
     RiskSummarySchema,
+    SubmitRequest,
     ValidationResultSchema,
 )
 
@@ -488,14 +498,78 @@ async def resolve_warning(
     return ValidationResultSchema.model_validate(vr)
 
 
+# ---------------------------------------------------------------------------
+# Helper — build DocumentSummary from a Document ORM object
+# ---------------------------------------------------------------------------
+
+
+def _doc_summary(doc: Document) -> DocumentSummary:
+    error_count = sum(1 for v in doc.validations if v.severity == "error" and not v.resolved)
+    warning_count = sum(1 for v in doc.validations if v.severity == "warning" and not v.resolved)
+    vendor_name = None
+    total_amount = None
+    expiration_date = None
+    if doc.extracted_fields:
+        vendor_name = doc.extracted_fields.vendor_name
+        total_amount = float(doc.extracted_fields.total_amount) if doc.extracted_fields.total_amount else None
+        expiration_date = doc.extracted_fields.expiration_date
+    return DocumentSummary(
+        id=doc.id,
+        filename=doc.filename,
+        original_filename=doc.original_filename,
+        source=doc.source,
+        status=doc.status,
+        document_type=doc.document_type,
+        vendor_name=vendor_name,
+        total_amount=total_amount,
+        expiration_date=expiration_date,
+        validation_error_count=error_count,
+        validation_warning_count=warning_count,
+        submitted_by=doc.submitted_by,
+        approved_by=doc.approved_by,
+        created_at=doc.created_at,
+        updated_at=doc.updated_at,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Approval Workflow
+# ---------------------------------------------------------------------------
+
+
 @router.post(
     "/api/v1/documents/{document_id}/submit",
     response_model=DocumentSummary,
     tags=["Approvals"],
 )
-async def submit_for_approval(document_id: UUID):
-    """Submit document for supervisor approval. (Not yet implemented.)"""
-    raise HTTPException(status_code=501, detail="Submit not yet implemented")
+async def submit_for_approval(
+    document_id: UUID,
+    body: SubmitRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    """Submit document for supervisor approval (analyst only)."""
+    result = await db.execute(select(Document).where(Document.id == document_id))
+    doc = result.scalar_one_or_none()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if doc.status not in ("extracted", "analyst_review"):
+        raise HTTPException(status_code=400, detail=f"Cannot submit document in status '{doc.status}'")
+
+    doc.status = "pending_approval"
+    doc.submitted_by = body.submitted_by
+    doc.submitted_at = datetime.now(timezone.utc)
+
+    activity = ActivityLog(
+        document_id=doc.id,
+        action="submitted",
+        actor_name=body.submitted_by,
+        actor_role="analyst",
+    )
+    db.add(activity)
+    await db.commit()
+    await db.refresh(doc)
+
+    return _doc_summary(doc)
 
 
 @router.post(
@@ -503,9 +577,39 @@ async def submit_for_approval(document_id: UUID):
     response_model=DocumentSummary,
     tags=["Approvals"],
 )
-async def approve_document(document_id: UUID):
-    """Approve a document. (Not yet implemented.)"""
-    raise HTTPException(status_code=501, detail="Approve not yet implemented")
+async def approve_document(
+    document_id: UUID,
+    body: ApproveRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    """Approve a document (supervisor only)."""
+    result = await db.execute(select(Document).where(Document.id == document_id))
+    doc = result.scalar_one_or_none()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if doc.status != "pending_approval":
+        raise HTTPException(status_code=400, detail=f"Cannot approve document in status '{doc.status}'")
+
+    doc.status = "approved"
+    doc.approved_by = body.approved_by
+    doc.approved_at = datetime.now(timezone.utc)
+
+    details = {}
+    if body.comments:
+        details["comments"] = body.comments
+
+    activity = ActivityLog(
+        document_id=doc.id,
+        action="approved",
+        actor_name=body.approved_by,
+        actor_role="supervisor",
+        details=details,
+    )
+    db.add(activity)
+    await db.commit()
+    await db.refresh(doc)
+
+    return _doc_summary(doc)
 
 
 @router.post(
@@ -513,9 +617,34 @@ async def approve_document(document_id: UUID):
     response_model=DocumentSummary,
     tags=["Approvals"],
 )
-async def reject_document(document_id: UUID):
-    """Reject a document. (Not yet implemented.)"""
-    raise HTTPException(status_code=501, detail="Reject not yet implemented")
+async def reject_document(
+    document_id: UUID,
+    body: RejectRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    """Reject a document (supervisor only)."""
+    result = await db.execute(select(Document).where(Document.id == document_id))
+    doc = result.scalar_one_or_none()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if doc.status != "pending_approval":
+        raise HTTPException(status_code=400, detail=f"Cannot reject document in status '{doc.status}'")
+
+    doc.status = "rejected"
+    doc.rejection_reason = body.reason
+
+    activity = ActivityLog(
+        document_id=doc.id,
+        action="rejected",
+        actor_name=body.rejected_by,
+        actor_role="supervisor",
+        details={"reason": body.reason},
+    )
+    db.add(activity)
+    await db.commit()
+    await db.refresh(doc)
+
+    return _doc_summary(doc)
 
 
 @router.post(
@@ -524,9 +653,34 @@ async def reject_document(document_id: UUID):
     response_model=DocumentSummary,
     tags=["Documents"],
 )
-async def reprocess_document(document_id: UUID):
-    """Re-run AI pipeline on document. (Not yet implemented.)"""
-    raise HTTPException(status_code=501, detail="Reprocess not yet implemented")
+async def reprocess_document(
+    document_id: UUID,
+    body: ReprocessRequest,
+    background_tasks: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+):
+    """Re-run AI pipeline on document (supervisor only)."""
+    result = await db.execute(select(Document).where(Document.id == document_id))
+    doc = result.scalar_one_or_none()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+
+    doc.status = "uploading"
+
+    activity = ActivityLog(
+        document_id=doc.id,
+        action="reprocessed",
+        actor_name=body.requested_by,
+        actor_role="supervisor",
+    )
+    db.add(activity)
+    await db.commit()
+    await db.refresh(doc)
+
+    from app.pipeline import process_document
+    background_tasks.add_task(process_document, doc.id, "", doc.original_filename)
+
+    return _doc_summary(doc)
 
 
 @router.get(
@@ -630,11 +784,53 @@ async def get_risks(
         if days_until <= 90:
             total_90 += 1
 
+    # Check and trigger due reminders
+    today_date = date.today()
+    due_result = await db.execute(
+        select(ContractReminder)
+        .where(ContractReminder.reminder_date <= today_date)
+        .where(ContractReminder.status == "pending")
+    )
+    due_reminders = due_result.scalars().all()
+    for rem in due_reminders:
+        rem.status = "triggered"
+        rem.triggered_at = datetime.now(timezone.utc)
+    if due_reminders:
+        await db.commit()
+
+    # Get all triggered (not yet dismissed) reminders
+    triggered_result = await db.execute(
+        select(ContractReminder, ExtractedFields)
+        .join(Document, ContractReminder.document_id == Document.id)
+        .outerjoin(ExtractedFields, Document.id == ExtractedFields.document_id)
+        .where(ContractReminder.status == "triggered")
+    )
+    triggered_rows = triggered_result.all()
+    triggered_reminders = []
+    for rem, ef in triggered_rows:
+        triggered_reminders.append(ReminderSchema(
+            id=rem.id, document_id=rem.document_id,
+            reminder_date=rem.reminder_date, created_by=rem.created_by,
+            note=rem.note, status=rem.status,
+            created_at=rem.created_at, triggered_at=rem.triggered_at,
+            vendor_name=ef.vendor_name if ef else None,
+            title=ef.title if ef else None,
+            expiration_date=ef.expiration_date if ef else None,
+        ))
+
+    # Count pending reminders
+    pending_count_result = await db.execute(
+        select(func.count(ContractReminder.id)).where(ContractReminder.status == "pending")
+    )
+    pending_count = pending_count_result.scalar() or 0
+
     return RiskSummarySchema(
         expiring_contracts=expiring_contracts,
         total_expiring_30=total_30,
         total_expiring_60=total_60,
         total_expiring_90=total_90,
+        triggered_reminders=triggered_reminders,
+        pending_reminders_count=pending_count,
     )
 
 
@@ -654,6 +850,219 @@ async def get_activity(
     )
     entries = result.scalars().all()
     return {"items": [ActivityEntrySchema.model_validate(e) for e in entries]}
+
+
+# ---------------------------------------------------------------------------
+# Reminders
+# ---------------------------------------------------------------------------
+
+
+@router.post(
+    "/api/v1/documents/{document_id}/reminders",
+    status_code=201,
+    response_model=ReminderSchema,
+    tags=["Reminders"],
+)
+async def create_reminder(
+    document_id: UUID,
+    body: ReminderCreateRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    """Create a renewal reminder for a document."""
+    result = await db.execute(select(Document).where(Document.id == document_id))
+    doc = result.scalar_one_or_none()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+
+    reminder = ContractReminder(
+        document_id=document_id,
+        reminder_date=body.reminder_date,
+        created_by=body.created_by,
+        note=body.note,
+        status="pending",
+    )
+    db.add(reminder)
+
+    activity = ActivityLog(
+        document_id=document_id,
+        action="reminder_set",
+        actor_name=body.created_by,
+        actor_role="analyst",
+        details={"reminder_date": str(body.reminder_date), "note": body.note},
+    )
+    db.add(activity)
+    await db.commit()
+    await db.refresh(reminder)
+
+    # Build response with joined fields
+    ef = doc.extracted_fields
+    return ReminderSchema(
+        id=reminder.id,
+        document_id=reminder.document_id,
+        reminder_date=reminder.reminder_date,
+        created_by=reminder.created_by,
+        note=reminder.note,
+        status=reminder.status,
+        created_at=reminder.created_at,
+        triggered_at=reminder.triggered_at,
+        vendor_name=ef.vendor_name if ef else None,
+        title=ef.title if ef else None,
+        expiration_date=ef.expiration_date if ef else None,
+    )
+
+
+@router.get(
+    "/api/v1/reminders",
+    tags=["Reminders"],
+)
+async def list_reminders(
+    status: str | None = Query(None),
+    limit: int = Query(50, ge=1, le=200),
+    db: AsyncSession = Depends(get_db),
+):
+    """List contract reminders with optional status filter."""
+    query = (
+        select(ContractReminder, ExtractedFields)
+        .join(Document, ContractReminder.document_id == Document.id)
+        .outerjoin(ExtractedFields, Document.id == ExtractedFields.document_id)
+    )
+    if status:
+        query = query.where(ContractReminder.status == status)
+    query = query.order_by(ContractReminder.reminder_date.asc()).limit(limit)
+
+    result = await db.execute(query)
+    rows = result.all()
+
+    items = []
+    for rem, ef in rows:
+        items.append(ReminderSchema(
+            id=rem.id, document_id=rem.document_id,
+            reminder_date=rem.reminder_date, created_by=rem.created_by,
+            note=rem.note, status=rem.status,
+            created_at=rem.created_at, triggered_at=rem.triggered_at,
+            vendor_name=ef.vendor_name if ef else None,
+            title=ef.title if ef else None,
+            expiration_date=ef.expiration_date if ef else None,
+        ))
+    return {"items": items}
+
+
+@router.patch(
+    "/api/v1/reminders/{reminder_id}",
+    response_model=ReminderSchema,
+    tags=["Reminders"],
+)
+async def update_reminder(
+    reminder_id: UUID,
+    body: ReminderUpdateRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    """Update reminder status (e.g. dismiss a triggered reminder)."""
+    result = await db.execute(
+        select(ContractReminder).where(ContractReminder.id == reminder_id)
+    )
+    reminder = result.scalar_one_or_none()
+    if not reminder:
+        raise HTTPException(status_code=404, detail="Reminder not found")
+
+    reminder.status = body.status
+
+    if body.status == "dismissed":
+        activity = ActivityLog(
+            document_id=reminder.document_id,
+            action="reminder_dismissed",
+            actor_name=body.dismissed_by,
+            actor_role="analyst",
+            details={"reminder_id": str(reminder_id)},
+        )
+        db.add(activity)
+
+    await db.commit()
+    await db.refresh(reminder)
+
+    # Join with extracted fields for response
+    ef_result = await db.execute(
+        select(ExtractedFields).where(ExtractedFields.document_id == reminder.document_id)
+    )
+    ef = ef_result.scalar_one_or_none()
+
+    return ReminderSchema(
+        id=reminder.id, document_id=reminder.document_id,
+        reminder_date=reminder.reminder_date, created_by=reminder.created_by,
+        note=reminder.note, status=reminder.status,
+        created_at=reminder.created_at, triggered_at=reminder.triggered_at,
+        vendor_name=ef.vendor_name if ef else None,
+        title=ef.title if ef else None,
+        expiration_date=ef.expiration_date if ef else None,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Chat (keyword-search stub — upgrade to Azure AI Search RAG later)
+# ---------------------------------------------------------------------------
+
+
+@router.post(
+    "/api/v1/chat",
+    response_model=ChatResponse,
+    tags=["Chat"],
+)
+async def chat(
+    body: ChatRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    """Answer questions about procurement documents using keyword search."""
+    import uuid as _uuid
+
+    keywords = [w for w in body.question.lower().split() if len(w) > 2]
+    if not keywords:
+        return ChatResponse(
+            answer="Please ask a more specific question about procurement documents.",
+            sources=[],
+            conversation_id=body.conversation_id or str(_uuid.uuid4()),
+        )
+
+    # Search documents by keyword matches in OCR text
+    query = select(Document, ExtractedFields).join(
+        ExtractedFields, Document.id == ExtractedFields.document_id
+    )
+    conditions = []
+    for kw in keywords[:5]:
+        conditions.append(Document.ocr_text.ilike(f"%{kw}%"))
+
+    if conditions:
+        from sqlalchemy import or_
+        query = query.where(or_(*conditions))
+
+    query = query.limit(5)
+    result = await db.execute(query)
+    rows = result.all()
+
+    sources = []
+    summaries = []
+    for doc, ef in rows:
+        sources.append(ChatSourceSchema(
+            document_id=doc.id,
+            title=ef.title or doc.filename,
+            relevance=0.8,
+        ))
+        amount_str = f"${ef.total_amount:,.2f}" if ef.total_amount else "N/A"
+        exp_str = str(ef.expiration_date) if ef.expiration_date else "N/A"
+        summaries.append(
+            f"- **{ef.title or doc.filename}**: Vendor: {ef.vendor_name or 'N/A'}, "
+            f"Amount: {amount_str}, Expires: {exp_str}"
+        )
+
+    if summaries:
+        answer = f"Found {len(summaries)} relevant document(s):\n\n" + "\n".join(summaries)
+    else:
+        answer = "No documents matched your query. Try different keywords."
+
+    return ChatResponse(
+        answer=answer,
+        sources=sources,
+        conversation_id=body.conversation_id or str(_uuid.uuid4()),
+    )
 
 
     # Socrata ingest endpoint moved to app/api/ingest.py

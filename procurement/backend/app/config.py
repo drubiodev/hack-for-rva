@@ -33,6 +33,10 @@ class Settings(BaseSettings):
     azure_search_key: str = "PLACEHOLDER"
     azure_search_index: str = "procurement-docs"
 
+    # Extraction confidence threshold (0.0-1.0)
+    # Fields below this threshold are flagged for human review
+    confidence_threshold: float = 0.9
+
     # CORS
     cors_origins: str = "http://localhost:3000"
 

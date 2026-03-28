@@ -144,9 +144,25 @@ async def test_risks_returns_expiring_contracts(client):
     ]
 
     mock_db = AsyncMock()
-    result = MagicMock()
-    result.all.return_value = contracts
-    mock_db.execute = AsyncMock(return_value=result)
+
+    # Result 1: expiring contracts query
+    r1 = MagicMock()
+    r1.all.return_value = contracts
+
+    # Result 2: due reminders (pending reminders past due date) — none
+    r2 = MagicMock()
+    r2.scalars.return_value.all.return_value = []
+
+    # Result 3: triggered reminders — none
+    r3 = MagicMock()
+    r3.all.return_value = []
+
+    # Result 4: pending reminders count
+    r4 = MagicMock()
+    r4.scalar.return_value = 0
+
+    mock_db.execute = AsyncMock(side_effect=[r1, r2, r3, r4])
+    mock_db.commit = AsyncMock()
 
     async def _override():
         return mock_db
@@ -169,6 +185,9 @@ async def test_risks_returns_expiring_contracts(client):
     assert "expiration_date" in first
     assert "days_until_expiry" in first
     assert first["vendor_name"] == "Vendor A"
+    # Verify reminder fields present
+    assert data["triggered_reminders"] == []
+    assert data["pending_reminders_count"] == 0
 
 
 # ---------------------------------------------------------------------------

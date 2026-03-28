@@ -23,7 +23,8 @@ _EXTRACTION_SCHEMA = {
                 "currency": {"type": "string", "description": "Currency code (default USD)."},
                 "document_date": {"type": ["string", "null"], "description": "Document date in YYYY-MM-DD format."},
                 "effective_date": {"type": ["string", "null"], "description": "Contract effective/start date in YYYY-MM-DD."},
-                "expiration_date": {"type": ["string", "null"], "description": "Contract expiration/end date in YYYY-MM-DD."},
+                "expiration_date": {"type": ["string", "null"], "description": "Contract expiration/end date in YYYY-MM-DD. THIS IS THE MOST CRITICAL FIELD — search the entire document for termination dates, end dates, expiry dates, or renewal deadlines. If the contract piggybacks on another contract, extract that contract's expiration if available."},
+                "expiration_date_source": {"type": ["string", "null"], "description": "Exact quote from the document text where you found the expiration date, or explanation of why no date was found (e.g., 'tied to parent contract expiration', 'no explicit end date found')."},
                 "contract_type": {"type": ["string", "null"], "description": "Type of contract (e.g., service, goods, construction)."},
                 "payment_terms": {"type": ["string", "null"], "description": "Payment terms (e.g., Net 30)."},
                 "renewal_clause": {"type": ["string", "null"], "description": "Renewal clause text if present."},
@@ -31,12 +32,30 @@ _EXTRACTION_SCHEMA = {
                 "bond_required": {"type": ["boolean", "null"], "description": "Whether a performance bond is required."},
                 "scope_summary": {"type": ["string", "null"], "description": "Brief summary of scope of work (1-2 sentences)."},
                 "extraction_confidence": {"type": "number", "description": "Overall extraction confidence 0.0-1.0."},
+                "field_confidences": {
+                    "type": "object",
+                    "description": "Per-field confidence scores (0.0-1.0). Score 1.0 = found explicit text. Score 0.5-0.9 = inferred/partial. Score 0.0 = not found. Be especially precise for expiration_date.",
+                    "properties": {
+                        "title": {"type": "number"},
+                        "vendor_name": {"type": "number"},
+                        "total_amount": {"type": "number"},
+                        "effective_date": {"type": "number"},
+                        "expiration_date": {"type": "number"},
+                        "contract_type": {"type": "number"},
+                        "payment_terms": {"type": "number"},
+                        "insurance_required": {"type": "number"},
+                        "bond_required": {"type": "number"},
+                    },
+                    "required": ["title", "vendor_name", "total_amount", "effective_date", "expiration_date", "contract_type", "payment_terms", "insurance_required", "bond_required"],
+                    "additionalProperties": False,
+                },
             },
             "required": [
                 "title", "document_number", "vendor_name", "issuing_department",
                 "total_amount", "currency", "document_date", "effective_date",
-                "expiration_date", "contract_type", "payment_terms", "renewal_clause",
+                "expiration_date", "expiration_date_source", "contract_type", "payment_terms", "renewal_clause",
                 "insurance_required", "bond_required", "scope_summary", "extraction_confidence",
+                "field_confidences",
             ],
             "additionalProperties": False,
         },
@@ -59,6 +78,21 @@ Given OCR-extracted text from a {doc_type} document, extract structured fields.
 
 {type_hint}
 
+CRITICAL — EXPIRATION DATE:
+The expiration_date is the MOST IMPORTANT field for procurement risk management. Search thoroughly:
+- Look for "expiration", "termination", "end date", "expires", "shall expire", "term ends"
+- If the contract piggybacks on another contract (e.g., cooperative/state contract), note the parent contract's expiration
+- If the contract says "X years from effective date", calculate the expiration date
+- If there is a renewal clause with specific dates, extract the final possible expiration
+- Set expiration_date_source to the exact text you found, or explain why no date was found
+
+FIELD CONFIDENCES:
+For each field in field_confidences, score 0.0-1.0:
+- 1.0 = found explicit, unambiguous text in the document
+- 0.7-0.9 = found but partially obscured, inferred from context, or OCR may have errors
+- 0.3-0.6 = weak inference or uncertain extraction
+- 0.0 = field not found at all (return null for the field value)
+
 Rules:
 - OCR artifacts may be present — extract what is clearly legible
 - Use YYYY-MM-DD format for all dates
@@ -80,6 +114,7 @@ _EMPTY_RESULT: dict = {
     "document_date": None,
     "effective_date": None,
     "expiration_date": None,
+    "expiration_date_source": None,
     "contract_type": None,
     "payment_terms": None,
     "renewal_clause": None,
@@ -87,6 +122,7 @@ _EMPTY_RESULT: dict = {
     "bond_required": None,
     "scope_summary": None,
     "extraction_confidence": 0.0,
+    "field_confidences": {},
 }
 
 
@@ -102,12 +138,11 @@ async def extract_fields(ocr_text: str, document_type: str) -> dict:
     if not ocr_text.strip():
         return dict(_EMPTY_RESULT)
 
-    from openai import AsyncAzureOpenAI
+    from openai import AsyncOpenAI
 
-    client = AsyncAzureOpenAI(
-        azure_endpoint=settings.azure_openai_endpoint,
+    client = AsyncOpenAI(
+        base_url=settings.azure_openai_endpoint,
         api_key=settings.azure_openai_key,
-        api_version=settings.azure_openai_api_version,
     )
 
     type_hint = _TYPE_HINTS.get(document_type, _TYPE_HINTS["other"])
@@ -125,7 +160,7 @@ async def extract_fields(ocr_text: str, document_type: str) -> dict:
             ],
             response_format=_EXTRACTION_SCHEMA,
             temperature=0.0,
-            max_tokens=800,
+            max_completion_tokens=1200,
         )
 
         result = json.loads(response.choices[0].message.content)

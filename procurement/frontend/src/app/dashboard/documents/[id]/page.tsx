@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -11,24 +11,20 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
-import { fetchDocument } from "@/lib/api";
+import {
+  fetchDocument,
+  submitForApproval,
+  approveDocument,
+  rejectDocument,
+  reprocessDocument,
+  resolveWarning,
+} from "@/lib/api";
 import { documentKeys } from "@/lib/queryKeys";
 import type {
-  DocumentDetail,
   DocumentStatus,
-  ValidationResult,
-  ActivityEntry,
   ValidationSeverity,
 } from "@/lib/types";
 import {
@@ -48,6 +44,11 @@ import {
   Shield,
   Cpu,
   ArrowLeft,
+  Loader2,
+  RotateCw,
+  CheckCircle2,
+  XCircle,
+  SendHorizontal,
 } from "lucide-react";
 
 // --- Processing stepper ---
@@ -178,6 +179,9 @@ function roleIcon(role: string) {
   }
 }
 
+// --- Confidence threshold ---
+const CONFIDENCE_THRESHOLD = 0.9;
+
 // --- Currency formatter ---
 
 function formatCurrency(amount: number | null | undefined): string {
@@ -196,6 +200,25 @@ function formatDate(dateStr: string | null | undefined): string {
     month: "short",
     day: "numeric",
   });
+}
+
+function ConfidenceBadge({ confidence }: { confidence: number | undefined }) {
+  if (confidence === undefined) return null;
+  const pct = Math.round(confidence * 100);
+  const isLow = confidence < CONFIDENCE_THRESHOLD;
+  return (
+    <span
+      className={`inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium ${
+        isLow
+          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+          : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+      }`}
+      title={isLow ? `Below ${CONFIDENCE_THRESHOLD * 100}% threshold — verify manually` : "High confidence"}
+    >
+      {isLow && <AlertTriangle className="h-2.5 w-2.5 mr-0.5" />}
+      {pct}%
+    </span>
+  );
 }
 
 function formatTimestamp(dateStr: string): string {
@@ -220,10 +243,18 @@ const PROCESSING_STATUSES: DocumentStatus[] = [
 export default function DocumentDetailPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { user } = useAuth();
   const [ocrExpanded, setOcrExpanded] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+  const [showRejectForm, setShowRejectForm] = useState(false);
+  const [approveComments, setApproveComments] = useState("");
+  const [showApproveForm, setShowApproveForm] = useState(false);
 
   const id = params.id;
+
+  const isAnalyst = user?.role === "analyst";
+  const isSupervisor = user?.role === "supervisor";
 
   const { data: doc, isLoading } = useQuery({
     queryKey: documentKeys.detail(id),
@@ -233,6 +264,45 @@ export default function DocumentDetailPage() {
       if (status && PROCESSING_STATUSES.includes(status)) return 5000;
       return false;
     },
+  });
+
+  const invalidate = () =>
+    queryClient.invalidateQueries({ queryKey: documentKeys.detail(id) });
+
+  const submitMutation = useMutation({
+    mutationFn: () => submitForApproval(id, user?.name ?? "Unknown"),
+    onSuccess: invalidate,
+  });
+
+  const approveMutation = useMutation({
+    mutationFn: () =>
+      approveDocument(id, user?.name ?? "Unknown", approveComments || undefined),
+    onSuccess: () => {
+      setShowApproveForm(false);
+      setApproveComments("");
+      invalidate();
+    },
+  });
+
+  const rejectMutation = useMutation({
+    mutationFn: () =>
+      rejectDocument(id, user?.name ?? "Unknown", rejectReason),
+    onSuccess: () => {
+      setShowRejectForm(false);
+      setRejectReason("");
+      invalidate();
+    },
+  });
+
+  const reprocessMutation = useMutation({
+    mutationFn: () => reprocessDocument(id, user?.name ?? "Unknown"),
+    onSuccess: invalidate,
+  });
+
+  const resolveWarningMutation = useMutation({
+    mutationFn: (validationId: string) =>
+      resolveWarning(id, validationId, user?.name ?? "Unknown"),
+    onSuccess: invalidate,
   });
 
   if (isLoading) {
@@ -261,6 +331,9 @@ export default function DocumentDetailPage() {
   }
 
   const fields = doc.extracted_fields;
+  const rawExt = fields?.raw_extraction as Record<string, unknown> | undefined;
+  const fc = rawExt?.field_confidences as Record<string, number> | undefined;
+  const expSource = rawExt?.expiration_date_source as string | undefined;
   const validations = doc.validations ?? [];
   const activity = [...(doc.activity ?? [])].sort(
     (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -342,55 +415,85 @@ export default function DocumentDetailPage() {
           </CardHeader>
           <CardContent>
             {fields ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
-                <FieldRow label="Title" value={fields.title} />
-                <FieldRow label="Document #" value={fields.document_number} />
-                <FieldRow label="Vendor" value={fields.vendor_name} />
-                <FieldRow label="Department" value={fields.issuing_department} />
-                <FieldRow
-                  label="Total Amount"
-                  value={formatCurrency(fields.total_amount)}
-                />
-                <FieldRow label="Contract Type" value={fields.contract_type} />
-                <FieldRow
-                  label="Effective Date"
-                  value={formatDate(fields.effective_date)}
-                />
-                <FieldRow
-                  label="Expiration Date"
-                  value={formatDate(fields.expiration_date)}
-                />
-                <FieldRow label="Payment Terms" value={fields.payment_terms} />
-                <FieldRow label="Renewal Clause" value={fields.renewal_clause} />
-                <FieldRow
-                  label="Insurance Required"
-                  value={
-                    fields.insurance_required == null
-                      ? "N/A"
-                      : fields.insurance_required
-                        ? "Yes"
-                        : "No"
-                  }
-                />
-                <FieldRow
-                  label="Bond Required"
-                  value={
-                    fields.bond_required == null
-                      ? "N/A"
-                      : fields.bond_required
-                        ? "Yes"
-                        : "No"
-                  }
-                />
-                {fields.scope_summary && (
-                  <div className="sm:col-span-2">
-                    <p className="text-muted-foreground text-xs mb-1">
-                      Scope Summary
-                    </p>
-                    <p className="text-sm">{fields.scope_summary}</p>
-                  </div>
-                )}
-              </div>
+              <>
+                {/* Per-field confidence legend */}
+                <div className="flex items-center gap-3 mb-4 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <span className="inline-block w-2 h-2 rounded-full bg-green-500" />
+                    {"\u2265"}{CONFIDENCE_THRESHOLD * 100}% confidence
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="inline-block w-2 h-2 rounded-full bg-red-500" />
+                    {"<"}{CONFIDENCE_THRESHOLD * 100}% — verify manually
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
+                  <FieldRow label="Title" value={fields.title} confidence={fc?.title} />
+                  <FieldRow label="Document #" value={fields.document_number} />
+                  <FieldRow label="Vendor" value={fields.vendor_name} confidence={fc?.vendor_name} />
+                  <FieldRow label="Department" value={fields.issuing_department} />
+                  <FieldRow
+                    label="Total Amount"
+                    value={formatCurrency(fields.total_amount)}
+                    confidence={fc?.total_amount}
+                  />
+                  <FieldRow label="Contract Type" value={fields.contract_type} confidence={fc?.contract_type} />
+                  <FieldRow
+                    label="Effective Date"
+                    value={formatDate(fields.effective_date)}
+                    confidence={fc?.effective_date}
+                  />
+                  <FieldRow
+                    label="Expiration Date"
+                    value={formatDate(fields.expiration_date)}
+                    confidence={fc?.expiration_date}
+                    critical
+                  />
+                  <FieldRow label="Payment Terms" value={fields.payment_terms} confidence={fc?.payment_terms} />
+                  <FieldRow label="Renewal Clause" value={fields.renewal_clause} />
+                  <FieldRow
+                    label="Insurance Required"
+                    value={
+                      fields.insurance_required == null
+                        ? "N/A"
+                        : fields.insurance_required
+                          ? "Yes"
+                          : "No"
+                    }
+                    confidence={fc?.insurance_required}
+                  />
+                  <FieldRow
+                    label="Bond Required"
+                    value={
+                      fields.bond_required == null
+                        ? "N/A"
+                        : fields.bond_required
+                          ? "Yes"
+                          : "No"
+                    }
+                    confidence={fc?.bond_required}
+                  />
+                  {/* Expiration date source note */}
+                  {expSource && (
+                    <div className="sm:col-span-2 rounded-md border border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950 p-2.5">
+                      <p className="text-xs font-medium text-blue-800 dark:text-blue-200 mb-0.5">
+                        Expiration Date Source
+                      </p>
+                      <p className="text-xs text-blue-700 dark:text-blue-300">
+                        {expSource}
+                      </p>
+                    </div>
+                  )}
+                  {fields.scope_summary && (
+                    <div className="sm:col-span-2">
+                      <p className="text-muted-foreground text-xs mb-1">
+                        Scope Summary
+                      </p>
+                      <p className="text-sm">{fields.scope_summary}</p>
+                    </div>
+                  )}
+                </div>
+              </>
             ) : (
               <p className="text-muted-foreground text-sm">
                 No extracted fields yet.
@@ -440,11 +543,21 @@ export default function DocumentDetailPage() {
                           {v.rule_code}
                         </code>
                       </div>
-                      {v.resolved && (
+                      {v.resolved ? (
                         <Badge variant="outline" className="text-xs">
                           Resolved
                         </Badge>
-                      )}
+                      ) : (v.severity === "warning" || v.severity === "info") ? (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-xs h-6"
+                          disabled={resolveWarningMutation.isPending}
+                          onClick={() => resolveWarningMutation.mutate(v.id)}
+                        >
+                          Resolve
+                        </Button>
+                      ) : null}
                     </div>
                     <p className={v.resolved ? "line-through" : ""}>
                       {v.message}
@@ -544,23 +657,132 @@ export default function DocumentDetailPage() {
         </CardContent>
       </Card>
 
-      {/* Action Buttons */}
-      <div className="flex items-center gap-3">
-        {doc.status === "extracted" && (
-          <Button>Mark as Reviewed</Button>
-        )}
-        <Button
-          variant="outline"
-          render={
-            <a
-              href={`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"}/api/v1/documents/${doc.id}/export/csv`}
-              download
-            />
-          }
-        >
-          Export CSV
-        </Button>
-      </div>
+      {/* Action Buttons — role-gated */}
+      <Card>
+        <CardContent className="pt-6">
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Analyst: submit for approval when status is analyst_review */}
+            {isAnalyst && doc.status === "analyst_review" && (
+              <Button
+                onClick={() => submitMutation.mutate()}
+                disabled={submitMutation.isPending}
+              >
+                {submitMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <SendHorizontal className="h-4 w-4 mr-2" />
+                )}
+                Submit for Approval
+              </Button>
+            )}
+
+            {/* Supervisor: approve / reject when status is pending_approval */}
+            {isSupervisor && doc.status === "pending_approval" && (
+              <>
+                <Button
+                  onClick={() => {
+                    setShowApproveForm(!showApproveForm);
+                    setShowRejectForm(false);
+                  }}
+                  disabled={approveMutation.isPending}
+                >
+                  {approveMutation.isPending ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <CheckCircle2 className="h-4 w-4 mr-2" />
+                  )}
+                  Approve
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => {
+                    setShowRejectForm(!showRejectForm);
+                    setShowApproveForm(false);
+                  }}
+                  disabled={rejectMutation.isPending}
+                >
+                  {rejectMutation.isPending ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <XCircle className="h-4 w-4 mr-2" />
+                  )}
+                  Reject
+                </Button>
+              </>
+            )}
+
+            {/* Supervisor: reprocess at any time */}
+            {isSupervisor && (
+              <Button
+                variant="outline"
+                onClick={() => reprocessMutation.mutate()}
+                disabled={reprocessMutation.isPending}
+              >
+                {reprocessMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <RotateCw className="h-4 w-4 mr-2" />
+                )}
+                Reprocess
+              </Button>
+            )}
+
+            <Button
+              variant="outline"
+              render={
+                <a
+                  href={`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"}/api/v1/documents/${doc.id}/export/csv`}
+                  download
+                />
+              }
+            >
+              Export CSV
+            </Button>
+          </div>
+
+          {/* Approve form */}
+          {showApproveForm && (
+            <div className="mt-4 space-y-2">
+              <Textarea
+                placeholder="Comments (optional)"
+                value={approveComments}
+                onChange={(e) => setApproveComments(e.target.value)}
+              />
+              <Button
+                onClick={() => approveMutation.mutate()}
+                disabled={approveMutation.isPending}
+              >
+                {approveMutation.isPending ? "Approving..." : "Confirm Approval"}
+              </Button>
+            </div>
+          )}
+
+          {/* Reject form */}
+          {showRejectForm && (
+            <div className="mt-4 space-y-2">
+              <Textarea
+                placeholder="Reason for rejection (required)"
+                value={rejectReason}
+                onChange={(e) => setRejectReason(e.target.value)}
+              />
+              <Button
+                variant="destructive"
+                onClick={() => rejectMutation.mutate()}
+                disabled={!rejectReason.trim() || rejectMutation.isPending}
+              >
+                {rejectMutation.isPending ? "Rejecting..." : "Confirm Rejection"}
+              </Button>
+            </div>
+          )}
+
+          {/* Mutation errors */}
+          {(submitMutation.isError || approveMutation.isError || rejectMutation.isError || reprocessMutation.isError) && (
+            <div className="mt-3 rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
+              {(submitMutation.error ?? approveMutation.error ?? rejectMutation.error ?? reprocessMutation.error)?.message ?? "An error occurred"}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -570,14 +792,27 @@ export default function DocumentDetailPage() {
 function FieldRow({
   label,
   value,
+  confidence,
+  critical,
 }: {
   label: string;
   value: string | number | null | undefined;
+  confidence?: number;
+  critical?: boolean;
 }) {
+  const isLow = confidence !== undefined && confidence < CONFIDENCE_THRESHOLD;
   return (
-    <div>
-      <p className="text-muted-foreground text-xs mb-0.5">{label}</p>
+    <div className={critical && isLow ? "rounded-md border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950 p-2 -m-1" : ""}>
+      <div className="flex items-center gap-1.5 mb-0.5">
+        <p className="text-muted-foreground text-xs">{label}</p>
+        <ConfidenceBadge confidence={confidence} />
+      </div>
       <p className="font-medium">{value ?? "N/A"}</p>
+      {critical && isLow && (
+        <p className="text-[10px] text-red-600 dark:text-red-400 mt-0.5">
+          Low confidence — verify against original document
+        </p>
+      )}
     </div>
   );
 }

@@ -95,6 +95,18 @@ async def process_document(
             # --- 4. Extract fields ---
             fields_dict = await extract_fields(ocr_text, document_type)
 
+            # Parse date strings to date objects
+            def _parse_date(val):
+                if val is None:
+                    return None
+                if isinstance(val, str):
+                    try:
+                        from datetime import date as _date
+                        return _date.fromisoformat(val)
+                    except (ValueError, TypeError):
+                        return None
+                return val
+
             extracted = ExtractedFields(
                 document_id=document_id,
                 title=fields_dict.get("title"),
@@ -103,9 +115,9 @@ async def process_document(
                 issuing_department=fields_dict.get("issuing_department"),
                 total_amount=fields_dict.get("total_amount"),
                 currency=fields_dict.get("currency", "USD"),
-                document_date=fields_dict.get("document_date"),
-                effective_date=fields_dict.get("effective_date"),
-                expiration_date=fields_dict.get("expiration_date"),
+                document_date=_parse_date(fields_dict.get("document_date")),
+                effective_date=_parse_date(fields_dict.get("effective_date")),
+                expiration_date=_parse_date(fields_dict.get("expiration_date")),
                 contract_type=fields_dict.get("contract_type"),
                 payment_terms=fields_dict.get("payment_terms"),
                 renewal_clause=fields_dict.get("renewal_clause"),
@@ -122,6 +134,8 @@ async def process_document(
             await session.commit()
 
             # --- 5. Validate ---
+            # Pass document_type so validation can check contract-specific rules
+            fields_dict["_document_type"] = document_type
             validation_results = await validate_document(
                 fields_dict, ocr_confidence, classification_confidence
             )
