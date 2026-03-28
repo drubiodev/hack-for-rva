@@ -88,8 +88,8 @@ async def test_upload_rejects_exe_file(client, override_db):
 
 @pytest.mark.asyncio
 async def test_upload_rejects_oversized_file(client, override_db):
-    """Upload rejects files > 20MB with 400."""
-    large_content = b"%PDF-1.4 " + b"x" * (21 * 1024 * 1024)
+    """Upload rejects files exceeding max_file_size_mb with 400."""
+    large_content = b"%PDF-1.4 " + b"x" * (101 * 1024 * 1024)
     files = {"file": ("huge.pdf", large_content, "application/pdf")}
     data = {"uploaded_by": "analyst1"}
     response = await client.post("/api/v1/documents/upload", files=files, data=data)

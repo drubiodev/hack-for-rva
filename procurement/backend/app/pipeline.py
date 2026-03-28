@@ -2,6 +2,7 @@
 
 import asyncio
 import logging
+import os
 import uuid
 from datetime import datetime, timezone
 
@@ -106,12 +107,36 @@ async def process_document(
                 logger.error("Document %s not found", document_id)
                 return
 
-            # --- 1. Upload to blob storage ---
+            # --- 1. Upload to blob storage (or regenerate SAS for reprocess) ---
             doc.status = "uploading"
             await session.commit()
 
-            blob_url = await upload_to_blob(file_path, doc.filename)
-            doc.blob_url = blob_url
+            if file_path and os.path.exists(file_path):
+                blob_url = await upload_to_blob(file_path, doc.filename)
+                doc.blob_url = blob_url
+            elif doc.blob_url:
+                # Reprocessing: regenerate SAS token and download blob to temp file
+                # (needed for chunked OCR of large scanned PDFs)
+                from app.ocr.azure_blob import regenerate_sas_url
+                blob_url = regenerate_sas_url(doc.blob_url)
+                doc.blob_url = blob_url
+
+                # Download blob to temp file for local OCR processing
+                import tempfile
+                import aiohttp
+                try:
+                    async with aiohttp.ClientSession() as http_session:
+                        async with http_session.get(blob_url) as resp:
+                            if resp.status == 200:
+                                tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+                                tmp.write(await resp.read())
+                                tmp.close()
+                                file_path = tmp.name
+                                logger.info("Downloaded blob to temp file for reprocessing: %s", file_path)
+                except Exception as e:
+                    logger.warning("Failed to download blob for reprocessing: %s", e)
+            else:
+                blob_url = ""
             await session.commit()
 
             # --- 2. OCR ---

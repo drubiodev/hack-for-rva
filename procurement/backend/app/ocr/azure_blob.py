@@ -52,6 +52,50 @@ async def upload_to_blob(file_path: str, filename: str) -> str:
         return sas_url
 
 
+def regenerate_sas_url(blob_url: str) -> str:
+    """Generate a fresh SAS URL from an existing blob URL (with or without old SAS token).
+
+    Used during reprocessing to ensure Azure DI can access the blob.
+    """
+    if "PLACEHOLDER" in settings.azure_blob_connection_string:
+        return blob_url
+    if "placeholder" in blob_url.lower():
+        return blob_url
+
+    from azure.storage.blob import BlobSasPermissions, generate_blob_sas
+    from urllib.parse import unquote, urlparse
+
+    # Strip any existing SAS query params
+    base_url = blob_url.split("?")[0]
+
+    # Parse blob name from URL: https://<account>.blob.core.windows.net/<container>/<blob_name>
+    parsed = urlparse(base_url)
+    path_parts = parsed.path.lstrip("/").split("/", 1)
+    if len(path_parts) < 2:
+        logger.warning("Could not parse blob name from URL: %s", blob_url)
+        return blob_url
+
+    container_name = path_parts[0]
+    # URL-decode the blob name — generate_blob_sas needs the raw name, not %20-encoded
+    blob_name = unquote(path_parts[1])
+    account_name = parsed.hostname.split(".")[0] if parsed.hostname else ""
+
+    account_key = _extract_account_key(settings.azure_blob_connection_string)
+
+    sas_token = generate_blob_sas(
+        account_name=account_name,
+        container_name=container_name,
+        blob_name=blob_name,
+        account_key=account_key,
+        permission=BlobSasPermissions(read=True),
+        expiry=datetime.now(timezone.utc) + timedelta(days=30),
+    )
+
+    sas_url = f"{base_url}?{sas_token}"
+    logger.info("Regenerated SAS URL for %s (expires in 30 days)", blob_name)
+    return sas_url
+
+
 def _extract_account_key(connection_string: str) -> str:
     """Extract AccountKey from an Azure Storage connection string."""
     for part in connection_string.split(";"):
