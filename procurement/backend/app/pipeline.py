@@ -10,12 +10,13 @@ from sqlalchemy import select
 
 from app.config import settings
 from app.database import AsyncSessionLocal
-from app.models.document import ActivityLog, Document, ExtractedFields, ValidationResult
+from app.models.document import ActivityLog, Document, ExtractedFields, ValidationResult, ValidationRuleConfig
 from app.ocr.azure_blob import upload_to_blob
 from app.ocr.service import extract_text
 from app.extraction.classifier import classify_document
 from app.extraction.extractor import extract_fields
 from app.validation.engine import validate_document
+from app.search.indexer import index_document as search_index_document
 
 logger = logging.getLogger(__name__)
 
@@ -286,8 +287,20 @@ async def process_document(
             # --- 5. Validate ---
             # Pass document_type so validation can check contract-specific rules
             fields_dict["_document_type"] = document_type
+
+            # Query active custom policy rules
+            custom_rules_result = await session.execute(
+                select(ValidationRuleConfig).where(
+                    ValidationRuleConfig.enabled == True,
+                    ValidationRuleConfig.status == "active",
+                )
+            )
+            custom_rules = list(custom_rules_result.scalars().all())
+
             validation_results = await validate_document(
-                fields_dict, ocr_confidence, classification_confidence
+                fields_dict, ocr_confidence, classification_confidence,
+                custom_rules=custom_rules,
+                ocr_text=ocr_text,
             )
             for vr in validation_results:
                 session.add(
@@ -298,6 +311,9 @@ async def process_document(
                         field_name=vr.get("field_name"),
                         message=vr["message"],
                         suggestion=vr.get("suggestion"),
+                        policy_rule_id=vr.get("policy_rule_id"),
+                        ai_evidence=vr.get("ai_evidence"),
+                        ai_confidence=vr.get("ai_confidence"),
                     )
                 )
             await session.commit()
@@ -308,6 +324,14 @@ async def process_document(
             await session.commit()
             await _log_activity(session, document_id, "ready_for_review")
             await session.commit()
+
+            # --- 7. Index in Azure AI Search ---
+            try:
+                await search_index_document(document_id, session)
+                await _log_activity(session, document_id, "search_indexed")
+                await session.commit()
+            except Exception as idx_err:
+                logger.warning("Search indexing failed for %s (non-fatal): %s", document_id, idx_err)
 
             logger.info("Pipeline complete for document %s", document_id)
 

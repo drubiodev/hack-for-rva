@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -23,7 +23,8 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
-import { fetchAnalyticsSummary, fetchRisks, createReminder } from "@/lib/api";
+import { useChatPanel } from "@/components/ChatPanelContext";
+import { fetchAnalyticsSummary, fetchRisks, createReminder, fetchDepartmentSpend } from "@/lib/api";
 import { analyticsKeys } from "@/lib/queryKeys";
 import type { ExpiringContract } from "@/lib/types";
 import {
@@ -34,6 +35,7 @@ import {
   AlertTriangle,
   Calendar,
   Check,
+  MessageSquare,
 } from "lucide-react";
 
 function formatCurrency(amount: number): string {
@@ -98,10 +100,13 @@ export default function AnalyticsPage() {
   const { user } = useAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { openWithQuery, setActivePage } = useChatPanel();
   const [daysFilter, setDaysFilter] = useState<number>(90);
   const [reminderFormId, setReminderFormId] = useState<string | null>(null);
   const [reminderDate, setReminderDate] = useState("");
   const [reminderSetIds, setReminderSetIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => { setActivePage("analytics"); }, [setActivePage]);
 
   const reminderMutation = useMutation({
     mutationFn: (contractId: string) =>
@@ -123,6 +128,12 @@ export default function AnalyticsPage() {
   const { data: risks, isLoading: risksLoading } = useQuery({
     queryKey: analyticsKeys.risks(daysFilter),
     queryFn: () => fetchRisks(daysFilter),
+    refetchInterval: 30000,
+  });
+
+  const { data: deptSpend, isLoading: deptLoading } = useQuery({
+    queryKey: ["intelligence", "department-spend"],
+    queryFn: fetchDepartmentSpend,
     refetchInterval: 30000,
   });
 
@@ -183,6 +194,70 @@ export default function AnalyticsPage() {
           loading={summaryLoading}
         />
       </div>
+
+      {/* Department Spend */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between pb-3">
+          <CardTitle className="text-base font-semibold">
+            Contract Spend by Department
+          </CardTitle>
+          <button
+            onClick={() => openWithQuery("Break down spending by department")}
+            className="flex items-center gap-1 rounded px-2 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors"
+          >
+            <MessageSquare className="h-3 w-3" />
+            Ask AI
+          </button>
+        </CardHeader>
+        <CardContent>
+          {deptLoading ? (
+            <div className="space-y-3">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Skeleton key={i} className="h-8 w-full" />
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-2.5">
+              {(deptSpend?.departments ?? []).slice(0, 10).map((dept) => {
+                const maxVal = deptSpend?.departments?.[0]?.total_value ?? 1;
+                const pct = Math.max((dept.total_value / maxVal) * 100, 2);
+                return (
+                  <button
+                    key={dept.group}
+                    onClick={() =>
+                      openWithQuery(
+                        `Tell me about ${dept.group.replace(/_/g, " ")} department contracts`,
+                      )
+                    }
+                    className="w-full text-left group"
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-medium truncate max-w-[200px]">
+                        {dept.group.replace(/_/g, " ")}
+                      </span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs text-muted-foreground">
+                          {dept.document_count} contracts
+                        </span>
+                        <span className="text-sm font-semibold tabular-nums">
+                          {formatCurrency(dept.total_value)}
+                        </span>
+                        <MessageSquare className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                    </div>
+                    <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-primary/70 group-hover:bg-primary transition-colors"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Risk Summary Cards */}
       <div className="grid gap-4 sm:grid-cols-3">

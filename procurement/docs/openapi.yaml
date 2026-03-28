@@ -547,6 +547,65 @@ paths:
               schema:
                 $ref: "#/components/schemas/ChatResponse"
 
+  /api/v1/documents/{id}/annotations:
+    get:
+      operationId: getAnnotations
+      summary: Get all annotations for a document
+      tags: [Annotations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: List of annotations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnnotationResponse"
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    post:
+      operationId: createAnnotation
+      summary: Add an annotation to a document
+      tags: [Annotations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnnotationCreate"
+      responses:
+        "201":
+          description: Annotation created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnnotationResponse"
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
   /api/v1/ingest/socrata:
     post:
       operationId: ingestSocrata
@@ -1023,6 +1082,57 @@ components:
             $ref: "#/components/schemas/ChatSourceSchema"
         conversation_id:
           type: string
+
+    AnnotationCreate:
+      type: object
+      required: [x, y, text, author, initials]
+      properties:
+        x:
+          type: number
+          description: Horizontal position (percentage of page width)
+        y:
+          type: number
+          description: Vertical position (percentage of page height)
+        page:
+          type: integer
+          default: 1
+          minimum: 1
+          maximum: 9999
+        text:
+          type: string
+          minLength: 1
+          maxLength: 2000
+        author:
+          type: string
+          minLength: 1
+          maxLength: 200
+        initials:
+          type: string
+          minLength: 1
+          maxLength: 5
+
+    AnnotationResponse:
+      type: object
+      required: [id, x, y, page, text, author, initials, time]
+      properties:
+        id:
+          type: string
+          description: Annotation ID (e.g. ann_abc123def456)
+        x:
+          type: number
+        y:
+          type: number
+        page:
+          type: integer
+        text:
+          type: string
+        author:
+          type: string
+        initials:
+          type: string
+        time:
+          type: string
+          format: date-time
 
     ErrorResponse:
       type: object

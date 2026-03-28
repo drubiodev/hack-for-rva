@@ -26,3 +26,11 @@ export const activityKeys = {
   all: ["activity"] as const,
   list: (limit?: number) => [...activityKeys.all, "list", limit] as const,
 };
+
+export const governanceKeys = {
+  all: ["governance"] as const,
+  rules: (filters?: Record<string, unknown>) =>
+    [...governanceKeys.all, "rules", filters ?? {}] as const,
+  compliance: () => [...governanceKeys.all, "compliance"] as const,
+  auditLog: () => [...governanceKeys.all, "audit-log"] as const,
+};

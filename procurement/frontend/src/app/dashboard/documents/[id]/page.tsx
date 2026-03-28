@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
+import { useChatPanel } from "@/components/ChatPanelContext";
 import {
   fetchDocument,
   submitForApproval,
@@ -281,12 +282,15 @@ export default function DocumentDetailPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { user } = useAuth();
+  const { openWithContext, setActivePage } = useChatPanel();
   const [rejectReason, setRejectReason] = useState("");
   const [showRejectForm, setShowRejectForm] = useState(false);
   const [approveComments, setApproveComments] = useState("");
   const [showApproveForm, setShowApproveForm] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(100);
   const [activeHighlightField, setActiveHighlightField] = useState<string | null>(null);
+
+  useEffect(() => { setActivePage("document-detail"); }, [setActivePage]);
 
   const id = params.id;
 
@@ -661,69 +665,141 @@ export default function DocumentDetailPage() {
           )}
 
           {/* 4. Validation Alerts */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between border-b border-[#E7E5E4] pb-2 mb-4">
-              <h2 className="text-sm font-semibold text-[#0F2537]">Validation Alerts</h2>
-              <div className="flex gap-1">
-                {errors.length > 0 && (
-                  <Badge variant="destructive" className="text-[10px] px-1.5">{errors.length}</Badge>
-                )}
-                {warnings.length > 0 && (
-                  <Badge className="bg-yellow-100 text-yellow-800 text-[10px] px-1.5">
-                    {warnings.length}
-                  </Badge>
-                )}
-                {infos.length > 0 && (
-                  <Badge variant="secondary" className="text-[10px] px-1.5">{infos.length}</Badge>
-                )}
-              </div>
-            </div>
+          {(() => {
+            const systemChecks = sortedValidations.filter(v => !v.rule_code.startsWith("POLICY:"));
+            const policyRules = sortedValidations.filter(v => v.rule_code.startsWith("POLICY:"));
+            const systemErrors = systemChecks.filter(v => v.severity === "error");
+            const systemWarnings = systemChecks.filter(v => v.severity === "warning");
+            const systemInfos = systemChecks.filter(v => v.severity === "info");
+            const policyErrors = policyRules.filter(v => v.severity === "error");
+            const policyWarnings = policyRules.filter(v => v.severity === "warning");
+            const policyInfos = policyRules.filter(v => v.severity === "info");
 
-            {sortedValidations.length === 0 ? (
-              <p className="text-[#78716C] text-sm">No validation alerts.</p>
-            ) : (
-              <div className="space-y-2">
-                {sortedValidations.map((v) => (
-                  <div
-                    key={v.id}
-                    className={`rounded-lg border border-[#E7E5E4] p-3 text-sm ${
-                      v.resolved ? "opacity-50" : ""
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-2">
-                        {severityBadge(v.severity)}
-                        <code className="text-[10px] text-[#78716C] font-mono">
-                          {v.rule_code}
-                        </code>
-                      </div>
-                      {v.resolved ? (
-                        <span className="text-[10px] font-mono text-[#78716C] border border-[#E7E5E4] rounded px-1.5 py-0.5">
-                          Resolved
-                        </span>
-                      ) : (v.severity === "warning" || v.severity === "info") ? (
-                        <button
-                          className="text-[11px] font-medium text-[#1359AE] hover:text-[#0F2537] transition-colors disabled:opacity-50"
-                          disabled={resolveWarningMutation.isPending}
-                          onClick={() => resolveWarningMutation.mutate(v.id)}
-                        >
-                          Resolve
-                        </button>
-                      ) : null}
-                    </div>
-                    <p className={`text-[#44403C] ${v.resolved ? "line-through" : ""}`}>
-                      {v.message}
-                    </p>
-                    {v.suggestion && (
-                      <p className="text-xs text-[#78716C] mt-1">
-                        Suggestion: {v.suggestion}
-                      </p>
+            const renderValidationCard = (v: (typeof sortedValidations)[number], showPolicyExtras: boolean) => (
+              <div
+                key={v.id}
+                className={`rounded-lg border border-[#E7E5E4] p-3 text-sm ${
+                  v.resolved ? "opacity-50" : ""
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    {severityBadge(v.severity)}
+                    <code className="text-[10px] text-[#78716C] font-mono">
+                      {v.rule_code}
+                    </code>
+                    {showPolicyExtras && v.department && (
+                      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium bg-[#F3F4F6] text-[#44403C] border border-[#E7E5E4]">
+                        {v.department}
+                      </span>
                     )}
                   </div>
-                ))}
+                  {v.resolved ? (
+                    <span className="text-[10px] font-mono text-[#78716C] border border-[#E7E5E4] rounded px-1.5 py-0.5">
+                      Resolved
+                    </span>
+                  ) : (v.severity === "warning" || v.severity === "info") ? (
+                    <button
+                      className="text-[11px] font-medium text-[#1359AE] hover:text-[#0F2537] transition-colors disabled:opacity-50"
+                      disabled={resolveWarningMutation.isPending}
+                      onClick={() => resolveWarningMutation.mutate(v.id)}
+                    >
+                      Resolve
+                    </button>
+                  ) : null}
+                </div>
+                <p className={`text-[#44403C] ${v.resolved ? "line-through" : ""}`}>
+                  {v.message}
+                </p>
+                {v.suggestion && (
+                  <p className="text-xs text-[#78716C] mt-1">
+                    Suggestion: {v.suggestion}
+                  </p>
+                )}
+                {showPolicyExtras && v.ai_confidence != null && (
+                  <div className="flex items-center gap-2 mt-1">
+                    <Sparkles className="h-3 w-3 text-purple-500" />
+                    <span className="text-[11px] font-medium text-purple-600">AI-Evaluated</span>
+                    <span className={`text-[11px] font-medium ${
+                      v.ai_confidence > 0.85 ? "text-green-600" : v.ai_confidence > 0.7 ? "text-amber-600" : "text-red-600"
+                    }`}>
+                      {Math.round(v.ai_confidence * 100)}% confidence
+                    </span>
+                  </div>
+                )}
+                {showPolicyExtras && v.ai_evidence && (
+                  <details className="mt-2">
+                    <summary className="text-xs text-[#1359AE] cursor-pointer">View Evidence</summary>
+                    <blockquote className="mt-1 pl-3 border-l-2 border-[#E7E5E4] text-xs text-[#78716C] italic">
+                      {v.ai_evidence}
+                    </blockquote>
+                  </details>
+                )}
               </div>
-            )}
-          </div>
+            );
+
+            return (
+              <div className="mb-6">
+                {/* System Checks */}
+                <div className="flex items-center justify-between border-b border-[#E7E5E4] pb-2 mb-4">
+                  <h2 className="text-sm font-semibold text-[#0F2537]">System Checks</h2>
+                  <div className="flex gap-1">
+                    {systemErrors.length > 0 && (
+                      <Badge variant="destructive" className="text-[10px] px-1.5">{systemErrors.length}</Badge>
+                    )}
+                    {systemWarnings.length > 0 && (
+                      <Badge className="bg-yellow-100 text-yellow-800 text-[10px] px-1.5">
+                        {systemWarnings.length}
+                      </Badge>
+                    )}
+                    {systemInfos.length > 0 && (
+                      <Badge variant="secondary" className="text-[10px] px-1.5">{systemInfos.length}</Badge>
+                    )}
+                  </div>
+                </div>
+
+                {systemChecks.length === 0 ? (
+                  <p className="text-[#78716C] text-sm">No system check alerts.</p>
+                ) : (
+                  <div className="space-y-2">
+                    {systemChecks.map((v) => renderValidationCard(v, false))}
+                  </div>
+                )}
+
+                {/* Policy Rules — only show if there are any */}
+                {policyRules.length > 0 && (
+                  <div className="mt-6">
+                    <div className="flex items-center justify-between border-b border-[#E7E5E4] pb-2 mb-4">
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-sm font-semibold text-[#0F2537]">Policy Rules</h2>
+                        <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium bg-purple-100 text-purple-700 border border-purple-200">
+                          <Sparkles className="h-2.5 w-2.5" />
+                          AI-Evaluated
+                        </span>
+                      </div>
+                      <div className="flex gap-1">
+                        {policyErrors.length > 0 && (
+                          <Badge variant="destructive" className="text-[10px] px-1.5">{policyErrors.length}</Badge>
+                        )}
+                        {policyWarnings.length > 0 && (
+                          <Badge className="bg-yellow-100 text-yellow-800 text-[10px] px-1.5">
+                            {policyWarnings.length}
+                          </Badge>
+                        )}
+                        {policyInfos.length > 0 && (
+                          <Badge variant="secondary" className="text-[10px] px-1.5">{policyInfos.length}</Badge>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      {policyRules.map((v) => renderValidationCard(v, true))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
 
           {/* 5. Activity Timeline */}
           {activity.length > 0 && (
@@ -936,6 +1012,23 @@ export default function DocumentDetailPage() {
                   </span>
                 </div>
               )}
+              <div className="w-px h-4 bg-[#4B5563] mx-1" />
+              <button
+                onClick={() => {
+                  if (doc) {
+                    openWithContext({
+                      documentId: doc.id,
+                      title: doc.extracted_fields?.title || doc.filename,
+                      vendorName: doc.extracted_fields?.vendor_name || undefined,
+                    });
+                  }
+                }}
+                className="flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-[#4f8ef7]/20 text-[#4f8ef7] hover:bg-[#4f8ef7]/30 transition-colors"
+                title="Ask AI about this document"
+              >
+                <Sparkles className="h-3 w-3" />
+                Ask AI
+              </button>
               <div className="w-px h-4 bg-[#4B5563] mx-1" />
               <button
                 onClick={() => window.print()}

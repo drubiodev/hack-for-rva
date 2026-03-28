@@ -322,15 +322,269 @@ async def _ai_consistency_check(fields: dict) -> list[dict]:
         return []
 
 
+def _evaluate_deterministic_rules(fields: dict, rules: list) -> list[dict]:
+    """Evaluate deterministic custom policy rules against extracted fields."""
+    from app.validation.districts import RICHMOND_DISTRICTS, RICHMOND_NEIGHBORHOODS
+
+    results: list[dict] = []
+    doc_type = fields.get("_document_type", "")
+
+    for rule in rules:
+        # Access attributes (works for both ORM objects and dicts)
+        r_type = getattr(rule, "rule_type", None) or (rule.get("rule_type") if isinstance(rule, dict) else None)
+
+        # Skip semantic_policy rules — handled separately
+        if r_type == "semantic_policy":
+            continue
+
+        r_scope = getattr(rule, "scope", "global") if not isinstance(rule, dict) else rule.get("scope", "global")
+        r_dept = getattr(rule, "department", None) if not isinstance(rule, dict) else rule.get("department")
+        r_doc_types = getattr(rule, "applies_to_doc_types", None) if not isinstance(rule, dict) else rule.get("applies_to_doc_types")
+        r_field = getattr(rule, "field_name", None) if not isinstance(rule, dict) else rule.get("field_name")
+        r_operator = getattr(rule, "operator", None) if not isinstance(rule, dict) else rule.get("operator")
+        r_threshold = getattr(rule, "threshold_value", None) if not isinstance(rule, dict) else rule.get("threshold_value")
+        r_name = getattr(rule, "name", "unknown") if not isinstance(rule, dict) else rule.get("name", "unknown")
+        r_severity = getattr(rule, "severity", "warning") if not isinstance(rule, dict) else rule.get("severity", "warning")
+        r_msg = getattr(rule, "message_template", None) if not isinstance(rule, dict) else rule.get("message_template")
+        r_suggestion = getattr(rule, "suggestion", None) if not isinstance(rule, dict) else rule.get("suggestion")
+        r_id = getattr(rule, "id", None) if not isinstance(rule, dict) else rule.get("id")
+
+        # Scope check: department-scoped rules only apply to matching departments
+        if r_scope == "department" and r_dept:
+            primary_dept = fields.get("primary_department", "")
+            dept_tags = fields.get("department_tags", []) or []
+            dept_match = (
+                (primary_dept and r_dept.lower() in primary_dept.lower())
+                or any(r_dept.lower() in t.lower() for t in dept_tags)
+            )
+            if not dept_match:
+                continue
+
+        # Document type check
+        if r_doc_types and doc_type and doc_type not in r_doc_types:
+            continue
+
+        triggered = False
+        field_value = fields.get(r_field) if r_field else None
+
+        if r_type == "threshold" and r_field:
+            try:
+                val = float(field_value) if field_value is not None else None
+                thresh = float(r_threshold) if r_threshold is not None else None
+                if val is not None and thresh is not None:
+                    ops = {
+                        "gt": val > thresh,
+                        "lt": val < thresh,
+                        "gte": val >= thresh,
+                        "lte": val <= thresh,
+                        "eq": val == thresh,
+                        "neq": val != thresh,
+                    }
+                    triggered = ops.get(r_operator, False)
+            except (ValueError, TypeError):
+                pass
+
+        elif r_type == "required_field" and r_field:
+            if r_operator == "is_empty":
+                triggered = field_value is None or field_value == "" or field_value == []
+            elif r_operator == "is_not_empty":
+                triggered = bool(field_value)
+            else:
+                # Default: check field is present and truthy
+                triggered = not bool(field_value)
+
+        elif r_type == "district_check":
+            # Check if scope_summary or OCR text mentions Richmond districts/neighborhoods
+            text_to_check = (fields.get("scope_summary") or "").lower()
+            all_locations = RICHMOND_DISTRICTS + RICHMOND_NEIGHBORHOODS
+            found = [loc for loc in all_locations if loc.lower() in text_to_check]
+            triggered = len(found) == 0  # Trigger if NO district/neighborhood found
+
+        elif r_type == "date_window" and r_field:
+            field_date = _parse_date(field_value)
+            if field_date and r_threshold:
+                try:
+                    days = int(float(r_threshold))
+                    today = date.today()
+                    triggered = abs((field_date - today).days) <= days
+                except (ValueError, TypeError):
+                    pass
+
+        if triggered:
+            # Template substitution
+            message = r_msg or f"Policy rule '{r_name}' triggered."
+            message = message.replace("{field}", str(r_field or ""))
+            message = message.replace("{value}", str(field_value or ""))
+            message = message.replace("{threshold}", str(r_threshold or ""))
+
+            result = _result(
+                rule_code=f"POLICY:{r_name}",
+                severity=r_severity,
+                field_name=r_field,
+                message=message,
+                suggestion=r_suggestion,
+            )
+            result["policy_rule_id"] = r_id
+            results.append(result)
+
+    return results
+
+
+async def _evaluate_semantic_policies(fields: dict, ocr_text: str, rules: list) -> list[dict]:
+    """Evaluate semantic policy rules using AI."""
+    from app.extraction.extractor import _smart_truncate
+
+    # Filter to semantic_policy rules only
+    semantic_rules = []
+    for rule in rules:
+        r_type = getattr(rule, "rule_type", None) or (rule.get("rule_type") if isinstance(rule, dict) else None)
+        if r_type == "semantic_policy":
+            semantic_rules.append(rule)
+
+    if not semantic_rules:
+        return []
+
+    if "PLACEHOLDER" in settings.azure_openai_key:
+        return []
+
+    import httpx
+    from openai import AsyncOpenAI
+
+    client = AsyncOpenAI(
+        base_url=settings.azure_openai_endpoint,
+        api_key=settings.azure_openai_key,
+        timeout=httpx.Timeout(30.0),
+    )
+
+    all_results: list[dict] = []
+
+    # Batch into groups of 10
+    batch_size = 10
+    for batch_start in range(0, len(semantic_rules), batch_size):
+        batch = semantic_rules[batch_start:batch_start + batch_size]
+
+        # Build numbered rule list
+        rule_lines = []
+        for i, rule in enumerate(batch, 1):
+            r_name = getattr(rule, "name", "") if not isinstance(rule, dict) else rule.get("name", "")
+            r_policy = getattr(rule, "policy_statement", "") if not isinstance(rule, dict) else rule.get("policy_statement", "")
+            rule_lines.append(f"{i}. [{r_name}]: {r_policy}")
+
+        rules_text = "\n".join(rule_lines)
+
+        # Build document data
+        clean_fields = {k: v for k, v in fields.items() if not k.startswith("_")}
+        truncated_ocr = _smart_truncate(ocr_text, budget=4000) if ocr_text else ""
+
+        schema = {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "semantic_policy_eval",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "evaluations": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "rule_number": {"type": "integer"},
+                                    "verdict": {"type": "string", "enum": ["COMPLIANT", "VIOLATES", "INSUFFICIENT_DATA"]},
+                                    "evidence": {"type": "string"},
+                                    "confidence": {"type": "number"},
+                                },
+                                "required": ["rule_number", "verdict", "evidence", "confidence"],
+                                "additionalProperties": False,
+                            },
+                        },
+                    },
+                    "required": ["evaluations"],
+                    "additionalProperties": False,
+                },
+            },
+        }
+
+        try:
+            response = await client.chat.completions.create(
+                model=settings.azure_openai_deployment,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are a procurement policy compliance checker for the City of Richmond. "
+                            "Evaluate each numbered policy rule against the provided document data. "
+                            "For each rule, return a verdict: COMPLIANT (document satisfies the policy), "
+                            "VIOLATES (document clearly violates the policy), or INSUFFICIENT_DATA "
+                            "(not enough information to determine). Provide evidence from the document "
+                            "and a confidence score (0.0-1.0)."
+                        ),
+                    },
+                    {
+                        "role": "user",
+                        "content": (
+                            f"POLICY RULES:\n{rules_text}\n\n"
+                            f"EXTRACTED FIELDS:\n{json.dumps(clean_fields, indent=2, default=str)}\n\n"
+                            f"OCR TEXT (truncated):\n{truncated_ocr}"
+                        ),
+                    },
+                ],
+                response_format=schema,
+                temperature=0.0,
+                max_completion_tokens=800,
+            )
+
+            result = json.loads(response.choices[0].message.content)
+            for evaluation in result.get("evaluations", []):
+                if evaluation.get("verdict") != "VIOLATES":
+                    continue
+
+                rule_idx = evaluation.get("rule_number", 0) - 1
+                if 0 <= rule_idx < len(batch):
+                    rule = batch[rule_idx]
+                    r_name = getattr(rule, "name", "") if not isinstance(rule, dict) else rule.get("name", "")
+                    r_severity = getattr(rule, "severity", "warning") if not isinstance(rule, dict) else rule.get("severity", "warning")
+                    r_suggestion = getattr(rule, "suggestion", None) if not isinstance(rule, dict) else rule.get("suggestion")
+                    r_id = getattr(rule, "id", None) if not isinstance(rule, dict) else rule.get("id")
+                    r_policy = getattr(rule, "policy_statement", "") if not isinstance(rule, dict) else rule.get("policy_statement", "")
+
+                    res = _result(
+                        rule_code=f"POLICY:{r_name}",
+                        severity=r_severity,
+                        field_name=None,
+                        message=f"Semantic policy violation: {r_policy}",
+                        suggestion=r_suggestion,
+                    )
+                    res["policy_rule_id"] = r_id
+                    res["ai_evidence"] = evaluation.get("evidence", "")
+                    res["ai_confidence"] = evaluation.get("confidence")
+                    all_results.append(res)
+
+        except Exception:
+            logger.warning("Semantic policy evaluation failed for batch starting at %d", batch_start, exc_info=True)
+
+    return all_results
+
+
 async def validate_document(
     extracted_fields: dict,
     ocr_confidence: float,
     classification_confidence: float,
+    custom_rules: list | None = None,
+    ocr_text: str = "",
 ) -> list[dict]:
-    """Run 13 rule-based checks + AI consistency. Returns list of validation result dicts."""
+    """Run 13 rule-based checks + AI consistency + custom policy rules. Returns list of validation result dicts."""
     results = _run_rule_checks(extracted_fields, ocr_confidence, classification_confidence)
     ai_results = await _ai_consistency_check(extracted_fields)
     results.extend(ai_results)
+
+    # Evaluate custom policy rules
+    if custom_rules:
+        deterministic = _evaluate_deterministic_rules(extracted_fields, custom_rules)
+        results.extend(deterministic)
+
+        semantic = await _evaluate_semantic_policies(extracted_fields, ocr_text, custom_rules)
+        results.extend(semantic)
 
     logger.info(
         "Validation complete: %d issues (%d errors, %d warnings, %d info)",

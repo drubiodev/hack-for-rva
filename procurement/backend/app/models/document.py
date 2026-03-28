@@ -204,6 +204,13 @@ class ValidationResult(Base):
         DateTime(timezone=True), nullable=True
     )
 
+    # Policy rule linkage (NULL for hardcoded system rules)
+    policy_rule_id: Mapped[uuid.UUID | None] = mapped_column(
+        Uuid, ForeignKey("validation_rule_configs.id", ondelete="SET NULL"), nullable=True
+    )
+    ai_evidence: Mapped[str | None] = mapped_column(Text, nullable=True)
+    ai_confidence: Mapped[float | None] = mapped_column(Numeric(3, 2), nullable=True)
+
     # Relationship
     document: Mapped["Document"] = relationship(back_populates="validations")
 
@@ -253,3 +260,58 @@ class ContractReminder(Base):
 
     # Relationship
     document: Mapped["Document"] = relationship(back_populates="reminders")
+
+
+class ValidationRuleConfig(Base):
+    __tablename__ = "validation_rule_configs"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        Uuid, primary_key=True, default=uuid.uuid4
+    )
+    name: Mapped[str] = mapped_column(String(150), nullable=False)
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    rule_type: Mapped[str] = mapped_column(String(30), nullable=False)  # threshold, required_field, semantic_policy, district_check, date_window
+    scope: Mapped[str] = mapped_column(String(20), default="global", nullable=False)  # global, department
+    department: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    severity: Mapped[str] = mapped_column(String(20), default="warning", nullable=False)
+    status: Mapped[str] = mapped_column(String(20), default="draft", nullable=False)  # draft, active, deprecated
+
+    # Semantic policy rules
+    policy_statement: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    # Deterministic rules
+    field_name: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    operator: Mapped[str | None] = mapped_column(String(20), nullable=True)  # gt, lt, gte, lte, eq, neq, is_empty, is_not_empty
+    threshold_value: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    message_template: Mapped[str | None] = mapped_column(Text, nullable=True)
+    suggestion: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    enabled: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    applies_to_doc_types: Mapped[list | None] = mapped_column(JsonText, nullable=True)
+
+    created_by: Mapped[str] = mapped_column(String(100), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+
+class ValidationRuleAuditLog(Base):
+    __tablename__ = "validation_rule_audit_log"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        Uuid, primary_key=True, default=uuid.uuid4
+    )
+    rule_id: Mapped[uuid.UUID | None] = mapped_column(
+        Uuid, ForeignKey("validation_rule_configs.id", ondelete="SET NULL"), nullable=True
+    )
+    rule_name: Mapped[str] = mapped_column(String(150), nullable=False)
+    action: Mapped[str] = mapped_column(String(20), nullable=False)  # created, updated, toggled, status_changed, deleted
+    changed_by: Mapped[str] = mapped_column(String(100), nullable=False)
+    changed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+    old_values: Mapped[dict | None] = mapped_column(JsonText, nullable=True)
+    new_values: Mapped[dict | None] = mapped_column(JsonText, nullable=True)

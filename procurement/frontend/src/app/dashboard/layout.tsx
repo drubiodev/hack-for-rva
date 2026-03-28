@@ -5,14 +5,17 @@ import { usePathname } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { ChatPanelProvider, useChatPanel } from "@/components/ChatPanelContext";
+import { ChatPanel } from "@/components/ChatPanel";
 import {
   LayoutDashboard,
   Upload,
   FolderOpen,
   BarChart3,
   LogOut,
-  Settings,
+  Shield,
   Activity,
+  MessageSquare,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -20,13 +23,28 @@ const NAV_ITEMS = [
   { href: "/dashboard/documents", label: "Unified Portfolio", icon: FolderOpen },
   { href: "/dashboard/upload", label: "Upload", icon: Upload },
   { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
+  { href: "/dashboard/governance", label: "Governance", icon: Shield },
 ];
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function ChatFAB() {
+  const { toggle, isOpen } = useChatPanel();
+  return (
+    <button
+      onClick={toggle}
+      className={`fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-all duration-200 ${
+        isOpen
+          ? "bg-[#0F2537] text-white scale-90"
+          : "bg-[#4f8ef7] text-white hover:bg-[#3d7ce5] hover:scale-105"
+      }`}
+      style={{ boxShadow: isOpen ? "none" : "0 4px 16px rgba(79, 142, 247, 0.35)" }}
+      title="Chat with ContractIQ"
+    >
+      <MessageSquare className="h-6 w-6" />
+    </button>
+  );
+}
+
+function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { user, mounted, logout } = useAuth();
 
@@ -82,15 +100,7 @@ export default function DashboardLayout({
 
         {/* Bottom section */}
         <div className="border-t border-[#E7E5E4] px-3 py-3">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[#A8A29E] transition-colors hover:bg-[#F7F5F2] hover:text-[#292524]"
-          >
-            <Settings className="h-4 w-4" />
-            <span>Settings</span>
-          </Link>
-
-          <div className="mt-2 flex items-center gap-3 rounded-lg px-3 py-2">
+          <div className="flex items-center gap-3 rounded-lg px-3 py-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0F2537] text-xs font-medium text-white">
               {user.name
                 .split(" ")
@@ -149,6 +159,22 @@ export default function DashboardLayout({
           {children}
         </main>
       </div>
+
+      {/* Chat FAB + Panel */}
+      <ChatFAB />
+      <ChatPanel />
     </div>
+  );
+}
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ChatPanelProvider>
+      <DashboardLayoutInner>{children}</DashboardLayoutInner>
+    </ChatPanelProvider>
   );
 }

@@ -9,12 +9,13 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy import select, func
 
 from app.api.backfill import router as backfill_router
 from app.api.ingest import router as ingest_router
 from app.api.router import router
 from app.config import settings
-from app.database import init_db
+from app.database import init_db, AsyncSessionLocal
 
 # ── Logging setup ─────────────────────────────────────────────────────────────
 logging.basicConfig(level=logging.INFO)
@@ -38,6 +39,226 @@ if _on_azure and settings.applicationinsights_connection_string:
         logger.info("Application Insights configured successfully")
     except Exception as _ai_exc:  # noqa: BLE001
         logger.warning("Failed to configure Application Insights: %s", _ai_exc)
+
+
+async def _seed_default_rules() -> None:
+    """Seed default validation policy rules on first startup (idempotent)."""
+    from app.models.document import ValidationRuleConfig, ValidationRuleAuditLog
+
+    async with AsyncSessionLocal() as session:
+        result = await session.execute(
+            select(func.count(ValidationRuleConfig.id))
+        )
+        count = result.scalar_one()
+        if count > 0:
+            logger.info("Validation rules table already has %d rows — skipping seed", count)
+            return
+
+        # ── Define default rules ─────────────────────────────────────────
+        default_rules: list[dict] = [
+            # 1. High-value contract scrutiny
+            {
+                "name": "High-value contract scrutiny",
+                "description": "Flag contracts exceeding $500,000 for additional review",
+                "rule_type": "threshold",
+                "scope": "global",
+                "department": None,
+                "severity": "warning",
+                "status": "active",
+                "field_name": "total_amount",
+                "operator": "gt",
+                "threshold_value": "500000",
+                "message_template": "Contract value ${value} exceeds $500,000 threshold — requires additional scrutiny",
+                "suggestion": "Route to department head for review before approval",
+                "policy_statement": None,
+                "enabled": True,
+                "created_by": "system",
+            },
+            # 2. Require bond for Public Works
+            {
+                "name": "Require bond for Public Works",
+                "description": "Public Works contracts must specify bond requirements",
+                "rule_type": "required_field",
+                "scope": "department",
+                "department": "PUBLIC_WORKS",
+                "severity": "error",
+                "status": "active",
+                "field_name": "bond_required",
+                "operator": "is_not_empty",
+                "threshold_value": None,
+                "message_template": "Public Works contracts must specify bond requirements",
+                "suggestion": "Verify bond requirement and amount with the vendor",
+                "policy_statement": None,
+                "enabled": True,
+                "created_by": "system",
+            },
+            # 3. Verify Richmond district reference
+            {
+                "name": "Verify Richmond district reference",
+                "description": "Verify referenced locations are within Richmond city limits",
+                "rule_type": "district_check",
+                "scope": "global",
+                "department": None,
+                "severity": "warning",
+                "status": "active",
+                "field_name": None,
+                "operator": None,
+                "threshold_value": None,
+                "message_template": "Document references locations — verify they are within Richmond city limits",
+                "suggestion": "Confirm all referenced locations are valid Richmond districts or neighborhoods",
+                "policy_statement": None,
+                "enabled": True,
+                "created_by": "system",
+            },
+            # 4. Construction environmental compliance
+            {
+                "name": "Construction environmental compliance",
+                "description": "Require environmental liability insurance for construction contracts",
+                "rule_type": "semantic_policy",
+                "scope": "department",
+                "department": "PUBLIC_WORKS",
+                "severity": "error",
+                "status": "active",
+                "field_name": None,
+                "operator": None,
+                "threshold_value": None,
+                "message_template": None,
+                "suggestion": "Require the vendor to provide environmental liability insurance documentation",
+                "policy_statement": "All construction contracts must include environmental liability insurance coverage and a hazardous materials handling plan if the scope involves demolition, excavation, or renovation of structures built before 1980.",
+                "enabled": True,
+                "created_by": "system",
+            },
+            # 5. MBE/WBE participation for large contracts
+            {
+                "name": "MBE/WBE participation for large contracts",
+                "description": "Flag large contracts without MBE/WBE participation plans",
+                "rule_type": "semantic_policy",
+                "scope": "global",
+                "department": None,
+                "severity": "warning",
+                "status": "active",
+                "field_name": None,
+                "operator": None,
+                "threshold_value": None,
+                "message_template": None,
+                "suggestion": "Request MBE/WBE participation plan from the vendor",
+                "policy_statement": "Contracts over $50,000 should include a Minority Business Enterprise (MBE) or Women's Business Enterprise (WBE) participation plan with a specific percentage commitment. If no MBE/WBE plan is present, flag for review.",
+                "enabled": True,
+                "created_by": "system",
+            },
+            # 6. Subcontractor flow-down clauses
+            {
+                "name": "Subcontractor flow-down clauses",
+                "description": "Ensure subcontracting provisions include flow-down clauses",
+                "rule_type": "semantic_policy",
+                "scope": "global",
+                "department": None,
+                "severity": "info",
+                "status": "active",
+                "field_name": None,
+                "operator": None,
+                "threshold_value": None,
+                "message_template": None,
+                "suggestion": "Review subcontracting provisions and ensure flow-down clauses are present",
+                "policy_statement": "Contracts that authorize subcontracting must include flow-down clauses requiring subcontractors to meet the same insurance, bonding, and compliance requirements as the prime contractor.",
+                "enabled": True,
+                "created_by": "system",
+            },
+            # 7. Contract duration reasonableness
+            {
+                "name": "Contract duration reasonableness",
+                "description": "Flag contracts with duration exceeding 5 years",
+                "rule_type": "date_window",
+                "scope": "global",
+                "department": None,
+                "severity": "warning",
+                "status": "active",
+                "field_name": "expiration_date",
+                "operator": None,
+                "threshold_value": "1825",
+                "message_template": "Contract duration exceeds 5 years — verify this is intentional",
+                "suggestion": "Confirm extended contract duration is appropriate for the scope of work",
+                "policy_statement": None,
+                "enabled": True,
+                "created_by": "system",
+            },
+            # 8. Insurance adequacy for high-value contracts
+            {
+                "name": "Insurance adequacy for high-value contracts",
+                "description": "Require minimum insurance coverage for high-value Finance contracts",
+                "rule_type": "semantic_policy",
+                "scope": "department",
+                "department": "FINANCE",
+                "severity": "error",
+                "status": "active",
+                "field_name": None,
+                "operator": None,
+                "threshold_value": None,
+                "message_template": None,
+                "suggestion": "Require vendor to provide certificate of insurance meeting minimum coverage requirements",
+                "policy_statement": "Contracts over $100,000 must specify general liability insurance of at least $1,000,000 per occurrence and automobile liability of at least $500,000. The City of Richmond must be named as additional insured.",
+                "enabled": True,
+                "created_by": "system",
+            },
+            # 9. Prevailing wage compliance (DRAFT)
+            {
+                "name": "Prevailing wage compliance",
+                "description": "Require prevailing wage rates for publicly funded construction contracts",
+                "rule_type": "semantic_policy",
+                "scope": "global",
+                "department": None,
+                "severity": "warning",
+                "status": "draft",
+                "field_name": None,
+                "operator": None,
+                "threshold_value": None,
+                "message_template": None,
+                "suggestion": None,
+                "policy_statement": "Publicly funded construction contracts must include prevailing wage rate requirements per the Davis-Bacon Act or Virginia prevailing wage law.",
+                "enabled": True,
+                "created_by": "system",
+            },
+            # 10. Emergency procurement justification (DRAFT)
+            {
+                "name": "Emergency procurement justification",
+                "description": "Require written justification for emergency procurements",
+                "rule_type": "semantic_policy",
+                "scope": "global",
+                "department": None,
+                "severity": "warning",
+                "status": "draft",
+                "field_name": None,
+                "operator": None,
+                "threshold_value": None,
+                "message_template": None,
+                "suggestion": None,
+                "policy_statement": "Emergency procurement contracts must include a written justification explaining why competitive bidding was not feasible and the specific emergency circumstances.",
+                "enabled": True,
+                "created_by": "system",
+            },
+        ]
+
+        rules: list[ValidationRuleConfig] = []
+        for rule_data in default_rules:
+            rule = ValidationRuleConfig(**rule_data)
+            session.add(rule)
+            rules.append(rule)
+
+        # Flush to populate rule IDs before creating audit logs
+        await session.flush()
+
+        for rule in rules:
+            audit = ValidationRuleAuditLog(
+                rule_id=rule.id,
+                rule_name=rule.name,
+                action="created",
+                changed_by="system",
+                new_values={"status": rule.status, "enabled": rule.enabled},
+            )
+            session.add(audit)
+
+        await session.commit()
+        logger.info("Seeded %d default validation rules", len(rules))
 
 
 @asynccontextmanager
@@ -74,6 +295,12 @@ async def lifespan(app: FastAPI):
     #         )
     #         await session.commit()
     #         logger.info("Recovered %d stale documents on startup", len(stale_ids))
+
+    # Seed default policy rules (idempotent — skips if table already has rows)
+    try:
+        await _seed_default_rules()
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Failed to seed default validation rules: %s", exc)
 
     logger.info("Procurement API startup complete")
     yield

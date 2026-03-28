@@ -29,9 +29,12 @@ class Settings(BaseSettings):
     azure_openai_api_version: str = "2024-12-01-preview"
 
     # Azure AI Search (RAG chatbot)
-    azure_search_endpoint: str = "PLACEHOLDER"
-    azure_search_key: str = "PLACEHOLDER"
-    azure_search_index: str = "procurement-docs"
+    azure_search_endpoint: str = "https://srch-hackrva.search.windows.net"
+    azure_search_key: str = "BzeDyjoGcfk2h1KTEiAYJRIVt20lFrtDcCWueVeDoWAzSeDB0dNT"
+    azure_search_index: str = "contracts"
+
+    # Azure AI Foundry project endpoint
+    azure_foundry_endpoint: str = "https://af-hackrva.services.ai.azure.com/api/projects/proj-hackrva"
 
     # Azure Document Intelligence page budget (per server lifetime)
     azure_di_page_budget: int = 400

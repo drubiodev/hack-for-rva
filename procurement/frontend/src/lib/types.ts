@@ -204,6 +204,85 @@ export interface ValidationResult {
   resolved: boolean;
   resolved_by?: string | null;
   resolved_at?: string | null;
+  policy_rule_id?: string | null;
+  ai_evidence?: string | null;
+  ai_confidence?: number | null;
+  department?: string | null;
+}
+
+// --- Validation Rule Config ---
+
+export type RuleType = "threshold" | "required_field" | "semantic_policy" | "district_check" | "date_window";
+export type RuleScope = "global" | "department";
+export type RuleStatus = "draft" | "active" | "deprecated";
+
+export interface ValidationRuleConfig {
+  id: string;
+  name: string;
+  description?: string | null;
+  rule_type: RuleType;
+  scope: RuleScope;
+  department?: string | null;
+  severity: ValidationSeverity;
+  status: RuleStatus;
+  policy_statement?: string | null;
+  field_name?: string | null;
+  operator?: string | null;
+  threshold_value?: string | null;
+  message_template?: string | null;
+  suggestion?: string | null;
+  enabled: boolean;
+  applies_to_doc_types?: string[] | null;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ValidationRuleAuditLog {
+  id: string;
+  rule_id?: string | null;
+  rule_name: string;
+  action: string;
+  changed_by: string;
+  changed_at: string;
+  old_values?: Record<string, unknown> | null;
+  new_values?: Record<string, unknown> | null;
+}
+
+export interface DepartmentComplianceCard {
+  department: string;
+  total_violations?: number;
+  error_count: number;
+  warning_count: number;
+  info_count: number;
+  document_count?: number;
+  total_documents?: number;
+}
+
+export interface ComplianceSummary {
+  departments: DepartmentComplianceCard[];
+  department_cards: DepartmentComplianceCard[];
+  top_triggered_rules: {
+    rule_id?: string | null;
+    rule_code?: string;
+    rule_name?: string | null;
+    trigger_count: number;
+    resolved_count?: number;
+    severity: string;
+  }[];
+  recent_violations: {
+    id?: string;
+    document_id: string;
+    document_filename?: string;
+    rule_code?: string;
+    rule_name?: string;
+    severity: string;
+    message: string;
+    triggered_at?: string;
+    department?: string | null;
+  }[];
+  total_violations?: number;
+  total_rules_active?: number;
 }
 
 // --- Activity ---
@@ -284,18 +363,59 @@ export interface ChatSource {
   document_id: string;
   title: string | null;
   relevance: number;
+  snippet?: string | null;
 }
 
 export interface ChatResponse {
   answer: string;
   sources: ChatSource[];
   conversation_id: string;
+  intent?: string | null;
 }
 
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
   sources?: ChatSource[];
+  intent?: string;
+}
+
+// --- Intelligence ---
+
+export interface DepartmentSpend {
+  group: string;
+  document_count: number;
+  total_value: number;
+  avg_value: number;
+  max_value: number;
+}
+
+export interface ComplianceGap {
+  id: string;
+  title: string;
+  vendor_name: string | null;
+  total_amount: number | null;
+  primary_department: string | null;
+  missing_fields: string[];
+}
+
+export interface VendorConcentration {
+  vendor_name: string;
+  contract_count: number;
+  total_value: number;
+  earliest_expiry: string | null;
+}
+
+export interface IntelligenceDocument {
+  id: string;
+  title: string;
+  vendor_name: string | null;
+  document_type: string | null;
+  total_amount: number | null;
+  primary_department: string | null;
+  expiration_date: string | null;
+  procurement_method: string | null;
+  status: string;
 }
 
 // --- Auth (localStorage, not real auth) ---

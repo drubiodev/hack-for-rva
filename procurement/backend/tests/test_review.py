@@ -72,6 +72,9 @@ def _make_validation(doc_id, **overrides):
         "resolved": False,
         "resolved_by": None,
         "resolved_at": None,
+        "policy_rule_id": None,
+        "ai_evidence": None,
+        "ai_confidence": None,
     }
     defaults.update(overrides)
     vr = MagicMock(spec=ValidationResult)

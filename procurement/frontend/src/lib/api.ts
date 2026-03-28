@@ -16,6 +16,13 @@ import type {
   ContractReminder,
   Annotation,
   AnnotationCreate,
+  ValidationRuleConfig,
+  ValidationRuleAuditLog,
+  ComplianceSummary,
+  RuleType,
+  RuleScope,
+  RuleStatus,
+  ValidationSeverity,
 } from "./types";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -230,6 +237,63 @@ export async function sendChatMessage(
   return handleResponse<import("./types").ChatResponse>(res);
 }
 
+// --- Intelligence ---
+
+export async function fetchDepartmentSpend(): Promise<{
+  departments: import("./types").DepartmentSpend[];
+}> {
+  const res = await fetch(`${BASE}/api/v1/intelligence/department-spend`);
+  return handleResponse(res);
+}
+
+export async function fetchComplianceGaps(): Promise<{
+  gaps: import("./types").ComplianceGap[];
+  count: number;
+}> {
+  const res = await fetch(`${BASE}/api/v1/intelligence/compliance-gaps`);
+  return handleResponse(res);
+}
+
+export async function fetchVendorConcentration(): Promise<{
+  vendors: import("./types").VendorConcentration[];
+  count: number;
+}> {
+  const res = await fetch(`${BASE}/api/v1/intelligence/vendor-concentration`);
+  return handleResponse(res);
+}
+
+export async function fetchSoleSourceReview(
+  threshold = 50000,
+): Promise<{
+  documents: import("./types").IntelligenceDocument[];
+  count: number;
+}> {
+  const res = await fetch(
+    `${BASE}/api/v1/intelligence/sole-source-review?threshold=${threshold}`,
+  );
+  return handleResponse(res);
+}
+
+export async function fetchExpiringIntelligence(
+  days = 90,
+): Promise<{
+  documents: Array<{
+    id: string;
+    title: string;
+    vendor_name: string | null;
+    total_amount: number | null;
+    expiration_date: string;
+    days_until_expiry: number;
+    primary_department: string | null;
+  }>;
+  count: number;
+}> {
+  const res = await fetch(
+    `${BASE}/api/v1/intelligence/expiring?days=${days}`,
+  );
+  return handleResponse(res);
+}
+
 // --- Reminders ---
 
 export async function createReminder(
@@ -299,4 +363,149 @@ export async function createAnnotation(
     body: JSON.stringify(data),
   });
   return handleResponse<Annotation>(res);
+}
+
+// --- Validation Rules (GRC) ---
+
+export interface FetchRulesParams {
+  scope?: RuleScope;
+  department?: string;
+  status?: RuleStatus;
+  rule_type?: RuleType;
+  severity?: ValidationSeverity;
+}
+
+export async function fetchValidationRules(
+  params?: FetchRulesParams,
+): Promise<ValidationRuleConfig[]> {
+  const url = new URL(`${BASE}/api/v1/validation-rules`);
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        url.searchParams.set(key, String(value));
+      }
+    });
+  }
+  const res = await fetch(url.toString());
+  return handleResponse<ValidationRuleConfig[]>(res);
+}
+
+export async function createValidationRule(
+  data: Omit<ValidationRuleConfig, "id" | "created_at" | "updated_at">,
+  role: string,
+): Promise<ValidationRuleConfig> {
+  const res = await fetch(`${BASE}/api/v1/validation-rules`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-User-Role": role,
+    },
+    body: JSON.stringify(data),
+  });
+  return handleResponse<ValidationRuleConfig>(res);
+}
+
+export async function updateValidationRule(
+  id: string,
+  data: Partial<ValidationRuleConfig>,
+  role: string,
+): Promise<ValidationRuleConfig> {
+  const res = await fetch(`${BASE}/api/v1/validation-rules/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "X-User-Role": role,
+    },
+    body: JSON.stringify(data),
+  });
+  return handleResponse<ValidationRuleConfig>(res);
+}
+
+export async function deleteValidationRule(
+  id: string,
+  role: string,
+): Promise<void> {
+  const res = await fetch(`${BASE}/api/v1/validation-rules/${id}`, {
+    method: "DELETE",
+    headers: { "X-User-Role": role },
+  });
+  if (!res.ok) {
+    const body = await res.text();
+    let detail = `API error ${res.status}`;
+    try {
+      const parsed = JSON.parse(body);
+      if (parsed.detail) detail = parsed.detail;
+    } catch {
+      // use default
+    }
+    throw new ApiError(detail, res.status);
+  }
+}
+
+export async function toggleValidationRule(
+  id: string,
+  toggledBy: string,
+  role: string,
+): Promise<ValidationRuleConfig> {
+  const res = await fetch(`${BASE}/api/v1/validation-rules/${id}/toggle`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-User-Role": role,
+    },
+    body: JSON.stringify({ toggled_by: toggledBy }),
+  });
+  return handleResponse<ValidationRuleConfig>(res);
+}
+
+export async function activateValidationRule(
+  id: string,
+  activatedBy: string,
+  role: string,
+): Promise<ValidationRuleConfig> {
+  const res = await fetch(`${BASE}/api/v1/validation-rules/${id}/activate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-User-Role": role,
+    },
+    body: JSON.stringify({ activated_by: activatedBy }),
+  });
+  return handleResponse<ValidationRuleConfig>(res);
+}
+
+export async function deprecateValidationRule(
+  id: string,
+  deprecatedBy: string,
+  role: string,
+): Promise<ValidationRuleConfig> {
+  const res = await fetch(`${BASE}/api/v1/validation-rules/${id}/deprecate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-User-Role": role,
+    },
+    body: JSON.stringify({ deprecated_by: deprecatedBy }),
+  });
+  return handleResponse<ValidationRuleConfig>(res);
+}
+
+export async function fetchComplianceSummary(): Promise<ComplianceSummary> {
+  const res = await fetch(`${BASE}/api/v1/validation-rules/compliance-summary`);
+  return handleResponse<ComplianceSummary>(res);
+}
+
+export async function fetchGlobalAuditLog(): Promise<ValidationRuleAuditLog[]> {
+  const res = await fetch(`${BASE}/api/v1/validation-rules/audit-log`);
+  const data = await handleResponse<{ items: ValidationRuleAuditLog[]; total: number }>(res);
+  return data.items;
+}
+
+export async function fetchRuleAuditLog(
+  ruleId: string,
+): Promise<ValidationRuleAuditLog[]> {
+  const res = await fetch(
+    `${BASE}/api/v1/validation-rules/${ruleId}/audit-log`,
+  );
+  return handleResponse<ValidationRuleAuditLog[]>(res);
 }

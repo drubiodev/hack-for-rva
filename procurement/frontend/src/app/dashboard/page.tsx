@@ -1,17 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/useAuth";
+import { useChatPanel } from "@/components/ChatPanelContext";
 import {
   fetchAnalyticsSummary,
   fetchRisks,
   createReminder,
   dismissReminder,
+  fetchComplianceGaps,
+  fetchVendorConcentration,
+  fetchSoleSourceReview,
 } from "@/lib/api";
 import { analyticsKeys } from "@/lib/queryKeys";
 import type { ExpiringContract } from "@/lib/types";
@@ -24,6 +28,10 @@ import {
   TrendingUp,
   AlertTriangle,
   DollarSign,
+  ShieldAlert,
+  Users,
+  FileWarning,
+  MessageSquare,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -136,8 +144,11 @@ export default function DashboardPage() {
   const { user } = useAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { openWithQuery, setActivePage } = useChatPanel();
   const [reminderFormId, setReminderFormId] = useState<string | null>(null);
   const [reminderSetIds, setReminderSetIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => { setActivePage("dashboard"); }, [setActivePage]);
 
   const { data: summary, isLoading: summaryLoading } = useQuery({
     queryKey: analyticsKeys.summary(),
@@ -149,6 +160,27 @@ export default function DashboardPage() {
     queryKey: analyticsKeys.risks(90),
     queryFn: () => fetchRisks(90),
     retry: false,
+  });
+
+  const { data: complianceData } = useQuery({
+    queryKey: ["intelligence", "compliance-gaps"],
+    queryFn: fetchComplianceGaps,
+    retry: false,
+    refetchInterval: 30_000,
+  });
+
+  const { data: vendorData } = useQuery({
+    queryKey: ["intelligence", "vendor-concentration"],
+    queryFn: fetchVendorConcentration,
+    retry: false,
+    refetchInterval: 30_000,
+  });
+
+  const { data: soleSourceData } = useQuery({
+    queryKey: ["intelligence", "sole-source"],
+    queryFn: () => fetchSoleSourceReview(50000),
+    retry: false,
+    refetchInterval: 30_000,
   });
 
   const dismissMutation = useMutation({
@@ -296,6 +328,69 @@ export default function DashboardPage() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* ---- Intelligence Cards ---- */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Compliance Gaps */}
+        <button
+          onClick={() => openWithQuery("Which contracts have compliance gaps?")}
+          className={`${CARD} p-5 text-left hover:shadow-md transition-shadow group`}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-50">
+              <ShieldAlert className="h-4.5 w-4.5 text-[#DC2626]" />
+            </div>
+            <MessageSquare className="h-3.5 w-3.5 text-[#A8A29E] opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
+          <div className="text-2xl font-heading font-bold text-[#0F2537] tracking-tight">
+            {complianceData?.count ?? <Skeleton className="h-7 w-8 inline-block" />}
+          </div>
+          <p className="text-sm font-medium text-[#292524] mt-0.5">Compliance Gaps</p>
+          <p className="text-xs text-[#A8A29E] mt-1">
+            High-value contracts with missing required fields
+          </p>
+        </button>
+
+        {/* Vendor Concentration */}
+        <button
+          onClick={() => openWithQuery("Which vendors have the highest contract concentration?")}
+          className={`${CARD} p-5 text-left hover:shadow-md transition-shadow group`}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50">
+              <Users className="h-4.5 w-4.5 text-[#D97706]" />
+            </div>
+            <MessageSquare className="h-3.5 w-3.5 text-[#A8A29E] opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
+          <div className="text-2xl font-heading font-bold text-[#0F2537] tracking-tight">
+            {vendorData?.count ?? <Skeleton className="h-7 w-8 inline-block" />}
+          </div>
+          <p className="text-sm font-medium text-[#292524] mt-0.5">Vendor Concentration</p>
+          <p className="text-xs text-[#A8A29E] mt-1">
+            Vendors with multiple contracts — concentration risk
+          </p>
+        </button>
+
+        {/* Sole-Source Review */}
+        <button
+          onClick={() => openWithQuery("Show me sole-source contracts over $50K that need review")}
+          className={`${CARD} p-5 text-left hover:shadow-md transition-shadow group`}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-purple-50">
+              <FileWarning className="h-4.5 w-4.5 text-[#7C3AED]" />
+            </div>
+            <MessageSquare className="h-3.5 w-3.5 text-[#A8A29E] opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
+          <div className="text-2xl font-heading font-bold text-[#0F2537] tracking-tight">
+            {soleSourceData?.count ?? <Skeleton className="h-7 w-8 inline-block" />}
+          </div>
+          <p className="text-sm font-medium text-[#292524] mt-0.5">Sole-Source Review</p>
+          <p className="text-xs text-[#A8A29E] mt-1">
+            Sole-source contracts over $50K requiring justification
+          </p>
+        </button>
       </div>
 
       {/* ---- Main Grid — 60/40 split ---- */}

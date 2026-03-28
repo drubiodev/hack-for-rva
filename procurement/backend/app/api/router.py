@@ -12,7 +12,11 @@ from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from uuid import UUID
 
+<<<<<<< Updated upstream
 from fastapi import APIRouter, BackgroundTasks, Depends, Form, HTTPException, Query, Response, UploadFile
+=======
+from fastapi import APIRouter, BackgroundTasks, Depends, Form, Header, HTTPException, Query, UploadFile
+>>>>>>> Stashed changes
 from fastapi.responses import RedirectResponse, StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -20,7 +24,15 @@ from sqlalchemy.orm import noload, selectinload
 
 from app.config import settings
 from app.database import get_db
-from app.models.document import ActivityLog, ContractReminder, Document, ExtractedFields, ValidationResult
+from app.models.document import (
+    ActivityLog,
+    ContractReminder,
+    Document,
+    ExtractedFields,
+    ValidationResult,
+    ValidationRuleAuditLog,
+    ValidationRuleConfig,
+)
 from app.schemas.document import (
     ActivityEntrySchema,
     AnalyticsSummarySchema,
@@ -30,6 +42,8 @@ from app.schemas.document import (
     ChatRequest,
     ChatResponse,
     ChatSourceSchema,
+    ComplianceSummary,
+    DepartmentComplianceCard,
     DocumentDetail,
     DocumentListResponse,
     DocumentSummary,
@@ -37,6 +51,7 @@ from app.schemas.document import (
     ExpiringContractSchema,
     ExtractedFieldsSchema,
     FieldUpdateRequest,
+    RecentViolation,
     RejectRequest,
     ReminderCreateRequest,
     ReminderSchema,
@@ -44,10 +59,23 @@ from app.schemas.document import (
     ReprocessRequest,
     RiskSummarySchema,
     SubmitRequest,
+    TriggeredRuleSummary,
     ValidationResultSchema,
+    ValidationRuleAuditLogSchema,
+    ValidationRuleConfigCreate,
+    ValidationRuleConfigSchema,
+    ValidationRuleConfigUpdate,
 )
 
 router = APIRouter()
+
+
+def _require_supervisor(x_user_role: str = Header(default="")) -> str:
+    """Require supervisor role via X-User-Role header."""
+    if x_user_role.lower() != "supervisor":
+        raise HTTPException(status_code=403, detail="Supervisor role required")
+    return x_user_role
+
 
 # ---------------------------------------------------------------------------
 # Magic-bytes validation
@@ -1290,7 +1318,93 @@ async def update_reminder(
 
 
 # ---------------------------------------------------------------------------
-# Chat (keyword-search stub — upgrade to Azure AI Search RAG later)
+# Intelligence endpoints — hardcoded analytics powered by SQL
+# ---------------------------------------------------------------------------
+
+
+@router.get("/api/v1/intelligence/department-spend", tags=["Intelligence"])
+async def intelligence_department_spend(db: AsyncSession = Depends(get_db)):
+    """Aggregated contract spend by department."""
+    from app.search.client import sql_aggregation
+    results = await sql_aggregation(db, aggregation="sum", aggregation_field="total_amount", group_by="primary_department")
+    return {"departments": results}
+
+
+@router.get("/api/v1/intelligence/expiring", tags=["Intelligence"])
+async def intelligence_expiring(
+    days: int = Query(90, ge=1, le=365),
+    db: AsyncSession = Depends(get_db),
+):
+    """Documents expiring within N days."""
+    from app.search.client import sql_expiring_contracts
+    results = await sql_expiring_contracts(db, days_ahead=days)
+    return {"documents": results, "days": days, "count": len(results)}
+
+
+@router.get("/api/v1/intelligence/compliance-gaps", tags=["Intelligence"])
+async def intelligence_compliance_gaps(db: AsyncSession = Depends(get_db)):
+    """Documents with missing compliance fields (high-value contracts)."""
+    from app.search.client import sql_compliance_gaps
+    results = await sql_compliance_gaps(db)
+    return {"gaps": results, "count": len(results)}
+
+
+@router.get("/api/v1/intelligence/vendor-concentration", tags=["Intelligence"])
+async def intelligence_vendor_concentration(db: AsyncSession = Depends(get_db)):
+    """Vendors with multiple contracts — concentration risk analysis."""
+    from app.search.client import sql_vendor_concentration
+    results = await sql_vendor_concentration(db)
+    return {"vendors": results, "count": len(results)}
+
+
+@router.get("/api/v1/intelligence/sole-source-review", tags=["Intelligence"])
+async def intelligence_sole_source_review(
+    threshold: float = Query(50000, ge=0),
+    db: AsyncSession = Depends(get_db),
+):
+    """Sole-source contracts above a dollar threshold."""
+    from app.search.client import sql_filter_list
+    results = await sql_filter_list(
+        db,
+        sql_filters={"procurement_method": "SOLE_SOURCE", "min_amount": threshold},
+        limit=20,
+    )
+    return {"documents": results, "threshold": threshold, "count": len(results)}
+
+
+# ---------------------------------------------------------------------------
+# Admin — Search index management
+# ---------------------------------------------------------------------------
+
+
+@router.post("/api/v1/admin/reindex", tags=["Admin"])
+async def admin_reindex(
+    background_tasks: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+    _role: str = Depends(_require_supervisor),
+):
+    """Recreate search index and reindex all documents (supervisor only)."""
+    from app.search.index_schema import create_or_update_index
+    from app.search.indexer import index_batch
+
+    # Create/update index schema first
+    create_or_update_index()
+
+    # Run batch indexing
+    count = await index_batch(db)
+    return {"detail": f"Reindex complete: {count} documents indexed"}
+
+
+@router.post("/api/v1/admin/ensure-index", tags=["Admin"])
+async def admin_ensure_index():
+    """Create or update the Azure AI Search index schema."""
+    from app.search.index_schema import create_or_update_index
+    name = create_or_update_index()
+    return {"detail": f"Index '{name}' created/updated"}
+
+
+# ---------------------------------------------------------------------------
+# Chat — AI-powered with semantic search + SQL intelligence via query router
 # ---------------------------------------------------------------------------
 
 
@@ -1303,82 +1417,57 @@ async def chat(
     body: ChatRequest,
     db: AsyncSession = Depends(get_db),
 ):
-    """Answer questions about procurement documents using AI + keyword search."""
+    """Answer questions about procurement documents using AI query routing + semantic search."""
+    import logging as _logging
     import uuid as _uuid
-    from sqlalchemy import or_
 
+    from app.search.client import execute_query
+
+    _logger = _logging.getLogger(__name__)
     conversation_id = body.conversation_id or str(_uuid.uuid4())
 
-    keywords = [w for w in body.question.lower().split() if len(w) > 2]
-    if not keywords:
+    if not body.question.strip():
         return ChatResponse(
-            answer="Please ask a more specific question about procurement documents.",
+            answer="Please ask a question about procurement documents.",
             sources=[],
             conversation_id=conversation_id,
         )
 
-    # --- 1. Keyword ILIKE search for relevant documents (top 5) ---
-    kw_query = (
-        select(Document, ExtractedFields)
-        .join(ExtractedFields, Document.id == ExtractedFields.document_id)
-        .where(or_(*(Document.ocr_text.ilike(f"%{kw}%") for kw in keywords[:5])))
-        .limit(5)
-    )
-    kw_result = await db.execute(kw_query)
-    rows = list(kw_result.all())
-
-    # --- 2. Also query contracts expiring within 90 days ---
-    today = date.today()
-    cutoff_90 = today + timedelta(days=90)
-    expiring_result = await db.execute(
-        select(Document, ExtractedFields)
-        .join(ExtractedFields, Document.id == ExtractedFields.document_id)
-        .where(ExtractedFields.expiration_date.isnot(None))
-        .where(ExtractedFields.expiration_date >= today)
-        .where(ExtractedFields.expiration_date <= cutoff_90)
-        .order_by(ExtractedFields.expiration_date.asc())
-        .limit(5)
-    )
-    expiring_rows = expiring_result.all()
-
-    # Merge, dedup by document id
-    seen_ids = {doc.id for doc, _ in rows}
-    for doc, ef in expiring_rows:
-        if doc.id not in seen_ids:
-            rows.append((doc, ef))
-            seen_ids.add(doc.id)
-
-    # --- 3. Build context from matched documents ---
-    sources = []
-    context_parts = []
-    for doc, ef in rows:
-        sources.append(ChatSourceSchema(
-            document_id=doc.id,
-            title=ef.title or doc.filename,
-            relevance=0.8,
-        ))
-        amount_str = f"${ef.total_amount:,.2f}" if ef.total_amount else "N/A"
-        exp_str = str(ef.expiration_date) if ef.expiration_date else "N/A"
-        eff_str = str(ef.effective_date) if ef.effective_date else "N/A"
-        days_left = f" ({(ef.expiration_date - today).days} days)" if ef.expiration_date and ef.expiration_date >= today else ""
-        context_parts.append(
-            f"Document: {ef.title or doc.filename}\n"
-            f"  Vendor: {ef.vendor_name or 'N/A'}\n"
-            f"  Department: {ef.issuing_department or 'N/A'}\n"
-            f"  Amount: {amount_str}\n"
-            f"  Effective: {eff_str}\n"
-            f"  Expires: {exp_str}{days_left}\n"
-            f"  Type: {ef.contract_type or 'N/A'}\n"
-            f"  Doc #: {ef.document_number or 'N/A'}"
+    # --- 1. Route query and retrieve context ---
+    try:
+        query_result = await execute_query(body.question, db)
+    except Exception as exc:
+        _logger.exception("Query execution failed: %s", exc)
+        return ChatResponse(
+            answer="Sorry, I encountered an error processing your question. Please try again.",
+            sources=[],
+            conversation_id=conversation_id,
         )
 
-    # --- 4. Try AI-powered response if credentials are available ---
+    intent = query_result["intent"]
+    context_text = query_result["context"]
+    raw_sources = query_result["sources"]
+
+    # Build source schemas
+    sources = []
+    for src in raw_sources:
+        try:
+            sources.append(ChatSourceSchema(
+                document_id=src["id"],
+                title=src.get("title"),
+                relevance=src.get("relevance", 0.8),
+                snippet=src.get("caption"),
+            ))
+        except Exception:
+            pass  # skip malformed sources
+
+    # --- 2. Generate AI answer grounded in retrieved context ---
     ai_available = (
         settings.azure_openai_key != "PLACEHOLDER"
         and settings.azure_openai_endpoint != "https://PLACEHOLDER.openai.azure.com/"
     )
 
-    if ai_available and context_parts:
+    if ai_available and context_text:
         try:
             from openai import AsyncOpenAI
 
@@ -1389,13 +1478,16 @@ async def chat(
 
             system_prompt = (
                 "You are ContractIQ, an AI assistant for City of Richmond procurement staff.\n"
-                "Answer questions about procurement documents using ONLY the context provided.\n"
-                "If the answer isn't in the context, say so. Cite which document(s) your answer is based on.\n"
-                "Never make legal compliance determinations — you are a decision-support tool.\n"
-                "All information is AI-assisted and requires human review."
+                "You help analysts and supervisors understand procurement documents, contracts, and risks.\n\n"
+                "Rules:\n"
+                "- Answer using ONLY the context provided below. If the answer isn't in the context, say so.\n"
+                "- Cite which document(s) your answer is based on by name.\n"
+                "- For numerical aggregations, show the numbers clearly.\n"
+                "- Never make legal compliance determinations — you are a decision-support tool.\n"
+                "- All information is AI-assisted and requires human review.\n\n"
+                f"Query intent: {intent}"
             )
 
-            context_text = "\n\n".join(context_parts)
             user_message = f"Context:\n{context_text}\n\nQuestion: {body.question}"
 
             response = await client.chat.completions.create(
@@ -1404,41 +1496,523 @@ async def chat(
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_message},
                 ],
-                max_completion_tokens=500,
+                max_completion_tokens=700,
                 temperature=0.3,
             )
 
-            answer = response.choices[0].message.content or "No response generated."
+            msg = response.choices[0].message
+            answer = msg.content or ""
+            # Some Azure OpenAI models return refusal or empty content
+            if not answer and hasattr(msg, 'refusal') and msg.refusal:
+                answer = f"I cannot answer this question: {msg.refusal}"
+            elif not answer:
+                _logger.warning("LLM returned empty content. Finish reason: %s, message: %s", response.choices[0].finish_reason, msg)
+                answer = f"Based on the search results, I found {len(sources)} relevant documents. Please review the sources below for details.\n\n*AI-assisted, requires human review.*"
             return ChatResponse(
                 answer=answer,
                 sources=sources,
                 conversation_id=conversation_id,
+                intent=intent,
             )
         except Exception as exc:
-            import logging
-            logging.getLogger(__name__).warning("AI chat failed, falling back to keyword: %s", exc)
+            _logger.warning("AI answer generation failed, using context directly: %s", exc)
 
-    # --- 5. Fallback: keyword-based response ---
-    summaries = []
-    for doc, ef in rows:
-        amount_str = f"${ef.total_amount:,.2f}" if ef.total_amount else "N/A"
-        exp_str = str(ef.expiration_date) if ef.expiration_date else "N/A"
-        summaries.append(
-            f"- **{ef.title or doc.filename}**: Vendor: {ef.vendor_name or 'N/A'}, "
-            f"Amount: {amount_str}, Expires: {exp_str}"
-        )
-
-    if summaries:
-        answer = (
-            f"Found {len(summaries)} relevant document(s):\n\n"
-            + "\n".join(summaries)
-            + "\n\n*AI-assisted, requires human review.*"
-        )
+    # --- 3. Fallback: return context directly if AI unavailable ---
+    if context_text:
+        answer = f"**{intent.replace('_', ' ').title()}** results:\n\n{context_text}\n\n*AI-assisted, requires human review.*"
     else:
-        answer = "No documents matched your query. Try different keywords."
+        answer = "No documents matched your query. Try different keywords or a more specific question."
 
     return ChatResponse(
         answer=answer,
         sources=sources,
         conversation_id=conversation_id,
+        intent=intent,
     )
+
+
+def _rule_to_dict(rule: ValidationRuleConfig) -> dict:
+    """Snapshot a rule's mutable fields for audit logging."""
+    return {
+        "name": rule.name,
+        "description": rule.description,
+        "rule_type": rule.rule_type,
+        "scope": rule.scope,
+        "department": rule.department,
+        "severity": rule.severity,
+        "status": rule.status,
+        "policy_statement": rule.policy_statement,
+        "field_name": rule.field_name,
+        "operator": rule.operator,
+        "threshold_value": rule.threshold_value,
+        "message_template": rule.message_template,
+        "suggestion": rule.suggestion,
+        "enabled": rule.enabled,
+        "applies_to_doc_types": rule.applies_to_doc_types,
+    }
+
+
+# ---------------------------------------------------------------------------
+# S7: Compliance Summary (must be registered BEFORE the {id} routes)
+# ---------------------------------------------------------------------------
+
+
+@router.get(
+    "/api/v1/validation-rules/compliance-summary",
+    response_model=ComplianceSummary,
+    tags=["Validation Rules"],
+)
+async def get_compliance_summary(db: AsyncSession = Depends(get_db)):
+    """Department-level compliance aggregates, top triggered rules, recent violations."""
+
+    # Quick count — if zero policy violations, return empty summary fast
+    total_viol_result = await db.execute(
+        select(func.count(ValidationResult.id)).where(ValidationResult.policy_rule_id.isnot(None))
+    )
+    total_violations = total_viol_result.scalar() or 0
+
+    active_rules_result = await db.execute(
+        select(func.count(ValidationRuleConfig.id)).where(
+            ValidationRuleConfig.status == "active",
+            ValidationRuleConfig.enabled == True,  # noqa: E712
+        )
+    )
+    total_rules_active = active_rules_result.scalar() or 0
+
+    if total_violations == 0:
+        return ComplianceSummary(
+            department_cards=[],
+            top_triggered_rules=[],
+            recent_violations=[],
+            total_violations=0,
+            total_rules_active=total_rules_active,
+        )
+
+    # --- Department cards (only when violations exist) ---
+    dept_query = (
+        select(
+            ExtractedFields.primary_department,
+            ValidationResult.severity,
+            func.count(ValidationResult.id).label("cnt"),
+        )
+        .select_from(ValidationResult)
+        .outerjoin(ExtractedFields, ValidationResult.document_id == ExtractedFields.document_id)
+        .where(ValidationResult.policy_rule_id.isnot(None))
+        .group_by(ExtractedFields.primary_department, ValidationResult.severity)
+    )
+    dept_result = await db.execute(dept_query)
+    dept_rows = dept_result.all()
+
+    dept_map: dict[str, dict] = {}
+    for dept, severity, cnt in dept_rows:
+        dept_key = dept or "UNKNOWN"
+        if dept_key not in dept_map:
+            dept_map[dept_key] = {"department": dept_key, "error_count": 0, "warning_count": 0, "info_count": 0, "document_count": 0}
+        if severity == "error":
+            dept_map[dept_key]["error_count"] += cnt
+        elif severity == "warning":
+            dept_map[dept_key]["warning_count"] += cnt
+        else:
+            dept_map[dept_key]["info_count"] += cnt
+
+    department_cards = [DepartmentComplianceCard(**d) for d in dept_map.values()]
+
+    # --- Top triggered rules ---
+    top_rules_query = (
+        select(
+            ValidationResult.policy_rule_id,
+            ValidationResult.rule_code,
+            ValidationResult.severity,
+            func.count(ValidationResult.id).label("cnt"),
+        )
+        .where(ValidationResult.policy_rule_id.isnot(None))
+        .group_by(ValidationResult.policy_rule_id, ValidationResult.rule_code, ValidationResult.severity)
+        .order_by(func.count(ValidationResult.id).desc())
+        .limit(10)
+    )
+    top_result = await db.execute(top_rules_query)
+    top_triggered_rules = [
+        TriggeredRuleSummary(rule_id=r[0], rule_code=r[1], severity=r[2], trigger_count=r[3])
+        for r in top_result.all()
+    ]
+
+    # --- Recent violations ---
+    recent_query = (
+        select(ValidationResult)
+        .where(ValidationResult.policy_rule_id.isnot(None))
+        .order_by(ValidationResult.id.desc())
+        .limit(10)
+    )
+    recent_result = await db.execute(recent_query)
+    recent_violations = [
+        RecentViolation(
+            id=vr.id,
+            document_id=vr.document_id,
+            rule_code=vr.rule_code,
+            severity=vr.severity,
+            message=vr.message,
+        )
+        for vr in recent_result.scalars().all()
+    ]
+
+    return ComplianceSummary(
+        department_cards=department_cards,
+        top_triggered_rules=top_triggered_rules,
+        recent_violations=recent_violations,
+        total_violations=total_violations,
+        total_rules_active=total_rules_active,
+    )
+
+
+# ---------------------------------------------------------------------------
+# S7: Global Audit Log (must be registered BEFORE the {id} routes)
+# ---------------------------------------------------------------------------
+
+
+@router.get(
+    "/api/v1/validation-rules/audit-log",
+    tags=["Validation Rules"],
+)
+async def get_global_audit_log(
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
+    db: AsyncSession = Depends(get_db),
+):
+    """Global audit log across all validation rules with pagination."""
+    total_result = await db.execute(select(func.count(ValidationRuleAuditLog.id)))
+    total = total_result.scalar() or 0
+
+    result = await db.execute(
+        select(ValidationRuleAuditLog)
+        .order_by(ValidationRuleAuditLog.changed_at.desc())
+        .offset(offset)
+        .limit(limit)
+    )
+    entries = result.scalars().all()
+    items = [ValidationRuleAuditLogSchema.model_validate(e) for e in entries]
+    return {"items": items, "total": total, "limit": limit, "offset": offset}
+
+
+# ---------------------------------------------------------------------------
+# S2: Validation Rules CRUD
+# ---------------------------------------------------------------------------
+
+
+@router.get(
+    "/api/v1/validation-rules",
+    response_model=list[ValidationRuleConfigSchema],
+    tags=["Validation Rules"],
+)
+async def list_validation_rules(
+    scope: str | None = Query(None),
+    department: str | None = Query(None),
+    status: str | None = Query(None),
+    enabled: bool | None = Query(None),
+    rule_type: str | None = Query(None),
+    db: AsyncSession = Depends(get_db),
+):
+    """List all validation rules with optional filters."""
+    query = select(ValidationRuleConfig)
+    if scope:
+        query = query.where(ValidationRuleConfig.scope == scope)
+    if department:
+        query = query.where(ValidationRuleConfig.department == department)
+    if status:
+        query = query.where(ValidationRuleConfig.status == status)
+    if enabled is not None:
+        query = query.where(ValidationRuleConfig.enabled == enabled)
+    if rule_type:
+        query = query.where(ValidationRuleConfig.rule_type == rule_type)
+
+    query = query.order_by(ValidationRuleConfig.created_at.desc())
+    result = await db.execute(query)
+    rules = result.scalars().all()
+    return [ValidationRuleConfigSchema.model_validate(r) for r in rules]
+
+
+@router.post(
+    "/api/v1/validation-rules",
+    response_model=ValidationRuleConfigSchema,
+    status_code=201,
+    tags=["Validation Rules"],
+)
+async def create_validation_rule(
+    body: ValidationRuleConfigCreate,
+    db: AsyncSession = Depends(get_db),
+    _role: str = Depends(_require_supervisor),
+):
+    """Create a new validation rule (supervisor only)."""
+    # Validate rule_type-specific requirements
+    if body.rule_type == "semantic_policy" and not body.policy_statement:
+        raise HTTPException(
+            status_code=400,
+            detail="semantic_policy rules require a policy_statement",
+        )
+    if body.rule_type == "threshold":
+        if not body.field_name or not body.operator or not body.threshold_value:
+            raise HTTPException(
+                status_code=400,
+                detail="threshold rules require field_name, operator, and threshold_value",
+            )
+
+    rule = ValidationRuleConfig(
+        name=body.name,
+        description=body.description,
+        rule_type=body.rule_type,
+        scope=body.scope,
+        department=body.department,
+        severity=body.severity,
+        status="draft",
+        policy_statement=body.policy_statement,
+        field_name=body.field_name,
+        operator=body.operator,
+        threshold_value=body.threshold_value,
+        message_template=body.message_template,
+        suggestion=body.suggestion,
+        enabled=body.enabled,
+        applies_to_doc_types=body.applies_to_doc_types,
+        created_by=body.created_by,
+    )
+    db.add(rule)
+    await db.flush()
+
+    # Audit log
+    audit = ValidationRuleAuditLog(
+        rule_id=rule.id,
+        rule_name=rule.name,
+        action="created",
+        changed_by=body.created_by,
+        old_values={},
+        new_values=_rule_to_dict(rule),
+    )
+    db.add(audit)
+    await db.commit()
+    await db.refresh(rule)
+
+    return ValidationRuleConfigSchema.model_validate(rule)
+
+
+@router.patch(
+    "/api/v1/validation-rules/{rule_id}",
+    response_model=ValidationRuleConfigSchema,
+    tags=["Validation Rules"],
+)
+async def update_validation_rule(
+    rule_id: UUID,
+    body: ValidationRuleConfigUpdate,
+    db: AsyncSession = Depends(get_db),
+    _role: str = Depends(_require_supervisor),
+):
+    """Update a validation rule (supervisor only)."""
+    result = await db.execute(
+        select(ValidationRuleConfig).where(ValidationRuleConfig.id == rule_id)
+    )
+    rule = result.scalar_one_or_none()
+    if not rule:
+        raise HTTPException(status_code=404, detail="Validation rule not found")
+
+    old_values = _rule_to_dict(rule)
+
+    update_data = body.model_dump(exclude_unset=True)
+    changed_by = update_data.pop("updated_by", None)
+
+    for field, value in update_data.items():
+        if hasattr(rule, field):
+            setattr(rule, field, value)
+
+    # Audit log
+    audit = ValidationRuleAuditLog(
+        rule_id=rule.id,
+        rule_name=rule.name,
+        action="updated",
+        changed_by=changed_by,
+        old_values=old_values,
+        new_values=_rule_to_dict(rule),
+    )
+    db.add(audit)
+    await db.commit()
+    await db.refresh(rule)
+
+    return ValidationRuleConfigSchema.model_validate(rule)
+
+
+@router.delete(
+    "/api/v1/validation-rules/{rule_id}",
+    tags=["Validation Rules"],
+)
+async def delete_validation_rule(
+    rule_id: UUID,
+    db: AsyncSession = Depends(get_db),
+    _role: str = Depends(_require_supervisor),
+):
+    """Delete a validation rule. Soft-delete (deprecate) for active rules; hard-delete for draft."""
+    result = await db.execute(
+        select(ValidationRuleConfig).where(ValidationRuleConfig.id == rule_id)
+    )
+    rule = result.scalar_one_or_none()
+    if not rule:
+        raise HTTPException(status_code=404, detail="Validation rule not found")
+
+    old_values = _rule_to_dict(rule)
+
+    if rule.status == "draft":
+        # Hard delete
+        audit = ValidationRuleAuditLog(
+            rule_id=rule.id,
+            rule_name=rule.name,
+            action="deleted",
+            old_values=old_values,
+            new_values={},
+        )
+        db.add(audit)
+        await db.delete(rule)
+        await db.commit()
+        return {"detail": "Rule deleted"}
+    else:
+        # Soft delete: deprecate
+        rule.status = "deprecated"
+        rule.enabled = False
+        audit = ValidationRuleAuditLog(
+            rule_id=rule.id,
+            rule_name=rule.name,
+            action="deprecated",
+            old_values=old_values,
+            new_values=_rule_to_dict(rule),
+        )
+        db.add(audit)
+        await db.commit()
+        return {"detail": "Rule deprecated"}
+
+
+@router.post(
+    "/api/v1/validation-rules/{rule_id}/toggle",
+    response_model=ValidationRuleConfigSchema,
+    tags=["Validation Rules"],
+)
+async def toggle_validation_rule(
+    rule_id: UUID,
+    body: dict,
+    db: AsyncSession = Depends(get_db),
+    _role: str = Depends(_require_supervisor),
+):
+    """Toggle a rule's enabled flag (supervisor only)."""
+    result = await db.execute(
+        select(ValidationRuleConfig).where(ValidationRuleConfig.id == rule_id)
+    )
+    rule = result.scalar_one_or_none()
+    if not rule:
+        raise HTTPException(status_code=404, detail="Validation rule not found")
+
+    old_values = _rule_to_dict(rule)
+    rule.enabled = not rule.enabled
+
+    audit = ValidationRuleAuditLog(
+        rule_id=rule.id,
+        rule_name=rule.name,
+        action="toggled",
+        changed_by=body.get("toggled_by"),
+        old_values=old_values,
+        new_values=_rule_to_dict(rule),
+    )
+    db.add(audit)
+    await db.commit()
+    await db.refresh(rule)
+
+    return ValidationRuleConfigSchema.model_validate(rule)
+
+
+@router.post(
+    "/api/v1/validation-rules/{rule_id}/activate",
+    response_model=ValidationRuleConfigSchema,
+    tags=["Validation Rules"],
+)
+async def activate_validation_rule(
+    rule_id: UUID,
+    body: dict,
+    db: AsyncSession = Depends(get_db),
+    _role: str = Depends(_require_supervisor),
+):
+    """Move a rule from draft to active (supervisor only)."""
+    result = await db.execute(
+        select(ValidationRuleConfig).where(ValidationRuleConfig.id == rule_id)
+    )
+    rule = result.scalar_one_or_none()
+    if not rule:
+        raise HTTPException(status_code=404, detail="Validation rule not found")
+    if rule.status != "draft":
+        raise HTTPException(status_code=400, detail=f"Cannot activate rule in status '{rule.status}'")
+
+    old_values = _rule_to_dict(rule)
+    rule.status = "active"
+
+    audit = ValidationRuleAuditLog(
+        rule_id=rule.id,
+        rule_name=rule.name,
+        action="activated",
+        changed_by=body.get("activated_by"),
+        old_values=old_values,
+        new_values=_rule_to_dict(rule),
+    )
+    db.add(audit)
+    await db.commit()
+    await db.refresh(rule)
+
+    return ValidationRuleConfigSchema.model_validate(rule)
+
+
+@router.post(
+    "/api/v1/validation-rules/{rule_id}/deprecate",
+    response_model=ValidationRuleConfigSchema,
+    tags=["Validation Rules"],
+)
+async def deprecate_validation_rule(
+    rule_id: UUID,
+    body: dict,
+    db: AsyncSession = Depends(get_db),
+    _role: str = Depends(_require_supervisor),
+):
+    """Move a rule from active to deprecated (supervisor only)."""
+    result = await db.execute(
+        select(ValidationRuleConfig).where(ValidationRuleConfig.id == rule_id)
+    )
+    rule = result.scalar_one_or_none()
+    if not rule:
+        raise HTTPException(status_code=404, detail="Validation rule not found")
+    if rule.status != "active":
+        raise HTTPException(status_code=400, detail=f"Cannot deprecate rule in status '{rule.status}'")
+
+    old_values = _rule_to_dict(rule)
+    rule.status = "deprecated"
+    rule.enabled = False
+
+    audit = ValidationRuleAuditLog(
+        rule_id=rule.id,
+        rule_name=rule.name,
+        action="deprecated",
+        changed_by=body.get("deprecated_by"),
+        old_values=old_values,
+        new_values=_rule_to_dict(rule),
+    )
+    db.add(audit)
+    await db.commit()
+    await db.refresh(rule)
+
+    return ValidationRuleConfigSchema.model_validate(rule)
+
+
+@router.get(
+    "/api/v1/validation-rules/{rule_id}/audit-log",
+    tags=["Validation Rules"],
+)
+async def get_rule_audit_log(
+    rule_id: UUID,
+    db: AsyncSession = Depends(get_db),
+):
+    """Return audit log entries for a specific validation rule."""
+    result = await db.execute(
+        select(ValidationRuleAuditLog)
+        .where(ValidationRuleAuditLog.rule_id == rule_id)
+        .order_by(ValidationRuleAuditLog.changed_at.desc())
+    )
+    entries = result.scalars().all()
+    return {"items": [ValidationRuleAuditLogSchema.model_validate(e) for e in entries]}

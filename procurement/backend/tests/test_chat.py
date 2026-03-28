@@ -75,8 +75,8 @@ async def test_chat_with_empty_question_returns_response(client):
     data = response.json()
     assert "answer" in data
     assert "conversation_id" in data
-    # With only short words (<=2 chars), should return the fallback message
-    assert "specific question" in data["answer"].lower()
+    # With the query router, "hi" is classified as general_knowledge and gets an AI response
+    assert len(data["answer"]) > 0
 
 
 @pytest.mark.asyncio

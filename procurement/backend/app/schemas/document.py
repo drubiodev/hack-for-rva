@@ -79,6 +79,122 @@ class ValidationResultSchema(BaseModel):
     resolved: bool = False
     resolved_by: str | None = None
     resolved_at: datetime | None = None
+    policy_rule_id: UUID | None = None
+    ai_evidence: str | None = None
+    ai_confidence: float | None = None
+
+
+# --- Validation Rule Config ---
+
+
+class ValidationRuleConfigCreate(BaseModel):
+    name: str
+    description: str | None = None
+    rule_type: str  # threshold, required_field, semantic_policy, district_check, date_window
+    scope: str = "global"
+    department: str | None = None
+    severity: str = "warning"
+    policy_statement: str | None = None
+    field_name: str | None = None
+    operator: str | None = None
+    threshold_value: str | None = None
+    message_template: str | None = None
+    suggestion: str | None = None
+    applies_to_doc_types: list[str] | None = None
+    created_by: str
+
+
+class ValidationRuleConfigUpdate(BaseModel):
+    name: str | None = None
+    description: str | None = None
+    severity: str | None = None
+    scope: str | None = None
+    department: str | None = None
+    policy_statement: str | None = None
+    field_name: str | None = None
+    operator: str | None = None
+    threshold_value: str | None = None
+    message_template: str | None = None
+    suggestion: str | None = None
+    applies_to_doc_types: list[str] | None = None
+    updated_by: str
+
+
+class ValidationRuleConfigSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    name: str
+    description: str | None = None
+    rule_type: str
+    scope: str
+    department: str | None = None
+    severity: str
+    status: str
+    policy_statement: str | None = None
+    field_name: str | None = None
+    operator: str | None = None
+    threshold_value: str | None = None
+    message_template: str | None = None
+    suggestion: str | None = None
+    enabled: bool
+    applies_to_doc_types: list[str] | None = None
+    created_by: str
+    created_at: datetime
+    updated_at: datetime
+
+
+class ValidationRuleAuditLogSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    rule_id: UUID | None = None
+    rule_name: str
+    action: str
+    changed_by: str
+    changed_at: datetime
+    old_values: dict[str, Any] | None = None
+    new_values: dict[str, Any] | None = None
+
+
+# --- Compliance Summary ---
+
+
+class DepartmentComplianceCard(BaseModel):
+    department: str
+    total_violations: int = 0
+    error_count: int = 0
+    warning_count: int = 0
+    info_count: int = 0
+    document_count: int = 0
+
+
+class TriggeredRuleSummary(BaseModel):
+    rule_id: UUID | None = None
+    rule_code: str
+    rule_name: str | None = None
+    severity: str
+    trigger_count: int
+
+
+class RecentViolation(BaseModel):
+    id: UUID
+    document_id: UUID
+    document_title: str | None = None
+    vendor_name: str | None = None
+    rule_code: str
+    severity: str
+    message: str
+    department: str | None = None
+    created_at: datetime | None = None
+
+
+class ComplianceSummary(BaseModel):
+    department_cards: list[DepartmentComplianceCard] = []
+    top_triggered_rules: list[TriggeredRuleSummary] = []
+    recent_violations: list[RecentViolation] = []
+    total_violations: int = 0
+    total_rules_active: int = 0
 
 
 # --- Activity Entry ---
@@ -292,9 +408,11 @@ class ChatSourceSchema(BaseModel):
     document_id: UUID
     title: str | None = None
     relevance: float
+    snippet: str | None = None
 
 
 class ChatResponse(BaseModel):
     answer: str
     sources: list[ChatSourceSchema]
     conversation_id: str
+    intent: str | None = None

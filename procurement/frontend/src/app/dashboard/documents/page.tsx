@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { FileText, Search, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { fetchDocuments } from "@/lib/api";
+import { useChatPanel } from "@/components/ChatPanelContext";
 import { documentKeys } from "@/lib/queryKeys";
 import type { DocumentStatus, DocumentType, DocumentSource, DepartmentCode } from "@/lib/types";
 
@@ -121,8 +122,11 @@ function isExpiringSoon(dateStr: string | null | undefined): "expired" | "warnin
 
 export default function DocumentsPage() {
   const router = useRouter();
+  const { setActivePage } = useChatPanel();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+
+  useEffect(() => { setActivePage("documents"); }, [setActivePage]);
   const [statusFilter, setStatusFilter] = useState<DocumentStatus | "">("");
   const [typeFilter, setTypeFilter] = useState<DocumentType | "">("");
   const [sourceFilter, setSourceFilter] = useState<DocumentSource | "">("");
