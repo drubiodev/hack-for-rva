@@ -1094,7 +1094,7 @@
         [{ level: "green", text: "All required signatures present and dated" }],
       ];
 
-      const pdfBase = "../pillar-thriving-city-hall/procurement-examples/pdfs/";
+      const pdfBase = "http://localhost:8000/static/pdfs/";
       const samplePdfs = [
         "Contract 20000003712.pdf",
         "Contract 21000000131.pdf",
@@ -1353,8 +1353,27 @@
           await renderPdfPage(1);
           renderAnnotations();
         } catch (err) {
-          console.error("PDF load error:", err);
+          if (err && err.name === "MissingPDFException") {
+            showPdfPlaceholder();
+          } else {
+            console.error("PDF load error:", err);
+            showPdfPlaceholder();
+          }
         }
+      }
+
+      function showPdfPlaceholder() {
+        const wrap = document.getElementById("pdfViewerWrap");
+        wrap.innerHTML = `
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;height:100%;color:var(--text-muted);text-align:center;padding:40px">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div style="font-size:14px;font-weight:600;color:var(--text-dim);margin-bottom:6px">PDF preview not available</div>
+              <div style="font-size:12px;line-height:1.6">Place contract PDFs in <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;font-size:11px">ui/pdfs/</code><br>and restart the backend to enable previews.</div>
+            </div>
+          </div>
+        `;
+        document.getElementById("totalPages").textContent = "—";
       }
 
       // ── Initialise: show static data immediately, then override from API ──
