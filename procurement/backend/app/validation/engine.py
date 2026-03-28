@@ -174,6 +174,20 @@ def _run_rule_checks(fields: dict, ocr_confidence: float, classification_confide
                 f"Verify {fname.replace('_', ' ')} against the original document.",
             ))
 
+    # 14. DATE_RANGE — catch AI hallucinated dates
+    for field_name, field_date in [
+        ("document_date", doc_date),
+        ("effective_date", effective),
+        ("expiration_date", expiration),
+    ]:
+        if field_date and (field_date.year < 2000 or field_date.year > 2035):
+            results.append(_result(
+                "DATE_RANGE", "warning",
+                f"{field_name.replace('_', ' ').title()} ({field_date}) seems unlikely — year {field_date.year} is outside expected range (2000-2035).",
+                field_name,
+                "Verify this date against the original document — may be an AI extraction error.",
+            ))
+
     # 12. MISSING_INSURANCE
     if amount and amount > 50_000 and is_contract_type and insurance is not True:
         results.append(_result(
@@ -200,11 +214,13 @@ async def _ai_consistency_check(fields: dict) -> list[dict]:
     if "PLACEHOLDER" in settings.azure_openai_key:
         return []
 
+    import httpx
     from openai import AsyncOpenAI
 
     client = AsyncOpenAI(
         base_url=settings.azure_openai_endpoint,
         api_key=settings.azure_openai_key,
+        timeout=httpx.Timeout(30.0),
     )
 
     # Remove internal keys for prompt

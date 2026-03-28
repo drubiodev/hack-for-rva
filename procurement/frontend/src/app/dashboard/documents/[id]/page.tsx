@@ -414,6 +414,35 @@ export default function DocumentDetailPage() {
         </div>
       )}
 
+      {/* Error state with reprocess button */}
+      {doc.status === "error" && doc.error_message && (
+        <div className="rounded-md border border-red-300 bg-red-50 dark:border-red-800 dark:bg-red-950 px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+              <p className="text-sm font-medium text-red-800 dark:text-red-200">
+                Processing failed
+              </p>
+            </div>
+            {/* Reprocess button for any role on error documents */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => reprocessMutation.mutate()}
+              disabled={reprocessMutation.isPending}
+            >
+              {reprocessMutation.isPending ? (
+                <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+              ) : (
+                <RotateCw className="h-3 w-3 mr-1" />
+              )}
+              Reprocess
+            </Button>
+          </div>
+          <p className="mt-1 text-sm text-red-700 dark:text-red-300">{doc.error_message}</p>
+        </div>
+      )}
+
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Extracted Fields */}
         <Card>

@@ -43,6 +43,30 @@ from app.schemas.document import (
 
 router = APIRouter()
 
+# ---------------------------------------------------------------------------
+# Magic-bytes validation
+# ---------------------------------------------------------------------------
+
+_MAGIC_BYTES = {
+    b"%PDF": {"application/pdf"},
+    b"\x89PNG": {"image/png"},
+    b"\xff\xd8\xff": {"image/jpeg", "image/jpg"},
+    b"II\x2a\x00": {"image/tiff"},  # Little-endian TIFF
+    b"MM\x00\x2a": {"image/tiff"},  # Big-endian TIFF
+}
+
+
+def _validate_magic_bytes(file_path: str, claimed_mime: str) -> bool:
+    """Check if file content matches its claimed MIME type."""
+    with open(file_path, "rb") as f:
+        header = f.read(8)
+    for magic, valid_mimes in _MAGIC_BYTES.items():
+        if header.startswith(magic):
+            return claimed_mime in valid_mimes or any(
+                claimed_mime.startswith(m.split("/")[0]) for m in valid_mimes
+            )
+    return False
+
 
 # ---------------------------------------------------------------------------
 # Health
@@ -254,23 +278,47 @@ async def upload_document(
             detail=f"File type '{ext}' not allowed. Allowed: {settings.allowed_extensions}",
         )
 
-    # Read file content and validate size
-    content = await file.read()
-    max_bytes = settings.max_file_size_mb * 1024 * 1024
-    if len(content) > max_bytes:
-        raise HTTPException(
-            status_code=400,
-            detail=f"File too large. Maximum size: {settings.max_file_size_mb}MB",
-        )
-
     # Determine mime type
     mime_type = file.content_type or mimetypes.guess_type(file.filename or "")[0] or "application/pdf"
 
-    # Save to temp file
+    # Stream file to temp and validate size
+    CHUNK_SIZE = 65536  # 64KB chunks
+    max_bytes = settings.max_file_size_mb * 1024 * 1024
+
     suffix = ext or ".pdf"
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
-    tmp.write(content)
-    tmp.close()
+    total_bytes = 0
+    try:
+        while True:
+            chunk = await file.read(CHUNK_SIZE)
+            if not chunk:
+                break
+            total_bytes += len(chunk)
+            if total_bytes > max_bytes:
+                tmp.close()
+                os.unlink(tmp.name)
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"File too large. Maximum size: {settings.max_file_size_mb}MB",
+                )
+            tmp.write(chunk)
+        tmp.close()
+    except HTTPException:
+        raise
+    except Exception:
+        tmp.close()
+        os.unlink(tmp.name)
+        raise
+
+    # Validate magic bytes
+    if not _validate_magic_bytes(tmp.name, mime_type):
+        os.unlink(tmp.name)
+        raise HTTPException(
+            status_code=400,
+            detail="File content does not match expected type. Ensure the file is a valid PDF, PNG, JPG, or TIFF.",
+        )
+
+    file_size_bytes = total_bytes
 
     # Create document record
     doc = Document(
@@ -278,7 +326,7 @@ async def upload_document(
         original_filename=file.filename,
         source="upload",
         status="uploading",
-        file_size_bytes=len(content),
+        file_size_bytes=file_size_bytes,
         mime_type=mime_type,
         submitted_by=uploaded_by,
     )

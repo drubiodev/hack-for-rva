@@ -1,5 +1,6 @@
 """OCR service — orchestrates text extraction with fallbacks."""
 
+import asyncio
 import logging
 
 from app.config import settings
@@ -33,7 +34,7 @@ async def extract_text(
 
     # 2. For PDFs, try embedded text layer (free, instant)
     if mime_type == "application/pdf":
-        text = extract_text_layer(file_path)
+        text = await asyncio.to_thread(extract_text_layer, file_path)
         if text:
             return (text, 0.99)  # Embedded text is high confidence
 

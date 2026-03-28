@@ -13,8 +13,34 @@ from app.database import init_db
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup: create tables. Shutdown: nothing special needed."""
+    """Startup: create tables, recover stale docs. Shutdown: nothing special needed."""
     await init_db()
+
+    # Recover stale processing documents (stuck from prior server restart)
+    from datetime import datetime, timedelta, timezone
+    from sqlalchemy import select, update
+    from app.database import AsyncSessionLocal
+    from app.models.document import Document
+
+    async with AsyncSessionLocal() as session:
+        stale_cutoff = datetime.now(timezone.utc) - timedelta(minutes=10)
+        processing_statuses = ("uploading", "ocr_complete", "classified")
+        result = await session.execute(
+            update(Document)
+            .where(Document.status.in_(processing_statuses))
+            .where(Document.updated_at < stale_cutoff)
+            .values(
+                status="error",
+                error_message="Processing interrupted — please click Reprocess to retry.",
+            )
+            .returning(Document.id)
+        )
+        recovered = result.all()
+        if recovered:
+            await session.commit()
+            import logging
+            logging.getLogger(__name__).info("Recovered %d stale documents on startup", len(recovered))
+
     yield
 
 

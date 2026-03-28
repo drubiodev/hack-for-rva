@@ -1,5 +1,6 @@
 """Pipeline orchestrator: OCR -> classify -> extract -> validate -> save to DB."""
 
+import asyncio
 import logging
 import uuid
 from datetime import datetime, timezone
@@ -15,6 +16,26 @@ from app.extraction.extractor import extract_fields
 from app.validation.engine import validate_document
 
 logger = logging.getLogger(__name__)
+
+# Limit concurrent document processing to prevent resource exhaustion
+_pipeline_semaphore = asyncio.Semaphore(3)
+
+
+async def _retry_async(coro_factory, max_attempts=3, base_delay=2.0, operation="operation"):
+    """Retry an async operation with exponential backoff."""
+    last_error = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            return await coro_factory()
+        except Exception as e:
+            last_error = e
+            if attempt < max_attempts:
+                delay = base_delay * (2 ** (attempt - 1))
+                logger.warning("%s failed (attempt %d/%d): %s — retrying in %.1fs", operation, attempt, max_attempts, e, delay)
+                await asyncio.sleep(delay)
+            else:
+                logger.error("%s failed after %d attempts: %s", operation, max_attempts, e)
+    raise last_error
 
 
 async def _log_activity(
@@ -42,7 +63,8 @@ async def process_document(
     original_filename: str | None = None,
 ):
     """Full processing pipeline: upload -> OCR -> classify -> extract -> validate."""
-    async with AsyncSessionLocal() as session:
+    async with _pipeline_semaphore:
+      async with AsyncSessionLocal() as session:
         try:
             result = await session.execute(
                 select(Document).where(Document.id == document_id)
@@ -62,9 +84,17 @@ async def process_document(
 
             # --- 2. OCR ---
             mime_type = doc.mime_type or "application/pdf"
-            ocr_text, ocr_confidence = await extract_text(
-                file_path, blob_url, mime_type, original_filename
-            )
+            try:
+                ocr_text, ocr_confidence = await _retry_async(
+                    lambda: extract_text(file_path, blob_url, mime_type, original_filename),
+                    operation="OCR",
+                )
+            except Exception as e:
+                doc.status = "error"
+                doc.error_message = f"OCR failed after 3 retries: {type(e).__name__}: {str(e)[:200]}"
+                await session.commit()
+                return
+
             doc.ocr_text = ocr_text
             doc.ocr_confidence = ocr_confidence
             doc.status = "ocr_complete"
@@ -79,7 +109,17 @@ async def process_document(
                 return
 
             # --- 3. Classify ---
-            document_type, classification_confidence = await classify_document(ocr_text)
+            try:
+                document_type, classification_confidence = await _retry_async(
+                    lambda: classify_document(ocr_text),
+                    operation="Classification",
+                )
+            except Exception as e:
+                doc.status = "error"
+                doc.error_message = f"Classification failed after 3 retries: {type(e).__name__}: {str(e)[:200]}"
+                await session.commit()
+                return
+
             doc.document_type = document_type
             doc.classification_confidence = classification_confidence
             doc.status = "classified"
@@ -93,7 +133,16 @@ async def process_document(
             await session.commit()
 
             # --- 4. Extract fields ---
-            fields_dict = await extract_fields(ocr_text, document_type)
+            try:
+                fields_dict = await _retry_async(
+                    lambda: extract_fields(ocr_text, document_type),
+                    operation="Field extraction",
+                )
+            except Exception as e:
+                doc.status = "error"
+                doc.error_message = f"Field extraction failed after 3 retries: {type(e).__name__}: {str(e)[:200]}"
+                await session.commit()
+                return
 
             # Parse date strings to date objects
             def _parse_date(val):
