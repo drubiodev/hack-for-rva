@@ -17,3 +17,12 @@
 [ 5906986ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_RESET @ http://localhost:8000/api/v1/analytics/risks?days=90:0
 [ 5913732ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/summary:0
 [ 5913732ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/analytics/risks?days=90:0
+[ 5943672ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[ 5943672ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[ 5943673ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[ 5973677ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[ 5973678ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[ 5973678ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0
+[ 6003688ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/compliance-gaps:0
+[ 6003688ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/vendor-concentration:0
+[ 6003689ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/api/v1/intelligence/sole-source-review?threshold=50000:0

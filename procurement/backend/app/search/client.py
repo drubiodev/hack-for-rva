@@ -465,6 +465,207 @@ def _deduplicate_sources(sources: list[dict], max_count: int = 8) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
+# Document-scoped query — answers ONLY from the specific document
+# ---------------------------------------------------------------------------
+
+
+async def _execute_document_scoped_query(
+    question: str,
+    db: AsyncSession,
+    document_id: str,
+) -> dict:
+    """Build rich context from a single document. No other documents are searched."""
+    from app.models.document import ValidationResult as VR
+
+    result = await db.execute(
+        select(Document, ExtractedFields)
+        .join(ExtractedFields, Document.id == ExtractedFields.document_id)
+        .where(Document.id == document_id)
+    )
+    row = result.one_or_none()
+    if not row:
+        return {
+            "intent": "document_scoped",
+            "classification": {},
+            "context": "Document not found.",
+            "sources": [],
+        }
+
+    doc, ef = row
+    intel = (doc.ocr_metadata or {}).get("intelligence", {})
+    risk = intel.get("risk_assessment", {})
+    financial = intel.get("financial_intelligence", {})
+    clauses = intel.get("key_clauses", {})
+    compliance = intel.get("compliance_intelligence", {})
+    opportunities = intel.get("opportunity_signals", {})
+
+    amount_str = f"${float(ef.total_amount):,.2f}" if ef.total_amount else "N/A"
+
+    # -- Structured fields --
+    parts = [
+        "=== DOCUMENT OVERVIEW ===",
+        f"Title: {ef.title or doc.filename}",
+        f"Document Number: {ef.document_number or 'N/A'}",
+        f"Vendor: {ef.vendor_name or 'N/A'}",
+        f"Department: {ef.primary_department or ef.issuing_department or 'N/A'}",
+        f"Document Type: {doc.document_type or 'N/A'}",
+        f"Contract Type: {ef.contract_type or 'N/A'}",
+        f"Total Amount: {amount_str}",
+        f"Currency: {ef.currency or 'USD'}",
+        f"Document Date: {ef.document_date or 'N/A'}",
+        f"Effective Date: {ef.effective_date or 'N/A'}",
+        f"Expiration Date: {ef.expiration_date or 'N/A'}",
+        f"Status: {doc.status}",
+        f"Procurement Method: {ef.procurement_method or 'N/A'}",
+        f"Payment Terms: {ef.payment_terms or 'N/A'}",
+    ]
+
+    if ef.scope_summary:
+        parts.append(f"Scope Summary: {ef.scope_summary}")
+    if ef.renewal_clause:
+        parts.append(f"Renewal Clause: {ef.renewal_clause}")
+
+    # Booleans
+    bool_fields = [
+        ("insurance_required", "Insurance Required"),
+        ("bond_required", "Bond Required"),
+        ("mbe_wbe_required", "MBE/WBE Required"),
+        ("federal_funding", "Federal Funding"),
+        ("workers_comp_required", "Workers Comp Required"),
+        ("prequalification_required", "Prequalification Required"),
+    ]
+    for key, label in bool_fields:
+        val = getattr(ef, key, None)
+        if val is not None:
+            parts.append(f"{label}: {'Yes' if val else 'No'}")
+
+    # Numeric details
+    num_fields = [
+        ("insurance_general_liability_min", "General Liability Min"),
+        ("insurance_auto_liability_min", "Auto Liability Min"),
+        ("insurance_professional_liability_min", "Professional Liability Min"),
+        ("performance_bond_amount", "Performance Bond Amount"),
+        ("payment_bond_amount", "Payment Bond Amount"),
+    ]
+    for key, label in num_fields:
+        val = getattr(ef, key, None)
+        if val is not None:
+            parts.append(f"{label}: ${float(val):,.2f}")
+
+    if getattr(ef, "liquidated_damages_rate", None):
+        parts.append(f"Liquidated Damages Rate: {ef.liquidated_damages_rate}")
+    if getattr(ef, "mbe_wbe_details", None):
+        parts.append(f"MBE/WBE Details: {ef.mbe_wbe_details}")
+    if getattr(ef, "cooperative_contract_ref", None):
+        parts.append(f"Cooperative Contract Ref: {ef.cooperative_contract_ref}")
+
+    # -- AI Intelligence --
+    if intel.get("executive_summary"):
+        parts.append(f"\n=== EXECUTIVE SUMMARY ===\n{intel['executive_summary']}")
+
+    if risk:
+        risk_lines = ["\n=== RISK ASSESSMENT ==="]
+        if risk.get("overall_risk_level"):
+            risk_lines.append(f"Overall Risk Level: {risk['overall_risk_level'].upper()}")
+        if risk.get("expiration_urgency"):
+            risk_lines.append(f"Expiration Urgency: {risk['expiration_urgency']}")
+        if risk.get("insurance_gaps"):
+            risk_lines.append(f"Insurance Gaps: {risk['insurance_gaps']}")
+        if risk.get("bonding_adequacy"):
+            risk_lines.append(f"Bonding Adequacy: {risk['bonding_adequacy']}")
+        if risk.get("liability_exposure"):
+            risk_lines.append(f"Liability Exposure: {risk['liability_exposure']}")
+        if risk.get("termination_penalties"):
+            risk_lines.append(f"Termination Penalties: {risk['termination_penalties']}")
+        for term in risk.get("unusual_terms", []):
+            risk_lines.append(f"Unusual Term: {term}")
+        for factor in risk.get("risk_factors", []):
+            risk_lines.append(f"Risk Factor: {factor}")
+        if len(risk_lines) > 1:
+            parts.extend(risk_lines)
+
+    if financial:
+        fin_lines = ["\n=== FINANCIAL INTELLIGENCE ==="]
+        if financial.get("cost_breakdown"):
+            fin_lines.append(f"Cost Breakdown: {financial['cost_breakdown']}")
+        if financial.get("rate_analysis"):
+            fin_lines.append(f"Rate Analysis: {financial['rate_analysis']}")
+        if financial.get("escalation_clauses"):
+            fin_lines.append(f"Escalation Clauses: {financial['escalation_clauses']}")
+        if financial.get("budget_impact"):
+            fin_lines.append(f"Budget Impact: {financial['budget_impact']}")
+        for milestone in financial.get("payment_milestones", []):
+            fin_lines.append(f"Payment Milestone: {milestone}")
+        if len(fin_lines) > 1:
+            parts.extend(fin_lines)
+
+    if clauses:
+        clause_lines = ["\n=== KEY CLAUSES ==="]
+        for k in ["termination_conditions", "renewal_terms", "indemnification", "force_majeure", "liquidated_damages"]:
+            if clauses.get(k):
+                clause_lines.append(f"{k.replace('_', ' ').title()}: {clauses[k]}")
+        for metric in clauses.get("performance_metrics", []):
+            clause_lines.append(f"Performance Metric: {metric}")
+        if len(clause_lines) > 1:
+            parts.extend(clause_lines)
+
+    if compliance:
+        comp_lines = ["\n=== COMPLIANCE ==="]
+        for k in ["mbe_wbe_summary", "federal_funding_implications", "prevailing_wage", "ada_requirements", "environmental_requirements"]:
+            if compliance.get(k):
+                comp_lines.append(f"{k.replace('_', ' ').title()}: {compliance[k]}")
+        for note in compliance.get("compliance_risk_notes", []):
+            comp_lines.append(f"Compliance Risk: {note}")
+        if len(comp_lines) > 1:
+            parts.extend(comp_lines)
+
+    if opportunities:
+        opp_lines = ["\n=== OPPORTUNITIES ==="]
+        if opportunities.get("consolidation_potential"):
+            opp_lines.append(f"Consolidation: {opportunities['consolidation_potential']}")
+        if opportunities.get("competitive_rebid"):
+            opp_lines.append(f"Competitive Rebid: {opportunities['competitive_rebid']}")
+        if opportunities.get("cooperative_purchasing"):
+            opp_lines.append(f"Cooperative Purchasing: {opportunities['cooperative_purchasing']}")
+        for action in opportunities.get("upcoming_actions", []):
+            opp_lines.append(f"Action: {action}")
+        if len(opp_lines) > 1:
+            parts.extend(opp_lines)
+
+    # -- Validation results --
+    val_result = await db.execute(
+        select(VR).where(VR.document_id == document_id)
+    )
+    validations = list(val_result.scalars().all())
+    if validations:
+        parts.append("\n=== VALIDATION FINDINGS ===")
+        for v in validations:
+            resolved = " (RESOLVED)" if v.resolved else ""
+            parts.append(f"[{v.severity.upper()}] {v.rule_code}: {v.message}{resolved}")
+            if v.suggestion:
+                parts.append(f"  Suggestion: {v.suggestion}")
+
+    # -- OCR text (truncated for deep questions about contract language) --
+    ocr_text = (doc.ocr_text or "")[:12000]
+    if ocr_text:
+        parts.append(f"\n=== DOCUMENT TEXT (first 12,000 chars) ===\n{ocr_text}")
+
+    context = "\n".join(parts)
+
+    return {
+        "intent": "document_scoped",
+        "classification": {"intent": "document_scoped", "document_id": document_id},
+        "context": context,
+        "sources": [{
+            "id": str(doc.id),
+            "title": ef.title or doc.filename,
+            "relevance": 1.0,
+            "caption": f"{ef.vendor_name or ''} — {amount_str}",
+        }],
+    }
+
+
+# ---------------------------------------------------------------------------
 # Orchestrator — routes intent to the right execution path
 # ---------------------------------------------------------------------------
 
@@ -485,68 +686,9 @@ async def execute_query(
     context_parts = []
     sources = []
 
-    # --- Inject focused document context when user is on a specific document page ---
+    # --- Document-scoped mode: answer ONLY from this document's data ---
     if document_id:
-        try:
-            result = await db.execute(
-                select(Document, ExtractedFields)
-                .join(ExtractedFields, Document.id == ExtractedFields.document_id)
-                .where(Document.id == document_id)
-            )
-            row = result.one_or_none()
-            if row:
-                doc, ef = row
-                intel = (doc.ocr_metadata or {}).get("intelligence", {})
-                risk = intel.get("risk_assessment", {})
-
-                amount_str = f"${float(ef.total_amount):,.2f}" if ef.total_amount else "N/A"
-                doc_context = (
-                    f"=== CURRENT DOCUMENT (user is viewing this) ===\n"
-                    f"Title: {ef.title or doc.filename}\n"
-                    f"Vendor: {ef.vendor_name or 'N/A'}\n"
-                    f"Department: {ef.primary_department or ef.issuing_department or 'N/A'}\n"
-                    f"Type: {doc.document_type or 'N/A'}\n"
-                    f"Amount: {amount_str}\n"
-                    f"Effective: {ef.effective_date or 'N/A'} — Expires: {ef.expiration_date or 'N/A'}\n"
-                    f"Status: {doc.status}\n"
-                    f"Procurement Method: {ef.procurement_method or 'N/A'}\n"
-                )
-                if intel.get("executive_summary"):
-                    doc_context += f"Executive Summary: {intel['executive_summary']}\n"
-                if risk.get("overall_risk_level"):
-                    doc_context += f"Risk Level: {risk['overall_risk_level']}\n"
-                if risk.get("risk_factors"):
-                    doc_context += f"Risk Factors: {'; '.join(risk['risk_factors'])}\n"
-                if intel.get("key_clauses"):
-                    clauses = intel["key_clauses"]
-                    for k in ["termination_conditions", "renewal_terms", "indemnification", "force_majeure", "liquidated_damages"]:
-                        if clauses.get(k):
-                            doc_context += f"{k.replace('_', ' ').title()}: {clauses[k]}\n"
-                if intel.get("financial_intelligence"):
-                    fin = intel["financial_intelligence"]
-                    for k in ["cost_breakdown", "escalation_clauses", "budget_impact"]:
-                        if fin.get(k):
-                            doc_context += f"{k.replace('_', ' ').title()}: {fin[k]}\n"
-                if intel.get("compliance_intelligence"):
-                    comp = intel["compliance_intelligence"]
-                    for k in ["mbe_wbe_summary", "federal_funding_implications", "prevailing_wage"]:
-                        if comp.get(k):
-                            doc_context += f"{k.replace('_', ' ').title()}: {comp[k]}\n"
-                if ef.scope_summary:
-                    doc_context += f"Scope: {ef.scope_summary}\n"
-                if ef.renewal_clause:
-                    doc_context += f"Renewal Clause: {ef.renewal_clause}\n"
-                doc_context += "=== END CURRENT DOCUMENT ===\n"
-
-                context_parts.append(doc_context)
-                sources.append({
-                    "id": str(doc.id),
-                    "title": ef.title or doc.filename,
-                    "relevance": 1.0,
-                    "caption": f"{ef.vendor_name or ''} — {amount_str}",
-                })
-        except Exception as e:
-            logger.warning("Failed to load document context for %s: %s", document_id, e)
+        return await _execute_document_scoped_query(question, db, document_id)
 
     if intent == "aggregation":
         agg_results = await sql_aggregation(
