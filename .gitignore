@@ -42,3 +42,5 @@ coverage/
 text311v1/
 # reference repo
 pillar-thriving-city-hall/
+/webapp-logs
+/webapp-logs.zip

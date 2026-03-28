@@ -1908,8 +1908,8 @@
         }
       })();
 
-      // ── API ──
-      const API = "http://localhost:8000/api/v1";
+      // ── API — relative so it works on any host (local or Azure) ──
+      const API = "/api/v1";
 
       function statusBadge(status) {
         const map = {

@@ -1094,7 +1094,7 @@
         [{ level: "green", text: "All required signatures present and dated" }],
       ];
 
-      const pdfBase = "http://localhost:8000/static/pdfs/";
+      const pdfBase = "/static/pdfs/";
       const samplePdfs = [
         "Contract 20000003712.pdf",
         "Contract 21000000131.pdf",
@@ -1381,9 +1381,7 @@
       loadPdf(pdfBase + samplePdfs[idx % samplePdfs.length]);
 
       if (docId) {
-        fetch(
-          `http://localhost:8000/api/v1/documents/${encodeURIComponent(docId)}`,
-        )
+        fetch(`/api/v1/documents/${encodeURIComponent(docId)}`)
           .then((r) => {
             if (!r.ok) throw new Error(`HTTP ${r.status}`);
             return r.json();
