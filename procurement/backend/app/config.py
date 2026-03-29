@@ -53,6 +53,23 @@ class Settings(BaseSettings):
     # Azure Application Insights
     applicationinsights_connection_string: str = ""
 
+    # Email notifications
+    email_enabled: bool = False
+    email_smtp_host: str = "smtp.office365.com"
+    email_smtp_port: int = 587
+    email_smtp_username: str = ""
+    email_smtp_password: str = ""
+    email_from_address: str = "procurement-noreply@richmondgov.com"
+    email_from_name: str = "Richmond Procurement System"
+    email_digest_recipients: str = ""
+    email_alert_recipients: str = ""
+    email_supervisor_recipients: str = ""
+    email_user_map: str = "{}"
+    email_digest_hour: int = 7
+    email_digest_timezone: str = "America/New_York"
+    email_weekly_day: int = 0
+    app_base_url: str = "http://localhost:3000"
+
     # Environment
     environment: str = "development"
 
@@ -67,6 +84,26 @@ class Settings(BaseSettings):
     def allowed_extension_list(self) -> list[str]:
         """Parse comma-separated extensions into a list."""
         return [e.strip() for e in self.allowed_extensions.split(",") if e.strip()]
+
+    @property
+    def email_digest_recipient_list(self) -> list[str]:
+        return [e.strip() for e in self.email_digest_recipients.split(",") if e.strip()]
+
+    @property
+    def email_alert_recipient_list(self) -> list[str]:
+        return [e.strip() for e in self.email_alert_recipients.split(",") if e.strip()]
+
+    @property
+    def email_supervisor_recipient_list(self) -> list[str]:
+        return [e.strip() for e in self.email_supervisor_recipients.split(",") if e.strip()]
+
+    @property
+    def email_user_mapping(self) -> dict[str, str]:
+        import json
+        try:
+            return json.loads(self.email_user_map)
+        except (json.JSONDecodeError, TypeError):
+            return {}
 
 
 @lru_cache
