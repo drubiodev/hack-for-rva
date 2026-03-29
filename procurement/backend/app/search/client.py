@@ -646,7 +646,10 @@ async def _execute_document_scoped_query(
                 parts.append(f"  Suggestion: {v.suggestion}")
 
     # -- OCR text (truncated for deep questions about contract language) --
-    ocr_text = (doc.ocr_text or "")[:12000]
+    # Strip non-printable / control characters that come from garbled OCR scans
+    import re as _re
+    raw_ocr = doc.ocr_text or ""
+    ocr_text = _re.sub(r"[^\x20-\x7E\n\r\t]", "", raw_ocr)[:12000].strip()
     if ocr_text:
         parts.append(f"\n=== DOCUMENT TEXT (first 12,000 chars) ===\n{ocr_text}")
 

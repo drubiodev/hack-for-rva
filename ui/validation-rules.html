@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Validation Rules — ContractIQ</title>
+    <title>Validation Rules — Mira</title>
     <style>
       *,
       *::before,
@@ -895,7 +895,7 @@
         <div class="logo-mark">
           <div class="logo-icon"><i data-lucide="file-text"></i></div>
           <div>
-            <div class="logo-text">ContractIQ</div>
+            <div class="logo-text">Mira</div>
             <div class="logo-sub">City of Richmond</div>
           </div>
         </div>
@@ -1193,9 +1193,7 @@
       // ── Auth guard ──
       let currentUser = null;
       try {
-        currentUser = JSON.parse(
-          localStorage.getItem("contractiq_user") || "null",
-        );
+        currentUser = JSON.parse(localStorage.getItem("mira_user") || "null");
       } catch {}
       if (!currentUser) {
         window.location.replace("login.html");
@@ -1349,7 +1347,7 @@
       ];
 
       // ── Storage key ──
-      const STORE_KEY = "contractiq_validation_rules_v2";
+      const STORE_KEY = "mira_validation_rules_v2";
 
       function loadStore() {
         try {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign In — ContractIQ · City of Richmond</title>
+    <title>Sign In — Mira · City of Richmond</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -336,7 +336,7 @@
       <div class="logo-row">
         <div class="logo-icon"><i data-lucide="file-text"></i></div>
         <div>
-          <div class="logo-text">ContractIQ</div>
+          <div class="logo-text">Mira</div>
           <div class="logo-sub">City of Richmond</div>
         </div>
       </div>
@@ -465,7 +465,7 @@
       // Pre-fill from localStorage if returning
       const stored = (() => {
         try {
-          return JSON.parse(localStorage.getItem("contractiq_user") || "null");
+          return JSON.parse(localStorage.getItem("mira_user") || "null");
         } catch {
           return null;
         }
@@ -537,7 +537,7 @@
           .toUpperCase();
 
         localStorage.setItem(
-          "contractiq_user",
+          "mira_user",
           JSON.stringify({
             name,
             department: dept,

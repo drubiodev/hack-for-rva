@@ -166,22 +166,23 @@ async def azure_di_ocr(blob_url: str, file_path: str | None = None) -> tuple[str
             )
             return await _chunked_ocr(file_path, client)
 
-        # Small files: prefer SAS URL (lets DI download directly, avoids upload overhead)
-        # Fall back to local bytes if blob_url is a placeholder
-        is_placeholder = "placeholder" in blob_url.lower()
-        if not is_placeholder:
-            logger.info("Using blob SAS URL for DI OCR: %s", blob_url[:80])
-            poller = await client.begin_analyze_document(
-                "prebuilt-read",
-                body=AnalyzeDocumentRequest(url_source=blob_url),
-            )
-        elif file_path and os.path.exists(file_path):
+        # Prefer local bytes when available — avoids Azure DI URL-download issues with
+        # filenames that contain spaces or special characters in the blob SAS URL.
+        if file_path and os.path.exists(file_path):
+            logger.info("Using local bytes for DI OCR: %s", file_path)
             with open(file_path, "rb") as f:
                 file_bytes = f.read()
             poller = await client.begin_analyze_document(
                 "prebuilt-read",
                 body=file_bytes,
                 content_type="application/octet-stream",
+            )
+        elif blob_url and "local-passthrough" not in blob_url.lower() and "placeholder" not in blob_url.lower():
+            # Temp file already deleted (e.g. reprocessing) — fall back to SAS URL
+            logger.info("Temp file not available; using blob SAS URL for DI OCR: %s", blob_url[:80])
+            poller = await client.begin_analyze_document(
+                "prebuilt-read",
+                body=AnalyzeDocumentRequest(url_source=blob_url),
             )
         else:
             logger.error("No local file and placeholder blob URL — cannot OCR")

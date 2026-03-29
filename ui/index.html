@@ -1822,7 +1822,7 @@
         <div class="logo-mark">
           <div class="logo-icon"><i data-lucide="file-text"></i></div>
           <div>
-            <div class="logo-text">ContractIQ</div>
+            <div class="logo-text">Mira</div>
             <div class="logo-sub">City of Richmond</div>
           </div>
         </div>
@@ -2243,7 +2243,7 @@
           data-lucide="message-circle"
           style="color: var(--accent); flex-shrink: 0"
         ></i>
-        <div class="chat-panel-title">ContractIQ Chat</div>
+        <div class="chat-panel-title">Mira Chat</div>
         <div class="chat-panel-context">
           <span class="badge badge-blue" style="font-size: 10px"
             >All Documents</span
@@ -2256,7 +2256,7 @@
 
       <div class="chat-panel-body" id="chatPanelMessages">
         <div class="msg ai">
-          <div class="msg-label">ContractIQ · AI</div>
+          <div class="msg-label">Mira · AI</div>
           <div class="msg-bubble">
             I've analyzed the
             <strong>IT Services Agreement with Carahsoft</strong> (34 pages,
@@ -2271,7 +2271,7 @@
           <div class="msg-label">M. Patterson</div>
         </div>
         <div class="msg ai">
-          <div class="msg-label">ContractIQ · AI</div>
+          <div class="msg-label">Mira · AI</div>
           <div class="msg-bubble">
             Section 8.3 requires the vendor to maintain:<br /><br />
             • <strong>Commercial General Liability</strong> — $1,000,000 per
@@ -2294,7 +2294,7 @@
           <div class="msg-label">M. Patterson</div>
         </div>
         <div class="msg ai">
-          <div class="msg-label">ContractIQ · AI</div>
+          <div class="msg-label">Mira · AI</div>
           <div class="msg-bubble">
             Section 12.1 allows either party to terminate for convenience with
             <strong>60 days written notice</strong>. In case of breach,
@@ -2326,7 +2326,7 @@
       (function () {
         try {
           currentUser = JSON.parse(
-            localStorage.getItem("contractiq_user") || "null",
+            localStorage.getItem("mira_user") || "null",
           );
         } catch {}
         if (!currentUser) {
@@ -2831,7 +2831,7 @@
         // Thinking indicator
         const thinking = document.createElement("div");
         thinking.className = "msg ai msg-thinking";
-        thinking.innerHTML = `<div class="msg-label">ContractIQ &middot; AI</div><div class="msg-bubble"><div class="dot-pulse"><span></span><span></span><span></span></div></div>`;
+        thinking.innerHTML = `<div class="msg-label">Mira &middot; AI</div><div class="msg-bubble"><div class="dot-pulse"><span></span><span></span><span></span></div></div>`;
         chatPanelMessages.appendChild(thinking);
         chatPanelMessages.scrollTop = chatPanelMessages.scrollHeight;
 
@@ -2865,14 +2865,14 @@
           }
 
           var linkedAnswer = _injectRefLinks(data.answer, data.references);
-          aiMsg.innerHTML = `<div class="msg-label">ContractIQ &middot; AI</div><div class="msg-bubble"><div class="md-body">${_renderMd(linkedAnswer)}</div>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
+          aiMsg.innerHTML = `<div class="msg-label">Mira &middot; AI</div><div class="msg-bubble"><div class="md-body">${_renderMd(linkedAnswer)}</div>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
           chatPanelMessages.appendChild(aiMsg);
           chatPanelMessages.scrollTop = chatPanelMessages.scrollHeight;
         } catch (err) {
           thinking.remove();
           const errMsg = document.createElement("div");
           errMsg.className = "msg ai";
-          errMsg.innerHTML = `<div class="msg-label">ContractIQ &middot; AI</div><div class="msg-bubble" style="color:var(--red)">Could not reach the AI service. Please try again.</div>`;
+          errMsg.innerHTML = `<div class="msg-label">Mira &middot; AI</div><div class="msg-bubble" style="color:var(--red)">Could not reach the AI service. Please try again.</div>`;
           chatPanelMessages.appendChild(errMsg);
           chatPanelMessages.scrollTop = chatPanelMessages.scrollHeight;
         }

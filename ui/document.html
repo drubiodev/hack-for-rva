@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document Review — ContractIQ</title>
+    <title>Document Review — Mira</title>
     <style>
       *,
       *::before,
@@ -441,12 +441,34 @@
         color: var(--text);
       }
 
+      /* ── Resize handle ── */
+      .resize-handle {
+        width: 5px;
+        flex-shrink: 0;
+        background: var(--border);
+        cursor: col-resize;
+        position: relative;
+        z-index: 10;
+        transition: background 0.15s;
+        user-select: none;
+      }
+      .resize-handle:hover,
+      .resize-handle.dragging {
+        background: var(--accent);
+      }
+      .resize-handle::after {
+        content: "";
+        position: absolute;
+        inset: 0 -4px;
+      }
+
       /* ── Right panel ── */
       .right-panel {
         width: 360px;
+        min-width: 260px;
+        max-width: 640px;
         flex-shrink: 0;
         background: var(--surface);
-        border-left: 1px solid var(--border);
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -1391,7 +1413,7 @@
       </div>
       <div class="doc-chat-messages" id="docChatMessages">
         <div class="dc-msg ai">
-          <div class="dc-label">ContractIQ &middot; AI</div>
+          <div class="dc-label">Mira &middot; AI</div>
           <div class="dc-bubble" id="docChatWelcome">
             Loading document context…
           </div>
@@ -1500,8 +1522,11 @@
         </div>
       </div>
 
+      <!-- Resize handle -->
+      <div class="resize-handle" id="resizeHandle"></div>
+
       <!-- Right panel -->
-      <div class="right-panel">
+      <div class="right-panel" id="rightPanel">
         <div class="right-panel-scroll">
           <!-- AI Disclaimer -->
           <div class="ai-disclaimer-banner" id="aiDisclaimer">
@@ -1759,9 +1784,7 @@
       // ── Auth guard ──
       let currentUser = null;
       try {
-        currentUser = JSON.parse(
-          localStorage.getItem("contractiq_user") || "null",
-        );
+        currentUser = JSON.parse(localStorage.getItem("mira_user") || "null");
       } catch {}
       if (!currentUser) {
         window.location.replace("login.html");
@@ -2050,7 +2073,7 @@
 
       // ── Populate header + fields from static demo data ──
       function populateStatic() {
-        document.title = doc.name + " — ContractIQ";
+        document.title = doc.name + " — Mira";
         document.getElementById("topbarTitle").textContent = doc.name;
         applyStatusBadge(doc.status);
         document.getElementById("fVendor").textContent = doc.vendor || "—";
@@ -2100,7 +2123,7 @@
           data.filename ||
           "Document";
         doc = { name };
-        document.title = name + " — ContractIQ";
+        document.title = name + " — Mira";
         document.getElementById("topbarTitle").textContent = name;
         applyStatusBadge(data.status);
         if (typeof window._reinitDocChat === "function")
@@ -2269,7 +2292,7 @@
         "Social Services",
         "Treasurer",
       ];
-      const deptKey = `contractiq_dept_${docId || idx}`;
+      const deptKey = `mira_dept_${docId || idx}`;
       const savedDept = localStorage.getItem(deptKey) || doc.dept;
       const fDept = document.getElementById("fDept");
       DEPARTMENTS.forEach((d) => {
@@ -2372,8 +2395,8 @@
       }
 
       // ── Storage ──
-      const ANN_KEY = `contractiq_annotations_${docId || idx}`;
-      const NOTE_KEY = `contractiq_notes_${docId || idx}`;
+      const ANN_KEY = `mira_annotations_${docId || idx}`;
+      const NOTE_KEY = `mira_notes_${docId || idx}`;
 
       let annotations = [];
       let notes = [];
@@ -2831,8 +2854,8 @@
           const userName = (() => {
             try {
               return (
-                JSON.parse(localStorage.getItem("contractiq_user") || "null")
-                  ?.name || "You"
+                JSON.parse(localStorage.getItem("mira_user") || "null")?.name ||
+                "You"
               );
             } catch {
               return "You";
@@ -2851,7 +2874,7 @@
           // Thinking indicator
           const thinkDiv = document.createElement("div");
           thinkDiv.className = "dc-msg ai";
-          thinkDiv.innerHTML = `<div class="dc-label">ContractIQ &middot; AI</div><div class="dc-bubble"><span style="display:inline-flex;gap:4px"><span style="animation:uploader-pulse 1s ease-in-out infinite">&#9679;</span><span style="animation:uploader-pulse 1s 0.2s ease-in-out infinite">&#9679;</span><span style="animation:uploader-pulse 1s 0.4s ease-in-out infinite">&#9679;</span></span></div>`;
+          thinkDiv.innerHTML = `<div class="dc-label">Mira &middot; AI</div><div class="dc-bubble"><span style="display:inline-flex;gap:4px"><span style="animation:uploader-pulse 1s ease-in-out infinite">&#9679;</span><span style="animation:uploader-pulse 1s 0.2s ease-in-out infinite">&#9679;</span><span style="animation:uploader-pulse 1s 0.4s ease-in-out infinite">&#9679;</span></span></div>`;
           msgs.appendChild(thinkDiv);
           scrollBottom();
 
@@ -2889,14 +2912,14 @@
             var linkedAnswer = _injectRefLinks(data.answer, data.references);
             const aDiv = document.createElement("div");
             aDiv.className = "dc-msg ai";
-            aDiv.innerHTML = `<div class="dc-label">ContractIQ &middot; AI</div><div class="dc-bubble"><div class="md-body">${_md(linkedAnswer)}</div>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
+            aDiv.innerHTML = `<div class="dc-label">Mira &middot; AI</div><div class="dc-bubble"><div class="md-body">${_md(linkedAnswer)}</div>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
             msgs.appendChild(aDiv);
             scrollBottom();
           } catch {
             thinkDiv.remove();
             const eDiv = document.createElement("div");
             eDiv.className = "dc-msg ai";
-            eDiv.innerHTML = `<div class="dc-label">ContractIQ &middot; AI</div><div class="dc-bubble" style="color:var(--red)">Could not reach the AI service. Please try again.</div>`;
+            eDiv.innerHTML = `<div class="dc-label">Mira &middot; AI</div><div class="dc-bubble" style="color:var(--red)">Could not reach the AI service. Please try again.</div>`;
             msgs.appendChild(eDiv);
             scrollBottom();
           }
@@ -2921,6 +2944,48 @@
         setTimeout(initChat, 300);
         // Re-init when API data sets the real title (exposed globally)
         window._reinitDocChat = initChat;
+      })();
+
+      // ── Resizable split pane ──
+      (function () {
+        const handle = document.getElementById("resizeHandle");
+        const panel = document.getElementById("rightPanel");
+        const split = document.querySelector(".body-split");
+        if (!handle || !panel || !split) return;
+
+        let dragging = false;
+        let startX = 0;
+        let startW = 0;
+
+        handle.addEventListener("mousedown", (e) => {
+          dragging = true;
+          startX = e.clientX;
+          startW = panel.offsetWidth;
+          handle.classList.add("dragging");
+          document.body.style.cursor = "col-resize";
+          document.body.style.userSelect = "none";
+          e.preventDefault();
+        });
+
+        document.addEventListener("mousemove", (e) => {
+          if (!dragging) return;
+          const delta = startX - e.clientX; // dragging left = panel grows
+          const minW = parseInt(panel.style.minWidth || "260", 10);
+          const maxW = Math.min(
+            parseInt(panel.style.maxWidth || "640", 10),
+            split.offsetWidth - 300,
+          );
+          const newW = Math.max(260, Math.min(640, startW + delta));
+          panel.style.width = newW + "px";
+        });
+
+        document.addEventListener("mouseup", () => {
+          if (!dragging) return;
+          dragging = false;
+          handle.classList.remove("dragging");
+          document.body.style.cursor = "";
+          document.body.style.userSelect = "";
+        });
       })();
 
       // Initialize Lucide icons
