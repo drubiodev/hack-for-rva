@@ -749,6 +749,275 @@
         line-height: 1.5;
       }
 
+      /* ── Confidence legend ── */
+      .conf-legend {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+      .conf-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+      .conf-legend-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      /* ── Inline confidence badge (matches frontend ConfidenceBadge) ── */
+      .conf-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 4px;
+        line-height: 1.4;
+      }
+      .conf-badge.high {
+        background: rgba(52, 211, 153, 0.15);
+        color: #22c55e;
+      }
+      .conf-badge.low {
+        background: rgba(248, 113, 113, 0.15);
+        color: var(--red);
+      }
+
+      /* ── TermCards (matches frontend TermCard component) ── */
+      .term-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+      }
+      .term-card {
+        border-radius: 8px;
+        padding: 10px 12px;
+        border: 1px solid transparent;
+        transition: background 0.15s;
+      }
+      .term-card:hover {
+        background: var(--surface2);
+      }
+      .term-card.critical-low {
+        border-color: rgba(248, 113, 113, 0.3);
+        background: rgba(248, 113, 113, 0.06);
+      }
+      .term-card-label-row {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 3px;
+        flex-wrap: wrap;
+      }
+      .term-card-label {
+        font-size: 10px;
+        font-family: monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+      .term-card-value {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text);
+        line-height: 1.3;
+      }
+      .term-card-critical-note {
+        font-size: 10px;
+        color: var(--red);
+        margin-top: 3px;
+      }
+
+      /* ── Section heading row (for System Checks style header) ── */
+      .section-heading-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+      }
+      .section-heading-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .section-count-badges {
+        display: flex;
+        gap: 4px;
+      }
+      .count-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 5px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .count-badge.error {
+        background: rgba(248, 113, 113, 0.15);
+        color: var(--red);
+      }
+      .count-badge.warning {
+        background: rgba(251, 191, 36, 0.15);
+        color: var(--yellow);
+      }
+
+      /* ── Validation cards (matches frontend validation card style) ── */
+      .val-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 12px;
+      }
+      .val-card + .val-card {
+        margin-top: 8px;
+      }
+      .val-card.resolved {
+        opacity: 0.5;
+      }
+      .val-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+        gap: 6px;
+      }
+      .val-card-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .val-sev-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .val-sev-badge.error {
+        background: rgba(248, 113, 113, 0.15);
+        color: var(--red);
+      }
+      .val-sev-badge.warning {
+        background: rgba(251, 191, 36, 0.15);
+        color: var(--yellow);
+      }
+      .val-sev-badge.info {
+        background: rgba(79, 142, 247, 0.12);
+        color: var(--accent);
+      }
+      .val-rule-code {
+        font-family: monospace;
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+      .val-card-message {
+        color: var(--text-dim);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .val-card-suggestion {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+      .val-resolve-btn {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--accent);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        flex-shrink: 0;
+        font-family: var(--font);
+        transition: color 0.15s;
+      }
+      .val-resolve-btn:hover {
+        color: var(--text);
+      }
+
+      /* ── AI disclaimer banner ── */
+      .ai-disclaimer-banner {
+        background: rgba(251, 191, 36, 0.08);
+        border: 1px solid rgba(251, 191, 36, 0.25);
+        border-radius: 8px;
+        padding: 9px 12px;
+        font-size: 11px;
+        line-height: 1.5;
+        color: var(--text-dim);
+      }
+      .ai-disclaimer-banner strong {
+        color: var(--yellow);
+      }
+
+      /* ── AI Summary box ── */
+      .ai-summary-box {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 14px;
+      }
+      .ai-summary-header {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 8px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+      }
+      .ai-summary-text {
+        font-size: 12px;
+        color: var(--text-dim);
+        line-height: 1.6;
+        white-space: pre-line;
+      }
+      .ai-summary-critical {
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--red);
+      }
+
+      /* ── Expiration date source note card ── */
+      .source-note-card {
+        margin-top: 8px;
+        border-radius: 8px;
+        border: 1px solid rgba(79, 142, 247, 0.25);
+        background: rgba(79, 142, 247, 0.06);
+        padding: 10px 12px;
+        grid-column: 1 / -1;
+      }
+      .source-note-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 4px;
+      }
+      .source-note-text {
+        font-size: 11px;
+        color: var(--text-dim);
+        line-height: 1.5;
+      }
+
       /* ── Micro-interactions ── */
 
       /* Workflow active dot — pulsing ring draws the eye */
@@ -821,12 +1090,14 @@
         border: 1px solid var(--border);
         border-bottom: none;
         border-radius: 12px 12px 0 0;
-        box-shadow: 0 -8px 40px rgba(0,0,0,0.5), 0 -2px 12px rgba(0,0,0,0.3);
+        box-shadow:
+          0 -8px 40px rgba(0, 0, 0, 0.5),
+          0 -2px 12px rgba(0, 0, 0, 0.3);
         display: flex;
         flex-direction: column;
         z-index: 200;
         transform: translateY(100%);
-        transition: transform 0.38s cubic-bezier(0.34,1.2,0.64,1);
+        transition: transform 0.38s cubic-bezier(0.34, 1.2, 0.64, 1);
         pointer-events: none;
       }
       .doc-chat-panel.open {
@@ -853,31 +1124,113 @@
         gap: 10px;
         scroll-behavior: smooth;
       }
-      .doc-chat-messages::-webkit-scrollbar { width: 4px; }
-      .doc-chat-messages::-webkit-scrollbar-track { background: transparent; }
-      .doc-chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+      .doc-chat-messages::-webkit-scrollbar {
+        width: 4px;
+      }
+      .doc-chat-messages::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .doc-chat-messages::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 4px;
+      }
       /* Markdown body inside doc chat bubbles */
-      .md-body { line-height: 1.6; }
-      .md-body p { margin: 0 0 8px; }
-      .md-body p:last-child { margin-bottom: 0; }
-      .md-body h1,.md-body h2,.md-body h3 { font-weight: 700; margin: 10px 0 4px; font-size: 13px; color: var(--text); }
-      .md-body h1 { font-size: 14px; }
-      .md-body ul,.md-body ol { padding-left: 18px; margin: 4px 0 8px; }
-      .md-body li { margin-bottom: 3px; }
-      .md-body code { background: rgba(255,255,255,0.1); border-radius: 4px; padding: 1px 5px; font-family: monospace; font-size: 12px; }
-      .md-body pre { background: rgba(0,0,0,0.25); border-radius: 6px; padding: 10px 12px; overflow-x: auto; margin: 8px 0; }
-      .md-body pre code { background: none; padding: 0; }
-      .md-body strong { font-weight: 700; color: var(--text); }
-      .md-body em { font-style: italic; color: var(--text-dim); }
-      .md-body blockquote { border-left: 3px solid var(--accent); padding-left: 10px; margin: 6px 0; color: var(--text-dim); }
-      .md-body table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 12px; }
-      .md-body th,.md-body td { border: 1px solid var(--border); padding: 5px 8px; text-align: left; }
-      .md-body th { background: var(--surface2); font-weight: 600; }
-      .md-body a { color: var(--accent); text-decoration: underline; }
-      .md-body hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
-      .dc-msg { display: flex; flex-direction: column; gap: 3px; }
-      .dc-msg.user { align-items: flex-end; }
-      .dc-msg.ai { align-items: flex-start; }
+      .md-body {
+        line-height: 1.6;
+      }
+      .md-body p {
+        margin: 0 0 8px;
+      }
+      .md-body p:last-child {
+        margin-bottom: 0;
+      }
+      .md-body h1,
+      .md-body h2,
+      .md-body h3 {
+        font-weight: 700;
+        margin: 10px 0 4px;
+        font-size: 13px;
+        color: var(--text);
+      }
+      .md-body h1 {
+        font-size: 14px;
+      }
+      .md-body ul,
+      .md-body ol {
+        padding-left: 18px;
+        margin: 4px 0 8px;
+      }
+      .md-body li {
+        margin-bottom: 3px;
+      }
+      .md-body code {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        padding: 1px 5px;
+        font-family: monospace;
+        font-size: 12px;
+      }
+      .md-body pre {
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        overflow-x: auto;
+        margin: 8px 0;
+      }
+      .md-body pre code {
+        background: none;
+        padding: 0;
+      }
+      .md-body strong {
+        font-weight: 700;
+        color: var(--text);
+      }
+      .md-body em {
+        font-style: italic;
+        color: var(--text-dim);
+      }
+      .md-body blockquote {
+        border-left: 3px solid var(--accent);
+        padding-left: 10px;
+        margin: 6px 0;
+        color: var(--text-dim);
+      }
+      .md-body table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 8px 0;
+        font-size: 12px;
+      }
+      .md-body th,
+      .md-body td {
+        border: 1px solid var(--border);
+        padding: 5px 8px;
+        text-align: left;
+      }
+      .md-body th {
+        background: var(--surface2);
+        font-weight: 600;
+      }
+      .md-body a {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+      .md-body hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 10px 0;
+      }
+      .dc-msg {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .dc-msg.user {
+        align-items: flex-end;
+      }
+      .dc-msg.ai {
+        align-items: flex-start;
+      }
       .dc-bubble {
         max-width: 88%;
         padding: 9px 12px;
@@ -895,19 +1248,30 @@
         border: 1px solid var(--border);
         border-bottom-left-radius: 3px;
       }
-      .dc-label { font-size: 10px; color: var(--text-muted); padding: 0 4px; }
-      .dc-sources { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+      .dc-label {
+        font-size: 10px;
+        color: var(--text-muted);
+        padding: 0 4px;
+      }
+      .dc-sources {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 8px;
+      }
       .dc-source-chip {
         font-size: 11px;
         color: var(--accent);
         text-decoration: none;
-        background: rgba(79,142,247,0.08);
+        background: rgba(79, 142, 247, 0.08);
         padding: 2px 8px;
         border-radius: 4px;
-        border: 1px solid rgba(79,142,247,0.25);
+        border: 1px solid rgba(79, 142, 247, 0.25);
         white-space: nowrap;
       }
-      .dc-source-chip:hover { background: rgba(79,142,247,0.18); }
+      .dc-source-chip:hover {
+        background: rgba(79, 142, 247, 0.18);
+      }
       .doc-chat-footer {
         display: flex;
         align-items: flex-end;
@@ -931,8 +1295,12 @@
         line-height: 1.4;
         transition: border-color 0.15s;
       }
-      .doc-chat-input:focus { border-color: var(--accent); }
-      .doc-chat-input::placeholder { color: var(--text-muted); }
+      .doc-chat-input:focus {
+        border-color: var(--accent);
+      }
+      .doc-chat-input::placeholder {
+        color: var(--text-muted);
+      }
       .doc-chat-send {
         width: 34px;
         height: 34px;
@@ -945,16 +1313,32 @@
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        transition: background 0.15s, transform 0.08s;
+        transition:
+          background 0.15s,
+          transform 0.08s;
       }
-      .doc-chat-send:hover { background: #3b7de8; }
-      .doc-chat-send:active { transform: scale(0.92); }
-      .doc-chat-send svg[data-lucide] { width: 15px; height: 15px; }
+      .doc-chat-send:hover {
+        background: #3b7de8;
+      }
+      .doc-chat-send:active {
+        transform: scale(0.92);
+      }
+      .doc-chat-send svg[data-lucide] {
+        width: 15px;
+        height: 15px;
+      }
 
       /* Thinking dot pulse (reused by chat) */
       @keyframes uploader-pulse {
-        0%,100% { opacity:1; transform:scale(1); }
-        50%      { opacity:0.3; transform:scale(0.6); }
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.3;
+          transform: scale(0.6);
+        }
       }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -971,22 +1355,58 @@
     <!-- ── Floating chat panel ── -->
     <div id="docChatPanel" class="doc-chat-panel">
       <div class="doc-chat-header">
-        <i data-lucide="message-circle" style="width:16px;height:16px;color:var(--accent);flex-shrink:0"></i>
-        <span style="font-size:13px;font-weight:700;flex:1">Chat about this document</span>
-        <span id="docChatBadge" class="badge badge-blue" style="font-size:10px">Loading…</span>
-        <button id="docChatMinBtn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;border-radius:5px;transition:color 0.15s" title="Minimize" onclick="document.getElementById('docChatPanel').classList.remove('open')">
-          <i data-lucide="x" style="width:15px;height:15px"></i>
+        <i
+          data-lucide="message-circle"
+          style="
+            width: 16px;
+            height: 16px;
+            color: var(--accent);
+            flex-shrink: 0;
+          "
+        ></i>
+        <span style="font-size: 13px; font-weight: 700; flex: 1"
+          >Chat about this document</span
+        >
+        <span id="docChatBadge" class="badge badge-blue" style="font-size: 10px"
+          >Loading…</span
+        >
+        <button
+          id="docChatMinBtn"
+          style="
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 5px;
+            transition: color 0.15s;
+          "
+          title="Minimize"
+          onclick="
+            document.getElementById('docChatPanel').classList.remove('open')
+          "
+        >
+          <i data-lucide="x" style="width: 15px; height: 15px"></i>
         </button>
       </div>
       <div class="doc-chat-messages" id="docChatMessages">
         <div class="dc-msg ai">
           <div class="dc-label">ContractIQ &middot; AI</div>
-          <div class="dc-bubble" id="docChatWelcome">Loading document context…</div>
+          <div class="dc-bubble" id="docChatWelcome">
+            Loading document context…
+          </div>
         </div>
       </div>
       <div class="doc-chat-footer">
-        <textarea id="docChatInput" class="doc-chat-input" rows="1" placeholder="Ask about this document…"></textarea>
-        <button id="docChatSend" class="doc-chat-send"><i data-lucide="send-horizontal"></i></button>
+        <textarea
+          id="docChatInput"
+          class="doc-chat-input"
+          rows="1"
+          placeholder="Ask about this document…"
+        ></textarea>
+        <button id="docChatSend" class="doc-chat-send">
+          <i data-lucide="send-horizontal"></i>
+        </button>
       </div>
     </div>
     <!-- ── Top bar ── -->
@@ -1083,41 +1503,210 @@
       <!-- Right panel -->
       <div class="right-panel">
         <div class="right-panel-scroll">
-          <!-- Document details -->
+          <!-- AI Disclaimer -->
+          <div class="ai-disclaimer-banner" id="aiDisclaimer">
+            <strong>AI-assisted, requires human review.</strong>
+            Extracted fields may contain errors. Verify all data before making
+            decisions.
+          </div>
+
+          <!-- AI Summary (shown when scope_summary available) -->
+          <div class="ai-summary-box" id="aiSummaryBox" style="display: none">
+            <div class="ai-summary-header">
+              <i
+                data-lucide="sparkles"
+                style="width: 13px; height: 13px; color: var(--accent)"
+              ></i>
+              AI Summary
+            </div>
+            <p class="ai-summary-text" id="aiSummaryText"></p>
+            <p
+              class="ai-summary-critical"
+              id="aiSummaryCritical"
+              style="display: none"
+            ></p>
+          </div>
+
+          <!-- Key Extracted Terms -->
           <div>
-            <div class="section-heading">Document Details</div>
-            <div class="fields-grid">
-              <div class="field">
-                <div class="field-label">Vendor</div>
-                <div class="field-value" id="fVendor">—</div>
-              </div>
-              <div class="field">
-                <div class="field-label">Contract Value</div>
+            <div class="section-heading-row">
+              <span class="section-heading-title">Key Extracted Terms</span>
+              <span
+                id="overallConfLabel"
+                style="
+                  font-size: 10px;
+                  font-family: monospace;
+                  color: var(--text-muted);
+                "
+              ></span>
+            </div>
+
+            <!-- Legend (shown when confidence data is present) -->
+            <div class="conf-legend" id="confLegend" style="display: none">
+              <div class="conf-legend-item">
                 <div
-                  class="field-value"
+                  class="conf-legend-dot"
+                  style="background: var(--green)"
+                ></div>
+                ≥90% confidence
+              </div>
+              <div class="conf-legend-item">
+                <div
+                  class="conf-legend-dot"
+                  style="background: var(--red)"
+                ></div>
+                &lt;90% — verify manually
+              </div>
+            </div>
+
+            <!-- 2-col TermCard grid -->
+            <div class="term-grid">
+              <div class="term-card">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Payment Terms</span>
+                  <span
+                    class="conf-badge"
+                    id="tcPaymentTermsConf"
+                    style="display: none"
+                  ></span>
+                </div>
+                <div class="term-card-value" id="fPaymentTerms">N/A</div>
+              </div>
+              <div class="term-card">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Auto-Renewal</span>
+                </div>
+                <div class="term-card-value" id="fRenewal">N/A</div>
+              </div>
+              <div class="term-card">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Insurance Required</span>
+                  <span
+                    class="conf-badge"
+                    id="tcInsuranceConf"
+                    style="display: none"
+                  ></span>
+                </div>
+                <div class="term-card-value" id="fInsurance">—</div>
+              </div>
+              <div class="term-card">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Bond Required</span>
+                  <span
+                    class="conf-badge"
+                    id="tcBondConf"
+                    style="display: none"
+                  ></span>
+                </div>
+                <div class="term-card-value" id="fBond">—</div>
+              </div>
+              <div class="term-card">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Contract Type</span>
+                  <span
+                    class="conf-badge"
+                    id="tcTypeConf"
+                    style="display: none"
+                  ></span>
+                </div>
+                <div class="term-card-value" id="fType">—</div>
+              </div>
+              <div class="term-card">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Document #</span>
+                </div>
+                <div class="term-card-value" id="fDocNum">—</div>
+              </div>
+              <div class="term-card">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Total Amount</span>
+                  <span
+                    class="conf-badge"
+                    id="tcValueConf"
+                    style="display: none"
+                  ></span>
+                </div>
+                <div
+                  class="term-card-value"
                   id="fValue"
                   style="color: var(--accent)"
                 >
-                  —
+                  N/A
                 </div>
               </div>
-              <div class="field">
-                <div class="field-label">Effective Date</div>
-                <div class="field-value" id="fEffective">—</div>
+              <div class="term-card">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Department</span>
+                </div>
+                <select
+                  class="field-select"
+                  id="fDept"
+                  style="margin-top: 4px; font-size: 12px"
+                ></select>
               </div>
-              <div class="field">
-                <div class="field-label">Expiry</div>
-                <div class="field-value" id="fExpiry">—</div>
+              <div class="term-card">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Effective Date</span>
+                  <span
+                    class="conf-badge"
+                    id="tcEffectiveConf"
+                    style="display: none"
+                  ></span>
+                </div>
+                <div class="term-card-value" id="fEffective">N/A</div>
               </div>
-              <div class="field" style="grid-column: 1 / -1">
-                <div class="field-label">Department</div>
-                <select class="field-select" id="fDept"></select>
+              <div class="term-card" id="tcExpiryCard">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Expiration Date</span>
+                  <span
+                    class="conf-badge"
+                    id="tcExpiryConf"
+                    style="display: none"
+                  ></span>
+                </div>
+                <div class="term-card-value" id="fExpiry">N/A</div>
+                <div
+                  class="term-card-critical-note"
+                  id="tcExpiryCriticalNote"
+                  style="display: none"
+                >
+                  Low confidence — verify against original document
+                </div>
               </div>
-              <div class="field">
-                <div class="field-label">Contract Type</div>
-                <div class="field-value" id="fType">—</div>
+              <!-- Vendor spans full width -->
+              <div class="term-card" style="grid-column: 1/-1">
+                <div class="term-card-label-row">
+                  <span class="term-card-label">Vendor</span>
+                  <span
+                    class="conf-badge"
+                    id="tcVendorConf"
+                    style="display: none"
+                  ></span>
+                </div>
+                <div class="term-card-value" id="fVendor">—</div>
               </div>
             </div>
+
+            <!-- Expiration date source note -->
+            <div
+              class="source-note-card"
+              id="expSourceCard"
+              style="display: none"
+            >
+              <div class="source-note-title">Expiration Date Source</div>
+              <div class="source-note-text" id="expSourceText"></div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- System Checks -->
+          <div>
+            <div class="section-heading-row">
+              <span class="section-heading-title">System Checks</span>
+              <div class="section-count-badges" id="valCountBadges"></div>
+            </div>
+            <div id="validationList"></div>
           </div>
 
           <div class="divider"></div>
@@ -1138,29 +1727,6 @@
               <span>Received</span><span>Review</span><span>Validate</span
               ><span>Approve</span>
             </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <!-- Validation alerts -->
-          <div>
-            <div class="section-heading">
-              <i
-                data-lucide="alert-triangle"
-                style="width: 13px; height: 13px; color: var(--yellow)"
-              ></i>
-              Validation Alerts
-              <span
-                id="valCount"
-                style="
-                  font-weight: 400;
-                  text-transform: none;
-                  letter-spacing: 0;
-                  font-size: 11px;
-                "
-              ></span>
-            </div>
-            <div id="validationList"></div>
           </div>
 
           <div class="divider"></div>
@@ -1367,31 +1933,99 @@
       // ── Validation render helper ──
       function renderValidationList(vals) {
         const valList = document.getElementById("validationList");
+        const badgesEl = document.getElementById("valCountBadges");
         valList.innerHTML = "";
-        if (vals && vals.length) {
-          document.getElementById("valCount").textContent = `(${vals.length})`;
-          vals.forEach((v) => {
-            // Support static format {level, text} and API format {severity, message, suggestion}
-            const dotColor =
-              v.level ||
-              (v.severity === "error"
-                ? "red"
-                : v.severity === "warning"
-                  ? "yellow"
-                  : "green");
-            const text = esc(v.text || v.message || "");
-            const suggestion = v.suggestion
-              ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${esc(v.suggestion)}</div>`
-              : "";
-            const el = document.createElement("div");
-            el.className = "val-item";
-            el.innerHTML = `<div class="val-dot ${dotColor}"></div><div class="val-text">${text}${suggestion}</div>`;
-            valList.appendChild(el);
-          });
-        } else {
-          document.getElementById("valCount").textContent = "";
+        if (badgesEl) badgesEl.innerHTML = "";
+
+        if (!vals || vals.length === 0) {
           valList.innerHTML =
-            '<div style="font-size:12px; color: var(--text-muted); padding: 4px 0;">No validation issues found.</div>';
+            '<p style="font-size:12px;color:var(--text-muted)">No system check alerts.</p>';
+          return;
+        }
+
+        // Support both static {level, text} and API {severity, message, suggestion, rule_code, resolved}
+        const normalize = (v) => ({
+          severity:
+            v.severity ||
+            (v.level === "red"
+              ? "error"
+              : v.level === "yellow"
+                ? "warning"
+                : "info"),
+          message: v.message || v.text || "",
+          suggestion: v.suggestion || "",
+          rule_code: v.rule_code || "",
+          resolved: v.resolved || false,
+          id: v.id || "",
+        });
+
+        const normalized = vals.map(normalize);
+        const errors = normalized.filter((v) => v.severity === "error");
+        const warnings = normalized.filter((v) => v.severity === "warning");
+
+        // Count badges
+        if (badgesEl) {
+          if (errors.length)
+            badgesEl.innerHTML += `<span class="count-badge error">${errors.length}</span>`;
+          if (warnings.length)
+            badgesEl.innerHTML += `<span class="count-badge warning">${warnings.length}</span>`;
+        }
+
+        normalized.forEach((v) => {
+          const sevIcon =
+            v.severity === "error"
+              ? `<i data-lucide="alert-circle" style="width:11px;height:11px"></i>`
+              : v.severity === "warning"
+                ? `<i data-lucide="alert-triangle" style="width:11px;height:11px"></i>`
+                : `<i data-lucide="info" style="width:11px;height:11px"></i>`;
+
+          const resolveHtml = v.resolved
+            ? `<span style="font-size:10px;font-family:monospace;color:var(--text-muted);border:1px solid var(--border);border-radius:4px;padding:1px 6px">Resolved</span>`
+            : !v.resolved &&
+                (v.severity === "warning" || v.severity === "info") &&
+                v.id
+              ? `<button class="val-resolve-btn" onclick="resolveValidation('${v.id}')">Resolve</button>`
+              : "";
+
+          const card = document.createElement("div");
+          card.className = `val-card${v.resolved ? " resolved" : ""}`;
+          card.innerHTML = `
+            <div class="val-card-header">
+              <div class="val-card-left">
+                <span class="val-sev-badge ${v.severity}">${sevIcon} ${v.severity.charAt(0).toUpperCase() + v.severity.slice(1)}</span>
+                ${v.rule_code ? `<code class="val-rule-code">${esc(v.rule_code)}</code>` : ""}
+              </div>
+              ${resolveHtml}
+            </div>
+            <p class="val-card-message"${v.resolved ? ' style="text-decoration:line-through"' : ""}>${esc(v.message)}</p>
+            ${v.suggestion ? `<p class="val-card-suggestion">Suggestion: ${esc(v.suggestion)}</p>` : ""}
+          `;
+          valList.appendChild(card);
+        });
+
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      }
+
+      // ── Resolve a validation warning via API ──
+      async function resolveValidation(validationId) {
+        if (!docId || !currentUser) return;
+        try {
+          const resp = await fetch(
+            `/api/v1/documents/${encodeURIComponent(docId)}/validations/${encodeURIComponent(validationId)}/resolve`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ resolved_by: currentUser.name }),
+            },
+          );
+          if (resp.ok) {
+            const data = await fetch(
+              `/api/v1/documents/${encodeURIComponent(docId)}`,
+            ).then((r) => r.json());
+            populateFromApi(data);
+          }
+        } catch (e) {
+          console.warn("Could not resolve validation:", e);
         }
       }
 
@@ -1420,10 +2054,10 @@
         document.getElementById("topbarTitle").textContent = doc.name;
         applyStatusBadge(doc.status);
         document.getElementById("fVendor").textContent = doc.vendor || "—";
-        document.getElementById("fValue").textContent = doc.value || "—";
+        document.getElementById("fValue").textContent = doc.value || "N/A";
         document.getElementById("fEffective").textContent =
-          doc.effective || "—";
-        document.getElementById("fExpiry").textContent = doc.expiry || "—";
+          doc.effective || "N/A";
+        document.getElementById("fExpiry").textContent = doc.expiry || "N/A";
         document.getElementById("fType").textContent = doc.type || "—";
         renderValidationList(VALIDATIONS[idx] || []);
       }
@@ -1431,31 +2065,140 @@
       // ── Populate header + fields from API response ──
       function populateFromApi(data) {
         const ef = data.extracted_fields || {};
+        const raw = ef.raw_extraction || {};
+        const fieldConfs = raw.field_confidences || {};
+        const expSource = raw.expiration_date_source || null;
+
+        // ── Helper: apply confidence badge to a term card badge span ──
+        function applyConf(elId, confKey, overrideVal) {
+          const pct =
+            overrideVal != null
+              ? overrideVal
+              : fieldConfs[confKey] != null
+                ? fieldConfs[confKey]
+                : null;
+          const el = document.getElementById(elId);
+          if (!el) return;
+          if (pct == null) {
+            el.style.display = "none";
+            return;
+          }
+          const pctInt = Math.round(pct * 100);
+          const isLow = pctInt < 90;
+          el.className = `conf-badge ${isLow ? "low" : "high"}`;
+          el.innerHTML = isLow
+            ? `<i data-lucide="alert-triangle" style="width:9px;height:9px"></i>${pctInt}%`
+            : `${pctInt}%`;
+          el.style.display = "";
+        }
+
+        // ── Header / title ──
         const name =
-          ef.title || data.vendor_name || data.filename || "Document";
+          ef.title ||
+          data.vendor_name ||
+          data.original_filename ||
+          data.filename ||
+          "Document";
         doc = { name };
         document.title = name + " — ContractIQ";
         document.getElementById("topbarTitle").textContent = name;
         applyStatusBadge(data.status);
+        if (typeof window._reinitDocChat === "function")
+          window._reinitDocChat();
+
+        // ── AI Summary ──
+        if (ef.scope_summary) {
+          document.getElementById("aiSummaryText").textContent =
+            ef.scope_summary;
+          document.getElementById("aiSummaryBox").style.display = "";
+          const errors = (data.validations || []).filter(
+            (v) => v.severity === "error",
+          );
+          if (errors.length) {
+            const crit = document.getElementById("aiSummaryCritical");
+            crit.textContent = `Critical Risk: ${errors.length} validation error${errors.length > 1 ? "s" : ""} detected`;
+            crit.style.display = "";
+          }
+        }
+
+        // ── Confidence legend + overall pct ──
+        const hasConf =
+          Object.keys(fieldConfs).length > 0 ||
+          ef.department_confidence != null;
+        if (hasConf) {
+          document.getElementById("confLegend").style.display = "";
+          const overallPct = Math.round(
+            (raw.extraction_confidence || ef.extraction_confidence || 0) * 100,
+          );
+          document.getElementById("overallConfLabel").textContent =
+            `${overallPct}% overall confidence`;
+        }
+
+        // ── Term card values + confidence badges ──
         document.getElementById("fVendor").textContent =
           ef.vendor_name || data.vendor_name || "—";
+        applyConf("tcVendorConf", "vendor_name");
+
         document.getElementById("fValue").textContent =
           ef.total_amount != null
             ? fmtMoneyVal(ef.total_amount)
             : data.total_amount != null
               ? fmtMoneyVal(data.total_amount)
-              : "—";
-        document.getElementById("fEffective").textContent = fmtDateStr(
-          ef.effective_date,
-        );
-        document.getElementById("fExpiry").textContent = fmtDateStr(
-          ef.expiration_date || data.expiration_date,
-        );
+              : "N/A";
+        applyConf("tcValueConf", "total_amount");
+
+        document.getElementById("fEffective").textContent =
+          fmtDateStr(ef.effective_date) || "N/A";
+        applyConf("tcEffectiveConf", "effective_date");
+
+        const expiryVal = ef.expiration_date || data.expiration_date;
+        document.getElementById("fExpiry").textContent =
+          fmtDateStr(expiryVal) || "N/A";
+        applyConf("tcExpiryConf", "expiration_date");
+        // Mark expiry card critical-low if conf <90%
+        const expConf = fieldConfs["expiration_date"];
+        if (expConf != null && expConf < 0.9) {
+          document.getElementById("tcExpiryCard").classList.add("critical-low");
+          document.getElementById("tcExpiryCriticalNote").style.display = "";
+        }
+
         document.getElementById("fType").textContent =
           ef.contract_type || data.document_type || "—";
+        applyConf("tcTypeConf", "contract_type");
 
-        // Update dept dropdown if we have a value from the API
-        const dept = ef.issuing_department;
+        document.getElementById("fDocNum").textContent =
+          ef.document_number || raw.document_number || "—";
+
+        document.getElementById("fPaymentTerms").textContent =
+          ef.payment_terms || "N/A";
+        applyConf("tcPaymentTermsConf", "payment_terms");
+
+        document.getElementById("fInsurance").textContent =
+          ef.insurance_required == null
+            ? "—"
+            : ef.insurance_required
+              ? "Yes"
+              : "No";
+        applyConf("tcInsuranceConf", "insurance_required");
+
+        document.getElementById("fBond").textContent =
+          ef.bond_required == null ? "—" : ef.bond_required ? "Yes" : "No";
+        applyConf("tcBondConf", "bond_required");
+
+        document.getElementById("fRenewal").textContent =
+          ef.renewal_clause == null ? "N/A" : ef.renewal_clause;
+
+        // ── Expiration date source note ──
+        if (expSource) {
+          document.getElementById("expSourceText").textContent =
+            `"${expSource}"`;
+          document.getElementById("expSourceCard").style.display = "";
+        }
+
+        // ── Department dropdown ──
+        const dept =
+          ef.issuing_department ||
+          (ef.primary_department !== "OTHER" ? ef.primary_department : null);
         if (dept) {
           const fDept = document.getElementById("fDept");
           let found = false;
@@ -1476,6 +2219,7 @@
         }
 
         renderValidationList(data.validations || []);
+        if (typeof lucide !== "undefined") lucide.createIcons();
       }
 
       // ── Supervisor-only approve button ──
@@ -2013,16 +2757,16 @@
       // ── Floating chat panel ──
       (function () {
         const API = "/api/v1";
-        const panel  = document.getElementById("docChatPanel");
-        const msgs   = document.getElementById("docChatMessages");
-        const input  = document.getElementById("docChatInput");
-        const send   = document.getElementById("docChatSend");
-        const badge  = document.getElementById("docChatBadge");
+        const panel = document.getElementById("docChatPanel");
+        const msgs = document.getElementById("docChatMessages");
+        const input = document.getElementById("docChatInput");
+        const send = document.getElementById("docChatSend");
+        const badge = document.getElementById("docChatBadge");
         const welcome = document.getElementById("docChatWelcome");
-        let convId   = null;
+        let convId = null;
 
         // Wire the topbar Chat button
-        document.querySelectorAll(".btn").forEach(btn => {
+        document.querySelectorAll(".btn").forEach((btn) => {
           if (btn.textContent.trim().toLowerCase().includes("chat")) {
             btn.addEventListener("click", () => panel.classList.toggle("open"));
           }
@@ -2030,35 +2774,70 @@
 
         // Set badge and welcome message once doc is known
         function initChat() {
-          const docTitle = document.getElementById("topbarTitle")?.textContent || "this document";
-          badge.textContent = docTitle.length > 24 ? docTitle.slice(0, 22) + "…" : docTitle;
+          const docTitle =
+            document.getElementById("topbarTitle")?.textContent ||
+            "this document";
+          badge.textContent =
+            docTitle.length > 24 ? docTitle.slice(0, 22) + "…" : docTitle;
           welcome.innerHTML = `I\'m ready to answer questions about <strong>${_esc(docTitle)}</strong>. What would you like to know?<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div>`;
         }
 
-        function _esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+        function _esc(s) {
+          return String(s)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        }
 
         function _md(text) {
-          if (typeof marked !== 'undefined') {
+          if (typeof marked !== "undefined") {
             return marked.parse(text, { breaks: true, gfm: true });
           }
           // Fallback
           return _esc(text)
-            .replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>")
-            .replace(/\n\n/g,"</p><p style='margin-top:8px'>")
-            .replace(/\n/g,"<br>");
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+            .replace(/\n\n/g, "</p><p style='margin-top:8px'>")
+            .replace(/\n/g, "<br>");
         }
 
-        function scrollBottom() { msgs.scrollTop = msgs.scrollHeight; }
+        // Turn [N] citation markers into clickable document links
+        function _injectRefLinks(text, references) {
+          if (!references || !references.length) return text;
+          var refMap = {};
+          references.forEach(function (r) {
+            refMap[r.index] = r.document_id;
+          });
+          return text.replace(/\[(\d+)\]/g, function (match, num) {
+            var id = refMap[parseInt(num)];
+            return id ? "[[" + num + "]](document.html?id=" + id + ")" : match;
+          });
+        }
+
+        function scrollBottom() {
+          msgs.scrollTop = msgs.scrollHeight;
+        }
 
         async function sendMsg() {
           const q = input.value.trim();
           if (!q) return;
 
-          const docTitle = document.getElementById("topbarTitle")?.textContent || "";
+          const docTitle =
+            document.getElementById("topbarTitle")?.textContent || "";
           // Scope question to this document by prefixing with context
-          const scopedQ = docTitle ? `Regarding the document titled "${docTitle}": ${q}` : q;
+          const scopedQ = docTitle
+            ? `Regarding the document titled "${docTitle}": ${q}`
+            : q;
 
-          const userName = (() => { try { return JSON.parse(localStorage.getItem("contractiq_user")||"null")?.name || "You"; } catch { return "You"; } })();
+          const userName = (() => {
+            try {
+              return (
+                JSON.parse(localStorage.getItem("contractiq_user") || "null")
+                  ?.name || "You"
+              );
+            } catch {
+              return "You";
+            }
+          })();
 
           // Append user bubble
           const uDiv = document.createElement("div");
@@ -2077,10 +2856,12 @@
           scrollBottom();
 
           try {
+            const payload = { question: scopedQ, conversation_id: convId };
+            if (docId) payload.document_id = docId;
             const res = await fetch(`${API}/chat`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ question: scopedQ, conversation_id: convId }),
+              body: JSON.stringify(payload),
             });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
@@ -2089,15 +2870,26 @@
 
             let sourcesHtml = "";
             if (data.sources && data.sources.length > 0) {
-              const chips = data.sources.slice(0, 4).map(s =>
-                `<a class="dc-source-chip" href="document.html?id=${_esc(s.document_id)}">&#128206; ${_esc(s.title || s.document_id.slice(0,12))}</a>`
-              ).join("");
-              sourcesHtml = `<div class="dc-sources">${chips}</div>`;
+              // Filter out self-referential chips (we're already viewing this document)
+              const otherSources = data.sources.filter(
+                (s) => s.document_id !== docId,
+              );
+              if (otherSources.length > 0) {
+                const chips = otherSources
+                  .slice(0, 4)
+                  .map(
+                    (s) =>
+                      `<a class="dc-source-chip" href="document.html?id=${_esc(s.document_id)}">&#128206; ${_esc(s.title || s.document_id.slice(0, 12))}</a>`,
+                  )
+                  .join("");
+                sourcesHtml = `<div class="dc-sources">${chips}</div>`;
+              }
             }
 
+            var linkedAnswer = _injectRefLinks(data.answer, data.references);
             const aDiv = document.createElement("div");
             aDiv.className = "dc-msg ai";
-            aDiv.innerHTML = `<div class="dc-label">ContractIQ &middot; AI</div><div class="dc-bubble"><div class="md-body">${_md(data.answer)}</div>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
+            aDiv.innerHTML = `<div class="dc-label">ContractIQ &middot; AI</div><div class="dc-bubble"><div class="md-body">${_md(linkedAnswer)}</div>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
             msgs.appendChild(aDiv);
             scrollBottom();
           } catch {
@@ -2111,19 +2903,24 @@
         }
 
         send.addEventListener("click", sendMsg);
-        input.addEventListener("keydown", e => {
-          if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMsg(); }
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMsg();
+          }
         });
         input.addEventListener("input", () => {
           input.style.height = "";
           input.style.height = Math.min(input.scrollHeight, 100) + "px";
         });
-        document.addEventListener("keydown", e => {
+        document.addEventListener("keydown", (e) => {
           if (e.key === "Escape") panel.classList.remove("open");
         });
 
-        // Init after doc data loads (title is set async)
+        // Init immediately with whatever title is available, re-init after API load
         setTimeout(initChat, 300);
+        // Re-init when API data sets the real title (exposed globally)
+        window._reinitDocChat = initChat;
       })();
 
       // Initialize Lucide icons

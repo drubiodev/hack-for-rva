@@ -1618,7 +1618,26 @@ async def chat(
             _logger.warning("AI answer generation failed, using context directly: %s", exc)
 
     # --- 3. Fallback: return context directly if AI unavailable ---
-    if context_text:
+    if intent == "document_scoped" and context_text:
+        # Build a clean, readable summary instead of dumping raw context markers
+        import re as _re
+        clean = context_text
+        # Strip the [1] numbered prefix added for LLM citations
+        clean = _re.sub(r"^\[1\]\s*", "", clean)
+        # Replace === SECTION HEADERS === with markdown bold headings
+        clean = _re.sub(
+            r"^=== (.+?) ===$",
+            lambda m: f"\n**{m.group(1).title()}**",
+            clean,
+            flags=_re.MULTILINE,
+        )
+        # Collapse excessive blank lines
+        clean = _re.sub(r"\n{3,}", "\n\n", clean).strip()
+        # Cap length for readability
+        if len(clean) > 3000:
+            clean = clean[:3000] + "\n\n*(Document content truncated — AI analysis temporarily unavailable)*"
+        answer = f"{clean}\n\n*AI-assisted · requires human review*"
+    elif context_text:
         answer = f"**{intent.replace('_', ' ').title()}** results:\n\n{numbered_context}\n\n*AI-assisted, requires human review.*"
     else:
         answer = "No documents matched your query. Try different keywords or a more specific question."

@@ -2111,7 +2111,7 @@
                   "
                 >
                   <tr>
-                    <th>Document</th>
+                    <th>Vendors</th>
                     <th>Department</th>
                     <th>Value</th>
                     <th>Status</th>
@@ -2468,17 +2468,22 @@
         _searchDebounce = setTimeout(() => {
           _searchQuery = _globalSearch.value.trim().toLowerCase();
           const filtered = _searchQuery
-            ? allDocs.filter(d =>
-                (d.vendor_name || "").toLowerCase().includes(_searchQuery) ||
-                (d.filename || "").toLowerCase().includes(_searchQuery) ||
-                (d.document_type || "").toLowerCase().includes(_searchQuery)
+            ? allDocs.filter(
+                (d) =>
+                  (d.vendor_name || "").toLowerCase().includes(_searchQuery) ||
+                  (d.filename || "").toLowerCase().includes(_searchQuery) ||
+                  (d.document_type || "").toLowerCase().includes(_searchQuery),
               )
             : allDocs;
           renderTable(filtered);
         }, 150);
       });
-      _globalSearch.addEventListener("keydown", e => {
-        if (e.key === "Escape") { _globalSearch.value = ""; _searchQuery = ""; renderTable(allDocs); }
+      _globalSearch.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          _globalSearch.value = "";
+          _searchQuery = "";
+          renderTable(allDocs);
+        }
       });
 
       function isAdmin() {
@@ -2513,10 +2518,11 @@
           _docsFirstLoad = false;
           // Respect any active search query when re-rendering after a poll
           const _filtered = _searchQuery
-            ? allDocs.filter(d =>
-                (d.vendor_name || "").toLowerCase().includes(_searchQuery) ||
-                (d.filename || "").toLowerCase().includes(_searchQuery) ||
-                (d.document_type || "").toLowerCase().includes(_searchQuery)
+            ? allDocs.filter(
+                (d) =>
+                  (d.vendor_name || "").toLowerCase().includes(_searchQuery) ||
+                  (d.filename || "").toLowerCase().includes(_searchQuery) ||
+                  (d.document_type || "").toLowerCase().includes(_searchQuery),
               )
             : allDocs;
           renderTable(_filtered);
@@ -2762,6 +2768,19 @@
           .replace(/\n/g, "<br>");
       }
 
+      // Turn [N] citation markers in answer text into clickable document links
+      function _injectRefLinks(text, references) {
+        if (!references || !references.length) return text;
+        const refMap = {};
+        references.forEach(function (r) {
+          refMap[r.index] = r.document_id;
+        });
+        return text.replace(/\[(\d+)\]/g, function (match, num) {
+          var id = refMap[parseInt(num)];
+          return id ? "[[" + num + "]](document.html?id=" + id + ")" : match;
+        });
+      }
+
       const chatPanel = document.getElementById("chatPanel");
       const chatToggle = document.getElementById("chatToggle");
       const chatClose = document.getElementById("chatClose");
@@ -2845,7 +2864,8 @@
             sourcesHtml = `<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:5px">${links}</div>`;
           }
 
-          aiMsg.innerHTML = `<div class="msg-label">ContractIQ &middot; AI</div><div class="msg-bubble"><div class="md-body">${_renderMd(data.answer)}</div>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
+          var linkedAnswer = _injectRefLinks(data.answer, data.references);
+          aiMsg.innerHTML = `<div class="msg-label">ContractIQ &middot; AI</div><div class="msg-bubble"><div class="md-body">${_renderMd(linkedAnswer)}</div>${sourcesHtml}<div style="margin-top:8px;font-size:10px;color:var(--text-muted);font-style:italic">AI-assisted &middot; requires human review</div></div>`;
           chatPanelMessages.appendChild(aiMsg);
           chatPanelMessages.scrollTop = chatPanelMessages.scrollHeight;
         } catch (err) {
