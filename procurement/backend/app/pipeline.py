@@ -354,6 +354,16 @@ async def process_document(
             except Exception as idx_err:
                 logger.warning("Search indexing failed for %s (non-fatal): %s", document_id, idx_err)
 
+            # --- 8. Email notifications ---
+            try:
+                from app.email.notifications import send_processing_complete, send_high_risk_alert
+                await send_processing_complete(document_id)
+                error_count = sum(1 for vr in validation_results if vr["severity"] == "error")
+                if error_count > 0:
+                    await send_high_risk_alert(document_id)
+            except Exception as email_err:
+                logger.warning("Post-pipeline email failed for %s: %s", document_id, email_err)
+
             logger.info("Pipeline complete for document %s", document_id)
 
         except Exception:

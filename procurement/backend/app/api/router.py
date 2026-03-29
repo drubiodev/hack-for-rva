@@ -862,6 +862,7 @@ def _doc_summary(doc: Document) -> DocumentSummary:
 async def submit_for_approval(
     document_id: UUID,
     body: SubmitRequest,
+    background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
 ):
     """Submit document for supervisor approval (analyst only)."""
@@ -886,6 +887,10 @@ async def submit_for_approval(
     await db.commit()
     await db.refresh(doc)
 
+    # Email notification to supervisors (fire-and-forget)
+    from app.email.notifications import send_approval_request
+    background_tasks.add_task(send_approval_request, document_id, body.submitted_by)
+
     return _doc_summary(doc)
 
 
@@ -897,6 +902,7 @@ async def submit_for_approval(
 async def approve_document(
     document_id: UUID,
     body: ApproveRequest,
+    background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
 ):
     """Approve a document (supervisor only)."""
@@ -926,6 +932,10 @@ async def approve_document(
     await db.commit()
     await db.refresh(doc)
 
+    # Email notification to submitter (fire-and-forget)
+    from app.email.notifications import send_approval_result as _send_approve
+    background_tasks.add_task(_send_approve, document_id, True)
+
     return _doc_summary(doc)
 
 
@@ -937,6 +947,7 @@ async def approve_document(
 async def reject_document(
     document_id: UUID,
     body: RejectRequest,
+    background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
 ):
     """Reject a document (supervisor only)."""
@@ -960,6 +971,10 @@ async def reject_document(
     db.add(activity)
     await db.commit()
     await db.refresh(doc)
+
+    # Email notification to submitter (fire-and-forget)
+    from app.email.notifications import send_approval_result as _send_reject
+    background_tasks.add_task(_send_reject, document_id, False)
 
     return _doc_summary(doc)
 
@@ -1398,6 +1413,55 @@ async def admin_ensure_index():
     from app.search.index_schema import create_or_update_index
     name = create_or_update_index()
     return {"detail": f"Index '{name}' created/updated"}
+
+
+# ---------------------------------------------------------------------------
+# Email admin — test, trigger, status
+# ---------------------------------------------------------------------------
+
+
+@router.post("/api/v1/admin/email/test", tags=["Admin"])
+async def admin_email_test(to: str = Query(..., description="Recipient email")):
+    """Send a test email to verify SMTP configuration."""
+    from app.email.service import send_test_email
+    success = await send_test_email(to)
+    if success:
+        return {"detail": f"Test email sent to {to}"}
+    return {"detail": "Email sending failed — check logs and SMTP configuration"}
+
+
+@router.post("/api/v1/admin/email/digest", tags=["Admin"])
+async def admin_email_digest(db: AsyncSession = Depends(get_db)):
+    """Manually trigger the daily expiration digest."""
+    from app.email.notifications import send_expiration_digest
+    success = await send_expiration_digest(db)
+    return {"detail": "Digest sent" if success else "Digest skipped (no recipients or no expiring contracts)"}
+
+
+@router.post("/api/v1/admin/email/compliance", tags=["Admin"])
+async def admin_email_compliance(db: AsyncSession = Depends(get_db)):
+    """Manually trigger the weekly compliance summary."""
+    from app.email.notifications import send_weekly_compliance_summary
+    success = await send_weekly_compliance_summary(db)
+    return {"detail": "Compliance summary sent" if success else "Summary skipped (no recipients)"}
+
+
+@router.get("/api/v1/admin/email/status", tags=["Admin"])
+async def admin_email_status():
+    """Return email configuration status (no secrets exposed)."""
+    return {
+        "email_enabled": settings.email_enabled,
+        "smtp_host": settings.email_smtp_host,
+        "smtp_port": settings.email_smtp_port,
+        "from_address": settings.email_from_address,
+        "digest_recipients_count": len(settings.email_digest_recipient_list),
+        "alert_recipients_count": len(settings.email_alert_recipient_list),
+        "supervisor_recipients_count": len(settings.email_supervisor_recipient_list),
+        "user_map_count": len(settings.email_user_mapping),
+        "digest_hour": settings.email_digest_hour,
+        "digest_timezone": settings.email_digest_timezone,
+        "weekly_day": settings.email_weekly_day,
+    }
 
 
 # ---------------------------------------------------------------------------

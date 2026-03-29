@@ -324,12 +324,11 @@ async def extract_intelligence(
         logger.warning("Azure OpenAI not configured — skipping intelligence extraction")
         return dict(EMPTY_INTELLIGENCE)
 
-    from openai import AsyncAzureOpenAI
+    from openai import AsyncOpenAI
 
-    client = AsyncAzureOpenAI(
-        azure_endpoint=settings.azure_openai_endpoint,
+    client = AsyncOpenAI(
+        base_url=settings.azure_openai_endpoint,
         api_key=settings.azure_openai_key,
-        api_version=settings.azure_openai_api_version,
     )
 
     truncated_text = _smart_truncate(ocr_text, budget=8000)
