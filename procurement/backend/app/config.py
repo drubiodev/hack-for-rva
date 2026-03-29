@@ -30,7 +30,7 @@ class Settings(BaseSettings):
 
     # Azure AI Search (RAG chatbot)
     azure_search_endpoint: str = "https://srch-hackrva.search.windows.net"
-    azure_search_key: str = "BzeDyjoGcfk2h1KTEiAYJRIVt20lFrtDcCWueVeDoWAzSeDB0dNT"
+    azure_search_key: str = "PLACEHOLDER"
     azure_search_index: str = "contracts"
 
     # Azure AI Foundry project endpoint
@@ -48,7 +48,7 @@ class Settings(BaseSettings):
 
     # File upload limits
     max_file_size_mb: int = 100
-    allowed_extensions: str = ".pdf,.png,.jpg,.jpeg,.tiff"
+    allowed_extensions: str = ".pdf,.png,.jpg,.jpeg,.tiff,.tif"
 
     # Azure Application Insights
     applicationinsights_connection_string: str = ""
