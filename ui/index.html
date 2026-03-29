@@ -1943,7 +1943,7 @@
                 <div class="upload-title">Drop a contract or document here</div>
                 <div class="upload-sub">
                   Drag &amp; drop or click to browse &mdash; PDF, PNG, JPG, TIFF
-                  &middot; Max 20 MB
+                  &middot; Max 50 MB
                 </div>
                 <div
                   class="upload-sub"
@@ -2940,7 +2940,7 @@
       }
 
       function validateUploadFile(file) {
-        if (file.size > 20 * 1024 * 1024) return "File too large (max 20 MB)";
+        if (file.size > 50 * 1024 * 1024) return "File too large (max 50 MB)";
         if (!/\.(pdf|png|jpe?g|tiff?)$/i.test(file.name))
           return "Unsupported type — use PDF, PNG, JPG, or TIFF";
         return null;
@@ -3073,68 +3073,56 @@
         }
       });
 
-      function doUpload(file) {
+      async function doUpload(file) {
         const fd = new FormData();
         fd.append("file", file);
         fd.append("uploaded_by", currentUser ? currentUser.name : "anonymous");
 
-        const xhr = new XMLHttpRequest();
+        uploadZone.classList.add("uploading");
 
-        // Show live HTTP upload progress on the zone bar
-        xhr.upload.addEventListener("progress", (e) => {
-          if (e.lengthComputable) {
-            uploadProgressFill.style.width =
-              Math.round((e.loaded / e.total) * 100) + "%";
-            uploadZone.classList.add("uploading");
-          }
-        });
+        // Animate progress bar (fetch doesn't expose upload progress natively)
+        let _pct = 0;
+        const _progTimer = setInterval(() => {
+          _pct = Math.min(_pct + Math.random() * 14 + 4, 88);
+          uploadProgressFill.style.width = _pct + "%";
+        }, 220);
 
-        xhr.addEventListener("load", () => {
-          uploadZone.classList.remove("uploading");
-          uploadProgressFill.style.width = "0%";
-          if (xhr.status >= 200 && xhr.status < 300) {
-            try {
-              const doc = JSON.parse(xhr.responseText);
-              loadDocuments(activeFilter);
-              loadAnalytics();
-              if (xhr.status === 200) {
-                // Duplicate detected — shown in processing queue panel
-                closeUploadDrawer();
-                trackProcessing(doc.id, file.name, /* isDuplicate */ true);
-              } else {
-                closeUploadDrawer();
-                trackProcessing(doc.id, file.name, false);
-              }
-            } catch (_) {
-              showToast("Upload failed: bad server response", "error");
-            }
+        function _finishProgress() {
+          clearInterval(_progTimer);
+          uploadProgressFill.style.width = "100%";
+          setTimeout(() => {
+            uploadZone.classList.remove("uploading");
+            uploadProgressFill.style.width = "0%";
+          }, 180);
+        }
+
+        try {
+          const res = await fetch(`${API}/documents/upload`, {
+            method: "POST",
+            body: fd,
+          });
+
+          _finishProgress();
+
+          if (res.ok) {
+            const doc = await res.json();
+            loadDocuments(activeFilter);
+            loadAnalytics();
+            closeUploadDrawer();
+            // status 200 = duplicate already in system, 202 = new upload
+            trackProcessing(doc.id, file.name, /* isDuplicate */ res.status === 200);
           } else {
             let msg = "Upload failed";
             try {
-              msg = JSON.parse(xhr.responseText).detail || msg;
+              const body = await res.json();
+              msg = body.detail || msg;
             } catch (_) {}
             showToast(msg, "error");
           }
-        });
-
-        xhr.addEventListener("error", () => {
-          uploadZone.classList.remove("uploading");
-          uploadProgressFill.style.width = "0%";
-          showToast("Network error during upload", "error");
-        });
-
-        // Show uploading state immediately (don't wait for first progress event)
-        uploadZone.classList.add("uploading");
-
-        xhr.addEventListener("abort", () => {
-          uploadZone.classList.remove("uploading");
-          uploadProgressFill.style.width = "0%";
-          showToast("Upload cancelled", "info");
-          closeUploadDrawer();
-        });
-
-        xhr.open("POST", `${API}/documents/upload`);
-        xhr.send(fd);
+        } catch (err) {
+          _finishProgress();
+          showToast("Network error during upload — is the server running?", "error");
+        }
       }
 
       // ── Processing tracker ──

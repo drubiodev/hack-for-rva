@@ -302,13 +302,20 @@ async def lifespan(app: FastAPI):
     except Exception as exc:  # noqa: BLE001
         logger.warning("Failed to seed default validation rules: %s", exc)
 
-    # Start email notification scheduler
-    from app.email.scheduler import start_email_scheduler
-    email_stop_event = await start_email_scheduler()
+    # Start email notification scheduler (optional — module may not be present)
+    email_stop_event = None
+    try:
+        from app.email.scheduler import start_email_scheduler
+        email_stop_event = await start_email_scheduler()
+    except ModuleNotFoundError:
+        logger.info("Email scheduler module not found — email notifications disabled")
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Failed to start email scheduler: %s", exc)
 
     logger.info("Procurement API startup complete")
     yield
-    email_stop_event.set()
+    if email_stop_event is not None:
+        email_stop_event.set()
     logger.info("Procurement API shutting down")
 
 

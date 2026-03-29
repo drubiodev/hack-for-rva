@@ -786,11 +786,21 @@ async def get_document_file(
     if not doc.blob_url:
         raise HTTPException(status_code=404, detail="No file available for this document")
 
-    # Proxy the bytes from blob storage so the browser never needs CORS on the container
+    # Placeholder/local-passthrough URLs are created when Azure Blob Storage is not
+    # configured. There is nothing to proxy in that case.
+    if "local-passthrough" in doc.blob_url.lower() or "placeholder" in doc.blob_url.lower():
+        raise HTTPException(
+            status_code=404,
+            detail="Document file not available — Azure Blob Storage is not configured in this environment.",
+        )
+
     import aiohttp
     from app.ocr.azure_blob import regenerate_sas_url
 
-    fresh_url = regenerate_sas_url(doc.blob_url)
+    try:
+        fresh_url = regenerate_sas_url(doc.blob_url)
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=f"Could not generate a fresh SAS URL: {exc}")
 
     async def _stream():
         try:

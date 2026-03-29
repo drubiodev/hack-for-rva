@@ -1,8 +1,13 @@
 """Application configuration — all env vars, single source of truth."""
 
+import os
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings
+
+# Resolve .env relative to this file so config loads correctly regardless of
+# the working directory uvicorn is started from.
+_ENV_FILE = os.path.join(os.path.dirname(__file__), "..", ".env")
 
 
 class Settings(BaseSettings):
@@ -73,7 +78,7 @@ class Settings(BaseSettings):
     # Environment
     environment: str = "development"
 
-    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
+    model_config = {"env_file": _ENV_FILE, "env_file_encoding": "utf-8"}
 
     @property
     def cors_origin_list(self) -> list[str]:

@@ -1,5 +1,7 @@
 # Mira — 6-Minute Presentation Script
 
+Thriving City Hall Pillar
+
 > **Format:** Live demo + narration. No slides required.
 > **Timing:** ~6 minutes total. Keep demo moving — don't linger.
 
